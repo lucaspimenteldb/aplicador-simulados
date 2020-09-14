@@ -854,12 +854,13 @@
 <script>
 import axios from 'axios';
 import SelecionarRanking from '../components/SelecionarRanking.vue';
+import env from '../env';
 
 export default {
   name: 'DesempenhoGeral',
   components: { SelecionarRanking },
   async created () {
-    const dados = await axios.get('http://10.10.0.146:3000/simulado');
+    const dados = await axios.get(`${env.ROOT_API}simulado`);
     this.simulados = this.extrairTitulo(dados.data.dados);
     this.simuladosPesquisa = dados.data.dados;
   },

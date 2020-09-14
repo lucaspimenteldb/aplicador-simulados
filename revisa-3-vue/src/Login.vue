@@ -6,6 +6,7 @@
       >
         <article class="mx-auto max-w-300">
           <v-text-field
+              v-model="login"
               label="Usuário" filled
               color="azul" class="ml-2"
               aria-autocomplete="off"
@@ -19,6 +20,7 @@
       >
         <section class="mx-auto max-w-300">
           <v-text-field
+              v-model="senha"
               label="Senha" filled
               class="ml-2"
               autocomplete="new-password"
@@ -29,7 +31,7 @@
           />
 
           <v-btn
-              class="ml-2 azul white--text w-140" to="/home"
+              class="ml-2 azul white--text w-140"
               @click="entrar"
           >
             Entrar
@@ -64,12 +66,17 @@ export default {
     return {
       show: false,
       loader: false,
+      senha: '',
+      login: '',
     };
   },
 
   methods: {
     entrar () {
-      Busao.$emit('autenticado', true);
+      console.log(this.senha, this.login);
+      if (this.senha === '123' && this.login === 'Lucas') {
+        Busao.$emit('autenticado', true);
+      }
     },
   },
 };
