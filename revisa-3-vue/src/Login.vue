@@ -61,7 +61,6 @@ export default {
   methods: {
     entrar () {
       Busao.$emit('autenticado', true);
-      console.log(this.autenticado);
     },
   },
 };
