@@ -14,9 +14,8 @@ Vue.config.productionTip = false;
 Vue.use(VueLoaders);
 
 /* passar dados entre componentes irmãos */
-const Busao = new Vue();
 // eslint-disable-next-line import/prefer-default-export
-export { Busao };
+export const Busao = new Vue();
 
 Vue.component('loaderzin', {
   template: '<vue-loaders-line-scale color="#146f8a" scale="1"></vue-loaders-line-scale>',

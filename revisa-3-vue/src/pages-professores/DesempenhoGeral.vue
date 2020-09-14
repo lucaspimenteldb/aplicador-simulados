@@ -224,22 +224,16 @@
           cols="12" class="mt-12"
       >
         <header-secao>
-          Desempenho nas atividades
+          Desempenho nos Simulados Escolares
         </header-secao>
       </v-col>
 
       <!-- secao dos desempenhos do simulado -->
-      <v-col cols="12">
-        <subheader-secao>
-          Desempenho nos Simulados Escolares
-        </subheader-secao>
-      </v-col>
-
       <!-- parte da média geral -->
       <v-col cols="12">
-        <h4 class="grey--text text--darken-3">
+        <subheader-secao class="grey--text text--darken-3">
           Média geral
-        </h4>
+        </subheader-secao>
       </v-col>
 
       <v-col
@@ -296,9 +290,9 @@
       <v-col
           cols="12" class="mt-4"
       >
-        <h4>
+        <subheader-secao>
           Média por disciplina e área
-        </h4>
+        </subheader-secao>
       </v-col>
 
       <!-- area de linguagens -->
@@ -688,7 +682,7 @@
 
       <v-col cols="12">
         <subheader-secao>
-          Média de notas das suas redações
+          Média das Redações
         </subheader-secao>
       </v-col>
       <v-col
