@@ -43,6 +43,14 @@
         </section>
       </v-col>
     </v-row>
+
+    <div
+        class="d-flex justify-center align-center w-full h-full absolute top-0 left-0
+        grey lighten-4 transition pointer__events__none z-1000"
+        :class="loader ? 'opacity-1' : 'opacity-0'"
+    >
+      <loaderzin tamanho="1.4" />
+    </div>
   </v-container>
 </template>
 
@@ -55,6 +63,7 @@ export default {
   data () {
     return {
       show: false,
+      loader: false,
     };
   },
 

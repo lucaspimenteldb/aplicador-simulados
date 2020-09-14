@@ -18,7 +18,8 @@ Vue.use(VueLoaders);
 export const Busao = new Vue();
 
 Vue.component('loaderzin', {
-  template: '<vue-loaders-line-scale color="#146f8a" scale="1"></vue-loaders-line-scale>',
+  props: ['tamanho'],
+  template: '<vue-loaders-line-scale color="#146f8a" :scale="tamanho"></vue-loaders-line-scale>',
 });
 Vue.component('header-secao', {
   template: '<h5 class="titulo__secoes"> <slot></slot> </h5>',
