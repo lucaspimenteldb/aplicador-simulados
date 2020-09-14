@@ -33,7 +33,7 @@
       >
         <v-select
             :items="disciplinas" filled
-            label="Escolha o simulado para ver seu desemepenho" color="azul"
+            label="Escolha o simulado para ver seu desempenho" color="azul"
             hide-details
         />
       </v-col>
