@@ -32,6 +32,8 @@
           md="4"
       >
         <v-select
+            @change="changeSelect"
+            :disabled="disabledSimulado"
             :items="simulados" filled
             label="Escolha o simulado para ver seu desempenho" color="azul"
             hide-details
@@ -850,12 +852,39 @@
 </template>
 
 <script>
+import axios from 'axios';
 import SelecionarRanking from '../components/SelecionarRanking.vue';
 
 export default {
   name: 'DesempenhoGeral',
   components: { SelecionarRanking },
+  async created () {
+    const dados = await axios.get('http://10.10.0.146:3000/simulado');
+    this.simulados = this.extrairTitulo(dados.data.dados);
+    this.simuladosPesquisa = dados.data.dados;
+  },
 
+  methods: {
+    extrairTitulo (objeto) {
+      if (objeto.length > 0) {
+        return objeto.map((el) => el.titulo);
+      }
+
+      return objeto;
+    },
+
+    pesquisarSimulado (simulado) {
+      const filtrado = this.simuladosPesquisa.filter((el) => el.titulo === simulado);
+      return filtrado;
+    },
+
+    changeSelect (event) {
+      const filtrado = this.pesquisarSimulado(event);
+      if (filtrado.length > 0) {
+        this.disabledSimulado = true;
+      }
+    },
+  },
   data () {
     return {
       play: 'mdi-play',
@@ -1312,7 +1341,9 @@ export default {
         },
       ],
 
-      simulados: ['Todos', 'Simulado 1', 'Simulado 2'],
+      simulados: ['Sem dados'],
+      simuladosPesquisa: [],
+      disabledSimulado: false,
       disciplinas: ['Português', 'Espanhol', 'Inlgês', 'Literatura', 'Artes', 'Ed. Física', 'Matemática', 'Química', 'Física', 'Biologia', 'História', 'Geografia', 'Filosofia', 'Sociologia'],
       desempenhoEscolhido: null,
       informacoesAdicionais: [
