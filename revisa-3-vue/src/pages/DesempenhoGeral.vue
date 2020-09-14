@@ -32,14 +32,14 @@
           md="4"
       >
         <v-select
-            :items="disciplinas" filled
+            :items="simulados" filled
             label="Escolha o simulado para ver seu desempenho" color="azul"
             hide-details
         />
       </v-col>
 
       <!-- selecionar ranking -->
-      <SelecionarRanking />
+      <SelecionarRanking class="mt-8" />
 
       <v-col
           cols="12" class="mt-8"
@@ -128,6 +128,137 @@
           </template>
         </v-data-table>
       </v-col>
+
+      <!-- tabela das questoes -->
+      <v-col
+          cols="12" class="mt-8"
+      >
+        <subheader-secao>
+          Gabarito do Simulado 1
+        </subheader-secao>
+      </v-col>
+
+      <v-col cols="12">
+        <v-data-table
+            :headers="headers" fixed-header
+            :items="questoesGabarito"
+        >
+          <template v-slot:item.resultado="{ item }">
+            <p
+                class="font-weight-medium"
+                :class="`${item.resultado}--text`"
+            >
+              {{ item.resultado }}
+            </p>
+          </template>
+
+          <template v-slot:item.dificuldade="{ item }">
+            <p>
+              {{ item.dificuldade.split('-')[1] }}
+            </p>
+          </template>
+
+          <!-- modal para ver a questão -->
+          <template v-slot:item.url="{ item }">
+            <v-dialog
+                v-model="dialog[item.id]" width="600px"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                    small
+                    class="azul white--text rounded__normal text-capitalize"
+                    color="primary"
+                    v-bind="attrs" v-on="on"
+                    :to="item.url"
+                    @click.stop="$set(dialog, item.id, true)"
+                >
+                  ver questão
+                </v-btn>
+              </template>
+
+              <v-card class="relative overflow-hidden">
+                <v-icon
+                    v-text="'mdi-close-circle-outline'" class="absolute top--8 right--8 pointer__events__none cursor__pointer z-1000"
+                    color="errou" large
+                />
+
+                <v-card-title>
+                  <span class="headline">Questão {{ item.name }}</span>
+                </v-card-title>
+
+                <v-card-text>
+                  <!-- anunciado da questão -->
+                  <article>
+                    <!-- eslint-disable max-len -->
+                    Lorem ipsum dolor sit amet, semper quis, sapien id natoque elit. Nostra urna at, magna at neque sed sed ante imperdiet, dolor mauris cursus velit, velit non, sem nec. Volutpat sem ridiculus placerat leo, augue in, duis erat proin condimentum in a eget, sed fermentum sed vestibulum varius ac, vestibulum volutpat orci ut elit eget tortor.
+
+                  </article>
+
+                  <h6
+                      class="mt-4 body-1 acertou--text" v-if="item.marcada === item.gabarito"
+                  >
+                    Parabéns! Você arrasou na questão
+                  </h6>
+
+                  <h6
+                      class="mt-4 body-1 errou--text" v-else
+                  >
+                    O mouse deve ter escorregado na hora de marcar...
+                  </h6>
+
+                  <br>
+                  <!-- questões -->
+                  <v-hover
+                      v-for="(alternativa, questao) in alternativas" :key="questao"
+                  >
+                    <article
+                        class="pb-2 pt-2 mt-2 d-flex align-center border__bottom"
+                        :id="`alternativa${questao}`"
+                        :class="{
+                          'green lighten-3':item.gabarito === questao.toUpperCase(),
+                          'red lighten-3': item.gabarito != questao.toUpperCase() && item.marcada === questao.toUpperCase()
+                        }"
+                    >
+                      <!-- letra a,b etc.-->
+                      <p
+                          class="ml-1 mr-3 text-h6 leading__tight pointer__events__none"
+                          :class="[ questao === 'b' || questao === 'd' ? '' : 'mb-1' ]"
+                      >
+                        {{ questao }}
+                      </p>
+
+                      <p class="body-2 pointer__events__none">
+                        {{ alternativa }}
+                      </p>
+
+                      <v-icon
+                          v-if="item.gabarito === questao.toUpperCase()"
+                          v-text="'mdi-checkbox-marked-circle-outline'" class="mr-2"
+                      />
+
+                      <v-icon
+                          v-if="item.gabarito != questao.toUpperCase() && item.marcada === questao.toUpperCase()"
+                          v-text="'mdi-close-circle-outline'" class="mr-2"
+                      />
+                    </article>
+                  </v-hover>
+                </v-card-text>
+
+                <v-card-actions class="px-4">
+                  <v-spacer />
+
+                  <v-btn
+                      color="green darken-1" text
+                      @click="$set(dialog, item.id, false)"
+                  >
+                    Fechar
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </template>
+        </v-data-table>
+      </v-col>
     </v-row>
 
     <!-- desempenho geral dos simulados -->
@@ -136,39 +267,9 @@
           cols="12" class="mt-12"
       >
         <header-secao>
-          Desempenho Geral do simulados
+          Desempenho Geral dos Simulados
         </header-secao>
       </v-col>
-
-      <!--<v-col cols="12">
-        <subheader-secao>
-          Escolha qual desempenho ver
-        </subheader-secao>
-      </v-col>
-
-      <v-col
-          cols="12" sm="6"
-          md="4"
-          v-for="desempenho in desempenhos" :key="desempenho.tipo"
-      >
-        <v-card
-            class="h-full btn__shadow transition cursor__pointer" :class="desempenho.classe"
-        >
-          <v-card-text>
-            <p class="text-h6 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
-              {{ desempenho.tipo}}
-            </p>
-
-            <p class="grey&#45;&#45;text text&#45;&#45;darken-3">
-              {{ desempenho.descricao }}
-            </p>
-
-            <p class="mt-4 font-weight-bold grey&#45;&#45;text text&#45;&#45;darken-3">
-              Ver {{ desempenho.tipo }}
-            </p>
-          </v-card-text>
-        </v-card>
-      </v-col>-->
 
       <!-- secao dos desempenhos do simulado -->
       <v-col cols="12">
@@ -759,6 +860,227 @@ export default {
     return {
       play: 'mdi-play',
 
+      dialog: {},
+      alternativas: {
+        a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed laboris nisi ut aliquip ex ea commodo consequat.?',
+        b: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed laboris nisi ut aliquip ex ea commodo consequat.?',
+        c: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed laboris nisi ut aliquip ex ea commodo consequat.?',
+        d: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed laboris nisi ut aliquip ex ea commodo consequat.?',
+        e: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed laboris nisi ut aliquip ex ea commodo consequat.?',
+      },
+
+      questoesGabarito: [
+        {
+          name: '1',
+          disciplina: 'português',
+          marcada: 'A',
+          gabarito: 'A',
+          get resultado () {
+            if (this.marcada === this.gabarito) {
+              return 'acertou';
+            }
+            return 'errou';
+          },
+          get pontuacao () {
+            if (this.marcada === this.gabarito) {
+              return '12 pts.';
+            }
+            return '--';
+          },
+          mediaEscolar: '80% acerto',
+          id: 0,
+        },
+        {
+          name: '2',
+          disciplina: 'português',
+          marcada: 'B',
+          gabarito: 'B',
+          get resultado () {
+            if (this.marcada === this.gabarito) {
+              return 'acertou';
+            }
+            return 'errou';
+          },
+          get pontuacao () {
+            if (this.marcada === this.gabarito) {
+              return '12 pts.';
+            }
+
+            return '--';
+          },
+          mediaEscolar: '80% acerto',
+          id: 1,
+        },
+        {
+          name: '3',
+          disciplina: 'português',
+          marcada: 'B',
+          gabarito: 'B',
+          get resultado () {
+            if (this.marcada === this.gabarito) {
+              return 'acertou';
+            }
+            return 'errou';
+          },
+          get pontuacao () {
+            if (this.marcada === this.gabarito) {
+              return '12 pts.';
+            }
+
+            return '--';
+          },
+          mediaEscolar: '80% acerto',
+          id: 2,
+        },
+        {
+          name: '4',
+          disciplina: 'português',
+          marcada: 'D',
+          gabarito: 'E',
+          get resultado () {
+            if (this.marcada === this.gabarito) {
+              return 'acertou';
+            }
+            return 'errou';
+          },
+          get pontuacao () {
+            if (this.marcada === this.gabarito) {
+              return '12 pts.';
+            }
+
+            return '--';
+          },
+          mediaEscolar: '80% acerto',
+          id: 3,
+        },
+        {
+          name: '5',
+          disciplina: 'português',
+          marcada: 'D',
+          gabarito: 'D',
+          get resultado () {
+            if (this.marcada === this.gabarito) {
+              return 'acertou';
+            }
+            return 'errou';
+          },
+          get pontuacao () {
+            if (this.marcada === this.gabarito) {
+              return '12 pts.';
+            }
+
+            return '--';
+          },
+          mediaEscolar: '80% acerto',
+          id: 4,
+        },
+        {
+          name: '6',
+          disciplina: 'português',
+          marcada: 'C',
+          gabarito: 'B',
+          get resultado () {
+            if (this.marcada === this.gabarito) {
+              return 'acertou';
+            }
+            return 'errou';
+          },
+          get pontuacao () {
+            if (this.marcada === this.gabarito) {
+              return '12 pts.';
+            }
+
+            return '--';
+          },
+          mediaEscolar: '80% acerto',
+          id: 5,
+        },
+      ],
+      headers: [
+        {
+          text: 'Questão',
+          align: 'start',
+          sortable: false,
+          value: 'name',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: 'Disciplina',
+          value: 'disciplina',
+          class: 'font-weight-bold',
+        },
+        {
+          text: 'Marcada',
+          value: 'marcada',
+          class: 'font-weight-bold',
+        },
+        {
+          text: 'Gabarito',
+          value: 'gabarito',
+          class: 'font-weight-bold',
+        },
+        {
+          text: 'Resultado',
+          value: 'resultado',
+          class: 'font-weight-bold',
+        },
+        {
+          text: 'Pontuação',
+          value: 'pontuacao',
+          class: 'font-weight-bold',
+        },
+        {
+          text: 'Média Escolar',
+          value: 'mediaEscolar',
+          class: 'font-weight-bold',
+        },
+        {
+          text: '',
+          value: 'url',
+          sortable: false,
+          class: 'font-weight-bold',
+        },
+      ],
+
+      headerQuestao: [
+        {
+          text: 'Questão',
+          align: 'start',
+          sortable: false,
+          value: 'questao',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: 'Disciplina',
+          sortable: false,
+          value: 'disciplina',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: 'Gabarito',
+          sortable: false,
+          value: 'gabarito',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: 'Questão Marcada',
+          sortable: false,
+          value: 'questaoMarcada',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: 'Média Escolar',
+          sortable: false,
+          value: 'media',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: '',
+          sortable: false,
+          value: 'verQuestao',
+        },
+      ],
+
       desempenhoArea: [
         {
           media: 'Meu desempenho',
@@ -990,6 +1312,7 @@ export default {
         },
       ],
 
+      simulados: ['Todos', 'Simulado 1', 'Simulado 2'],
       disciplinas: ['Português', 'Espanhol', 'Inlgês', 'Literatura', 'Artes', 'Ed. Física', 'Matemática', 'Química', 'Física', 'Biologia', 'História', 'Geografia', 'Filosofia', 'Sociologia'],
       desempenhoEscolhido: null,
       informacoesAdicionais: [

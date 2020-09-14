@@ -31,6 +31,21 @@
 
       <v-col
           cols="12" sm="8"
+          md="5" lg="4"
+      >
+        <v-select
+            :items="simulados" filled
+            label="Filtrar desempenho por simulado" color="azul"
+            hide-details
+        />
+      </v-col>
+
+      <v-col
+          cols="12" class="pa-0"
+      />
+
+      <v-col
+          cols="12" sm="8"
           md="4"
       >
         <v-select
@@ -39,6 +54,7 @@
             hide-details
         />
       </v-col>
+
       <v-col
           cols="12" sm="8"
           md="4"
@@ -60,9 +76,7 @@
         </header-secao>
       </v-col>
 
-      <v-col
-          cols="12" class="mt-8"
-      >
+      <v-col cols="12">
         <subheader-secao>
           Desempenho Geral
         </subheader-secao>
@@ -214,40 +228,8 @@
         </header-secao>
       </v-col>
 
-      <v-col cols="12">
-        <subheader-secao>
-          Escolha qual desempenho ver
-        </subheader-secao>
-      </v-col>
-
-      <v-col
-          cols="12" sm="6"
-          md="4"
-          v-for="desempenho in desempenhos" :key="desempenho.tipo"
-      >
-        <v-card
-            class="h-full btn__shadow transition cursor__pointer" :class="desempenho.classe"
-        >
-          <v-card-text>
-            <p class="text-h6 font-weight-medium grey--text text--darken-3">
-              {{ desempenho.tipo}}
-            </p>
-
-            <p class="grey--text text--darken-3">
-              {{ desempenho.descricao }}
-            </p>
-
-            <p class="mt-4 font-weight-bold grey--text text--darken-3">
-              Ver {{ desempenho.tipo }}
-            </p>
-          </v-card-text>
-        </v-card>
-      </v-col>
-
       <!-- secao dos desempenhos do simulado -->
-      <v-col
-          cols="12" class="mt-8"
-      >
+      <v-col cols="12">
         <subheader-secao>
           Desempenho nos Simulados Escolares
         </subheader-secao>
@@ -835,6 +817,7 @@ export default {
     return {
       play: 'mdi-play',
 
+      simulados: ['Todos', 'Simulado 1', 'Simulado 2'],
       escola: ['Todas', 'Escola de Tal Canto', 'Escola Xzinho', 'Escolinha do Bairro'],
       turma: ['Todas', '3 ano - A', '3 ano - B', '3 ano - C', '3 ano - D'],
 
