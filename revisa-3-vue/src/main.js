@@ -1,4 +1,6 @@
 import Vue from 'vue';
+import VueLoaders from 'vue-loaders';
+import 'vue-loaders/dist/vue-loaders.css';
 import App from './App.vue';
 import router from './routes/router';
 import vuetify from './plugins/vuetify';
@@ -8,21 +10,17 @@ import './sass/custom.scss';
 
 Vue.config.productionTip = false;
 
+/* loading  */
+Vue.use(VueLoaders);
+
 /* passar dados entre componentes irmãos */
 const Busao = new Vue();
 // eslint-disable-next-line import/prefer-default-export
 export { Busao };
 
-/* COMPONENTES CUSTOMIZADOS */
-// Vue.component('button-counter', {
-//   data () {
-//     return {
-//       count: 0,
-//     };
-//   },
-//   template: '<button @click="count++">You clickee {{ count }} times.</button>',
-// });
-
+Vue.component('loaderzin', {
+  template: '<vue-loaders-line-scale color="#146f8a" scale="1"></vue-loaders-line-scale>',
+});
 Vue.component('header-secao', {
   template: '<h5 class="titulo__secoes"> <slot></slot> </h5>',
 });

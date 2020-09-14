@@ -114,6 +114,8 @@
         </v-hover>
       </v-col>
 
+      <loaderzin />
+
       <!--&lt;!&ndash; noticias recentes &ndash;&gt;
       <v-col
           cols="12"

@@ -54,17 +54,6 @@ const routes = [
     name: 'Suporte',
     component: () => import('../pages/suporte/SuporteInicio'),
   },
-
-  // {
-  //   path: '/gerar-simulado',
-  //   name: 'GerarSimulado',
-  //   component: () => import('../pages/simulados/GerarSimulado'),
-  // },
-  // {
-  //   path: '/responder-simulado',
-  //   name: 'ResponderSimulado',
-  //   component: () => import('../pages/simulados/ResponderSimulado'),
-  // },
 ];
 
 const router = new VueRouter({
