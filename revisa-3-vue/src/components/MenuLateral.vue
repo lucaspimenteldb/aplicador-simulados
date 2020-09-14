@@ -82,7 +82,7 @@
                 :to="subMenu.rota" :disabled="subMenu.disabled"
             >
               <v-list-item-icon
-                  v-text="subMenu.vol" class="ml-2 white--text"
+                  v-text="subMenu.volume" class="ml-2 white--text"
               />
 
               <v-list-item-title

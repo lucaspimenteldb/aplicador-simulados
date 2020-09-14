@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-row>
       <v-col cols="12">
         <h1>
@@ -17,6 +17,25 @@
         <header-secao>
           Seu Desempenho e Rankings
         </header-secao>
+      </v-col>
+
+      <v-col
+          cols="12"
+      >
+        <subheader-secao>
+          Você quer ver o ver desempenho de qual simulado?
+        </subheader-secao>
+      </v-col>
+
+      <v-col
+          cols="12" sm="6"
+          md="4"
+      >
+        <v-select
+            :items="disciplinas" filled
+            label="Escolha o simulado para ver seu desemepenho" color="azul"
+            hide-details
+        />
       </v-col>
 
       <!-- selecionar ranking -->
@@ -52,7 +71,7 @@
             </p>
 
             <p
-                :class="[ card.ttl === 'Pontuação' ? 'ml-3' : 'd-none' ]" class="leading__tight grey--text text--darken-3"
+                :class="[ card.ttl === 'Pontuação' ? '' : 'd-none' ]" class="leading__tight grey--text text--darken-3"
             >
               {{ card.legenda }}
             </p>
@@ -71,7 +90,7 @@
           cols="12" class="mt-8"
       >
         <subheader-secao>
-          Desempenho por Área
+          Desempenho por Área no Simulado 1
         </subheader-secao>
       </v-col>
 
@@ -79,14 +98,21 @@
         <v-data-table
             :headers="headerArea" :items="desempenhoArea"
             fixed-header hide-default-footer
-        />
+        >
+          <template v-slot:item.media ="{ item }">
+            <p class="font-weight-bold">
+              {{ item.media }}
+            </p>
+          </template>
+        </v-data-table>
       </v-col>
+
       <!-- tabela com o desempenho por disciplina do aluno -->
       <v-col
           cols="12" class="mt-8"
       >
         <subheader-secao>
-          Desempenho por Disciplina
+          Desempenho por Disciplina no Simulado 1
         </subheader-secao>
       </v-col>
 
@@ -94,24 +120,27 @@
         <v-data-table
             :headers="headerDisciplina" :items="desempenhoDisciplina"
             fixed-header hide-default-footer
-        />
+        >
+          <template v-slot:item.media ="{ item }">
+            <p class="font-weight-bold">
+              {{ item.media }}
+            </p>
+          </template>
+        </v-data-table>
       </v-col>
-
-      <!-- premios que a gente vai receber -->
-      <PremiosMensais class="mt-8" />
     </v-row>
 
-    <!-- escolher qual desempenho quer ver-->
+    <!-- desempenho geral dos simulados -->
     <v-row>
       <v-col
           cols="12" class="mt-12"
       >
         <header-secao>
-          Desempenho nas atividades
+          Desempenho Geral do simulados
         </header-secao>
       </v-col>
 
-      <v-col cols="12">
+      <!--<v-col cols="12">
         <subheader-secao>
           Escolha qual desempenho ver
         </subheader-secao>
@@ -126,25 +155,23 @@
             class="h-full btn__shadow transition cursor__pointer" :class="desempenho.classe"
         >
           <v-card-text>
-            <p class="text-h6 font-weight-medium grey--text text--darken-3">
+            <p class="text-h6 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
               {{ desempenho.tipo}}
             </p>
 
-            <p class="grey--text text--darken-3">
+            <p class="grey&#45;&#45;text text&#45;&#45;darken-3">
               {{ desempenho.descricao }}
             </p>
 
-            <p class="mt-4 font-weight-bold grey--text text--darken-3">
+            <p class="mt-4 font-weight-bold grey&#45;&#45;text text&#45;&#45;darken-3">
               Ver {{ desempenho.tipo }}
             </p>
           </v-card-text>
         </v-card>
-      </v-col>
+      </v-col>-->
 
       <!-- secao dos desempenhos do simulado -->
-      <v-col
-          cols="12" class="mt-8"
-      >
+      <v-col cols="12">
         <subheader-secao>
           Desempenho nos Simulados Escolares
         </subheader-secao>
@@ -723,11 +750,10 @@
 
 <script>
 import SelecionarRanking from '../components/SelecionarRanking.vue';
-import PremiosMensais from '../components/PremiosMensais.vue';
 
 export default {
   name: 'DesempenhoGeral',
-  components: { PremiosMensais, SelecionarRanking },
+  components: { SelecionarRanking },
 
   data () {
     return {
@@ -735,15 +761,49 @@ export default {
 
       desempenhoArea: [
         {
+          media: 'Meu desempenho',
           redacao: 880,
           humanas: 950,
           natureza: 800,
           matematica: 800,
           linguagens: 900,
         },
+        {
+          media: 'Média Estadual',
+          redacao: 880,
+          humanas: 950,
+          natureza: 800,
+          matematica: 800,
+          linguagens: 900,
+        },
+        {
+          media: 'Ranking Estadual',
+          redacao: '12º colocado',
+          humanas: '14º colocado',
+          natureza: '14º colocado',
+          matematica: '14º colocado',
+          linguagens: '14º colocado',
+        },
+        {
+          media: 'Ranking Escolar',
+          redacao: '12º colocado',
+          humanas: '14º colocado',
+          natureza: '14º colocado',
+          matematica: '14º colocado',
+          linguagens: '14º colocado',
+        },
+        {
+          media: 'Ranking na Turma',
+          redacao: '12º colocado',
+          humanas: '14º colocado',
+          natureza: '14º colocado',
+          matematica: '14º colocado',
+          linguagens: '14º colocado',
+        },
       ],
       desempenhoDisciplina: [
         {
+          media: 'Meu desempenho',
           geografia: 880,
           historia: 950,
           filosofia: 800,
@@ -756,8 +816,71 @@ export default {
           artes: 900,
           edFisica: 900,
         },
+        {
+          media: 'Média Estadual',
+          geografia: 880,
+          historia: 950,
+          filosofia: 800,
+          sociologia: 800,
+          biologia: 900,
+          fisica: 900,
+          quimica: 900,
+          portugues: 900,
+          ingles: 900,
+          artes: 900,
+          edFisica: 900,
+        },
+        {
+          media: 'Ranking Estadual',
+          geografia: '12º posição',
+          historia: '14º colocado',
+          filosofia: '14º colocado',
+          sociologia: '14º colocado',
+          biologia: '14º colocado',
+          fisica: '14º colocado',
+          quimica: '14º colocado',
+          portugues: '14º colocado',
+          ingles: '14º colocado',
+          artes: '14º colocado',
+          edFisica: '14º colocado',
+        },
+        {
+          media: 'Ranking Escolar',
+          geografia: '12º posição',
+          historia: '14º colocado',
+          filosofia: '14º colocado',
+          sociologia: '14º colocado',
+          biologia: '14º colocado',
+          fisica: '14º colocado',
+          quimica: '14º colocado',
+          portugues: '14º colocado',
+          ingles: '14º colocado',
+          artes: '14º colocado',
+          edFisica: '14º colocado',
+        },
+        {
+          media: 'Ranking na Turma',
+          geografia: '12º posição',
+          historia: '14º colocado',
+          filosofia: '14º colocado',
+          sociologia: '14º colocado',
+          biologia: '14º colocado',
+          fisica: '14º colocado',
+          quimica: '14º colocado',
+          portugues: '14º colocado',
+          ingles: '14º colocado',
+          artes: '14º colocado',
+          edFisica: '14º colocado',
+        },
       ],
       headerArea: [
+        {
+          text: 'Média',
+          align: 'start',
+          sortable: false,
+          value: 'media',
+          class: 'body-2 font-weight-bold',
+        },
         {
           text: 'Ciências Humanas',
           align: 'start',
@@ -791,6 +914,13 @@ export default {
         },
       ],
       headerDisciplina: [
+        {
+          text: 'Média',
+          align: 'start',
+          sortable: false,
+          value: 'media',
+          class: 'body-2 font-weight-bold',
+        },
         {
           text: 'Geografia',
           align: 'start',
@@ -866,15 +996,15 @@ export default {
         {
           ttl: 'Pontuação',
           icon: 'mdi-podium',
-          info: '+740',
-          legenda: 'pontos',
+          info: '740',
+          legenda: 'Média Geral',
         },
         {
           ttl: 'Ranking Escolar',
           icon: 'mdi-trophy-variant-outline',
           info: '10º',
           posicaoAnterior: '14º',
-          legenda: 'posição',
+          legenda: 'Colocado',
         },
       ],
 

@@ -56,6 +56,9 @@
       </v-col>
     </v-row>
 
+    <!-- premios que a gente vai receber -->
+    <PremiosMensais class="mt-8" />
+
     <!-- escolher qual ranking quer ver -->
     <v-row>
       <v-col
@@ -276,10 +279,11 @@
 
 <script>
 import SelecionarRanking from '../components/SelecionarRanking.vue';
+import PremiosMensais from '../components/PremiosMensais.vue';
 
 export default {
   name: 'Ranking',
-  components: { SelecionarRanking },
+  components: { SelecionarRanking, PremiosMensais },
 
   data () {
     return {
