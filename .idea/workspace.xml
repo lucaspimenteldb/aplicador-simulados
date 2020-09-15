@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="8b0e65c9-fe22-4a53-8b9c-0c757a6ff261" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Vue Single File Component" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1hVcHD5DrUi7Q5Img7MjApea9Am" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="HTML" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/revisa-3-vue/src" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.standard" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.standard" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.standard" value="" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="reference.idesettings.quicklists" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\lucasPimentel\Desktop\Grafset\aplicador-simulados\revisa-3-vue\src" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\lucasPimentel\AppData\Roaming\JetBrains\WebStorm2020.2\scratches" />
+      <recent name="C:\Users\lucasPimentel\Desktop\Grafset\aplicador-simulados\revisa-3-vue\src" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8b0e65c9-fe22-4a53-8b9c-0c757a6ff261" name="Default Changelist" comment="" />
+      <created>1600099612002</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1600099612002</updated>
+      <workItem from="1600099614147" duration="740000" />
+      <workItem from="1600170932446" duration="2776000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="660" y="732" key="#ESLint" timestamp="1600098283311">
+      <screen x="0" y="0" width="3072" height="1688" />
+    </state>
+    <state x="660" y="732" key="#ESLint/0.0.3072.1688@0.0.3072.1688" timestamp="1600098283311" />
+    <state x="609" y="736" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1600087745484">
+      <screen x="0" y="0" width="3072" height="1688" />
+    </state>
+    <state x="609" y="736" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.3072.1688@0.0.3072.1688" timestamp="1600087745484" />
+    <state width="1558" height="487" key="GridCell.Tab.0.bottom" timestamp="1600099585955">
+      <screen x="0" y="0" width="3072" height="1688" />
+    </state>
+    <state width="1558" height="487" key="GridCell.Tab.0.bottom/0.0.3072.1688@0.0.3072.1688" timestamp="1600099585955" />
+    <state width="1558" height="487" key="GridCell.Tab.0.center" timestamp="1600099585955">
+      <screen x="0" y="0" width="3072" height="1688" />
+    </state>
+    <state width="1558" height="487" key="GridCell.Tab.0.center/0.0.3072.1688@0.0.3072.1688" timestamp="1600099585955" />
+    <state width="1558" height="487" key="GridCell.Tab.0.left" timestamp="1600099585955">
+      <screen x="0" y="0" width="3072" height="1688" />
+    </state>
+    <state width="1558" height="487" key="GridCell.Tab.0.left/0.0.3072.1688@0.0.3072.1688" timestamp="1600099585955" />
+    <state width="1558" height="487" key="GridCell.Tab.0.right" timestamp="1600099585955">
+      <screen x="0" y="0" width="3072" height="1688" />
+    </state>
+    <state width="1558" height="487" key="GridCell.Tab.0.right/0.0.3072.1688@0.0.3072.1688" timestamp="1600099585955" />
+    <state x="390" y="509" key="SettingsEditor" timestamp="1600099720266">
+      <screen x="0" y="0" width="3072" height="1688" />
+    </state>
+    <state x="390" y="509" key="SettingsEditor/0.0.3072.1688@0.0.3072.1688" timestamp="1600099720266" />
+    <state x="513" y="126" width="1116" height="1650" key="dock-window-1" timestamp="1600100009674">
+      <screen x="0" y="0" width="3072" height="1688" />
+    </state>
+    <state x="513" y="126" width="1116" height="1650" key="dock-window-1/0.0.3072.1688@0.0.3072.1688" timestamp="1600100009674" />
+    <state x="544" y="602" width="630" height="520" key="find.popup" timestamp="1600097601765">
+      <screen x="0" y="0" width="3072" height="1688" />
+    </state>
+    <state x="544" y="602" width="630" height="520" key="find.popup/0.0.3072.1688@0.0.3072.1688" timestamp="1600097601765" />
+  </component>
+</project>

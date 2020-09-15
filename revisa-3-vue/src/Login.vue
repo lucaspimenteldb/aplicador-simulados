@@ -11,6 +11,7 @@
               color="azul" class="ml-2"
               aria-autocomplete="off"
               hide-details
+              @keyup.enter="entrar"
           />
         </article>
       </v-col>
@@ -28,11 +29,14 @@
               :type="show ? 'text' : 'password'"
               :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
               @click:append="show = !show"
+              @keyup.enter="entrar"
           />
 
           <v-btn
+              id="btn__entrar"
               class="ml-2 azul white--text w-140"
               @click="entrar"
+              to="/home"
           >
             Entrar
           </v-btn>
@@ -75,6 +79,8 @@ export default {
     entrar () {
       console.log(this.senha, this.login);
       if (this.senha === '123' && this.login === 'Lucas') {
+        document.getElementById('btn__entrar').click();
+
         Busao.$emit('autenticado', true);
       }
     },
