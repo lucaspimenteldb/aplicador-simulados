@@ -23,6 +23,7 @@
     "rules": {
       "no-console": "off",
       "no-debugger": "off",
+      "linebreak-style": ["error", "windows"],
       "vue/max-attributes-per-line": [
         "error",
         {
