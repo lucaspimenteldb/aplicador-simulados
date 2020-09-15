@@ -1,5 +1,12 @@
 <template>
   <v-container>
+    <v-row v-show="showLocal">
+      <v-col cols="12">
+        <v-alert type="error">
+          {{message}}
+        </v-alert>
+      </v-col>
+    </v-row>
     <v-row>
       <v-col
           cols="12" class="pa-0"
@@ -33,10 +40,11 @@
           />
 
           <v-btn
+              :loading="loading"
+              :disabled="loading"
               id="btn__entrar"
               class="ml-2 azul white--text w-140"
               @click="entrar"
-              to="/home"
           >
             Entrar
           </v-btn>
@@ -61,7 +69,8 @@
 </template>
 
 <script>
-import { Busao } from './main';
+import axios from 'axios';
+import env from './env';
 
 export default {
   name: 'Login',
@@ -69,19 +78,34 @@ export default {
   data () {
     return {
       show: false,
+      showLocal: false,
       loader: false,
+      message: '',
       senha: '',
       login: '',
+      loading: false,
     };
   },
 
   methods: {
-    entrar () {
-      console.log(this.senha, this.login);
-      if (this.senha === '123' && this.login === 'Lucas') {
-        document.getElementById('btn__entrar').click();
-
-        Busao.$emit('autenticado', true);
+    async entrar () {
+      this.preLoading(false);
+      try {
+        const resposta = await axios.post(`${env.ROOT_API}auth`, { login: this.login, senha: this.senha });
+        console.log(resposta);
+        window.location.href = '/home';
+      } catch (err) {
+        this.preLoading(true);
+        this.message = 'Erro de Autenticação por favor tente novamente!';
+      }
+    },
+    preLoading (terminar) {
+      if (!terminar) {
+        this.showLocal = false;
+        this.loading = true;
+      } else {
+        this.showLocal = true;
+        this.loading = false;
       }
     },
   },
