@@ -18,6 +18,7 @@ import MenuLateral from './components/MenuLateral.vue';
 import Toolbar from './components/Toolbar.vue';
 // eslint-disable-next-line import/no-cycle
 import { Busao } from './main';
+import storage from './storage/storage';
 
 export default {
   name: 'App',
@@ -30,6 +31,14 @@ export default {
     return {
       autenticado: false,
     };
+  },
+  
+  created () {
+    const objeto = storage.get('token');
+    if (objeto) {
+      const menu = JSON.parse(objeto);
+      this.autenticado = menu.menu;
+    }
   },
 
   mounted () {

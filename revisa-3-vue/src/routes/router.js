@@ -110,6 +110,7 @@ const router = new VueRouter({
   routes,
 });
 
+// eslint-disable-next-line no-unused-vars
 router.beforeEach(middleware);
 
 export default router;

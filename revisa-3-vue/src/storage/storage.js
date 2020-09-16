@@ -1,30 +1,37 @@
-// import axios from 'axios';
-// import env from '../env';
+import axios from 'axios';
+import env from '../env';
 
 const storage = {};
 
-storage.get = function () {
-  // const token = window.localStorage.setItem('nome', 'nome');
-  // // const headers = { Authorization: token };
-  //
-  // if (token) {
-  //   try {
-  //     // eslint-disable-next-line no-unused-vars
-  //     // const dados = await axios.get(`${env.ROOT_API}/session/loading-session`, { headers });
-  //     return token;
-  //   } catch (err) {
-  //     console.log(err);
-  //     return null;
-  //   }
-  // }
-    
-  console.log('Ok');
+storage.getToken = async function () {
+  const token = JSON.parse(localStorage.getItem('token'));
 
-  return 'oi';
+  if (token) {
+    try {
+      const headers = { Authorization: `Bearer ${token.token}` };
+      // eslint-disable-next-line no-unused-vars
+      const dados = await axios.get(`${env.ROOT_API}session/loading-session`, { headers });
+      return token.token;
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
+  }
+
+  return token;
 };
 
-storage.set = function (key) {
-  window.localStorage.setItem('token', key);
+storage.set = function (key, value) {
+  localStorage.setItem(key, value);
+};
+
+storage.get = function (key) {
+  const value = localStorage.getItem(key);
+  return value;
+};
+
+storage.delete = function (key) {
+  localStorage.removeItem(key);
 };
 
 export default storage;

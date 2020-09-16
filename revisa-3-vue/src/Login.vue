@@ -72,6 +72,7 @@
 import axios from 'axios';
 import env from './env';
 import { Busao } from './main';
+import storage from './storage/storage';
 
 export default {
   name: 'Login',
@@ -93,8 +94,8 @@ export default {
       this.preLoading(false);
       try {
         const resposta = await axios.post(`${env.ROOT_API}auth`, { login: this.login, senha: this.senha });
-        console.log(resposta);
         Busao.$emit('autenticado', true);
+        storage.set('token', JSON.stringify({ token: resposta.data.data, menu: true }));
         this.$router.replace('/home');
       } catch (err) {
         this.preLoading(true);
