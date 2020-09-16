@@ -71,6 +71,7 @@
 <script>
 import axios from 'axios';
 import env from './env';
+import { Busao } from './main';
 
 export default {
   name: 'Login',
@@ -93,7 +94,8 @@ export default {
       try {
         const resposta = await axios.post(`${env.ROOT_API}auth`, { login: this.login, senha: this.senha });
         console.log(resposta);
-        window.location.href = '/home';
+        Busao.$emit('autenticado', true);
+        this.$router.replace('/home');
       } catch (err) {
         this.preLoading(true);
         this.message = 'Erro de Autenticação por favor tente novamente!';
