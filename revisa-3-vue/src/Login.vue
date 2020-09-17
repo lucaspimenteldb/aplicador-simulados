@@ -95,7 +95,8 @@ export default {
       try {
         const resposta = await axios.post(`${env.ROOT_API}auth`, { login: this.login, senha: this.senha });
         Busao.$emit('autenticado', true);
-        storage.set('token', JSON.stringify({ token: resposta.data.data, menu: true }));
+        const cache = this.getCache(resposta.data.data);
+        storage.set('token', JSON.stringify(cache));
         this.$router.replace('/home');
       } catch (err) {
         this.preLoading(true);
@@ -110,6 +111,16 @@ export default {
         this.showLocal = true;
         this.loading = false;
       }
+    },
+    getCache (dados) {
+      const cache = {
+        token: dados.token,
+        menu: true,
+        photo: dados.usuario.photo,
+        name: dados.usuario.name,
+      };
+
+      return cache;
     },
   },
 };

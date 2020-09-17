@@ -16,12 +16,12 @@
     >
       <v-list-item two-line>
         <v-list-item-avatar>
-          <img src="https://randomuser.me/api/portraits/men/81.jpg">
+          <img :src="photo">
         </v-list-item-avatar>
 
         <v-list-item-content>
           <v-list-item-title>
-            Nome
+            {{nome}}
           </v-list-item-title>
 
           <v-list-item-subtitle>
@@ -99,7 +99,7 @@
       </section>
 
       <v-list-item
-          link @click="'sair'"
+          link @click="aparecerModal"
           class="h-40 max-h-40 mb-2"
       >
         <v-list-item-icon class="mr-4">
@@ -115,15 +115,21 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
+    <ModalPadrao :dialog="dialog" @aparecerModal="sumirModal" />
   </v-navigation-drawer>
 </template>
 
 <script>
 import { Busao } from '../main';
+import storage from '../storage/storage';
+import env from '../env';
+import ModalPadrao from "./modal/ModalPadrao";
 
 export default {
   name: 'MenuLateral',
-
+  components : {
+    ModalPadrao
+  },
   data () {
     return {
       menuLateral: false,
@@ -134,7 +140,7 @@ export default {
         {
           icon: 'mdi-home-outline',
           ttl: 'Tela inicial',
-          rota: '/',
+          rota: '/home',
           menu: false,
         },
         {
@@ -168,11 +174,17 @@ export default {
           menu: false,
         },
       ],
+      nome: '',
+      photo: '',
+      dialog: false,
     };
   },
 
   created () {
+    const objeto = JSON.parse(storage.get('token'));
     this.width = window.innerWidth;
+    this.photo = objeto.photo ? env.ROTA_DOMINIO + objeto.photo : `${env.ROTA_DOMINIO}vendor/crudbooster/avatar.jpg`;
+    this.nome = objeto.name ? objeto.name : '';
   },
 
   mounted () {
@@ -191,6 +203,13 @@ export default {
         Busao.$emit('fecharMenu', this.menuLateral);
       }
     },
+
+    aparecerModal () {
+      this.dialog = true;
+    },
+    sumirModal ($event) {
+      this.dialog = $event;
+    }
   },
 };
 </script>

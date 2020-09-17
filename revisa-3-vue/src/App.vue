@@ -44,7 +44,6 @@ export default {
   mounted () {
     Busao.$on('autenticado', (d) => {
       this.autenticado = d;
-      console.log(this.autenticado);
     });
   },
 };
