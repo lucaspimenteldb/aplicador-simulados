@@ -3,12 +3,12 @@ import storage from '../../storage/storage';
 
 const funcao = async (to, from, next) => {
   const token = await storage.getToken();
-  console.log(token);
   
   if (to.name === 'Login' && token) {
     next({ path: '/home' });
   }
   if (!token && to.name !== 'Login') {
+    storage.delete('token');
     next({ path: '/' });
   }
 
