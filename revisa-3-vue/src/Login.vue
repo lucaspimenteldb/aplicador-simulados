@@ -2,11 +2,27 @@
   <v-container>
     <v-row v-show="showLocal">
       <v-col cols="12">
-        <v-alert type="error">
-          {{message}}
-        </v-alert>
+        <article class="mx-auto max-w-300">
+          <v-alert
+              type="errou"
+              class="ml-2"
+          >
+            {{message}}
+          </v-alert>
+        </article>
       </v-col>
     </v-row>
+
+    <v-row>
+      <v-col cols="12">
+        <article class="mx-auto max-w-300">
+          <p class="ml-2 mb-4 text-h6">
+            Informe os dados de acesso cadastrados no RevisaENEM
+          </p>
+        </article>
+      </v-col>
+    </v-row>
+
     <v-row>
       <v-col
           cols="12" class="pa-0"
@@ -15,7 +31,8 @@
           <v-text-field
               v-model="login"
               label="Usuário" filled
-              color="azul" class="ml-2"
+              color="azul"
+              class="ml-2"
               aria-autocomplete="off"
               hide-details
               @keyup.enter="entrar"
@@ -50,7 +67,8 @@
           </v-btn>
 
           <v-btn
-              text class="mt-8 pa-2 d-block text-lowercase"
+              text class="mt-8 pa-2 text-lowercase"
+              to="/esqueci-senha"
           >
             esqueci minha senha
           </v-btn>
@@ -97,10 +115,10 @@ export default {
         Busao.$emit('autenticado', true);
         const cache = this.getCache(resposta.data.data);
         storage.set('token', JSON.stringify(cache));
-        this.$router.replace('/home');
+        this.$router.replace('/desempenho-geral');
       } catch (err) {
         this.preLoading(true);
-        this.message = 'Erro de Autenticação por favor tente novamente!';
+        this.message = 'Usuário ou senha errado. Por favor, tente novamente';
       }
     },
     preLoading (terminar) {

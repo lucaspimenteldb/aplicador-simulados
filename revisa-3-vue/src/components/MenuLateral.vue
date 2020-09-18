@@ -100,7 +100,7 @@
 
       <v-list-item
           link @click="aparecerModal"
-          class="h-40 max-h-40 mb-2"
+          class="mb-12 mb-sm-0 h-40 max-h-40"
       >
         <v-list-item-icon class="mr-4">
           <v-icon
@@ -115,7 +115,10 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
-    <ModalPadrao :dialog="dialog" @aparecerModal="sumirModal" />
+
+    <ModalPadrao
+        :dialog="dialog" @aparecerModal="sumirModal"
+    />
   </v-navigation-drawer>
 </template>
 
@@ -123,12 +126,12 @@
 import { Busao } from '../main';
 import storage from '../storage/storage';
 import env from '../env';
-import ModalPadrao from "./modal/ModalPadrao";
+import ModalPadrao from './modal/ModalPadrao.vue';
 
 export default {
   name: 'MenuLateral',
-  components : {
-    ModalPadrao
+  components: {
+    ModalPadrao,
   },
   data () {
     return {
@@ -137,24 +140,24 @@ export default {
       nivel: 70,
 
       itens: [
-        {
-          icon: 'mdi-home-outline',
-          ttl: 'Tela inicial',
-          rota: '/home',
-          menu: false,
-        },
-        {
-          icon: 'mdi-check-box-multiple-outline',
-          ttl: 'Simulados',
-          rota: '/simulados-atividades-escolares',
-          menu: false,
-        },
-        {
-          icon: 'mdi-pencil-outline',
-          ttl: 'Redação',
-          rota: '/redacoes',
-          menu: false,
-        },
+        // {
+        //   icon: 'mdi-home-outline',
+        //   ttl: 'Tela inicial',
+        //   rota: '/home',
+        //   menu: false,
+        // },
+        // {
+        //   icon: 'mdi-check-box-multiple-outline',
+        //   ttl: 'Simulados',
+        //   rota: '/simulados-atividades-escolares',
+        //   menu: false,
+        // },
+        // {
+        //   icon: 'mdi-pencil-outline',
+        //   ttl: 'Redação',
+        //   rota: '/redacoes',
+        //   menu: false,
+        // },
         {
           icon: 'mdi-poll-box-outline',
           ttl: 'Meu Desempenho',
@@ -209,7 +212,7 @@ export default {
     },
     sumirModal ($event) {
       this.dialog = $event;
-    }
+    },
   },
 };
 </script>

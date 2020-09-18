@@ -165,7 +165,7 @@ export default {
 
       competencias: [
         {
-          competenciaNome: 'C1 - Domínio de escrito da língua portuguesa',
+          competenciaNome: 'C1 - Domínio da escrita da língua portuguesa',
           avaliacao: 'Mussum Ipsum, cacilds vidis litro abertis. Manduma pindureta quium dia nois paga. Suco de cevadiss deixa as pessoas mais interessantis. Detraxit consequat et quo num tendi nada. Diuretics paradis num copo é denguis.',
           notaCompetencia: 200,
           desempenho: 'desempenhoExcelente',

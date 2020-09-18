@@ -189,23 +189,15 @@
               {{ melhor.nome }}
             </p>
 
-            <p class="h-30 relative font-weight-medium grey--text text--darken-3">
+            <p class="h-30 relative font-weight-medium grey--text text--darken-3 text-h6">
               <span class="bolinha__melhores absolute left-0 top-1" />
-              <v-icon
-                  v-text="'mdi-numeric-10-box-multiple-outline'" color="black"
-                  class="text-h6"
-              />
 
-              {{ melhor.pontos }} pontos
-            </p>
-            <p class="h-30 relative font-weight-medium grey--text text--darken-3">
-              <span class="bolinha__melhores absolute left-0 top-1" />
               <v-icon
                   v-text="'mdi-trophy-award'" color="black"
                   class="text-h6"
               />
 
-              {{ melhor.conquistas }} conquistas
+              {{ melhor.conquistas }} Média TRI
             </p>
           </v-card-text>
         </v-card>
@@ -240,18 +232,10 @@
 
           <p class="ml-6 d-inline-block font-weight-medium grey--text text--darken-3">
             <v-icon
-                v-text="'mdi-trophy-award'" small
-                color="black"
-            />
-            28 conquistas
-          </p>
-
-          <p class="ml-6 d-inline-block font-weight-medium grey--text text--darken-3">
-            <v-icon
                 v-text="'mdi-numeric-10-box-multiple-outline'" small
                 color="black"
             />
-            840 pontos
+            740 Média TRI
           </p>
         </section>
       </v-col>
@@ -355,24 +339,21 @@ export default {
           colocacao: '1º',
           podio: 'mdi-podium-gold',
           nome: 'Santaninha Maria',
-          pontos: 9012,
-          conquistas: 32,
+          conquistas: 800,
         },
         {
           img: 'imagem-ranking',
           colocacao: '2º',
           podio: 'mdi-podium-silver',
           nome: 'Avexadinho Pelanquis',
-          pontos: 7812,
-          conquistas: 26,
+          conquistas: 800,
         },
         {
           img: 'imagem-ranking',
           colocacao: '3º',
           podio: 'mdi-podium-bronze',
           nome: 'Projetado Deum',
-          pontos: 6062,
-          conquistas: 24,
+          conquistas: 800,
         },
       ],
 

@@ -50,7 +50,7 @@
                 v-for="(alternativa, questao) in tab.questoes.alternativas" :key="questao"
             >
               <article
-                  class="pb-2 pt-2 mt-2 d-flex align-center border__bottom cursor__pointer transition"
+                  class="pb-2 pt-2 d-flex align-center border__bottom cursor__pointer transition"
                   :id="`alternativa${questao}`" slot-scope="{ hover }"
                   :class="[ hover ? 'bg__azul__claro rounded__normal__top' : '' ]"
               >
@@ -101,7 +101,7 @@
         </v-btn>
 
         <v-btn
-            class="mt-4 mt-sm-0 text-lowercase border-3 border__azul rounded__normal" outlined
+            class="text-lowercase border-3 border__azul rounded__normal" outlined
         >
           Próxima questão
         </v-btn>
@@ -209,7 +209,7 @@
         </v-btn>
 
         <v-btn
-            class="mt-4 mt-sm-0 text-lowercase border-3 border__azul rounded__normal transition hover:botao__outline"
+            class="text-lowercase border-3 border__azul rounded__normal transition hover:botao__outline"
             outlined
         >
           Próxima questão
