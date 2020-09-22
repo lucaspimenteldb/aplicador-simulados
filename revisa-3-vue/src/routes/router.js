@@ -56,7 +56,7 @@ const routes = [
     component: () => import('../pages/Ranking'),
   },
   {
-    path: '/desempenho-geral',
+    path: '/home',
     name: 'DesempenhoGeral',
     component: () => import('../pages/DesempenhoGeral'),
   },

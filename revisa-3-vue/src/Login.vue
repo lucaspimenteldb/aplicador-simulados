@@ -115,7 +115,7 @@ export default {
         Busao.$emit('autenticado', true);
         const cache = this.getCache(resposta.data.data);
         storage.set('token', JSON.stringify(cache));
-        this.$router.replace('/desempenho-geral');
+        this.$router.replace('/home');
       } catch (err) {
         this.preLoading(true);
         this.message = 'Usuário ou senha errado. Por favor, tente novamente';

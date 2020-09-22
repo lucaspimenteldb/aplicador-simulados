@@ -161,7 +161,7 @@ export default {
         {
           icon: 'mdi-poll-box-outline',
           ttl: 'Meu Desempenho',
-          rota: '/desempenho-geral',
+          rota: '/home',
           menu: false,
         },
         {

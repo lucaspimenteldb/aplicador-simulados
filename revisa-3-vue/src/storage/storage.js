@@ -13,7 +13,6 @@ storage.getToken = async function () {
       const dados = await axios.get(`${env.ROOT_API}session/loading-session`, { headers });
       return token.token;
     } catch (err) {
-      console.log(err);
       return null;
     }
   }
