@@ -1,5 +1,7 @@
 <template>
   <v-container>
+    <MenuLateral />
+    <Toolbar />
     <v-row>
       <v-col cols="12">
         <h1>
@@ -62,8 +64,12 @@
 </template>
 
 <script>
+import MenuLateral from '../../components/MenuLateral.vue';
+import Toolbar from '../../components/Toolbar.vue';
+
 export default {
   name: 'SuporteInicio',
+  components: { MenuLateral, Toolbar },
 
   data () {
     return {

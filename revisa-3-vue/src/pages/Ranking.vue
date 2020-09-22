@@ -1,5 +1,7 @@
 <template>
   <v-container fluid>
+    <MenuLateral />
+    <Toolbar />
     <v-row>
       <v-col cols="12">
         <h1>
@@ -264,10 +266,14 @@
 <script>
 import SelecionarRanking from '../components/SelecionarRanking.vue';
 import PremiosMensais from '../components/PremiosMensais.vue';
+import MenuLateral from '../components/MenuLateral.vue';
+import Toolbar from '../components/Toolbar.vue';
 
 export default {
   name: 'Ranking',
-  components: { SelecionarRanking, PremiosMensais },
+  components: {
+    SelecionarRanking, MenuLateral, Toolbar, PremiosMensais,
+  },
 
   data () {
     return {

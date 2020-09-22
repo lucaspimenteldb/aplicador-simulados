@@ -1,5 +1,7 @@
 <template>
   <v-container>
+    <MenuLateral />
+    <Toolbar />
     <v-row>
       <v-col cols="12">
         <h1>
@@ -94,7 +96,7 @@
             </p>
 
             <h5 class="text-h4 font-weight-bold grey--text text--darken-3">
-              {{  desempenho.nota }}
+              {{ desempenho.nota }}
             </h5>
 
             <div
@@ -168,7 +170,7 @@
             </p>
 
             <h5 class="text-h6 font-weight-bold grey--text text--darken-3">
-              {{  desempenho.ranking }}º <span class="body-2">colocado</span>
+              {{ desempenho.ranking }}º <span class="body-2">colocado</span>
             </h5>
 
             <div
@@ -324,7 +326,7 @@
 
           <v-card-text>
             <p class="d-flex relative font-weight-medium grey--text text--darken-3">
-            <span class="bolinha__acertos absolute top-0 left-2" />
+              <span class="bolinha__acertos absolute top-0 left-2" />
 
               <v-icon
                   v-text="'mdi-checkbox-marked-circle-outline'" color="black"
@@ -363,7 +365,9 @@
             class="mt-2 mr-4" rotate="-90"
         >
           <p class="ml-1 font-weight-medium grey--text text--darken-3">
-            {{ ((simuladosEscolares.desempenhoLinguagens[0] / simuladosEscolares.desempenhoLinguagens[2]) * 100).toFixed(1) }}%
+            {{
+              ((simuladosEscolares.desempenhoLinguagens[0] / simuladosEscolares.desempenhoLinguagens[2]) * 100).toFixed(1)
+            }}%
           </p>
         </v-progress-circular>
 
@@ -374,7 +378,7 @@
             class="mt-2" rotate="-90"
         >
           <p class="ml-1 font-weight-medium grey--text text--darken-3">
-            {{ simuladosEscolares.desempenhoLinguagens[0] }}/{{ simuladosEscolares.desempenhoLinguagens[2]}}
+            {{ simuladosEscolares.desempenhoLinguagens[0] }}/{{ simuladosEscolares.desempenhoLinguagens[2] }}
           </p>
         </v-progress-circular>
       </v-col>
@@ -448,7 +452,9 @@
             class="mt-2 mr-4" rotate="-90"
         >
           <p class="ml-1 font-weight-medium grey--text text--darken-3">
-            {{ ((simuladosEscolares.desempenhoMatematica[0] / simuladosEscolares.desempenhoMatematica[2]) * 100).toFixed(1) }}%
+            {{
+              ((simuladosEscolares.desempenhoMatematica[0] / simuladosEscolares.desempenhoMatematica[2]) * 100).toFixed(1)
+            }}%
           </p>
         </v-progress-circular>
 
@@ -459,7 +465,7 @@
             class="mt-2" rotate="-90"
         >
           <p class="ml-1 font-weight-medium grey--text text--darken-3">
-            {{ simuladosEscolares.desempenhoMatematica[0] }}/{{ simuladosEscolares.desempenhoMatematica[2]}}
+            {{ simuladosEscolares.desempenhoMatematica[0] }}/{{ simuladosEscolares.desempenhoMatematica[2] }}
           </p>
         </v-progress-circular>
       </v-col>
@@ -533,7 +539,9 @@
             class="mt-2 mr-4" rotate="-90"
         >
           <p class="ml-1 font-weight-medium grey--text text--darken-3">
-            {{ ((simuladosEscolares.desempenhoNatureza[0] / simuladosEscolares.desempenhoNatureza[2]) * 100).toFixed(1) }}%
+            {{
+              ((simuladosEscolares.desempenhoNatureza[0] / simuladosEscolares.desempenhoNatureza[2]) * 100).toFixed(1)
+            }}%
           </p>
         </v-progress-circular>
 
@@ -544,7 +552,7 @@
             class="mt-2" rotate="-90"
         >
           <p class="ml-1 font-weight-medium grey--text text--darken-3">
-            {{ simuladosEscolares.desempenhoNatureza[0] }}/{{ simuladosEscolares.desempenhoNatureza[2]}}
+            {{ simuladosEscolares.desempenhoNatureza[0] }}/{{ simuladosEscolares.desempenhoNatureza[2] }}
           </p>
         </v-progress-circular>
       </v-col>
@@ -618,7 +626,9 @@
             class="mt-2 mr-4" rotate="-90"
         >
           <p class="ml-1 font-weight-medium grey--text text--darken-3">
-            {{ ((simuladosEscolares.desempenhoHumanas[0] / simuladosEscolares.desempenhoHumanas[2]) * 100).toFixed(1) }}%
+            {{
+              ((simuladosEscolares.desempenhoHumanas[0] / simuladosEscolares.desempenhoHumanas[2]) * 100).toFixed(1)
+            }}%
           </p>
         </v-progress-circular>
 
@@ -629,7 +639,7 @@
             class="mt-2" rotate="-90"
         >
           <p class="ml-1 font-weight-medium grey--text text--darken-3">
-            {{ simuladosEscolares.desempenhoHumanas[0] }}/{{ simuladosEscolares.desempenhoHumanas[2]}}
+            {{ simuladosEscolares.desempenhoHumanas[0] }}/{{ simuladosEscolares.desempenhoHumanas[2] }}
           </p>
         </v-progress-circular>
       </v-col>
@@ -802,10 +812,12 @@
 
 <script>
 import PremiosMensais from '../components-professores/PremiosMensais.vue';
+import MenuLateral from '../components/MenuLateral.vue';
+import Toolbar from '../components/Toolbar.vue';
 
 export default {
   name: 'DesempenhoGeral',
-  components: { PremiosMensais },
+  components: { PremiosMensais, MenuLateral, Toolbar },
 
   data () {
     return {
