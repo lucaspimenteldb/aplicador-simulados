@@ -260,6 +260,7 @@
       </v-col>
     </v-row>
 
+    <TabsMobile />
   </v-container>
 </template>
 
@@ -268,11 +269,16 @@ import SelecionarRanking from '../components/SelecionarRanking.vue';
 import PremiosMensais from '../components/PremiosMensais.vue';
 import MenuLateral from '../components/MenuLateral.vue';
 import Toolbar from '../components/Toolbar.vue';
+import TabsMobile from '../components/TabsMobile.vue';
 
 export default {
   name: 'Ranking',
   components: {
-    SelecionarRanking, MenuLateral, Toolbar, PremiosMensais,
+    TabsMobile,
+    SelecionarRanking,
+    MenuLateral,
+    Toolbar,
+    PremiosMensais,
   },
 
   data () {

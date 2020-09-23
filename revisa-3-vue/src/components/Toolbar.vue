@@ -1,5 +1,4 @@
 <template>
-
   <!--NAVBAR-->
   <nav>
     <v-app-bar
@@ -9,12 +8,19 @@
     >
       <v-app-bar-nav-icon
           @click.stop="mudarMenu" fab
+          class="text-lowercase text-caption"
           :class="{ 'd-none': width > 640 }"
           dark
-      />
+      >
+        <v-icon
+            class="ml-8" v-text="'mdi-menu'"
+        />
+        menu
+      </v-app-bar-nav-icon>
 
       <v-toolbar-title
-          class="white--text d-none d-sm-block" v-text="'RevisaENEM'"
+          class="white--text" v-text="'RevisaENEM'"
+          :class="{ 'd-none': width < 640 }"
       />
     </v-app-bar>
   </nav>

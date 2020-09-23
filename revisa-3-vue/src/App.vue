@@ -8,6 +8,7 @@
       <router-view
               class="pa-4 mx-0" :class="'mr-0 ml-0'"
       />
+
     </v-main>
   </v-app>
 </template>
@@ -32,7 +33,7 @@ export default {
       autenticado: false,
     };
   },
-  
+
   created () {
     const objeto = storage.get('token');
     if (objeto) {

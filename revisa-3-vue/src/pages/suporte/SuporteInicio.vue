@@ -60,16 +60,23 @@
         </section>
       </v-card>
     </v-col>
+
+    <TabsMobile />
   </v-container>
 </template>
 
 <script>
 import MenuLateral from '../../components/MenuLateral.vue';
 import Toolbar from '../../components/Toolbar.vue';
+import TabsMobile from '../../components/TabsMobile.vue';
 
 export default {
   name: 'SuporteInicio',
-  components: { MenuLateral, Toolbar },
+  components: {
+    TabsMobile,
+    MenuLateral,
+    Toolbar,
+  },
 
   data () {
     return {

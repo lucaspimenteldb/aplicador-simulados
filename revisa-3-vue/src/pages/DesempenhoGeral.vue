@@ -2,6 +2,7 @@
   <v-container fluid>
     <MenuLateral />
     <Toolbar />
+
     <v-row>
       <v-col cols="12">
         <h1>
@@ -862,6 +863,8 @@
         </v-card>
       </v-col>
     </v-row>
+
+    <TabsMobile />
   </v-container>
 </template>
 
@@ -869,12 +872,16 @@
 import SelecionarRanking from '../components/SelecionarRanking.vue';
 import MenuLateral from '../components/MenuLateral.vue';
 import Toolbar from '../components/Toolbar.vue';
+import TabsMobile from '../components/TabsMobile.vue';
 import desempenho from '../services/desempenho/desempenho-service';
 
 export default {
   name: 'DesempenhoGeral',
 
-  components: { SelecionarRanking, MenuLateral, Toolbar },
+  components: {
+    SelecionarRanking, MenuLateral, Toolbar, TabsMobile,
+  },
+
   async created () {
     const dados = await desempenho.desempenhoAluno('desempenho/desempenho-aluno');
     console.log(dados);
