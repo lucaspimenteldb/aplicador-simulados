@@ -22,7 +22,8 @@
               @keyup.enter="entrar"
           />
 
-          <v-btn
+          <v-btnq
+
               :loading="loading"
               :disabled="loading"
               id="btn__entrar"
@@ -30,7 +31,7 @@
               @click="entrar"
           >
             Recuperar senha
-          </v-btn>
+          </v-btnq>
         </section>
       </v-col>
     </v-row>

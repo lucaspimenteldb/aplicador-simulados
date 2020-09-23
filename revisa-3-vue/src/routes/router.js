@@ -8,12 +8,12 @@ const routes = [
   {
     path: '/',
     name: 'Login',
-    component: () => import('../Login'),
+    component: () => import('../pages/Login'),
   },
   {
     path: '/esqueci-senha',
     name: 'EsqueciSenha',
-    component: () => import('../EsqueciSenha'),
+    component: () => import('../pages/EsqueciSenha'),
   },
   // {
   //   path: '/home',

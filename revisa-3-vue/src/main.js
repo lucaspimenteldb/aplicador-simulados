@@ -59,6 +59,7 @@ Vue.component('historico-card', {
   </v-card-text>
   </v-card>`,
 });
+
 new Vue({
   router,
   vuetify,

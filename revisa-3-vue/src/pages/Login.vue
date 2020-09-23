@@ -88,9 +88,9 @@
 
 <script>
 import axios from 'axios';
-import env from './env';
-import { Busao } from './main';
-import storage from './storage/storage';
+import env from '../env';
+import { Busao } from '../main';
+import storage from '../storage/storage';
 
 export default {
   name: 'Login',
