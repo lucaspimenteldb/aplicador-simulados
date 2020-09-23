@@ -1,5 +1,7 @@
 <template>
   <v-container fluid>
+    <MenuLateral />
+    <Toolbar />
     <v-row>
       <v-col cols="12">
         <h1>
@@ -864,17 +866,18 @@
 </template>
 
 <script>
-import axios from 'axios';
 import SelecionarRanking from '../components/SelecionarRanking.vue';
-import env from '../env';
+import MenuLateral from '../components/MenuLateral.vue';
+import Toolbar from '../components/Toolbar.vue';
+import desempenho from '../services/desempenho/desempenho-service';
 
 export default {
   name: 'DesempenhoGeral',
-  components: { SelecionarRanking },
+
+  components: { SelecionarRanking, MenuLateral, Toolbar },
   async created () {
-    const dados = await axios.get(`${env.ROOT_API}simulado`);
-    this.simulados = this.extrairTitulo(dados.data.dados);
-    this.simuladosPesquisa = dados.data.dados;
+    const dados = await desempenho.desempenhoAluno('desempenho/desempenho-aluno');
+    console.log(dados);
   },
 
   methods: {
