@@ -1,7 +1,7 @@
 <template>
   <v-container>
-    <MenuLateral />
-    <Toolbar />
+<!--    <MenuLateral />-->
+<!--    <Toolbar />-->
     <v-row>
       <v-col cols="12">
         <h1>
@@ -812,12 +812,12 @@
 
 <script>
 import PremiosMensais from '../components-professores/PremiosMensais.vue';
-import MenuLateral from '../components/MenuLateral.vue';
-import Toolbar from '../components/Toolbar.vue';
+// import MenuLateral from '../components/MenuLateral.vue';
+// import Toolbar from '../components/Toolbar.vue';
 
 export default {
   name: 'DesempenhoGeral',
-  components: { PremiosMensais, MenuLateral, Toolbar },
+  components: { PremiosMensais },
 
   data () {
     return {

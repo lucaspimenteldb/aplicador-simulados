@@ -1,8 +1,8 @@
 <template>
   <v-app>
 
-<!--    <MenuLateral v-if="autenticado" />-->
-<!--    <Toolbar v-if="autenticado" />-->
+    <MenuLateral v-if="autenticado" />
+    <Toolbar v-if="autenticado" />
 
     <v-main class="pa-sm-16 mr-0 grey lighten-4">
       <router-view
@@ -15,8 +15,8 @@
 
 <script>
 
-// import MenuLateral from './components/MenuLateral.vue';
-// import Toolbar from './components/Toolbar.vue';
+import MenuLateral from './components/MenuLateral.vue';
+import Toolbar from './components/Toolbar.vue';
 // eslint-disable-next-line import/no-cycle
 import { Busao } from './main';
 import storage from './storage/storage';
@@ -25,7 +25,7 @@ export default {
   name: 'App',
 
   components: {
-
+    MenuLateral, Toolbar,
   },
 
   data () {

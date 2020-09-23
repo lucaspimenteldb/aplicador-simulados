@@ -1,7 +1,8 @@
 <template>
   <v-container fluid>
-    <MenuLateral />
-    <Toolbar />
+<!--    <MenuLateral />-->
+<!--    <Toolbar />-->
+    <loading :dialog="showDialog" />
 
     <v-row>
       <v-col cols="12">
@@ -870,21 +871,28 @@
 
 <script>
 import SelecionarRanking from '../components/SelecionarRanking.vue';
-import MenuLateral from '../components/MenuLateral.vue';
-import Toolbar from '../components/Toolbar.vue';
+// import MenuLateral from '../components/MenuLateral.vue';
+// import Toolbar from '../components/Toolbar.vue';
 import TabsMobile from '../components/TabsMobile.vue';
 import desempenho from '../services/desempenho/desempenho-service';
+// eslint-disable-next-line import/extensions
+import loading from '../components/loading/Loading.vue';
 
 export default {
   name: 'DesempenhoGeral',
 
   components: {
-    SelecionarRanking, MenuLateral, Toolbar, TabsMobile,
+    SelecionarRanking, TabsMobile, loading,
   },
 
   async created () {
-    const dados = await desempenho.desempenhoAluno('desempenho/desempenho-aluno');
-    console.log(dados);
+    this.loadingBasl(true);
+    const simulado = await desempenho.desempenhoAluno('simulado');
+    const simuladoT = this.extrairTitulo(simulado.data.dados);
+    // this.meuDesempenho(dados.data.data);
+    this.simulados = simuladoT;
+    this.simuladosPesquisa = simulado.data.dados;
+    this.loadingBasl(false);
   },
 
   methods: {
@@ -895,23 +903,45 @@ export default {
 
       return objeto;
     },
+    
+    meuDesempenho (dados) {
+      if (dados.data.data.length <= 0) {
+        this.informacoesAdicionais[0].info = 'Nota indisponível';
+      } else {
+        this.informacoesAdicionais[0].info = dados.data.data[0].media;
+        this.informacoesAdicionais[1].info = `${dados.data.position}º`;
+        this.desempenhoArea[0].humanas = dados.data.data[0].Humanas;
+        this.desempenhoArea[0].linguagens = dados.data.data[0].Linguagens;
+        this.desempenhoArea[0].natureza = dados.data.data[0].Natureza;
+        this.desempenhoArea[0].matematica = dados.data.data[0].Matematica;
+      }
+    },
 
     pesquisarSimulado (simulado) {
       const filtrado = this.simuladosPesquisa.filter((el) => el.titulo === simulado);
       return filtrado;
     },
 
-    changeSelect (event) {
+    async changeSelect (event) {
       const filtrado = this.pesquisarSimulado(event);
       if (filtrado.length > 0) {
-        this.disabledSimulado = true;
+        this.loadingBasl(true);
+        const desempenhoLocal = await desempenho.desempenhoAluno(`desempenho/desempenho-aluno/${filtrado[0].id}`);
+        this.meuDesempenho(desempenhoLocal);
+        this.loadingBasl(false);
       }
     },
+
+    loadingBasl (on) {
+      this.disabledSimulado = on;
+      this.showDialog = on;
+    },
+
   },
   data () {
     return {
       play: 'mdi-play',
-
+      showDialog: true,
       dialog: {},
       alternativas: {
         a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed laboris nisi ut aliquip ex ea commodo consequat.?',
@@ -1341,13 +1371,13 @@ export default {
         {
           ttl: 'Pontuação',
           icon: 'mdi-podium',
-          info: '740',
+          info: '',
           legenda: 'Média Geral',
         },
         {
           ttl: 'Ranking Escolar',
           icon: 'mdi-trophy-variant-outline',
-          info: '10º',
+          info: '',
           posicaoAnterior: '14º',
           legenda: 'Colocado',
         },

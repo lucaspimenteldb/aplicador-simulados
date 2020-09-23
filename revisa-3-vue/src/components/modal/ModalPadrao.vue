@@ -68,12 +68,13 @@
 </template>
 
 <script>
-import storage from '@/storage/storage';
+import storage from '../../storage/storage';
 import { Busao } from '../../main';
 
 export default {
   name: 'ModalPadrao',
   props: {
+    // eslint-disable-next-line vue/require-prop-type-constructor
     dialog: false,
   },
 

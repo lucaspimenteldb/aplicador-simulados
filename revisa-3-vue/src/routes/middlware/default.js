@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/no-cycle
+import { Busao } from '../../main';
 // eslint-disable-next-line import/no-mutable-exports
 import storage from '../../storage/storage';
 
@@ -9,6 +11,7 @@ const funcao = async (to, from, next) => {
   }
   if (!token && to.name !== 'Login') {
     storage.delete('token');
+    Busao.$emit('autenticado', false);
     next({ path: '/' });
   }
 
