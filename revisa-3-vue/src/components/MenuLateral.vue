@@ -117,7 +117,7 @@
     </v-list>
 
     <ModalPadrao
-        :dialog="dialog" @aparecerModal="sumirModal"
+        :objeto="objeto" @aparecerModal="sumirModal"
     />
   </v-navigation-drawer>
 </template>
@@ -179,7 +179,13 @@ export default {
       ],
       nome: '',
       photo: '',
-      dialog: false,
+      objeto: {
+        dialog: false,
+        titulo: 'Tem certeza que deseja sair?',
+        textConfirm: 'Sair',
+        textButton: 'Cancelar',
+        confirm: true,
+      },
     };
   },
 
@@ -208,10 +214,10 @@ export default {
     },
 
     aparecerModal () {
-      this.dialog = true;
+      this.objeto.dialog = true;
     },
     sumirModal ($event) {
-      this.dialog = $event;
+      this.objeto.dialog = $event;
     },
   },
 };

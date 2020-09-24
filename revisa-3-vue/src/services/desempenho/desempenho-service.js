@@ -20,7 +20,7 @@ desempenho.desempenhoAluno = async function (url) {
     return dados;
   } catch (err) {
     console.log(err);
-    return null;
+    throw err;
   }
 };
 

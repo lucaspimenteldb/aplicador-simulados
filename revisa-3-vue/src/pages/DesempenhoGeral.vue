@@ -866,6 +866,10 @@
     </v-row>
 
     <TabsMobile />
+    <ModalPadrao
+:objeto="objeto"
+@aparecerModal="sumirModal"
+/>
   </v-container>
 </template>
 
@@ -873,6 +877,7 @@
 import SelecionarRanking from '../components/SelecionarRanking.vue';
 // import MenuLateral from '../components/MenuLateral.vue';
 // import Toolbar from '../components/Toolbar.vue';
+import ModalPadrao from '../components/modal/ModalPadrao.vue';
 import TabsMobile from '../components/TabsMobile.vue';
 import desempenho from '../services/desempenho/desempenho-service';
 // eslint-disable-next-line import/extensions
@@ -882,17 +887,24 @@ export default {
   name: 'DesempenhoGeral',
 
   components: {
-    SelecionarRanking, TabsMobile, loading,
+    SelecionarRanking, TabsMobile, loading, ModalPadrao,
   },
 
   async created () {
-    this.loadingBasl(true);
-    const simulado = await desempenho.desempenhoAluno('simulado');
-    const simuladoT = this.extrairTitulo(simulado.data.dados);
-    // this.meuDesempenho(dados.data.data);
-    this.simulados = simuladoT;
-    this.simuladosPesquisa = simulado.data.dados;
-    this.loadingBasl(false);
+    try {
+      this.loadingBasl(true);
+      const simulado = await desempenho.desempenhoAluno('simulado');
+      const simuladoT = this.extrairTitulo(simulado.data.dados);
+      // this.meuDesempenho(dados.data.data);
+      this.simulados = simuladoT;
+      this.simuladosPesquisa = simulado.data.dados;
+      this.loadingBasl(false);
+    } catch (err) {
+      this.loadingBasl(false);
+      if (err.response.status <= 0 || err.response.status >= 500 || err.response.status === 401) {
+        this.objeto.dialog = true;
+      }
+    }
   },
 
   methods: {
@@ -902,6 +914,10 @@ export default {
       }
 
       return objeto;
+    },
+
+    sumirModal ($event) {
+      this.objeto.dialog = $event;
     },
     
     meuDesempenho (dados) {
@@ -923,11 +939,19 @@ export default {
     },
 
     async changeSelect (event) {
-      const filtrado = this.pesquisarSimulado(event);
-      if (filtrado.length > 0) {
-        this.loadingBasl(true);
-        const desempenhoLocal = await desempenho.desempenhoAluno(`desempenho/desempenho-aluno/${filtrado[0].id}`);
-        this.meuDesempenho(desempenhoLocal);
+      try {
+        const filtrado = this.pesquisarSimulado(event);
+        if (filtrado.length > 0) {
+          this.loadingBasl(true);
+          const desempenhoLocal = await desempenho.desempenhoAluno(`desempenho/desempenho-aluno/${filtrado[0].id}`);
+          this.meuDesempenho(desempenhoLocal);
+          this.loadingBasl(false);
+        }
+      } catch (err) {
+        if (err.response.status <= 0 || err.response.status >= 500 || err.response.status === 401) {
+          this.objeto.dialog = true;
+        }
+
         this.loadingBasl(false);
       }
     },
@@ -941,6 +965,13 @@ export default {
   data () {
     return {
       play: 'mdi-play',
+      objeto: {
+        dialog: false,
+        titulo: 'Sem conexão com servidor',
+        textConfirm: 'Sair',
+        textButton: 'Ok',
+        confirm: false,
+      },
       showDialog: true,
       dialog: {},
       alternativas: {
@@ -1133,11 +1164,11 @@ export default {
       desempenhoArea: [
         {
           media: 'Meu desempenho',
-          redacao: 880,
-          humanas: 950,
-          natureza: 800,
-          matematica: 800,
-          linguagens: 900,
+          redacao: '',
+          humanas: '',
+          natureza: '',
+          matematica: '',
+          linguagens: '',
         },
         {
           media: 'Média Estadual',
@@ -1371,7 +1402,7 @@ export default {
         {
           ttl: 'Pontuação',
           icon: 'mdi-podium',
-          info: '',
+          info: 'Nota não disponível',
           legenda: 'Média Geral',
         },
         {
