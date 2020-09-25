@@ -926,10 +926,16 @@ export default {
       } else {
         this.informacoesAdicionais[0].info = dados.data.data[0].media;
         this.informacoesAdicionais[1].info = `${dados.data.position}º`;
+
         this.desempenhoArea[0].humanas = dados.data.data[0].Humanas;
         this.desempenhoArea[0].linguagens = dados.data.data[0].Linguagens;
         this.desempenhoArea[0].natureza = dados.data.data[0].Natureza;
         this.desempenhoArea[0].matematica = dados.data.data[0].Matematica;
+
+        this.desempenhoArea[1].humanas = dados.data.mediaEstadual[0].humanas;
+        this.desempenhoArea[1].linguagens = dados.data.mediaEstadual[0].linguagens;
+        this.desempenhoArea[1].natureza = dados.data.mediaEstadual[0].natureza;
+        this.desempenhoArea[1].matematica = dados.data.mediaEstadual[0].matematica;
       }
     },
 
@@ -951,7 +957,7 @@ export default {
         if (err.response.status <= 0 || err.response.status >= 500 || err.response.status === 401) {
           this.objeto.dialog = true;
         }
-
+        this.informacoesAdicionais[0].info = 'Nota indisponível';
         this.loadingBasl(false);
       }
     },
@@ -1172,19 +1178,19 @@ export default {
         },
         {
           media: 'Média Estadual',
-          redacao: 880,
-          humanas: 950,
-          natureza: 800,
-          matematica: 800,
-          linguagens: 900,
+          redacao: '',
+          humanas: '',
+          natureza: '',
+          matematica: '',
+          linguagens: '',
         },
         {
           media: 'Ranking Estadual',
-          redacao: '12º colocado',
-          humanas: '14º colocado',
-          natureza: '14º colocado',
-          matematica: '14º colocado',
-          linguagens: '14º colocado',
+          redacao: '',
+          humanas: '',
+          natureza: '',
+          matematica: '',
+          linguagens: '',
         },
         {
           media: 'Ranking Escolar',
@@ -1402,7 +1408,7 @@ export default {
         {
           ttl: 'Pontuação',
           icon: 'mdi-podium',
-          info: 'Nota não disponível',
+          info: '',
           legenda: 'Média Geral',
         },
         {
