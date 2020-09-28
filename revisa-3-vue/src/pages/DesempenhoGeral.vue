@@ -936,6 +936,15 @@ export default {
         this.desempenhoArea[1].linguagens = dados.data.mediaEstadual[0].linguagens;
         this.desempenhoArea[1].natureza = dados.data.mediaEstadual[0].natureza;
         this.desempenhoArea[1].matematica = dados.data.mediaEstadual[0].matematica;
+
+        let contador = 0;
+        for (let i = 2; i <= 4; i++) {
+          this.desempenhoArea[i].humanas = `${dados.data.myPosition[contador].Humanas}º colocado`;
+          this.desempenhoArea[i].linguagens = `${dados.data.myPosition[contador].Linguagens}º colocado`;
+          this.desempenhoArea[i].natureza = `${dados.data.myPosition[contador].Natureza}º colocado`;
+          this.desempenhoArea[i].matematica = `${dados.data.myPosition[contador].Matematica}º colocado`;
+          contador += 1;
+        }
       }
     },
 
@@ -951,6 +960,7 @@ export default {
           this.loadingBasl(true);
           const desempenhoLocal = await desempenho.desempenhoAluno(`desempenho/desempenho-aluno/${filtrado[0].id}`);
           this.meuDesempenho(desempenhoLocal);
+          console.log(desempenhoLocal);
           this.loadingBasl(false);
         }
       } catch (err) {
@@ -1194,19 +1204,19 @@ export default {
         },
         {
           media: 'Ranking Escolar',
-          redacao: '12º colocado',
-          humanas: '14º colocado',
-          natureza: '14º colocado',
-          matematica: '14º colocado',
-          linguagens: '14º colocado',
+          redacao: '',
+          humanas: '',
+          natureza: '',
+          matematica: '',
+          linguagens: '',
         },
         {
           media: 'Ranking na Turma',
-          redacao: '12º colocado',
-          humanas: '14º colocado',
-          natureza: '14º colocado',
-          matematica: '14º colocado',
-          linguagens: '14º colocado',
+          redacao: '',
+          humanas: '',
+          natureza: '',
+          matematica: '',
+          linguagens: '',
         },
       ],
       desempenhoDisciplina: [
@@ -1402,7 +1412,7 @@ export default {
       simuladosPesquisa: [],
       disabledSimulado: false,
       disciplinas: ['Português', 'Espanhol', 'Inlgês', 'Literatura', 'Artes', 'Ed. Física', 'Matemática', 'Química', 'Física', 'Biologia', 'História', 'Geografia', 'Filosofia', 'Sociologia'],
-      areas: ['Ciências Humanas e suas tecnologias', 'Ciências da Natureza e suas tecnologias', 'Linguagens, códigos e suas tecnologias', 'Matemática e suas tecnologias'],
+      areas: ['Sem dados'],
       desempenhoEscolhido: null,
       informacoesAdicionais: [
         {
