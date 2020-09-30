@@ -1042,7 +1042,8 @@ export default {
       try {
         this.loadingBasl(true);
         const filtrado = this.pesquisarSimulado(event, this.disciplinasPesquisa);
-        const retorno = await desempenho.desempenhoAluno(`desempenho/desempenho-assunto/${filtrado[0].id}`);
+        const simulFiltrar = this.pesquisarSimulado(this.simuladoCurret, this.simuladosPesquisa);
+        const retorno = await desempenho.desempenhoAluno(`desempenho/desempenho-assunto/${filtrado[0].id}/simulado/${simulFiltrar[0].id}`);
         this.assuntos = retorno.data.assuntos;
         this.loadingBasl(false);
       } catch (err) {
