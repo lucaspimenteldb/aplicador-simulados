@@ -712,7 +712,7 @@ class="body-2 pointer__events__none"
           cols="12" class="mt-8"
       >
         <subheader-secao>
-          Média por assunto
+          Desempenho por assunto
         </subheader-secao>
       </v-col>
 
@@ -766,7 +766,7 @@ class="body-2 pointer__events__none"
         <v-card>
           <v-card-title>
             <p class="d-block w-full text-h4 font-weight-bold text-center grey--text text--darken-3">
-              820
+              {{nota_redacao}}
             </p>
           </v-card-title>
         </v-card>
@@ -905,12 +905,13 @@ export default {
       const simuladoT = this.extrairTitulo(desempenhoLocal.data.simuMaster);
       // this.meuDesempenho(dados.data.data);
       this.simulados = simuladoT;
-      this.simuladoCurret = this.simulados[0];
+      this.simuladoCurret = this.simulados[0] ? this.simulados[0] : 'Sem Dados';
       this.disciplinasPesquisa = desempenhoLocal.data.materias;
       this.disciplinas = this.extrairTitulo(desempenhoLocal.data.materias);
       this.simuladosPesquisa = desempenhoLocal.data.simuMaster;
       this.areas = this.extrairTitulo(desempenhoLocal.data.areas);
       this.areasPesquisa = desempenhoLocal.data.areas;
+      this.redacoes(desempenhoLocal.data.redacoes);
       this.loadingBasl(false);
     } catch (err) {
       this.errorDefault(err);
@@ -918,6 +919,25 @@ export default {
   },
 
   methods: {
+
+    redacoes (redacoes) {
+      this.nota_redacao = redacoes.redacao[0] ? redacoes.redacao[0].resultado : 'Nota indisponível';
+      for (let i = 0; i < redacoes.competencias.length; i++) {
+        this.competencias[i].notaCompetencia = redacoes.competencias[i].resultado;
+        if (redacoes.competencias[i].resultado >= 0 && redacoes.competencias[i].resultado <= 40) {
+          this.competencias[i].desempenho = 'desempenhoMuitoRuim';
+        } else if (redacoes.competencias[i].resultado >= 41 && redacoes.competencias[i].resultado <= 80) {
+          this.competencias[i].desempenho = 'desempenhoRuim';
+        } else if (redacoes.competencias[i].resultado >= 81 && redacoes.competencias[i].resultado <= 120) {
+          this.competencias[i].desempenho = 'desempenhoBom';
+        } else if (redacoes.competencias[i].resultado >= 121 && redacoes.competencias[i].resultado <= 160) {
+          this.competencias[i].desempenho = 'desempenhoOtimo';
+        } else {
+          this.competencias[i].desempenho = 'desempenhoExcelente';
+        }
+      }
+    },
+
     extrairTitulo (objeto) {
       if (objeto.length > 0) {
         return objeto.map((el) => el.titulo);
@@ -1055,6 +1075,7 @@ export default {
   data () {
     return {
       play: 'mdi-play',
+      nota_redacao: '',
       assuntos: [],
       objeto: {
         dialog: false,
@@ -1559,32 +1580,32 @@ export default {
         {
           competenciaNome: 'Competência 1',
           descricao: 'Domínio de escrito da língua portuguesa.',
-          notaCompetencia: 200,
-          desempenho: 'desempenhoExcelente',
+          notaCompetencia: '',
+          desempenho: '',
         },
         {
           competenciaNome: 'Competência 2',
           descricao: 'Compreender o tema e não fugir do que é proposto.',
-          notaCompetencia: 120,
-          desempenho: 'desempenhoBom',
+          notaCompetencia: '',
+          desempenho: '',
         },
         {
           competenciaNome: 'Competência 3',
           descricao: 'Selecionar, relacionar, organizar e interpretar informações, fatos, opiniões e argumentos em defesa de um ponto de vista.',
-          notaCompetencia: 80,
-          desempenho: 'desempenhoRuim',
+          notaCompetencia: '',
+          desempenho: '',
         },
         {
           competenciaNome: 'Competência 4',
           descricao: 'Conhecimento dos mecanismos linguísticos necessários para a construção da argumentação.',
-          notaCompetencia: 40,
-          desempenho: 'desempenhoMuitoRuim',
+          notaCompetencia: '',
+          desempenho: '',
         },
         {
           competenciaNome: 'Competência 5',
           descricao: 'Respeito aos direitos humanos.',
-          notaCompetencia: 160,
-          desempenho: 'desempenhoOtimo',
+          notaCompetencia: '',
+          desempenho: '',
         },
       ],
     };
