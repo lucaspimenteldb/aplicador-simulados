@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
-<!--    <MenuLateral />-->
-<!--    <Toolbar />-->
+    <!--    <MenuLateral />-->
+    <!--    <Toolbar />-->
     <loading :dialog="showDialog" />
 
     <v-row>
@@ -37,6 +37,7 @@
       >
         <v-select
             @change="changeSelect"
+            v-model="simuladoCurret"
             :disabled="disabledSimulado"
             :items="simulados" filled
             label="Escolha o simulado para ver seu desempenho" color="azul"
@@ -65,7 +66,9 @@
             class="d-flex align-center overflow-hidden"
         >
           <!-- icones dos card pequenos -->
-          <div class="my-4 pa-3 d-flex justify-center align-center relative left--2 rounded-circle bg__verde__desempenho">
+          <div
+              class="my-4 pa-3 d-flex justify-center align-center relative left--2 rounded-circle bg__verde__desempenho"
+          >
             <v-icon
                 v-text="card.icon" color="black"
             />
@@ -83,7 +86,8 @@
             </p>
 
             <p
-                :class="[ card.ttl === 'Pontuação' ? 'ml-4 d-none' : 'ml-1' ]" class="leading__tight grey--text text--darken-3"
+                :class="[ card.ttl === 'Pontuação' ? 'ml-4 d-none' : 'ml-1' ]"
+                class="leading__tight grey--text text--darken-3"
             >
               {{ card.legenda }}
             </p>
@@ -105,7 +109,7 @@
             :headers="headerArea" :items="desempenhoArea"
             fixed-header hide-default-footer
         >
-          <template v-slot:item.media ="{ item }">
+          <template v-slot:item.media="{ item }">
             <p class="font-weight-bold">
               {{ item.media }}
             </p>
@@ -149,7 +153,9 @@
           md="4"
       >
         <v-select
+            @change="changeSelectArea"
             :items="areas"
+            :disabled="disabledSimulado"
             filled color="azul"
             label="Escolha qual área deseja ver"
             hide-details
@@ -196,7 +202,8 @@
 
               <v-card class="relative overflow-hidden">
                 <v-icon
-                    v-text="'mdi-close-circle-outline'" class="absolute top--8 right--8 pointer__events__none cursor__pointer z-1000"
+                    v-text="'mdi-close-circle-outline'"
+                    class="absolute top--8 right--8 pointer__events__none cursor__pointer z-1000"
                     color="errou" large
                 />
 
@@ -206,10 +213,8 @@
 
                 <v-card-text>
                   <!-- anunciado da questão -->
-                  <article>
+                  <article v-html="item.descricao">
                     <!-- eslint-disable max-len -->
-                    Lorem ipsum dolor sit amet, semper quis, sapien id natoque elit. Nostra urna at, magna at neque sed sed ante imperdiet, dolor mauris cursus velit, velit non, sem nec. Volutpat sem ridiculus placerat leo, augue in, duis erat proin condimentum in a eget, sed fermentum sed vestibulum varius ac, vestibulum volutpat orci ut elit eget tortor.
-
                   </article>
 
                   <h6
@@ -227,7 +232,7 @@
                   <br>
                   <!-- questões -->
                   <v-hover
-                      v-for="(alternativa, questao) in alternativas" :key="questao"
+                      v-for="(alternativa, questao) in item.alternativas" :key="questao"
                   >
                     <article
                         class="pb-2 pt-2 mt-2 d-flex align-center border__bottom"
@@ -245,9 +250,10 @@
                         {{ questao }}
                       </p>
 
-                      <p class="body-2 pointer__events__none">
-                        {{ alternativa }}
-                      </p>
+                      <p
+class="body-2 pointer__events__none"
+                         v-html="alternativa"
+/>
 
                       <v-icon
                           v-if="item.gabarito === questao.toUpperCase()"
@@ -716,6 +722,7 @@
       >
         <!-- select da disciplina -->
         <v-select
+            @change="changeAssuntos"
             :items="disciplinas" filled
             label="Escolha a disciplina" color="azul"
             hide-details
@@ -867,9 +874,9 @@
 
     <TabsMobile />
     <ModalPadrao
-:objeto="objeto"
-@aparecerModal="sumirModal"
-/>
+        :objeto="objeto"
+        @aparecerModal="sumirModal"
+    />
   </v-container>
 </template>
 
@@ -893,11 +900,17 @@ export default {
   async created () {
     try {
       this.loadingBasl(true);
-      const simulado = await desempenho.desempenhoAluno('simulado');
-      const simuladoT = this.extrairTitulo(simulado.data.dados);
+      const desempenhoLocal = await desempenho.desempenhoAluno('desempenho/desempenho-aluno/1');
+      this.meuDesempenho(desempenhoLocal);
+      const simuladoT = this.extrairTitulo(desempenhoLocal.data.simuMaster);
       // this.meuDesempenho(dados.data.data);
       this.simulados = simuladoT;
-      this.simuladosPesquisa = simulado.data.dados;
+      this.simuladoCurret = this.simulados[0];
+      this.disciplinasPesquisa = desempenhoLocal.data.materias;
+      this.disciplinas = this.extrairTitulo(desempenhoLocal.data.materias);
+      this.simuladosPesquisa = desempenhoLocal.data.simuMaster;
+      this.areas = this.extrairTitulo(desempenhoLocal.data.areas);
+      this.areasPesquisa = desempenhoLocal.data.areas;
       this.loadingBasl(false);
     } catch (err) {
       this.loadingBasl(false);
@@ -919,7 +932,7 @@ export default {
     sumirModal ($event) {
       this.objeto.dialog = $event;
     },
-    
+
     meuDesempenho (dados) {
       if (dados.data.data.length <= 0) {
         this.informacoesAdicionais[0].info = 'Nota indisponível';
@@ -948,19 +961,18 @@ export default {
       }
     },
 
-    pesquisarSimulado (simulado) {
-      const filtrado = this.simuladosPesquisa.filter((el) => el.titulo === simulado);
+    pesquisarSimulado (simulado, pesquisa) {
+      const filtrado = pesquisa.filter((el) => el.titulo === simulado);
       return filtrado;
     },
 
     async changeSelect (event) {
       try {
-        const filtrado = this.pesquisarSimulado(event);
+        const filtrado = this.pesquisarSimulado(event, this.simuladosPesquisa);
         if (filtrado.length > 0) {
           this.loadingBasl(true);
           const desempenhoLocal = await desempenho.desempenhoAluno(`desempenho/desempenho-aluno/${filtrado[0].id}`);
           this.meuDesempenho(desempenhoLocal);
-          console.log(desempenhoLocal);
           this.loadingBasl(false);
         }
       } catch (err) {
@@ -972,9 +984,64 @@ export default {
       }
     },
 
+    async changeSelectArea (event) {
+      try {
+        const filtrado = this.pesquisarSimulado(event, this.areasPesquisa);
+        const simuladoFiltrado = this.pesquisarSimulado(this.simuladoCurret, this.simuladosPesquisa);
+
+        if (filtrado.length > 0 && simuladoFiltrado.length > 0) {
+          this.loadingBasl(true);
+          const questoes = await desempenho.desempenhoAluno(`questao/${simuladoFiltrado[0].id}/area/${filtrado[0].id}`);
+          this.myQuestoes(questoes);
+          this.loadingBasl(false);
+        }
+      } catch (err) {
+        console.log(err);
+        this.loadingBasl(false);
+      }
+    },
+
+    myQuestoes (questoes) {
+      this.questoesGabarito = [];
+      const quest = questoes.data.questoes;
+      for (let i = 0; i < quest.length; i++) {
+        const beris = {
+          name: i + 1,
+          disciplina: quest[i].materia,
+          marcada: quest[i].marcada,
+          gabarito: quest[i].gabarito,
+          descricao: quest[i].descricao,
+          alternativas: {
+            a: quest[i].ra,
+            b: quest[i].rb,
+            c: quest[i].rc,
+            d: quest[i].rd,
+            e: quest[i].re,
+          },
+          get resultado () {
+            if (this.marcada === this.gabarito) {
+              return 'acertou';
+            }
+            return 'errou';
+          },
+          dificuldade: quest[i].dificuldade,
+          mediaEscolar: `${quest[i].media} %`,
+          id: quest[i].id,
+        };
+
+        this.questoesGabarito.push(beris);
+      }
+    },
+
     loadingBasl (on) {
       this.disabledSimulado = on;
       this.showDialog = on;
+    },
+
+    async changeAssuntos (event) {
+      const filtrado = this.pesquisarSimulado(event, this.disciplinasPesquisa);
+      const retorno = await desempenho.desempenhoAluno(`desempenho/desempenho-assunto/${filtrado[0].id}`);
+      console.log(retorno);
     },
 
   },
@@ -998,98 +1065,7 @@ export default {
         e: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed laboris nisi ut aliquip ex ea commodo consequat.?',
       },
 
-      questoesGabarito: [
-        {
-          name: '1',
-          disciplina: 'português',
-          marcada: 'A',
-          gabarito: 'A',
-          get resultado () {
-            if (this.marcada === this.gabarito) {
-              return 'acertou';
-            }
-            return 'errou';
-          },
-          dificuldade: 'fácil',
-          mediaEscolar: '80% acerto',
-          id: 0,
-        },
-        {
-          name: '2',
-          disciplina: 'português',
-          marcada: 'B',
-          gabarito: 'B',
-          get resultado () {
-            if (this.marcada === this.gabarito) {
-              return 'acertou';
-            }
-            return 'errou';
-          },
-          dificuldade: 'fácil',
-          mediaEscolar: '80% acerto',
-          id: 1,
-        },
-        {
-          name: '3',
-          disciplina: 'português',
-          marcada: 'B',
-          gabarito: 'B',
-          get resultado () {
-            if (this.marcada === this.gabarito) {
-              return 'acertou';
-            }
-            return 'errou';
-          },
-          dificuldade: 'fácil',
-          mediaEscolar: '80% acerto',
-          id: 2,
-        },
-        {
-          name: '4',
-          disciplina: 'português',
-          marcada: 'D',
-          gabarito: 'E',
-          get resultado () {
-            if (this.marcada === this.gabarito) {
-              return 'acertou';
-            }
-            return 'errou';
-          },
-          dificuldade: 'fácil',
-          mediaEscolar: '80% acerto',
-          id: 3,
-        },
-        {
-          name: '5',
-          disciplina: 'português',
-          marcada: 'D',
-          gabarito: 'D',
-          get resultado () {
-            if (this.marcada === this.gabarito) {
-              return 'acertou';
-            }
-            return 'errou';
-          },
-          dificuldade: 'fácil',
-          mediaEscolar: '80% acerto',
-          id: 4,
-        },
-        {
-          name: '6',
-          disciplina: 'português',
-          marcada: 'C',
-          gabarito: 'B',
-          get resultado () {
-            if (this.marcada === this.gabarito) {
-              return 'acertou';
-            }
-            return 'errou';
-          },
-          dificuldade: 'fácil',
-          mediaEscolar: '80% acerto',
-          id: 5,
-        },
-      ],
+      questoesGabarito: [],
       headers: [
         {
           text: 'Questão',
@@ -1126,7 +1102,7 @@ export default {
           class: 'font-weight-bold',
         },
         {
-          text: 'Média Escolar',
+          text: 'Média De Acertos',
           value: 'mediaEscolar',
           class: 'font-weight-bold',
         },
@@ -1409,10 +1385,13 @@ export default {
       ],
 
       simulados: ['Sem dados'],
+      simuladoCurret: '',
       simuladosPesquisa: [],
       disabledSimulado: false,
-      disciplinas: ['Português', 'Espanhol', 'Inlgês', 'Literatura', 'Artes', 'Ed. Física', 'Matemática', 'Química', 'Física', 'Biologia', 'História', 'Geografia', 'Filosofia', 'Sociologia'],
+      disciplinas: ['Sem Dados'],
+      disciplinasPesquisa: [],
       areas: ['Sem dados'],
+      areasPesquisa: [],
       desempenhoEscolhido: null,
       informacoesAdicionais: [
         {
