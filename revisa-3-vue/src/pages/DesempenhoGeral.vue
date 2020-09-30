@@ -734,12 +734,12 @@ class="body-2 pointer__events__none"
 
       <v-col
           cols="12" sm="6"
-          md="4" v-for="assunto in 6"
-          :key="assunto"
-      >
+          md="4" v-for="assunto in assuntos"
+:key="assunto.id"
+>
         <!-- display dos assuntos -->
         <assunto
-            :assunto="`Assunto ${assunto}`" acertos="2/10"
+            :assunto="`Assunto ${assunto.titulo}`" :acertos="assunto.totalFormat"
         />
       </v-col>
     </v-row>
@@ -913,10 +913,7 @@ export default {
       this.areasPesquisa = desempenhoLocal.data.areas;
       this.loadingBasl(false);
     } catch (err) {
-      this.loadingBasl(false);
-      if (err.response.status <= 0 || err.response.status >= 500 || err.response.status === 401) {
-        this.objeto.dialog = true;
-      }
+      this.errorDefault(err);
     }
   },
 
@@ -976,12 +973,16 @@ export default {
           this.loadingBasl(false);
         }
       } catch (err) {
-        if (err.response.status <= 0 || err.response.status >= 500 || err.response.status === 401) {
-          this.objeto.dialog = true;
-        }
+        this.errorDefault(err);
         this.informacoesAdicionais[0].info = 'Nota indisponível';
-        this.loadingBasl(false);
       }
+    },
+    
+    errorDefault: (err) => {
+      if (err.response.status <= 0 || err.response.status >= 500 || err.response.status === 401) {
+        this.objeto.dialog = true;
+      }
+      this.loadingBasl(false);
     },
 
     async changeSelectArea (event) {
@@ -996,8 +997,7 @@ export default {
           this.loadingBasl(false);
         }
       } catch (err) {
-        console.log(err);
-        this.loadingBasl(false);
+        this.errorDefault(err);
       }
     },
 
@@ -1039,15 +1039,22 @@ export default {
     },
 
     async changeAssuntos (event) {
-      const filtrado = this.pesquisarSimulado(event, this.disciplinasPesquisa);
-      const retorno = await desempenho.desempenhoAluno(`desempenho/desempenho-assunto/${filtrado[0].id}`);
-      console.log(retorno);
+      try {
+        this.loadingBasl(true);
+        const filtrado = this.pesquisarSimulado(event, this.disciplinasPesquisa);
+        const retorno = await desempenho.desempenhoAluno(`desempenho/desempenho-assunto/${filtrado[0].id}`);
+        this.assuntos = retorno.data.assuntos;
+        this.loadingBasl(false);
+      } catch (err) {
+        this.errorDefault(err);
+      }
     },
 
   },
   data () {
     return {
       play: 'mdi-play',
+      assuntos: [],
       objeto: {
         dialog: false,
         titulo: 'Sem conexão com servidor',
