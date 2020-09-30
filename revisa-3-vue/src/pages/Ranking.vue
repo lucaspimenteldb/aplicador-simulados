@@ -24,6 +24,29 @@
       </v-col>
 
       <v-col
+          cols="12"
+      >
+        <subheader-secao>
+          Você quer ver o ver desempenho de qual simulado?
+        </subheader-secao>
+      </v-col>
+
+      <v-col
+          cols="12" sm="6"
+          md="4"
+      >
+        <v-select
+            @change="changeSelect"
+            v-model="simuladoSelecionado"
+            :items="simulados" filled
+            label="Escolha o simulado para ver seu desempenho" color="azul"
+            hide-details
+        />
+      </v-col>
+
+      <v-col cols="12" />
+
+      <v-col
           cols="6" sm="5"
           md="3"
           v-for="ranking in rankings" :key="ranking.tipo"
