@@ -30,7 +30,7 @@
         <article class="mx-auto max-w-300">
           <v-text-field
               v-model="login"
-              label="Usuário" filled
+              label="Email ou login" filled
               color="azul"
               class="ml-2"
               aria-autocomplete="off"

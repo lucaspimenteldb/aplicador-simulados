@@ -56,22 +56,6 @@
           </v-card-text>
         </v-card>
       </v-col>
-    </v-row>
-
-    <!-- premios que a gente vai receber -->
-    <PremiosMensais class="mt-8" />
-
-    <!-- escolher qual ranking quer ver -->
-    <v-row>
-      <v-col
-          cols="12" class="mt-12"
-      >
-        <header-secao>
-          Rankings
-        </header-secao>
-      </v-col>
-
-      <SelecionarRanking />
 
       <!-- médias -->
       <v-col
@@ -108,6 +92,22 @@
           </v-card-text>
         </v-card>
       </v-col>
+    </v-row>
+
+    <!-- premios que a gente vai receber -->
+    <PremiosMensais class="mt-8" />
+
+    <!-- escolher qual ranking quer ver -->
+    <v-row>
+      <v-col
+          cols="12" class="mt-12"
+      >
+        <header-secao>
+          Rankings
+        </header-secao>
+      </v-col>
+
+      <SelecionarRanking />
 
       <!-- médias -->
       <v-col
@@ -286,6 +286,11 @@ export default {
       nivel: 90,
 
       rankings: [
+        {
+          tipo: 'Turma',
+          colocacao: 10,
+          pontos: 740,
+        },
         {
           tipo: 'Estadual',
           colocacao: 10,

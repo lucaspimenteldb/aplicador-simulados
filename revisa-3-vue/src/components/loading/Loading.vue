@@ -9,7 +9,7 @@
         color="primary"
         dark
     >
-      <v-card-text class="pt-2">
+      <v-card-text class="pt-4">
         Estamos carregando as informações...
 
         <v-progress-linear

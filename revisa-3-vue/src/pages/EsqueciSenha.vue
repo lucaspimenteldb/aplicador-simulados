@@ -12,26 +12,22 @@
       <v-col cols="12">
         <section class="mx-auto max-w-300">
           <v-text-field
-              v-model="login"
               label="E-mail para recuperar senha" filled
               color="azul"
               class="ml-2"
               type="email"
               aria-autocomplete="off"
               hide-details
-              @keyup.enter="entrar"
+              @keyup.enter="recuperarSenha"
           />
 
-          <v-btnq
-
-              :loading="loading"
-              :disabled="loading"
+          <v-btn
               id="btn__entrar"
               class="mt-4 ml-2 azul white--text max-w-180"
-              @click="entrar"
+              @click="recuperarSenha"
           >
             Recuperar senha
-          </v-btnq>
+          </v-btn>
         </section>
       </v-col>
     </v-row>
@@ -44,7 +40,7 @@ export default {
   name: 'esqueci-senha',
 
   methods: {
-    async entrar () {
+    async recuperarSenha () {
       console.log('enviar');
     },
   },
