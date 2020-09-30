@@ -735,7 +735,7 @@ class="body-2 pointer__events__none"
       <v-col
           cols="12" sm="6"
           md="4" v-for="assunto in assuntos"
-:key="assunto.id"
+          :key="assunto.id"
 >
         <!-- display dos assuntos -->
         <assunto
@@ -977,7 +977,7 @@ export default {
         this.informacoesAdicionais[0].info = 'Nota indisponível';
       }
     },
-    
+
     errorDefault: (err) => {
       if (err.response.status <= 0 || err.response.status >= 500 || err.response.status === 401) {
         this.objeto.dialog = true;

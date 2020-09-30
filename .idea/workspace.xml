@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8b0e65c9-fe22-4a53-8b9c-0c757a6ff261" name="Default Changelist" comment="" />
+    <list default="true" id="8b0e65c9-fe22-4a53-8b9c-0c757a6ff261" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,7 +40,7 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="reference.idesettings.quicklists" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -46,6 +48,7 @@
       <recent name="C:\Users\lucasPimentel\Desktop\Grafset\aplicador-simulados\revisa-3-vue\src" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\lucasPimentel\Desktop\Grafset\aplicador-simulados\revisa-3-vue\src\pages" />
       <recent name="C:\Users\lucasPimentel\AppData\Roaming\JetBrains\WebStorm2020.2\scratches" />
       <recent name="C:\Users\lucasPimentel\Desktop\Grafset\aplicador-simulados\revisa-3-vue\src" />
     </key>
@@ -59,7 +62,16 @@
       <option name="presentableId" value="Default" />
       <updated>1600099612002</updated>
       <workItem from="1600099614147" duration="740000" />
-      <workItem from="1600170932446" duration="2776000" />
+      <workItem from="1600170932446" duration="5103000" />
+      <workItem from="1600256391668" duration="4587000" />
+      <workItem from="1600274691662" duration="398000" />
+      <workItem from="1600425046757" duration="2286000" />
+      <workItem from="1600427890138" duration="13120000" />
+      <workItem from="1600690086773" duration="2118000" />
+      <workItem from="1600860153900" duration="5792000" />
+      <workItem from="1600944807922" duration="2388000" />
+      <workItem from="1601036774655" duration="1193000" />
+      <workItem from="1601475876565" duration="334000" />
     </task>
     <servers />
   </component>
@@ -75,33 +87,33 @@
       <screen x="0" y="0" width="3072" height="1688" />
     </state>
     <state x="609" y="736" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.3072.1688@0.0.3072.1688" timestamp="1600087745484" />
-    <state width="1558" height="487" key="GridCell.Tab.0.bottom" timestamp="1600099585955">
+    <state width="1280" height="406" key="GridCell.Tab.0.bottom" timestamp="1600275091233">
       <screen x="0" y="0" width="3072" height="1688" />
     </state>
-    <state width="1558" height="487" key="GridCell.Tab.0.bottom/0.0.3072.1688@0.0.3072.1688" timestamp="1600099585955" />
-    <state width="1558" height="487" key="GridCell.Tab.0.center" timestamp="1600099585955">
+    <state width="1280" height="406" key="GridCell.Tab.0.bottom/0.0.3072.1688@0.0.3072.1688" timestamp="1600275091233" />
+    <state width="1280" height="406" key="GridCell.Tab.0.center" timestamp="1600275091233">
       <screen x="0" y="0" width="3072" height="1688" />
     </state>
-    <state width="1558" height="487" key="GridCell.Tab.0.center/0.0.3072.1688@0.0.3072.1688" timestamp="1600099585955" />
-    <state width="1558" height="487" key="GridCell.Tab.0.left" timestamp="1600099585955">
+    <state width="1280" height="406" key="GridCell.Tab.0.center/0.0.3072.1688@0.0.3072.1688" timestamp="1600275091233" />
+    <state width="1280" height="406" key="GridCell.Tab.0.left" timestamp="1600275091233">
       <screen x="0" y="0" width="3072" height="1688" />
     </state>
-    <state width="1558" height="487" key="GridCell.Tab.0.left/0.0.3072.1688@0.0.3072.1688" timestamp="1600099585955" />
-    <state width="1558" height="487" key="GridCell.Tab.0.right" timestamp="1600099585955">
+    <state width="1280" height="406" key="GridCell.Tab.0.left/0.0.3072.1688@0.0.3072.1688" timestamp="1600275091233" />
+    <state width="1280" height="406" key="GridCell.Tab.0.right" timestamp="1600275091233">
       <screen x="0" y="0" width="3072" height="1688" />
     </state>
-    <state width="1558" height="487" key="GridCell.Tab.0.right/0.0.3072.1688@0.0.3072.1688" timestamp="1600099585955" />
-    <state x="390" y="509" key="SettingsEditor" timestamp="1600099720266">
+    <state width="1280" height="406" key="GridCell.Tab.0.right/0.0.3072.1688@0.0.3072.1688" timestamp="1600275091233" />
+    <state x="390" y="509" key="SettingsEditor" timestamp="1600176978251">
       <screen x="0" y="0" width="3072" height="1688" />
     </state>
-    <state x="390" y="509" key="SettingsEditor/0.0.3072.1688@0.0.3072.1688" timestamp="1600099720266" />
+    <state x="390" y="509" key="SettingsEditor/0.0.3072.1688@0.0.3072.1688" timestamp="1600176978251" />
     <state x="513" y="126" width="1116" height="1650" key="dock-window-1" timestamp="1600100009674">
       <screen x="0" y="0" width="3072" height="1688" />
     </state>
     <state x="513" y="126" width="1116" height="1650" key="dock-window-1/0.0.3072.1688@0.0.3072.1688" timestamp="1600100009674" />
-    <state x="544" y="602" width="630" height="520" key="find.popup" timestamp="1600097601765">
+    <state x="544" y="602" width="630" height="520" key="find.popup" timestamp="1600862028029">
       <screen x="0" y="0" width="3072" height="1688" />
     </state>
-    <state x="544" y="602" width="630" height="520" key="find.popup/0.0.3072.1688@0.0.3072.1688" timestamp="1600097601765" />
+    <state x="544" y="602" width="630" height="520" key="find.popup/0.0.3072.1688@0.0.3072.1688" timestamp="1600862028029" />
   </component>
 </project>

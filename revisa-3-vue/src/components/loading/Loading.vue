@@ -9,8 +9,9 @@
         color="primary"
         dark
     >
-      <v-card-text>
+      <v-card-text class="pt-2">
         Estamos carregando as informações...
+
         <v-progress-linear
             indeterminate
             color="white"
@@ -26,10 +27,10 @@ export default {
   name: 'Loading',
   data () {
     return {
-      
+
     };
   },
-  
+
   props: {
     // eslint-disable-next-line vue/require-prop-type-constructor
     dialog: false,
