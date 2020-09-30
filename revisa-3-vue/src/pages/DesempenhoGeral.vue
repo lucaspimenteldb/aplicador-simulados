@@ -978,7 +978,7 @@ export default {
       }
     },
     
-    errorDefault: (err) => {
+    errorDefault (err) {
       if (err.response.status <= 0 || err.response.status >= 500 || err.response.status === 401) {
         this.objeto.dialog = true;
       }
