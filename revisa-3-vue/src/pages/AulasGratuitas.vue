@@ -39,12 +39,18 @@
           lg="4"
           class="videos__iframes"
       >
-        <iframe
-            width="100%" :height="alturaVideo"
-            :src="aula" frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-        />
+        <a
+            :href="aula.urlVideo" target="_blank"
+            class="d-block w-full h-full"
+        >
+          <iframe
+              width="100%" :height="alturaVideo"
+              :src="aula.thumbnail" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              class="pointer__events__none"
+          />
+        </a>
       </v-col>
     </v-row>
   </v-container>
@@ -62,14 +68,28 @@ export default {
       disciplinas: ['Português', 'Espanhol', 'Inlgês', 'Literatura', 'Artes', 'Ed. Física', 'Matemática', 'Química', 'Física', 'Biologia', 'História', 'Geografia', 'Filosofia', 'Sociologia'],
 
       videos: [
-        'https://www.youtube.com/embed/pQ7QlwDLIrw',
-        'https://www.youtube.com/embed/pQ7QlwDLIrw',
+        {
+          thumbnail: 'https://www.youtube.com/embed/pQ7QlwDLIrw',
+          urlVideo: 'https://www.youtube.com/watch?time_continue=1&v=pQ7QlwDLIrw&feature=emb_logo&ab_channel=RevisaEnem',
+        },
+        {
+          thumbnail: 'https://www.youtube.com/embed/pQ7QlwDLIrw',
+          urlVideo: 'https://www.youtube.com/watch?time_continue=1&v=pQ7QlwDLIrw&feature=emb_logo&ab_channel=RevisaEnem',
+        },
       ],
     };
   },
 
+  methods: {
+    disciplinaSelecionada () {
+      setTimeout(() => {
+        this.alturaVideo = document.querySelector('.videos__iframes').offsetWidth / 1.8;
+      }, 500);
+    },
+  },
+
   mounted () {
-    this.alturaVideo = document.querySelector('.videos__iframes').offsetWidth / 1.8;
+
   },
 };
 </script>
