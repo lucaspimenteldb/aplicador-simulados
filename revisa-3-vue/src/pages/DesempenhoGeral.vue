@@ -751,9 +751,10 @@ class="body-2 pointer__events__none"
 
       <v-col cols="12">
         <subheader-secao>
-          Média de notas das suas redações
+          Nota da redação
         </subheader-secao>
       </v-col>
+
       <v-col
           cols="6" sm="3"
           md="2"
@@ -762,6 +763,25 @@ class="body-2 pointer__events__none"
           <v-card-title>
             <p class="d-block w-full text-h4 font-weight-bold text-center grey--text text--darken-3">
               {{nota_redacao}}
+            </p>
+          </v-card-title>
+        </v-card>
+      </v-col>
+
+      <!-- avaliacao do corretor -->
+      <v-col
+          cols="12" class="mt-8"
+      >
+        <subheader-secao>
+          Avaliação do corretor
+        </subheader-secao>
+      </v-col>
+
+      <v-col cols="12">
+        <v-card>
+          <v-card-title>
+            <p class="d-block w-full body-2 grey--text text--darken-3">
+              {{ avaliacaCorretor }}
             </p>
           </v-card-title>
         </v-card>
@@ -808,7 +828,7 @@ class="body-2 pointer__events__none"
     </v-row>
 
     <!-- historico de acesso -->
-    <v-row>
+    <!--<v-row>
       <v-col
           cols="12" class="mt-12"
       >
@@ -817,7 +837,7 @@ class="body-2 pointer__events__none"
         </header-secao>
       </v-col>
 
-      <!-- historico de acesso -->
+      &lt;!&ndash; historico de acesso &ndash;&gt;
       <v-col
           cols="12" md="6"
       >
@@ -826,7 +846,7 @@ class="body-2 pointer__events__none"
         </subheader-secao>
 
         <v-card class="mr-4 mb-4 d-inline-block">
-          <v-card-text class="d-flex align-center justify-space-between grey--text text--darken-3">
+          <v-card-text class="d-flex align-center justify-space-between grey&#45;&#45;text text&#45;&#45;darken-3">
             <article>
               <p class="font-weight-bold">
                 Dia 1
@@ -846,7 +866,7 @@ class="body-2 pointer__events__none"
         </v-card>
 
         <v-card class="mr-4 mb-4 d-inline-block">
-          <v-card-text class="d-flex align-center justify-space-between grey--text text--darken-3">
+          <v-card-text class="d-flex align-center justify-space-between grey&#45;&#45;text text&#45;&#45;darken-3">
             <article>
               <p class="font-weight-bold">
                 Dia 2
@@ -865,7 +885,7 @@ class="body-2 pointer__events__none"
           </v-card-text>
         </v-card>
       </v-col>
-    </v-row>
+    </v-row>-->
 
     <TabsMobile />
     <ModalPadrao
@@ -1073,6 +1093,7 @@ export default {
   data () {
     return {
       play: 'mdi-play',
+      avaliacaCorretor: 'bal balba l balb albal',
       nota_redacao: '',
       assuntos: [],
       objeto: {
