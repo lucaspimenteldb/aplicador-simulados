@@ -18,6 +18,7 @@
       >
         <v-img
             :src="require(`@/assets/img/ranking/${premio.img}`)"
+            contain
             class="h-2/3"
         />
 
