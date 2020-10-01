@@ -65,6 +65,11 @@ const routes = [
     name: 'Suporte',
     component: () => import('../pages/suporte/SuporteInicio'),
   },
+  {
+    path: '/aulas-gratuitas',
+    name: 'AulasGratuitas',
+    component: () => import('../pages/AulasGratuitas'),
+  },
 
   /* professores */
   {

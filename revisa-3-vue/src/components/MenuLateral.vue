@@ -171,6 +171,12 @@ export default {
           menu: false,
         },
         {
+          icon: 'mdi-youtube',
+          ttl: 'Aulas personalizadas',
+          rota: '/aulas-gratuitas',
+          menu: false,
+        },
+        {
           icon: 'mdi-face-agent',
           ttl: 'Fale conosco',
           rota: '/suporte',
