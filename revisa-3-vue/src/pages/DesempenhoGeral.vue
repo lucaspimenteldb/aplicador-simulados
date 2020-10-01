@@ -185,7 +185,8 @@
           <!-- modal para ver a questão -->
           <template v-slot:item.url="{ item }">
             <v-dialog
-                v-model="dialog[item.id]" width="600px"
+                v-model="dialog[item.id]"
+                max-width="90%"
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -200,13 +201,7 @@
                 </v-btn>
               </template>
 
-              <v-card class="relative overflow-hidden">
-                <v-icon
-                    v-text="'mdi-close-circle-outline'"
-                    class="absolute top--8 right--8 pointer__events__none cursor__pointer z-1000"
-                    color="errou" large
-                />
-
+              <v-card class="relative w-full">
                 <v-card-title>
                   <span class="headline">Questão {{ item.name }}</span>
                 </v-card-title>
@@ -1051,6 +1046,9 @@ export default {
 
         this.questoesGabarito.push(beris);
       }
+
+      document.querySelector('.v-data-footer__select').innerHTML = '';
+      document.querySelector('.v-data-footer__pagination').innerHTML = `1 - ${this.questoesGabarito.length > 10 ? 10 : this.questoesGabarito.length} de ${this.questoesGabarito.length}`;
     },
 
     loadingBasl (on) {
@@ -1610,6 +1608,12 @@ export default {
       ],
     };
   },
+
+  mounted () {
+    document.querySelector('.v-data-footer__select').innerHTML = '';
+    document.querySelector('.v-data-footer__pagination').innerHTML = `1 - ${this.questoesGabarito.length > 10 ? 10 : this.questoesGabarito.length} de ${this.questoesGabarito.length}`;
+  },
+
 };
 </script>
 
