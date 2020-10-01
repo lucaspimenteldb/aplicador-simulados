@@ -937,6 +937,7 @@ export default {
 
     redacoes (redacoes) {
       this.nota_redacao = redacoes.redacao[0] ? redacoes.redacao[0].resultado : 'Nota indisponível';
+      this.avaliacaCorretor = redacoes.redacao[0] ? redacoes.redacao[0].avaliacao : 'Aguarde... Estamos avaliando a sua redação';
       for (let i = 0; i < redacoes.competencias.length; i++) {
         this.competencias[i].notaCompetencia = redacoes.competencias[i].resultado;
         if (redacoes.competencias[i].resultado >= 0 && redacoes.competencias[i].resultado <= 40) {
@@ -976,11 +977,13 @@ export default {
         this.desempenhoArea[0].linguagens = dados.data.data[0].Linguagens;
         this.desempenhoArea[0].natureza = dados.data.data[0].Natureza;
         this.desempenhoArea[0].matematica = dados.data.data[0].Matematica;
+        this.desempenhoArea[0].redacao = dados.data.data[0].redacao;
 
         this.desempenhoArea[1].humanas = dados.data.mediaEstadual[0].humanas;
         this.desempenhoArea[1].linguagens = dados.data.mediaEstadual[0].linguagens;
         this.desempenhoArea[1].natureza = dados.data.mediaEstadual[0].natureza;
         this.desempenhoArea[1].matematica = dados.data.mediaEstadual[0].matematica;
+        this.desempenhoArea[1].redacao = dados.data.mediaEstadual[0].redacao;
 
         let contador = 0;
         for (let i = 2; i <= 4; i++) {
@@ -988,6 +991,7 @@ export default {
           this.desempenhoArea[i].linguagens = `${dados.data.myPosition[contador].Linguagens}º colocado`;
           this.desempenhoArea[i].natureza = `${dados.data.myPosition[contador].Natureza}º colocado`;
           this.desempenhoArea[i].matematica = `${dados.data.myPosition[contador].Matematica}º colocado`;
+          this.desempenhoArea[i].redacao = `${dados.data.myPosition[contador].redacao}º colocado`;
           contador += 1;
         }
       }
@@ -1093,7 +1097,7 @@ export default {
   data () {
     return {
       play: 'mdi-play',
-      avaliacaCorretor: 'bal balba l balb albal',
+      avaliacaCorretor: '',
       nota_redacao: '',
       assuntos: [],
       objeto: {
