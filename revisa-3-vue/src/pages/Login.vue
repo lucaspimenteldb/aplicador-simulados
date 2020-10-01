@@ -4,8 +4,7 @@
       <v-col cols="12">
         <article class="mx-auto max-w-300">
           <v-alert
-              type="errou"
-              class="ml-2"
+              class="ml-2 errou white--text"
           >
             {{message}}
           </v-alert>
@@ -16,7 +15,7 @@
     <v-row>
       <v-col cols="12">
         <article class="mx-auto max-w-300">
-          <p class="ml-2 mb-4 text-h6">
+          <p class="ml-2 mb-4 text-h">
             Informe os dados de acesso cadastrados no RevisaENEM
           </p>
         </article>

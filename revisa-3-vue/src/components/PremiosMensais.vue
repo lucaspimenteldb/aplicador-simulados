@@ -17,7 +17,7 @@
           flat
       >
         <v-img
-            :src="require(`@/assets/img/ranking/${premio.img}`)" max-width="50%"
+            :src="require(`@/assets/img/ranking/${premio.img}`)"
             class="h-2/3"
         />
 
