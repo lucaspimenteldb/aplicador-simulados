@@ -294,7 +294,7 @@
 </template>
 
 <script>
-import SelecionarRanking from '../components/SelecionarRanking.vue';
+// import SelecionarRanking from '../components/SelecionarRanking.vue';
 import PremiosMensais from '../components/PremiosMensais.vue';
 import MenuLateral from '../components/MenuLateral.vue';
 import Toolbar from '../components/Toolbar.vue';
@@ -308,7 +308,6 @@ export default {
   name: 'Ranking',
   components: {
     TabsMobile,
-    SelecionarRanking,
     MenuLateral,
     Toolbar,
     PremiosMensais,

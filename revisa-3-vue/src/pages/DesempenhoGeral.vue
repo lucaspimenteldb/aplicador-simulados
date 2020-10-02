@@ -282,77 +282,77 @@ class="body-2 pointer__events__none"
 
     <!-- desempenho geral dos simulados -->
     <v-row>
-      <v-col
-          cols="12" class="mt-12"
-      >
-        <header-secao>
-          Desempenho Geral dos Simulados
-        </header-secao>
-      </v-col>
+<!--      <v-col-->
+<!--          cols="12" class="mt-12"-->
+<!--      >-->
+<!--        <header-secao>-->
+<!--          Desempenho Geral dos Simulados-->
+<!--        </header-secao>-->
+<!--      </v-col>-->
 
-      <!-- secao dos desempenhos do simulado -->
-      <v-col cols="12">
-        <subheader-secao>
-          Desempenho nos Simulados Escolares
-        </subheader-secao>
-      </v-col>
+<!--      &lt;!&ndash; secao dos desempenhos do simulado &ndash;&gt;-->
+<!--      <v-col cols="12">-->
+<!--        <subheader-secao>-->
+<!--          Desempenho nos Simulados Escolares-->
+<!--        </subheader-secao>-->
+<!--      </v-col>-->
 
-      <!-- parte da média geral -->
-      <v-col cols="12">
-        <h4 class="grey--text text--darken-3">
-          Média geral
-        </h4>
-      </v-col>
+<!--      &lt;!&ndash; parte da média geral &ndash;&gt;-->
+<!--      <v-col cols="12">-->
+<!--        <h4 class="grey&#45;&#45;text text&#45;&#45;darken-3">-->
+<!--          Média geral-->
+<!--        </h4>-->
+<!--      </v-col>-->
 
-      <v-col
-          cols="12" sm="5"
-          md="4"
-      >
-        <v-card>
-          <v-card-text class="d-flex align-center">
-            <div class="bolinha__acertos absolute top-4 left-6" />
-            <v-icon
-                v-text="'mdi-checkbox-marked-circle-outline'" color="black"
-            />
+<!--      <v-col-->
+<!--          cols="12" sm="5"-->
+<!--          md="4"-->
+<!--      >-->
+<!--        <v-card>-->
+<!--          <v-card-text class="d-flex align-center">-->
+<!--            <div class="bolinha__acertos absolute top-4 left-6" />-->
+<!--            <v-icon-->
+<!--                v-text="'mdi-checkbox-marked-circle-outline'" color="black"-->
+<!--            />-->
 
-            <p class="ml-2 font-weight-medium grey--text text--darken-3">
-              {{ simuladosEscolares.questoesCorretas }} questões corretas
-            </p>
-          </v-card-text>
-        </v-card>
+<!--            <p class="ml-2 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">-->
+<!--              {{ simuladosEscolares.questoesCorretas }} questões corretas-->
+<!--            </p>-->
+<!--          </v-card-text>-->
+<!--        </v-card>-->
 
-        <v-card class="mt-4">
-          <v-card-text class="d-flex align-center">
-            <div class="bolinha__erro absolute top-4 left-6" />
-            <v-icon
-                v-text="'mdi-close-circle-outline'" color="black"
-            />
+<!--        <v-card class="mt-4">-->
+<!--          <v-card-text class="d-flex align-center">-->
+<!--            <div class="bolinha__erro absolute top-4 left-6" />-->
+<!--            <v-icon-->
+<!--                v-text="'mdi-close-circle-outline'" color="black"-->
+<!--            />-->
 
-            <p class="ml-2 font-weight-medium grey--text text--darken-3">
-              {{ simuladosEscolares.questoesErradas }} questões erradas
-            </p>
-          </v-card-text>
-        </v-card>
-      </v-col>
+<!--            <p class="ml-2 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">-->
+<!--              {{ simuladosEscolares.questoesErradas }} questões erradas-->
+<!--            </p>-->
+<!--          </v-card-text>-->
+<!--        </v-card>-->
+<!--      </v-col>-->
 
-      <v-col
-          cols="12" sm="4"
-      >
-        <p class="caption font-weight-medium grey--text text--darken-3">
-          Média de acertos
-        </p>
+<!--      <v-col-->
+<!--          cols="12" sm="4"-->
+<!--      >-->
+<!--        <p class="caption font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">-->
+<!--          Média de acertos-->
+<!--        </p>-->
 
-        <v-progress-circular
-            :size="100" :width="6"
-            :value="(simuladosEscolares.questoesCorretas / simuladosEscolares.questoesTotais) * 100"
-            color="desempenhoOtimo"
-            class="mt-2" rotate="-90"
-        >
-          <p class="ml-1 font-weight-medium grey--text text--darken-3">
-            {{ ((simuladosEscolares.questoesCorretas / simuladosEscolares.questoesTotais) * 100).toFixed(1) }}%
-          </p>
-        </v-progress-circular>
-      </v-col>
+<!--        <v-progress-circular-->
+<!--            :size="100" :width="6"-->
+<!--            :value="(simuladosEscolares.questoesCorretas / simuladosEscolares.questoesTotais) * 100"-->
+<!--            color="desempenhoOtimo"-->
+<!--            class="mt-2" rotate="-90"-->
+<!--        >-->
+<!--          <p class="ml-1 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">-->
+<!--            {{ ((simuladosEscolares.questoesCorretas / simuladosEscolares.questoesTotais) * 100).toFixed(1) }}%-->
+<!--          </p>-->
+<!--        </v-progress-circular>-->
+<!--      </v-col>-->
 
       <!-- parte da média por disciplina e área -->
       <!--<v-col
@@ -896,7 +896,7 @@ class="body-2 pointer__events__none"
 </template>
 
 <script>
-import SelecionarRanking from '../components/SelecionarRanking.vue';
+// import SelecionarRanking from '../components/SelecionarRanking.vue';
 // import MenuLateral from '../components/MenuLateral.vue';
 // import Toolbar from '../components/Toolbar.vue';
 import ModalPadrao from '../components/modal/ModalPadrao.vue';
@@ -909,7 +909,7 @@ export default {
   name: 'DesempenhoGeral',
 
   components: {
-    SelecionarRanking, TabsMobile, loading, ModalPadrao,
+    TabsMobile, loading, ModalPadrao,
   },
 
   async created () {

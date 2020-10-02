@@ -1,5 +1,6 @@
 <template>
   <v-container fluid>
+    <loading :dialog="showDialog" />
     <v-row>
       <v-col cols="12">
         <h1>
@@ -12,7 +13,7 @@
           md="6"
       >
         <v-select
-            @change="disciplinaSelecionada"
+            @change="changeSelect"
             v-model="disciplina"
             :items="disciplinas" filled
             label="Escolha a disciplina para ver as aulas" color="azul"
@@ -44,8 +45,8 @@
             class="d-block w-full h-full"
         >
           <iframe
-              width="100%" :height="alturaVideo"
-              :src="aula.thumbnail" frameborder="0"
+              width="100%" :height="500"
+              :src="aula.link" frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen
               class="pointer__events__none"
@@ -53,39 +54,84 @@
         </a>
       </v-col>
     </v-row>
+    
   </v-container>
 </template>
 
 <script>
+import aula from '../services/aula/aula';
+import loading from '../components/loading/Loading.vue';
+
 export default {
   name: 'AulasGratuitas',
+  components: { loading },
+
+  async created () {
+    try {
+      this.loadingBasl(true);
+      const materias = await aula.aula('aula/listar-materia');
+      this.disciplinas = this.extrairTitulo(materias.data.materias);
+      this.disciplinasPesquisa = (materias.data.materias);
+      this.loadingBasl(false);
+    } catch (er) {
+      console.log(er);
+      this.loadingBasl(false);
+    }
+  },
 
   data () {
     return {
       alturaVideo: 0,
       disciplina: '',
+      showDialog: false,
 
-      disciplinas: ['Português', 'Espanhol', 'Inlgês', 'Literatura', 'Artes', 'Ed. Física', 'Matemática', 'Química', 'Física', 'Biologia', 'História', 'Geografia', 'Filosofia', 'Sociologia'],
+      disciplinas: ['Sem dados'],
+      disciplinasPesquisa: [],
 
       videos: [
-        {
-          thumbnail: 'https://www.youtube.com/embed/pQ7QlwDLIrw',
-          urlVideo: 'https://www.youtube.com/watch?time_continue=1&v=pQ7QlwDLIrw&feature=emb_logo&ab_channel=RevisaEnem',
-        },
-        {
-          thumbnail: 'https://www.youtube.com/embed/pQ7QlwDLIrw',
-          urlVideo: 'https://www.youtube.com/watch?time_continue=1&v=pQ7QlwDLIrw&feature=emb_logo&ab_channel=RevisaEnem',
-        },
+
       ],
     };
   },
 
   methods: {
+    loadingBasl (on) {
+      this.showDialog = on;
+    },
     disciplinaSelecionada () {
       setTimeout(() => {
         this.alturaVideo = document.querySelector('.videos__iframes').offsetWidth / 1.8;
       }, 500);
     },
+    extrairTitulo (objeto) {
+      if (objeto.length > 0) {
+        return objeto.map((el) => el.nome);
+      }
+
+      return objeto;
+    },
+    pesquisarSimulado (simulado, pesquisa) {
+      const filtrado = pesquisa.filter((el) => el.nome === simulado);
+      return filtrado;
+    },
+    
+    async changeSelect (event) {
+      try {
+        this.loadingBasl(true);
+        setTimeout(() => {
+          this.alturaVideo = document.querySelector('.videos__iframes').offsetWidth / 1.8;
+        }, 500);
+        const filtrar = this.pesquisarSimulado(event, this.disciplinasPesquisa);
+        const videos = await aula.aula(`aula/listar-videos/${filtrar[0].id}`);
+        this.videos = videos.data.videos;
+        this.loadingBasl(false);
+        console.log(this.videos);
+      } catch (e) {
+        console.log(e);
+        this.loadingBasl(false);
+      }
+    },
+    
   },
 
   mounted () {
