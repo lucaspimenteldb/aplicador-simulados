@@ -5,9 +5,11 @@
     <Toolbar v-if="autenticado" />
 
     <v-main class="pa-sm-16 mr-0 grey lighten-4">
+      <keep-alive class="pa-sm-16 mr-0 grey lighten-4">
       <router-view
               class="pa-4 mx-0" :class="'mr-0 ml-0'"
       />
+      </keep-alive>
 
     </v-main>
   </v-app>

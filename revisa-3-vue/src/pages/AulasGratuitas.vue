@@ -41,7 +41,7 @@
           class="videos__iframes"
       >
         <a
-            :href="aula.urlVideo" target="_blank"
+            :href="aula.link" target="_blank"
             class="d-block w-full h-full"
         >
           <iframe

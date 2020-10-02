@@ -1,8 +1,8 @@
 <template>
   <v-container fluid>
     <loading :dialog="showDialog" />
-    <MenuLateral />
-    <Toolbar />
+<!--    <MenuLateral />-->
+<!--    <Toolbar />-->
     <v-row>
       <v-col cols="12">
         <h1>
@@ -296,8 +296,8 @@
 <script>
 // import SelecionarRanking from '../components/SelecionarRanking.vue';
 import PremiosMensais from '../components/PremiosMensais.vue';
-import MenuLateral from '../components/MenuLateral.vue';
-import Toolbar from '../components/Toolbar.vue';
+// import MenuLateral from '../components/MenuLateral.vue';
+// import Toolbar from '../components/Toolbar.vue';
 import TabsMobile from '../components/TabsMobile.vue';
 import loading from '../components/loading/Loading.vue';
 import ModalPadrao from '../components/modal/ModalPadrao.vue';
@@ -308,8 +308,6 @@ export default {
   name: 'Ranking',
   components: {
     TabsMobile,
-    MenuLateral,
-    Toolbar,
     PremiosMensais,
     loading,
     ModalPadrao,
