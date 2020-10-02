@@ -1,5 +1,6 @@
 <template>
   <v-container fluid>
+    <loading :dialog="showDialog" />
     <MenuLateral />
     <Toolbar />
     <v-row>
@@ -37,7 +38,8 @@
       >
         <v-select
             @change="changeSelect"
-            v-model="simuladoSelecionado"
+            :disabled="disabledSimulado"
+            v-model="simuladosCurrent"
             :items="simulados" filled
             label="Escolha o simulado para ver seu desempenho" color="azul"
             hide-details
@@ -95,7 +97,7 @@
           v-for="desempenho in desempenhoGeral" :key="desempenho.ttl"
       >
         <v-card>
-          <v-card-text>
+          <v-card-text style="height: 180px">
             <p class="font-weight-bold grey--text text--darken-3">
               {{ desempenho.ttl }}
             </p>
@@ -191,7 +193,7 @@
                   width="60" height="60"
               >
                 <v-img
-                    src="@/assets/img/ranking/imagem-ranking.png"
+                    :src="melhor.img"
                 />
               </v-avatar>
 
@@ -233,13 +235,13 @@
           cols="12" class="mt-8"
       >
         <subheader-secao>
-          Os 20 melhores - Ranking Estadual
+          Os 10 melhores - Ranking Estadual
         </subheader-secao>
       </v-col>
 
       <v-col cols="12">
         <v-avatar>
-          <v-img src="@/assets/img/ranking/meu-ranking.png" />
+          <v-img :src="myData.photo" />
         </v-avatar>
 
         <section class="pa-2 px-4 ml-4 d-inline-block border__bottom__azul">
@@ -252,7 +254,7 @@
                 v-text="'mdi-podium-gold'" small
                 color="black" class="mb-1"
             />
-            #10
+            #{{myData.posicao}}
           </p>
 
           <p class="ml-6 d-inline-block font-weight-medium grey--text text--darken-3">
@@ -260,7 +262,7 @@
                 v-text="'mdi-numeric-10-box-multiple-outline'" small
                 color="black"
             />
-            740 Média TRI
+            {{myData.pontuacao}} Média TRI
           </p>
         </section>
       </v-col>
@@ -284,6 +286,10 @@
     </v-row>
 
     <TabsMobile />
+    <ModalPadrao
+        :objeto="objeto"
+        @aparecerModal="sumirModal"
+    />
   </v-container>
 </template>
 
@@ -293,6 +299,10 @@ import PremiosMensais from '../components/PremiosMensais.vue';
 import MenuLateral from '../components/MenuLateral.vue';
 import Toolbar from '../components/Toolbar.vue';
 import TabsMobile from '../components/TabsMobile.vue';
+import loading from '../components/loading/Loading.vue';
+import ModalPadrao from '../components/modal/ModalPadrao.vue';
+import ranking from '../services/ranking/ranking';
+import env from '../env';
 
 export default {
   name: 'Ranking',
@@ -302,27 +312,179 @@ export default {
     MenuLateral,
     Toolbar,
     PremiosMensais,
+    loading,
+    ModalPadrao,
+  },
+
+  async created () {
+    try {
+      this.loadingBasl(true);
+      const dados = await ranking.rankingAluno('desempenho/ranking/1');
+      this.simuladosPesquisa = dados.data.simulados;
+      this.simulados = this.extrairTitulo(this.simuladosPesquisa);
+      this.simuladosCurrent = this.simulados[0] ? this.simulados[0] : 'Sem dados';
+      this.preencherRanking(dados.data);
+      this.preencherDesempenho(dados.data);
+      this.preencherRankingArea(dados.data);
+      this.preencherPrimeiros(dados.data);
+      this.preencherMyData(dados.data);
+      this.preencherRankingGeral(dados.data);
+      this.loadingBasl(false);
+    } catch (e) {
+      this.loadingBasl(false);
+      this.errorDefault(e);
+    }
+  },
+
+  methods: {
+    extrairTitulo (objeto) {
+      if (objeto.length > 0) {
+        return objeto.map((el) => el.titulo);
+      }
+
+      return objeto;
+    },
+
+    pesquisarSimulado (simulado, pesquisa) {
+      const filtrado = pesquisa.filter((el) => el.titulo === simulado);
+      return filtrado;
+    },
+
+    async changeSelect (event) {
+      try {
+        const filtrado = this.pesquisarSimulado(event, this.simuladosPesquisa);
+        if (filtrado.length > 0) {
+          this.loadingBasl(true);
+          const dados = await ranking.rankingAluno(`desempenho/ranking/${filtrado[0].id}`);
+          this.simuladosPesquisa = dados.data.simulados;
+          this.simulados = this.extrairTitulo(this.simuladosPesquisa);
+          this.simuladosCurrent = this.simulados[0] ? this.simulados[0] : 'Sem dados';
+          this.preencherRanking(dados.data);
+          this.preencherDesempenho(dados.data);
+          this.preencherRankingArea(dados.data);
+          this.preencherPrimeiros(dados.data);
+          this.preencherMyData(dados.data);
+          this.preencherRankingGeral(dados.data);
+          this.loadingBasl(false);
+        }
+      } catch (err) {
+        this.errorDefault(err);
+      }
+    },
+
+    preencherRanking (rankingP) {
+      this.rankings[0].colocacao = rankingP.position_total_turma;
+      this.rankings[1].colocacao = rankingP.position_total;
+      this.rankings[2].colocacao = rankingP.position_total_escola;
+
+      for (let i = 0; i < 3; i++) {
+        this.rankings[i].pontos = rankingP.myData[0].media;
+      }
+    },
+
+    preencherDesempenho (rankingP) {
+      this.desempenhoGeral[0].nota = rankingP.myData[0].media;
+      this.desempenhoGeral[1].nota = rankingP.myData[0].redacao;
+      this.desempenhoGeral[2].nota = rankingP.acertos.resposta.length;
+    },
+
+    preencherRankingArea (rankingP) {
+      this.desempenhoArea[0].ranking = rankingP.position_total_area.Linguagens;
+      this.desempenhoArea[1].ranking = rankingP.position_total_area.Humanas;
+      this.desempenhoArea[2].ranking = rankingP.position_total_area.Matematica;
+      this.desempenhoArea[3].ranking = rankingP.position_total_area.Natureza;
+      this.desempenhoArea[3].ranking = rankingP.position_total_area.redacao;
+    },
+    preencherPrimeiros (rankingP) {
+      for (let i = 0; i < this.melhores.length; i++) {
+        const photoGw = rankingP.ranking_geral[i].photo;
+        const photo = photoGw ? env.ROTA_DOMINIO + photoGw : `${env.ROTA_DOMINIO}vendor/crudbooster/avatar.jpg`;
+        this.melhores[i].nome = rankingP.ranking_geral[i].name;
+        this.melhores[i].conquistas = rankingP.ranking_geral[i].media;
+        this.melhores[i].img = photo;
+      }
+    },
+
+    preencherMyData (rankingP) {
+      const photoGw = rankingP.myData[0].photo;
+      const photo = photoGw ? env.ROTA_DOMINIO + photoGw : `${env.ROTA_DOMINIO}vendor/crudbooster/avatar.jpg`;
+      
+      this.myData.photo = photo;
+      this.myData.pontuacao = rankingP.myData[0].media;
+      this.myData.posicao = rankingP.position_total;
+    },
+
+    preencherRankingGeral (rankingP) {
+      for (let i = 0; i < 10; i++) {
+        const icon = this.retornarIcon(i);
+        console.log(icon);
+        const objeto = {
+          icon,
+          posicao: i + 1,
+          nome: rankingP.ranking_geral[i].name,
+          pontuacao: rankingP.ranking_geral[i].media,
+          redacao: rankingP.ranking_geral[i].redacao,
+        };
+
+        this.colocacoes.push(objeto);
+      }
+    },
+    
+    retornarIcon (i) {
+      let icon = '';
+      if (i === 0) {
+        icon = 'mdi-podium-gold';
+      } else if (i === 1) {
+        icon = 'mdi-podium-silver';
+      } else if (i === 2) {
+        icon = 'mdi-podium-bronze';
+      } else {
+        icon = 'mdi-seal-variant';
+      }
+      
+      return icon;
+    },
+
+    loadingBasl (on) {
+      this.disabledSimulado = on;
+      this.showDialog = on;
+    },
+    async errorDefault (err) {
+      if (err.response.status <= 0 || err.response.status >= 500 || err.response.status === 401) {
+        this.objeto.dialog = true;
+      }
+      this.loadingBasl(false);
+    },
+
+    sumirModal ($event) {
+      this.objeto.dialog = $event;
+    },
+
   },
 
   data () {
     return {
       nivel: 90,
-
+      myData: {
+        pontuacao: '',
+        posicao: '',
+        photo: '',
+      },
       rankings: [
         {
           tipo: 'Turma',
-          colocacao: 10,
-          pontos: 740,
+          colocacao: '',
+          pontos: '',
         },
         {
           tipo: 'Estadual',
-          colocacao: 10,
-          pontos: 740,
+          colocacao: '',
+          pontos: '',
         },
         {
           tipo: 'Escolar',
-          colocacao: 16,
-          pontos: 740,
+          colocacao: '',
+          pontos: '',
         },
       ],
 
@@ -352,26 +514,40 @@ export default {
       desempenhoGeral: [
         {
           ttl: 'Média TRI',
-          nota: 750,
+          nota: '',
           get altura () {
             return this.nota / 10;
           },
         },
         {
-          ttl: 'Redação 1',
-          nota: 920,
+          ttl: 'Redação',
+          nota: '',
           get altura () {
             return this.nota / 10;
           },
         },
         {
           ttl: 'Acertos totais',
-          nota: 110,
+          nota: '',
           get altura () {
             return (this.nota / 180) * 100;
           },
         },
       ],
+
+      simulados: [],
+      simuladosPesquisa: [],
+      simuladosCurrent: '',
+      showDialog: false,
+      disabledSimulado: false,
+
+      objeto: {
+        dialog: false,
+        titulo: 'Sem conexão com servidor',
+        textConfirm: 'Sair',
+        textButton: 'Ok',
+        confirm: false,
+      },
 
       melhores: [
         {
@@ -398,69 +574,7 @@ export default {
       ],
 
       colocacoes: [
-        {
-          icon: 'mdi-podium-gold',
-          posicao: '#1',
-          nome: 'Sanitizado Philips',
-          redacao: 880,
-          pontuacao: 950,
-        },
-        {
-          icon: 'mdi-podium-silver',
-          posicao: '#2',
-          nome: 'Philips',
-          redacao: 880,
-          pontuacao: 950,
-        },
-        {
-          icon: 'mdi-podium-bronze',
-          posicao: '#3',
-          nome: 'Sanilips',
-          redacao: 880,
-          pontuacao: 950,
-        },
-        {
-          icon: 'mdi-seal-variant',
-          posicao: '#4',
-          nome: 'Sahilips',
-          redacao: 880,
-          pontuacao: 950,
-        },
-        {
-          icon: 'mdi-seal-variant',
-          posicao: '#5',
-          nome: 'Sanzados',
-          redacao: 880,
-          pontuacao: 950,
-        },
-        {
-          icon: 'mdi-seal-variant',
-          posicao: '#6',
-          nome: 'Phil',
-          redacao: 880,
-          pontuacao: 950,
-        },
-        {
-          icon: 'mdi-seal-variant',
-          posicao: '#7',
-          nome: 'Pips',
-          redacao: 880,
-          pontuacao: 950,
-        },
-        {
-          icon: 'mdi-seal-variant',
-          posicao: '#8',
-          nome: 'Sanitizaps',
-          redacao: 880,
-          pontuacao: 950,
-        },
-        {
-          icon: 'mdi-seal-variant',
-          posicao: '#9',
-          nome: 'Sanitili',
-          redacao: 880,
-          pontuacao: 950,
-        },
+
       ],
       headerRanking: [
         {
@@ -488,6 +602,7 @@ export default {
           value: 'pontuacao',
           class: 'body-2 font-weight-bold',
         },
+
       ],
     };
   },
