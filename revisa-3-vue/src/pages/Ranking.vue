@@ -132,7 +132,7 @@
         </header-secao>
       </v-col>
 
-      <SelecionarRanking />
+<!--      <SelecionarRanking />-->
 
       <!-- médias -->
       <v-col

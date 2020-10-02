@@ -46,7 +46,7 @@
       </v-col>
 
       <!-- selecionar ranking -->
-      <SelecionarRanking class="mt-8" />
+<!--      <SelecionarRanking class="mt-8" />-->
 
       <v-col
           cols="12" class="mt-8"
