@@ -65,12 +65,12 @@
             Entrar
           </v-btn>
 
-          <v-btn
-              text class="mt-8 pa-2 text-lowercase"
-              to="/esqueci-senha"
-          >
-            esqueci minha senha
-          </v-btn>
+<!--          <v-btn-->
+<!--              text class="mt-8 pa-2 text-lowercase"-->
+<!--              to="/esqueci-senha"-->
+<!--          >-->
+<!--            esqueci minha senha-->
+<!--          </v-btn>-->
         </section>
       </v-col>
     </v-row>
@@ -107,6 +107,9 @@ export default {
   },
 
   methods: {
+    created () {
+      Busao.$emit('autenticado', false);
+    },
     async entrar () {
       this.preLoading(false);
       try {
@@ -114,6 +117,7 @@ export default {
         Busao.$emit('autenticado', true);
         const cache = this.getCache(resposta.data.data);
         storage.set('token', JSON.stringify(cache));
+        this.$destroy();
         this.$router.replace('/home');
       } catch (err) {
         this.preLoading(true);

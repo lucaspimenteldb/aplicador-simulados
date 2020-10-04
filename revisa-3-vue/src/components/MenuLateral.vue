@@ -24,13 +24,13 @@
             {{nome}}
           </v-list-item-title>
 
-          <v-list-item-subtitle>
-            Nível 7
-            <v-progress-linear
-                color="white" rounded
-                v-model="nivel" class="w-full"
-            />
-          </v-list-item-subtitle>
+<!--          <v-list-item-subtitle>-->
+<!--            Nível 7-->
+<!--&lt;!&ndash;            <v-progress-linear&ndash;&gt;-->
+<!--&lt;!&ndash;                color="white" rounded&ndash;&gt;-->
+<!--&lt;!&ndash;                v-model="nivel" class="w-full"&ndash;&gt;-->
+<!--&lt;!&ndash;            />&ndash;&gt;-->
+<!--          </v-list-item-subtitle>-->
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -172,16 +172,16 @@ export default {
         },
         {
           icon: 'mdi-youtube',
-          ttl: 'Aulas personalizadas',
+          ttl: 'Aulas de Revisão',
           rota: '/aulas-gratuitas',
           menu: false,
         },
-        {
-          icon: 'mdi-face-agent',
-          ttl: 'Fale conosco',
-          rota: '/suporte',
-          menu: false,
-        },
+        // {
+        //   icon: 'mdi-face-agent',
+        //   ttl: 'Fale conosco',
+        //   rota: '/suporte',
+        //   menu: false,
+        // },
       ],
       nome: '',
       photo: '',
