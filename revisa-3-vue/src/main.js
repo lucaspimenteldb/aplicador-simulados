@@ -1,9 +1,11 @@
 import Vue from 'vue';
 import VueLoaders from 'vue-loaders';
 import 'vue-loaders/dist/vue-loaders.css';
+import VueSocketIO from 'vue-socket.io';
 import App from './App.vue';
 import router from './routes/router';
 import vuetify from './plugins/vuetify';
+import env from './env';
 
 import './sass/main.scss';
 import './sass/custom.scss';
@@ -12,6 +14,11 @@ Vue.config.productionTip = false;
 
 /* loading  */
 Vue.use(VueLoaders);
+
+Vue.use(new VueSocketIO({
+  debug: true,
+  connection: env.ROOT_API,
+}));
 
 /* passar dados entre componentes irmãos */
 // eslint-disable-next-line import/prefer-default-export

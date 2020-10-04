@@ -114,14 +114,18 @@ export default {
       this.preLoading(false);
       try {
         const resposta = await axios.post(`${env.ROOT_API}auth`, { login: this.login, senha: this.senha });
-        Busao.$emit('autenticado', true);
+        Busao.$emit('autenticado', true, resposta.data.data.usuario.id);
         const cache = this.getCache(resposta.data.data);
         storage.set('token', JSON.stringify(cache));
         this.$destroy();
         this.$router.replace('/home');
       } catch (err) {
         this.preLoading(true);
-        this.message = 'Usuário ou senha errado. Por favor, tente novamente';
+        if (err.response.status === 403) {
+          this.message = 'Já existe uma sessão aberta com esse login.';
+        } else {
+          this.message = 'Usuário ou senha errado. Por favor, tente novamente';
+        }
       }
     },
     preLoading (terminar) {
@@ -139,6 +143,7 @@ export default {
         menu: true,
         photo: dados.usuario.photo,
         name: dados.usuario.name,
+        id: dados.usuario.id,
       };
 
       return cache;

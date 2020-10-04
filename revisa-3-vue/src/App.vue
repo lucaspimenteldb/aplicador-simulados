@@ -41,12 +41,21 @@ export default {
     if (objeto) {
       const menu = JSON.parse(objeto);
       this.autenticado = menu.menu;
+      console.log(menu);
+      this.emitWebSocket(menu.id);
     }
   },
 
+  methods: {
+    emitWebSocket (usuarioId) {
+      this.$socket.emit('Autentication', { data: usuarioId });
+    },
+  },
+
   mounted () {
-    Busao.$on('autenticado', (d) => {
+    Busao.$on('autenticado', (d, id = 0) => {
       this.autenticado = d;
+      this.emitWebSocket(id);
     });
   },
 };
