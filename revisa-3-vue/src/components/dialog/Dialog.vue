@@ -21,9 +21,7 @@ v-html="titulo"
 class="headline grey lighten-2"
 />
 
-                <v-card-text v-html="texto">
-                    
-                </v-card-text>
+                <v-card-text v-html="texto"/>
 
                 <v-divider />
 
