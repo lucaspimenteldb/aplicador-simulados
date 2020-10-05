@@ -52,7 +52,7 @@
           cols="12" class="mt-8"
       >
         <subheader-secao>
-          Ranking Escolar
+          Minha nota
         </subheader-secao>
       </v-col>
 
@@ -100,7 +100,7 @@
           cols="12" class="mt-8"
       >
         <subheader-secao>
-          Desempenho por Área no Simulado 1
+          Desempenho por Área no {{simuladoCurret}}
         </subheader-secao>
       </v-col>
 
@@ -144,7 +144,7 @@
           cols="12" class="mt-8"
       >
         <subheader-secao>
-          Gabarito do Simulado 1
+          Gabarito do {{simuladoCurret}}
         </subheader-secao>
       </v-col>
 
@@ -191,7 +191,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                     small
-                    class="azul white--text rounded__normal text-capitalize"
+                    class="azul white--text rounded__normal text-capitalize mr-1"
                     color="primary"
                     v-bind="attrs" v-on="on"
                     :to="item.url"
@@ -199,7 +199,18 @@
                 >
                   ver questão
                 </v-btn>
+
+                <v-btn
+                        small
+                        class="desempenhoOtimo white--text rounded__normal text-capitalize mr-1"
+                        color="primary"
+                        @click="ciclo(`Questão ${item.name}`, item.comentario)"
+                >
+                  ver resolução
+                </v-btn>
               </template>
+
+<!--              <Dialog :dialog="true" />-->
 
               <v-card class="relative w-full">
                 <v-card-title>
@@ -780,9 +791,11 @@ class="body-2 pointer__events__none"
       <v-col cols="12">
         <v-card>
           <v-card-title>
-            <p class="d-block w-full body-2 grey--text text--darken-3">
-              {{ avaliacaCorretor }}
-            </p>
+            <p
+style="white-space: pre-wrap"
+v-html="avaliacaCorretor"
+class="d-block w-full body-2 grey--text text--darken-3"
+/>
           </v-card-title>
         </v-card>
       </v-col>
@@ -892,6 +905,14 @@ class="body-2 pointer__events__none"
         :objeto="objeto"
         @aparecerModal="sumirModal"
     />
+    
+    <Dialog
+@aparecerModal="ciclo2"
+:dialog="dialog2"
+:titulo="titulo"
+:texto="texto"
+/>
+    
   </v-container>
 </template>
 
@@ -902,6 +923,7 @@ class="body-2 pointer__events__none"
 import ModalPadrao from '../components/modal/ModalPadrao.vue';
 import TabsMobile from '../components/TabsMobile.vue';
 import desempenho from '../services/desempenho/desempenho-service';
+import Dialog from '../components/dialog/Dialog.vue';
 // eslint-disable-next-line import/extensions
 import loading from '../components/loading/Loading.vue';
 
@@ -909,7 +931,7 @@ export default {
   name: 'DesempenhoGeral',
 
   components: {
-    TabsMobile, loading, ModalPadrao,
+    TabsMobile, loading, ModalPadrao, Dialog,
   },
 
   async created () {
@@ -934,10 +956,17 @@ export default {
   },
 
   methods: {
-
+    ciclo (comentario, texto) {
+      this.titulo = comentario;
+      this.texto = texto;
+      this.dialog2 = true;
+    },
+    ciclo2 ($event) {
+      this.dialog2 = $event;
+    },
     redacoes (redacoes) {
       this.nota_redacao = redacoes.redacao[0] ? redacoes.redacao[0].resultado : 'Nota indisponível';
-      this.avaliacaCorretor = redacoes.redacao[0] ? redacoes.redacao[0].avaliacao : 'Aguarde... Estamos avaliando a sua redação';
+      this.avaliacaCorretor = redacoes.redacao[0] ? redacoes.redacao[0].avaliacao : '';
       for (let i = 0; i < redacoes.competencias.length; i++) {
         this.competencias[i].notaCompetencia = redacoes.competencias[i].resultado;
         if (redacoes.competencias[i].resultado >= 0 && redacoes.competencias[i].resultado <= 40) {
@@ -971,7 +1000,7 @@ export default {
         this.informacoesAdicionais[0].info = 'Nota indisponível';
       } else {
         this.informacoesAdicionais[0].info = dados.data.data[0].media;
-        this.informacoesAdicionais[1].info = `${dados.data.position}º`;
+        // this.informacoesAdicionais[1].info = `${dados.data.position}º`;
 
         this.desempenhoArea[0].humanas = dados.data.data[0].Humanas;
         this.desempenhoArea[0].linguagens = dados.data.data[0].Linguagens;
@@ -987,11 +1016,11 @@ export default {
 
         let contador = 0;
         for (let i = 2; i <= 4; i++) {
-          this.desempenhoArea[i].humanas = `${dados.data.myPosition[contador].Humanas}º colocado`;
-          this.desempenhoArea[i].linguagens = `${dados.data.myPosition[contador].Linguagens}º colocado`;
-          this.desempenhoArea[i].natureza = `${dados.data.myPosition[contador].Natureza}º colocado`;
-          this.desempenhoArea[i].matematica = `${dados.data.myPosition[contador].Matematica}º colocado`;
-          this.desempenhoArea[i].redacao = `${dados.data.myPosition[contador].redacao}º colocado`;
+          this.desempenhoArea[i].humanas = `${dados.data.myPosition[contador].Humanas}º`;
+          this.desempenhoArea[i].linguagens = `${dados.data.myPosition[contador].Linguagens}º`;
+          this.desempenhoArea[i].natureza = `${dados.data.myPosition[contador].Natureza}º`;
+          this.desempenhoArea[i].matematica = `${dados.data.myPosition[contador].Matematica}º`;
+          this.desempenhoArea[i].redacao = `${dados.data.myPosition[contador].redacao}º`;
           contador += 1;
         }
       }
@@ -1066,6 +1095,7 @@ export default {
           dificuldade: quest[i].dificuldade,
           mediaEscolar: `${quest[i].media} %`,
           id: quest[i].id,
+          comentario: quest[i].comentario,
         };
 
         this.questoesGabarito.push(beris);
@@ -1097,6 +1127,10 @@ export default {
   data () {
     return {
       play: 'mdi-play',
+      comentario: false,
+      dialog2: false,
+      titulo: '',
+      texto: '',
       avaliacaCorretor: '',
       nota_redacao: '',
       assuntos: [],
@@ -1278,12 +1312,12 @@ export default {
         },
         {
           media: 'Ranking Estadual',
-          geografia: '12º posição',
-          historia: '14º colocado',
-          filosofia: '14º colocado',
-          sociologia: '14º colocado',
-          biologia: '14º colocado',
-          fisica: '14º colocado',
+          geografia: '',
+          historia: '',
+          filosofia: '',
+          sociologia: '',
+          biologia: '',
+          fisica: '',
           quimica: '14º colocado',
           portugues: '14º colocado',
           ingles: '14º colocado',
@@ -1452,13 +1486,13 @@ export default {
           info: '',
           legenda: 'Média Geral',
         },
-        {
-          ttl: 'Ranking Escolar',
-          icon: 'mdi-trophy-variant-outline',
-          info: '',
-          posicaoAnterior: '14º',
-          legenda: 'Colocado',
-        },
+        // {
+        //   ttl: 'Ranking Escolar',
+        //   icon: 'mdi-trophy-variant-outline',
+        //   info: '',
+        //   posicaoAnterior: '14º',
+        //   legenda: 'Colocado',
+        // },
       ],
 
       desempenhos: [

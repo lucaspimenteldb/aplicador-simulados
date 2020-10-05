@@ -382,7 +382,7 @@ export default {
     preencherDesempenho (rankingP) {
       this.desempenhoGeral[0].nota = rankingP.myData[0].media;
       this.desempenhoGeral[1].nota = rankingP.myData[0].redacao;
-      this.desempenhoGeral[2].nota = rankingP.acertos.resposta.length;
+      // this.desempenhoGeral[2].nota = rankingP.acertos.resposta.length;
     },
 
     preencherRankingArea (rankingP) {
@@ -412,6 +412,7 @@ export default {
     },
 
     preencherRankingGeral (rankingP) {
+      console.log(rankingP);
       for (let i = 0; i < 10; i++) {
         const icon = this.retornarIcon(i);
         console.log(icon);
@@ -421,6 +422,7 @@ export default {
           nome: rankingP.ranking_geral[i].name,
           pontuacao: rankingP.ranking_geral[i].media,
           redacao: rankingP.ranking_geral[i].redacao,
+          escola: rankingP.ranking_geral[i].escola,
         };
 
         this.colocacoes.push(objeto);
@@ -447,6 +449,7 @@ export default {
       this.showDialog = on;
     },
     async errorDefault (err) {
+      console.log(err);
       if (err.response.status <= 0 || err.response.status >= 500 || err.response.status === 401) {
         this.objeto.dialog = true;
       }
@@ -523,13 +526,13 @@ export default {
             return this.nota / 10;
           },
         },
-        {
-          ttl: 'Acertos totais',
-          nota: '',
-          get altura () {
-            return (this.nota / 180) * 100;
-          },
-        },
+        // {
+        //   ttl: 'Acertos totais',
+        //   nota: '',
+        //   get altura () {
+        //     return (this.nota / 180) * 100;
+        //   },
+        // },
       ],
 
       simulados: [],
@@ -587,10 +590,16 @@ export default {
           value: 'nome',
           class: 'body-2 font-weight-bold',
         },
+        // {
+        //   text: 'Redação',
+        //   sortable: false,
+        //   value: 'redacao',
+        //   class: 'body-2 font-weight-bold',
+        // },
         {
-          text: 'Redação',
+          text: 'Escola',
           sortable: false,
-          value: 'redacao',
+          value: 'escola',
           class: 'body-2 font-weight-bold',
         },
         {
