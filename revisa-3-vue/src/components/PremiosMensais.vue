@@ -60,16 +60,23 @@ export default {
           ttl: 'Caixa JBL FLIP 5 bluetooth',
           colocacao: 1,
         },
-        {
-          img: 'fone2.png',
-          ttl: 'Fone JBL bluetooth',
-          colocacao: '2-3',
-        },
+        // {
+        //   img: 'fone2.png',
+        //   ttl: 'Fone JBL bluetooth',
+        //   colocacao: '2-3',
+        // },
+
         {
           img: 'go2.png',
           ttl: 'Caixa JBL GO 2 bluetooth',
-          colocacao: '4-6',
+          colocacao: '2-6',
         },
+
+        // {
+        //   img: 'go2.png',
+        //   ttl: 'Caixa JBL GO 2 bluetooth',
+        //   colocacao: '4-6',
+        // },
         {
           img: 'pirralho.png',
           ttl: 'Caixa JBL Jr Pop bluetooth',

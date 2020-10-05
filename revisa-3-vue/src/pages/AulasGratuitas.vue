@@ -16,7 +16,7 @@
             @change="changeSelect"
             v-model="disciplina"
             :items="disciplinas" filled
-            label="Escolha a disciplina para ver as aulas" color="azul"
+            label="Escolha o componente curricular para ver as aulas" color="azul"
             hide-details
         />
       </v-col>

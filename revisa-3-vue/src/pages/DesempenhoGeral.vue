@@ -282,7 +282,7 @@
         </v-data-table>
       </v-col>
     </v-row>
-
+    <v-row>
       <!-- media por assunto -->
       <v-col
           cols="12" class="mt-8"
@@ -300,7 +300,7 @@
         <v-select
             @change="changeAssuntos"
             :items="disciplinas" filled
-            label="Escolha a disciplina" color="azul"
+            label="Escolha o componente curricular" color="azul"
             hide-details
         />
       </v-col>
@@ -308,14 +308,14 @@
           cols="12" class="pa-0"
       />
 
-      <v-col>
-        <v-btn
-            @click="aula"
-            style="float: right"
-        >
-        Pratique mais
-        </v-btn>
-      </v-col>
+<!--      <v-col>-->
+<!--        <v-btn-->
+<!--            @click="aula"-->
+<!--            style="float: right"-->
+<!--        >-->
+<!--        Pratique mais-->
+<!--        </v-btn>-->
+<!--      </v-col>-->
 
       <v-col
           cols="12" sm="6"
