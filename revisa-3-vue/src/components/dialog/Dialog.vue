@@ -21,7 +21,7 @@ v-html="titulo"
 class="headline grey lighten-2"
 />
 
-                <v-card-text v-html="texto"/>
+                <v-card-text v-html="texto" />
 
                 <v-divider />
 
@@ -45,6 +45,8 @@ export default {
   name: 'Dialog',
   data () {
     return {
+      textoAux: 'Texto',
+      textoAux2: 'Texto',
       
     };
   },
@@ -58,7 +60,9 @@ export default {
   props: {
     // eslint-disable-next-line vue/require-prop-type-constructor
     dialog: false,
+    // eslint-disable-next-line vue/require-prop-type-constructor
     titulo: '',
+    // eslint-disable-next-line vue/require-prop-type-constructor
     texto: '',
   },
 };
