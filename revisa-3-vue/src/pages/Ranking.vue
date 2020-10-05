@@ -317,16 +317,16 @@
                   </header-secao>
 
                   <p class="mt-4">
-                    <b>Escola:</b> Escola teste
+                    <b>Escola:</b> {{ item.escola }}
                   </p>
                   <p>
-                    <b>Turma</b>: 3A
+                    <b>Turma</b>: {{item.turma}}
                   </p>
                   <p>
-                    <b>Turno</b>: Integral
+                    <b>Turno</b>: {{item.turno}}
                   </p>
                   <p>
-                    <b>CRE</b>: Porto Velho
+                    <b>CRE</b>: {{ item.gre }}
                   </p>
 
                   <!-- dados gerais -->
@@ -338,10 +338,25 @@
                     <b>1 Simulado(s) realizado(s)</b>
                   </p>
                   <p>
-                    <b>Melhor nota TRI:</b> 600
+                    <b>Média TRI:</b> {{ item.pontuacao }}
                   </p>
                   <p>
-                    <b>Melhor nota Redação:</b> 800
+                    <b>Redação:</b> {{ item.redacao }}
+                  </p>
+                  <p>
+                    <b style="text-transform: capitalize">CIÊNCIAS HUMANAS: </b> {{ item.Humanas }}
+                  </p>
+
+                  <p>
+                    <b style="text-transform: capitalize">CIÊNCIAS DA NATUREZA: </b> {{ item.Natureza }}
+                  </p>
+
+                  <p>
+                    <b style="text-transform: capitalize">LINGUAGENS: </b> {{ item.Linguagens }}
+                  </p>
+
+                  <p>
+                    <b style="text-transform: capitalize">MATEMÁTICA: </b> {{ item.Matematica }}
                   </p>
 
                   <!-- media geral -->
@@ -497,7 +512,6 @@ export default {
       console.log(rankingP);
       for (let i = 0; i < 10; i++) {
         const icon = this.retornarIcon(i);
-        console.log(icon);
         const photoGw = rankingP.ranking_geral[i].photo;
         const photo = photoGw ? env.ROTA_DOMINIO + photoGw : `${env.ROTA_DOMINIO}vendor/crudbooster/avatar.jpg`;
         const objeto = {
@@ -508,7 +522,14 @@ export default {
           foto: photo,
           pontuacao: rankingP.ranking_geral[i].media,
           redacao: rankingP.ranking_geral[i].redacao,
+          Matematica: rankingP.ranking_geral[i].Matematica,
+          Linguagens: rankingP.ranking_geral[i].Linguagens,
+          Humanas: rankingP.ranking_geral[i].Humanas,
+          Natureza: rankingP.ranking_geral[i].Natureza,
           escola: rankingP.ranking_geral[i].escola,
+          gre: rankingP.ranking_geral[i].gre,
+          turma: rankingP.ranking_geral[i].turma,
+          turno: rankingP.ranking_geral[i].turno,
         };
 
         this.colocacoes.push(objeto);
@@ -641,22 +662,22 @@ export default {
           img: 'imagem-ranking',
           colocacao: '1º',
           podio: 'mdi-podium-gold',
-          nome: 'Santaninha Maria',
-          conquistas: 800,
+          nome: '',
+          conquistas: '',
         },
         {
           img: 'imagem-ranking',
           colocacao: '2º',
           podio: 'mdi-podium-silver',
-          nome: 'Avexadinho Pelanquis',
-          conquistas: 800,
+          nome: '',
+          conquistas: '',
         },
         {
           img: 'imagem-ranking',
           colocacao: '3º',
           podio: 'mdi-podium-bronze',
-          nome: 'Projetado Deum',
-          conquistas: 800,
+          nome: '',
+          conquistas: '',
         },
       ],
 

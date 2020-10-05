@@ -23,7 +23,7 @@
     </v-row>
 
     <v-row
-        v-if="disciplina.length > 0"
+        v-if="videos.length > 0"
         class="mt-8"
     >
       <v-col
@@ -99,10 +99,15 @@ export default {
 
   async created () {
     try {
+      const todasAulas = 'Todas as aulas';
       this.loadingBasl(true);
       const materias = await aula.aula('aula/listar-materia');
       this.disciplinas = this.extrairTitulo(materias.data.materias);
+      this.disciplinas.push(todasAulas);
+      this.disciplina = todasAulas;
+      this.disciplinas.unshift('Aulas ao vivo');
       this.disciplinasPesquisa = (materias.data.materias);
+      this.videosInicio = this.extrairTitulo(materias.data.videos);
       this.loadingBasl(false);
     } catch (er) {
       console.log(er);
@@ -124,10 +129,7 @@ export default {
       ],
 
       videosInicio: [
-        'https://www.youtube.com/embed/7ltpNuMXM5o',
-        'https://www.youtube.com/embed/7ltpNuMXM5o',
-        'https://www.youtube.com/embed/7ltpNuMXM5o',
-        'https://www.youtube.com/embed/7ltpNuMXM5o',
+       
       ],
     };
   },
@@ -160,14 +162,29 @@ export default {
           this.alturaVideo = document.querySelector('.videos__iframes').offsetWidth / 1.8;
         }, 500);
         const filtrar = this.pesquisarSimulado(event, this.disciplinasPesquisa);
-        const videos = await aula.aula(`aula/listar-videos/${filtrar[0].id}`);
-        this.videos = videos.data.videos;
-        this.loadingBasl(false);
-        console.log(this.videos);
+        const res = await this.getUrl(filtrar, event, 'Todas as aulas');
+        this.loadingBasl(res);
       } catch (e) {
         console.log(e);
         this.loadingBasl(false);
       }
+    },
+
+    async getUrl (filtrado, nome, nomeComp) {
+      if (nome === nomeComp) {
+        const video = await aula.aula('aula/listar-materia');
+        this.videosInicio = this.extrairTitulo(video.data.videos);
+        this.videos = [];
+        return false;
+      } if (!filtrado[0]) {
+        const video = await aula.aula('aula/listar-videos/');
+        this.videos = video.data.videos;
+        return false;
+      }
+
+      const video = await aula.aula(`aula/listar-videos/${filtrado[0].id}`);
+      this.videos = video.data.videos;
+      return false;
     },
 
   },

@@ -199,15 +199,6 @@
                 >
                   ver questão
                 </v-btn>
-
-                <v-btn
-                        small
-                        class="desempenhoOtimo white--text rounded__normal text-capitalize mr-1"
-                        color="primary"
-                        @click="ciclo(`Questão ${item.name}`, item.comentario)"
-                >
-                  ver resolução
-                </v-btn>
               </template>
 
 <!--              <Dialog :dialog="true" />-->
@@ -283,6 +274,7 @@
                   >
                     Fechar
                   </v-btn>
+                  <Dialog :item="item" />
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -434,12 +426,12 @@
         @aparecerModal="sumirModal"
     />
 
-    <Dialog
-      @aparecerModal="ciclo2"
-      :dialog="dialog2"
-      :titulo="titulo"
-      :texto="texto"
-    />
+<!--    <Dialog-->
+<!--      @aparecerModal="ciclo2"-->
+<!--      :dialog="dialog2"-->
+<!--      :titulo="titulo"-->
+<!--      :texto="texto"-->
+<!--    />-->
 
   </v-container>
 </template>
@@ -674,6 +666,7 @@ export default {
       },
       showDialog: true,
       dialog: {},
+      gabarito: {},
       alternativas: {
         a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed laboris nisi ut aliquip ex ea commodo consequat.?',
         b: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed laboris nisi ut aliquip ex ea commodo consequat.?',

@@ -130,7 +130,7 @@ export default {
       } catch (err) {
         this.preLoading(true);
         if (err.response.status === 403) {
-          this.message = 'Já existe uma sessão aberta com esse login.';
+          this.message = err.response.data.message;
         } else {
           this.message = 'Usuário ou senha errado. Por favor, tente novamente';
         }

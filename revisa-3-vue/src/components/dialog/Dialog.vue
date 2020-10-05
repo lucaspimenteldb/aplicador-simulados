@@ -1,43 +1,42 @@
-<template>
-    <div class="text-center">
-        <v-dialog
-                v-model="dialog"
-                width="500"
+<template v-slot:item.url="{ item }">
+  <v-dialog
+      v-model="dialog[item.id]"
+      max-width="30%"
+  >
+    <template v-slot:activator="{ on, attrs }">
+      <v-btn
+          small
+          class="desempenhoOtimo white--text rounded__normal text-capitalize mr-1"
+          color="primary"
+          v-bind="attrs" v-on="on"
+          :to="item.url"
+          @click.stop="$set(dialog, item.id, true)"
+      >
+        ver gabarito
+      </v-btn>
+    </template>
+
+    <!--              <Dialog :dialog="true" />-->
+
+    <v-card class="relative w-full">
+      <v-card-title>
+        <span class="headline">Questão {{ item.name }}</span>
+      </v-card-title>
+
+      <v-card-text v-html="item.comentario" />
+
+      <v-card-actions class="px-4">
+        <v-spacer />
+
+        <v-btn
+            color="green darken-1" text
+            @click="$set(dialog, item.id, false)"
         >
-<!--            <template v-slot:activator="{ on, attrs }">-->
-<!--                <v-btn-->
-<!--                        color="red lighten-2"-->
-<!--                        dark-->
-<!--                        v-bind="attrs"-->
-<!--                        v-on="on"-->
-<!--                >-->
-<!--                    Click Me-->
-<!--                </v-btn>-->
-<!--            </template>-->
-
-            <v-card>
-                <v-card-title
-v-html="titulo"
-class="headline grey lighten-2"
-/>
-
-                <v-card-text v-html="texto" />
-
-                <v-divider />
-
-                <v-card-actions>
-                    <v-spacer />
-                    <v-btn
-                            color="primary"
-                            text
-                            @click="aparecerModal"
-                    >
-                       Fechar
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
-    </div>
+          Fechar
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
@@ -47,23 +46,17 @@ export default {
     return {
       textoAux: 'Texto',
       textoAux2: 'Texto',
+      dialog: {},
       
     };
   },
     
   methods: {
-    aparecerModal () {
-      this.$emit('aparecerModal', false);
-    },
+
   },
     
   props: {
-    // eslint-disable-next-line vue/require-prop-type-constructor
-    dialog: false,
-    // eslint-disable-next-line vue/require-prop-type-constructor
-    titulo: '',
-    // eslint-disable-next-line vue/require-prop-type-constructor
-    texto: '',
+    item: {},
   },
 };
 </script>
