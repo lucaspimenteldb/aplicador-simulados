@@ -54,8 +54,37 @@
         </a>
       </v-col>
     </v-row>
+
+    <v-row
+        v-else
+        class="mt-8 pl-4"
+    >
+      <header-secao>
+        Todas as nossas aulas
+      </header-secao>
+
+      <v-col
+          v-for="(aula, i) in videosInicio" :key="i"
+          cols="12" md="4"
+          lg="3"
+          class="d-block videos__iframes"
+      >
+        <a
+            :href="aula" target="_blank"
+            class="d-block w-full h-full"
+        >
+          <iframe
+              width="100%" :height="200"
+              :src="aula" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              class="pointer__events__none"
+          />
+        </a>
+      </v-col>
+    </v-row>
+
     <TabsMobile />
-    
   </v-container>
 </template>
 
@@ -93,6 +122,13 @@ export default {
       videos: [
 
       ],
+
+      videosInicio: [
+        'https://www.youtube.com/embed/7ltpNuMXM5o',
+        'https://www.youtube.com/embed/7ltpNuMXM5o',
+        'https://www.youtube.com/embed/7ltpNuMXM5o',
+        'https://www.youtube.com/embed/7ltpNuMXM5o',
+      ],
     };
   },
 
@@ -116,7 +152,7 @@ export default {
       const filtrado = pesquisa.filter((el) => el.nome === simulado);
       return filtrado;
     },
-    
+
     async changeSelect (event) {
       try {
         this.loadingBasl(true);
@@ -133,7 +169,7 @@ export default {
         this.loadingBasl(false);
       }
     },
-    
+
   },
 
   mounted () {

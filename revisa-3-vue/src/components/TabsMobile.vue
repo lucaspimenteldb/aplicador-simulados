@@ -11,6 +11,8 @@
           dark
           app
           icons-and-text
+          center-active
+          grow
       >
         <v-tab to="/home">
           Desempenho
