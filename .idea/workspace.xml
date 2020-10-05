@@ -30,7 +30,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="HTML" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/revisa-3-vue/src" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/revisa-3-vue/src/assets" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -45,12 +45,13 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\lucasPimentel\Desktop\Grafset\aplicador-simulados\revisa-3-vue\src" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\lucasPimentel\Desktop\Grafset\aplicador-simulados\revisa-3-vue\src\pages" />
       <recent name="C:\Users\lucasPimentel\AppData\Roaming\JetBrains\WebStorm2020.2\scratches" />
+      <recent name="C:\Users\lucasPimentel\Desktop\Grafset\aplicador-simulados\revisa-3-vue\src" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\lucasPimentel\Desktop\Grafset\aplicador-simulados\revisa-3-vue\src\assets" />
       <recent name="C:\Users\lucasPimentel\Desktop\Grafset\aplicador-simulados\revisa-3-vue\src" />
     </key>
   </component>
@@ -73,7 +74,8 @@
       <workItem from="1600944807922" duration="2388000" />
       <workItem from="1601036774655" duration="1193000" />
       <workItem from="1601475876565" duration="5032000" />
-      <workItem from="1601550304107" duration="9507000" />
+      <workItem from="1601550304107" duration="11331000" />
+      <workItem from="1601897828688" duration="1334000" />
     </task>
     <servers />
   </component>
