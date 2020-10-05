@@ -738,6 +738,10 @@ class="body-2 pointer__events__none"
           cols="12" class="pa-0"
       />
 
+      <v-col><v-btn @click="aula" style="float: right">
+        Pratique mais
+      </v-btn></v-col>
+
       <v-col
           cols="12" sm="6"
           md="4" v-for="assunto in assuntos"
@@ -960,6 +964,9 @@ export default {
       this.titulo = comentario;
       this.texto = texto;
       this.dialog2 = true;
+    },
+    aula () {
+      this.$router.push('/aulas-gratuitas');
     },
     ciclo2 ($event) {
       this.dialog2 = $event;
