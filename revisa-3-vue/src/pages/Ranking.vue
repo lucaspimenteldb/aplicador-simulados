@@ -281,6 +281,88 @@
               {{ item.posicao }}
             </p>
           </template>
+
+          <template v-slot:item.perfil="{ item }">
+            <v-dialog
+                v-model="perfis[item.id]"
+                max-width="80%"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                    small
+                    class="azul white--text rounded__normal text-capitalize mr-1"
+                    color="primary"
+                    v-bind="attrs" v-on="on"
+                    @click.stop="$set(perfis, item.id, true)"
+                >
+                  ver perfil
+                </v-btn>
+              </template>
+
+              <v-card class="relative w-full">
+                <!-- nome e avatar-->
+                <v-card-title>
+                  <v-avatar>
+                    <v-img :src="item.foto" />
+                  </v-avatar>
+
+                  <span class="ml-2 h6">
+                    {{ item.nome }}
+                  </span>
+                </v-card-title>
+
+                <v-card-text class="mt-4">
+                  <header-secao class="pt-3">
+                      Dados escolares
+                  </header-secao>
+
+                  <p class="mt-4">
+                    <b>Escola:</b> Escola teste
+                  </p>
+                  <p>
+                    <b>Turma</b>: 3A
+                  </p>
+                  <p>
+                    <b>Turno</b>: Integral
+                  </p>
+                  <p>
+                    <b>CRE</b>: Porto Velho
+                  </p>
+
+                  <!-- dados gerais -->
+                  <header-secao class="mt-6 pt-3">
+                      Dados gerais
+                  </header-secao>
+
+                  <p class="mt-4">
+                    <b>1 Simulado(s) realizado(s)</b>
+                  </p>
+                  <p>
+                    <b>Melhor nota TRI:</b> 600
+                  </p>
+                  <p>
+                    <b>Melhor nota Redação:</b> 800
+                  </p>
+
+                  <!-- media geral -->
+                  <!--<header-secao class="mt-6 pt-3">
+                    Média geral
+                  </header-secao>-->
+                </v-card-text>
+
+                <v-card-actions class="px-4">
+                  <v-spacer />
+
+                  <v-btn
+                      color="green darken-1" text
+                      @click="$set(perfis, item.id, false)"
+                  >
+                    Fechar
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </template>
         </v-data-table>
       </v-col>
     </v-row>
@@ -405,7 +487,7 @@ export default {
     preencherMyData (rankingP) {
       const photoGw = rankingP.myData[0].photo;
       const photo = photoGw ? env.ROTA_DOMINIO + photoGw : `${env.ROTA_DOMINIO}vendor/crudbooster/avatar.jpg`;
-      
+
       this.myData.photo = photo;
       this.myData.pontuacao = rankingP.myData[0].media;
       this.myData.posicao = rankingP.position_total;
@@ -416,10 +498,14 @@ export default {
       for (let i = 0; i < 10; i++) {
         const icon = this.retornarIcon(i);
         console.log(icon);
+        const photoGw = rankingP.ranking_geral[i].photo;
+        const photo = photoGw ? env.ROTA_DOMINIO + photoGw : `${env.ROTA_DOMINIO}vendor/crudbooster/avatar.jpg`;
         const objeto = {
           icon,
           posicao: i + 1,
+          id: rankingP.ranking_geral[i].id,
           nome: rankingP.ranking_geral[i].name,
+          foto: photo,
           pontuacao: rankingP.ranking_geral[i].media,
           redacao: rankingP.ranking_geral[i].redacao,
           escola: rankingP.ranking_geral[i].escola,
@@ -428,7 +514,7 @@ export default {
         this.colocacoes.push(objeto);
       }
     },
-    
+
     retornarIcon (i) {
       let icon = '';
       if (i === 0) {
@@ -440,7 +526,7 @@ export default {
       } else {
         icon = 'mdi-seal-variant';
       }
-      
+
       return icon;
     },
 
@@ -465,6 +551,7 @@ export default {
   data () {
     return {
       nivel: 90,
+      perfis: {},
       myData: {
         pontuacao: '',
         posicao: '',
@@ -590,12 +677,6 @@ export default {
           value: 'nome',
           class: 'body-2 font-weight-bold',
         },
-        // {
-        //   text: 'Redação',
-        //   sortable: false,
-        //   value: 'redacao',
-        //   class: 'body-2 font-weight-bold',
-        // },
         {
           text: 'Escola',
           sortable: false,
@@ -606,6 +687,12 @@ export default {
           text: 'Média TRI',
           sortable: false,
           value: 'pontuacao',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: '',
+          sortable: false,
+          value: 'perfil',
           class: 'body-2 font-weight-bold',
         },
 

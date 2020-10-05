@@ -257,9 +257,9 @@
                       </p>
 
                       <p
-class="body-2 pointer__events__none"
-                         v-html="alternativa"
-/>
+                          class="body-2 pointer__events__none"
+                          v-html="alternativa"
+                      />
 
                       <v-icon
                           v-if="item.gabarito === questao.toUpperCase()"
@@ -291,428 +291,6 @@ class="body-2 pointer__events__none"
       </v-col>
     </v-row>
 
-    <!-- desempenho geral dos simulados -->
-    <v-row>
-<!--      <v-col-->
-<!--          cols="12" class="mt-12"-->
-<!--      >-->
-<!--        <header-secao>-->
-<!--          Desempenho Geral dos Simulados-->
-<!--        </header-secao>-->
-<!--      </v-col>-->
-
-<!--      &lt;!&ndash; secao dos desempenhos do simulado &ndash;&gt;-->
-<!--      <v-col cols="12">-->
-<!--        <subheader-secao>-->
-<!--          Desempenho nos Simulados Escolares-->
-<!--        </subheader-secao>-->
-<!--      </v-col>-->
-
-<!--      &lt;!&ndash; parte da média geral &ndash;&gt;-->
-<!--      <v-col cols="12">-->
-<!--        <h4 class="grey&#45;&#45;text text&#45;&#45;darken-3">-->
-<!--          Média geral-->
-<!--        </h4>-->
-<!--      </v-col>-->
-
-<!--      <v-col-->
-<!--          cols="12" sm="5"-->
-<!--          md="4"-->
-<!--      >-->
-<!--        <v-card>-->
-<!--          <v-card-text class="d-flex align-center">-->
-<!--            <div class="bolinha__acertos absolute top-4 left-6" />-->
-<!--            <v-icon-->
-<!--                v-text="'mdi-checkbox-marked-circle-outline'" color="black"-->
-<!--            />-->
-
-<!--            <p class="ml-2 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">-->
-<!--              {{ simuladosEscolares.questoesCorretas }} questões corretas-->
-<!--            </p>-->
-<!--          </v-card-text>-->
-<!--        </v-card>-->
-
-<!--        <v-card class="mt-4">-->
-<!--          <v-card-text class="d-flex align-center">-->
-<!--            <div class="bolinha__erro absolute top-4 left-6" />-->
-<!--            <v-icon-->
-<!--                v-text="'mdi-close-circle-outline'" color="black"-->
-<!--            />-->
-
-<!--            <p class="ml-2 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">-->
-<!--              {{ simuladosEscolares.questoesErradas }} questões erradas-->
-<!--            </p>-->
-<!--          </v-card-text>-->
-<!--        </v-card>-->
-<!--      </v-col>-->
-
-<!--      <v-col-->
-<!--          cols="12" sm="4"-->
-<!--      >-->
-<!--        <p class="caption font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">-->
-<!--          Média de acertos-->
-<!--        </p>-->
-
-<!--        <v-progress-circular-->
-<!--            :size="100" :width="6"-->
-<!--            :value="(simuladosEscolares.questoesCorretas / simuladosEscolares.questoesTotais) * 100"-->
-<!--            color="desempenhoOtimo"-->
-<!--            class="mt-2" rotate="-90"-->
-<!--        >-->
-<!--          <p class="ml-1 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">-->
-<!--            {{ ((simuladosEscolares.questoesCorretas / simuladosEscolares.questoesTotais) * 100).toFixed(1) }}%-->
-<!--          </p>-->
-<!--        </v-progress-circular>-->
-<!--      </v-col>-->
-
-      <!-- parte da média por disciplina e área -->
-      <!--<v-col
-          cols="12" class="mt-4"
-      >
-        <h4>
-          Média por disciplina e área
-        </h4>
-      </v-col>
-
-      &lt;!&ndash; area de linguagens &ndash;&gt;
-      <v-col
-          cols="12" sm="6"
-          md="4" lg="3"
-          v-for="disciplina in simuladosEscolares.disciplinas" :key="disciplina.disciplina + '0'"
-          :class="disciplina.area === 'linguagens' ? '' : 'd-none'"
-      >
-        <v-card
-            :class="`destaque__${disciplina.area}`" class="rounded__normal"
-            v-if="disciplina.area === 'linguagens'"
-        >
-          <v-card-title>
-            {{ disciplina.disciplina }}
-          </v-card-title>
-
-          &lt;!&ndash; porcentagem em cima à direita &ndash;&gt;
-          <article class="w-46 absolute top-4 right-4">
-            <p class="text-center body-2 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
-              {{ (disciplina.qCorretas / disciplina.qTotais * 100).toFixed(1) }}%
-            </p>
-
-            <v-progress-linear
-                :value="disciplina.qCorretas / disciplina.qTotais * 100"
-                color="desempenhoOtimo" rounded
-            />
-          </article>
-
-          <v-card-text>
-            <p class="d-flex relative font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
-            <span class="bolinha__acertos absolute top-0 left-2" />
-
-              <v-icon
-                  v-text="'mdi-checkbox-marked-circle-outline'" color="black"
-                  class="mr-2"
-              />
-
-              {{ disciplina.qCorretas }} questões corretas
-            </p>
-
-            <p class="mt-2 d-flex relative font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
-              <span class="bolinha__erro absolute top-0 left-2" />
-
-              <v-icon
-                  v-text="'mdi-close-circle-outline'" color="black"
-                  class="mr-2"
-              />
-
-              {{ disciplina.qErradas }} questões erradas
-            </p>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      &lt;!&ndash; gráficos de acertos por disciplina de linguagens&ndash;&gt;
-      <v-col
-          cols="12" sm="6"
-          lg="3"
-      >
-        <p class="caption font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
-          Média da área de Linguagens
-        </p>
-
-        <v-progress-circular
-            :size="100" :width="6"
-            :value="(simuladosEscolares.desempenhoLinguagens[0] / simuladosEscolares.desempenhoLinguagens[2]) * 100"
-            color="desempenhoOtimo"
-            class="mt-2 mr-4" rotate="-90"
-        >
-          <p class="ml-1 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
-            {{ ((simuladosEscolares.desempenhoLinguagens[0] / simuladosEscolares.desempenhoLinguagens[2]) * 100).toFixed(1) }}%
-          </p>
-        </v-progress-circular>
-
-        <v-progress-circular
-            :size="100" :width="6"
-            :value="(simuladosEscolares.desempenhoLinguagens[0] / simuladosEscolares.desempenhoLinguagens[2]) * 100"
-            color="desempenhoOtimo"
-            class="mt-2" rotate="-90"
-        >
-          <p class="ml-1 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
-            {{ simuladosEscolares.desempenhoLinguagens[0] }}/{{ simuladosEscolares.desempenhoLinguagens[2]}}
-          </p>
-        </v-progress-circular>
-      </v-col>
-      <v-col cols="12" />
-
-      &lt;!&ndash; área de matemática &ndash;&gt;
-      <v-col
-          cols="12" sm="6"
-          md="4" lg="3"
-          v-for="disciplina in simuladosEscolares.disciplinas" :key="disciplina.disciplina + '1'"
-          :class="disciplina.area === 'matematica' ? '' : 'd-none'"
-      >
-        <v-card
-            :class="`destaque__${disciplina.area}`" class="rounded__normal"
-            v-if="disciplina.area === 'matematica'"
-        >
-          <v-card-title>
-            {{ disciplina.disciplina }}
-          </v-card-title>
-
-          &lt;!&ndash; porcentagem em cima à direita &ndash;&gt;
-          <article class="w-46 absolute top-4 right-4">
-            <p class="text-center body-2 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
-              {{ (disciplina.qCorretas / disciplina.qTotais * 100).toFixed(1) }}%
-            </p>
-
-            <v-progress-linear
-                :value="disciplina.qCorretas / disciplina.qTotais * 100"
-                color="desempenhoOtimo" rounded
-            />
-          </article>
-
-          <v-card-text>
-            <p class="d-flex relative font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
-              <span class="bolinha__acertos absolute top-0 left-2" />
-
-              <v-icon
-                  v-text="'mdi-checkbox-marked-circle-outline'" color="black"
-                  class="mr-2"
-              />
-
-              {{ disciplina.qCorretas }} questões corretas
-            </p>
-
-            <p class="mt-2 d-flex relative font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
-              <span class="bolinha__erro absolute top-0 left-2" />
-
-              <v-icon
-                  v-text="'mdi-close-circle-outline'" color="black"
-                  class="mr-2"
-              />
-
-              {{ disciplina.qErradas }} questões erradas
-            </p>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      &lt;!&ndash; gráficos de acertos por disciplina de matemática&ndash;&gt;
-      <v-col
-          cols="12" sm="6"
-          lg="3"
-      >
-        <p class="caption font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
-          Média da área de Matemática
-        </p>
-
-        <v-progress-circular
-            :size="100" :width="6"
-            :value="(simuladosEscolares.desempenhoMatematica[0] / simuladosEscolares.desempenhoMatematica[2]) * 100"
-            color="desempenhoOtimo"
-            class="mt-2 mr-4" rotate="-90"
-        >
-          <p class="ml-1 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
-            {{ ((simuladosEscolares.desempenhoMatematica[0] / simuladosEscolares.desempenhoMatematica[2]) * 100).toFixed(1) }}%
-          </p>
-        </v-progress-circular>
-
-        <v-progress-circular
-            :size="100" :width="6"
-            :value="(simuladosEscolares.desempenhoMatematica[0] / simuladosEscolares.desempenhoMatematica[2]) * 100"
-            color="desempenhoOtimo"
-            class="mt-2" rotate="-90"
-        >
-          <p class="ml-1 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
-            {{ simuladosEscolares.desempenhoMatematica[0] }}/{{ simuladosEscolares.desempenhoMatematica[2]}}
-          </p>
-        </v-progress-circular>
-      </v-col>
-      <v-col cols="12" />
-
-      &lt;!&ndash; área de natureza &ndash;&gt;
-      <v-col
-          cols="12" sm="6"
-          md="4" lg="3"
-          v-for="disciplina in simuladosEscolares.disciplinas" :key="disciplina.disciplina + '2'"
-          :class="disciplina.area === 'natureza' ? '' : 'd-none'"
-      >
-        <v-card
-            :class="`destaque__${disciplina.area}`" class="rounded__normal"
-            v-if="disciplina.area === 'natureza'"
-        >
-          <v-card-title>
-            {{ disciplina.disciplina }}
-          </v-card-title>
-
-          &lt;!&ndash; porcentagem em cima à direita &ndash;&gt;
-          <article class="w-46 absolute top-4 right-4">
-            <p class="text-center body-2 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
-              {{ (disciplina.qCorretas / disciplina.qTotais * 100).toFixed(1) }}%
-            </p>
-
-            <v-progress-linear
-                :value="disciplina.qCorretas / disciplina.qTotais * 100"
-                color="desempenhoOtimo" rounded
-            />
-          </article>
-
-          <v-card-text>
-            <p class="d-flex relative font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
-              <span class="bolinha__acertos absolute top-0 left-2" />
-
-              <v-icon
-                  v-text="'mdi-checkbox-marked-circle-outline'" color="black"
-                  class="mr-2"
-              />
-
-              {{ disciplina.qCorretas }} questões corretas
-            </p>
-
-            <p class="mt-2 d-flex relative font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
-              <span class="bolinha__erro absolute top-0 left-2" />
-
-              <v-icon
-                  v-text="'mdi-close-circle-outline'" color="black"
-                  class="mr-2"
-              />
-
-              {{ disciplina.qErradas }} questões erradas
-            </p>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      &lt;!&ndash; gráficos de acertos por disciplina de natureza &ndash;&gt;
-      <v-col
-          cols="12" sm="6"
-          md="4" lg="3"
-      >
-        <p class="caption font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
-          Média da área de Natureza
-        </p>
-
-        <v-progress-circular
-            :size="100" :width="6"
-            :value="(simuladosEscolares.desempenhoNatureza[0] / simuladosEscolares.desempenhoNatureza[2]) * 100"
-            color="desempenhoOtimo"
-            class="mt-2 mr-4" rotate="-90"
-        >
-          <p class="ml-1 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
-            {{ ((simuladosEscolares.desempenhoNatureza[0] / simuladosEscolares.desempenhoNatureza[2]) * 100).toFixed(1) }}%
-          </p>
-        </v-progress-circular>
-
-        <v-progress-circular
-            :size="100" :width="6"
-            :value="(simuladosEscolares.desempenhoNatureza[0] / simuladosEscolares.desempenhoNatureza[2]) * 100"
-            color="desempenhoOtimo"
-            class="mt-2" rotate="-90"
-        >
-          <p class="ml-1 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
-            {{ simuladosEscolares.desempenhoNatureza[0] }}/{{ simuladosEscolares.desempenhoNatureza[2]}}
-          </p>
-        </v-progress-circular>
-      </v-col>
-      <v-col cols="12" />
-
-      &lt;!&ndash; área de humanas &ndash;&gt;
-      <v-col
-          cols="12" sm="6"
-          md="4" lg="3"
-          v-for="disciplina in simuladosEscolares.disciplinas" :key="disciplina.disciplina + '3'"
-          :class="disciplina.area === 'humanas' ? '' : 'd-none'"
-      >
-        <v-card
-            :class="`destaque__${disciplina.area}`" class="rounded__normal"
-            v-if="disciplina.area === 'humanas'"
-        >
-          <v-card-title>
-            {{ disciplina.disciplina }}
-          </v-card-title>
-
-          &lt;!&ndash; porcentagem em cima à direita &ndash;&gt;
-          <article class="w-46 absolute top-4 right-4">
-            <p class="text-center body-2 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
-              {{ (disciplina.qCorretas / disciplina.qTotais * 100).toFixed(1) }}%
-            </p>
-
-            <v-progress-linear
-                :value="disciplina.qCorretas / disciplina.qTotais * 100"
-                color="desempenhoOtimo" rounded
-            />
-          </article>
-
-          <v-card-text>
-            <p class="d-flex relative font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
-              <span class="bolinha__acertos absolute top-0 left-2" />
-
-              <v-icon
-                  v-text="'mdi-checkbox-marked-circle-outline'" color="black"
-                  class="mr-2"
-              />
-
-              {{ disciplina.qCorretas }} questões corretas
-            </p>
-
-            <p class="mt-2 d-flex relative font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
-              <span class="bolinha__erro absolute top-0 left-2" />
-
-              <v-icon
-                  v-text="'mdi-close-circle-outline'" color="black"
-                  class="mr-2"
-              />
-
-              {{ disciplina.qErradas }} questões erradas
-            </p>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      &lt;!&ndash; gráficos de acertos por disciplina de natureza &ndash;&gt;
-      <v-col
-          cols="12" sm="6"
-          md="4" lg="3"
-      >
-        <p class="caption font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
-          Média da área de Humanas
-        </p>
-
-        <v-progress-circular
-            :size="100" :width="6"
-            :value="(simuladosEscolares.desempenhoHumanas[0] / simuladosEscolares.desempenhoHumanas[2]) * 100"
-            color="desempenhoOtimo"
-            class="mt-2 mr-4" rotate="-90"
-        >
-          <p class="ml-1 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
-            {{ ((simuladosEscolares.desempenhoHumanas[0] / simuladosEscolares.desempenhoHumanas[2]) * 100).toFixed(1) }}%
-          </p>
-        </v-progress-circular>
-
-        <v-progress-circular
-            :size="100" :width="6"
-            :value="(simuladosEscolares.desempenhoHumanas[0] / simuladosEscolares.desempenhoHumanas[2]) * 100"
-            color="desempenhoOtimo"
-            class="mt-2" rotate="-90"
-        >
-          <p class="ml-1 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
-            {{ simuladosEscolares.desempenhoHumanas[0] }}/{{ simuladosEscolares.desempenhoHumanas[2]}}
-          </p>
-        </v-progress-circular>
-      </v-col>-->
-
       <!-- media por assunto -->
       <v-col
           cols="12" class="mt-8"
@@ -738,9 +316,14 @@ class="body-2 pointer__events__none"
           cols="12" class="pa-0"
       />
 
-      <v-col><v-btn @click="aula" style="float: right">
+      <v-col>
+        <v-btn
+            @click="aula"
+            style="float: right"
+        >
         Pratique mais
-      </v-btn></v-col>
+        </v-btn>
+      </v-col>
 
       <v-col
           cols="12" sm="6"
@@ -796,10 +379,10 @@ class="body-2 pointer__events__none"
         <v-card>
           <v-card-title>
             <p
-style="white-space: pre-wrap"
-v-html="avaliacaCorretor"
-class="d-block w-full body-2 grey--text text--darken-3"
-/>
+              style="white-space: pre-wrap"
+              v-html="avaliacaCorretor"
+              class="d-block w-full body-2 grey--text text--darken-3"
+            />
           </v-card-title>
         </v-card>
       </v-col>
@@ -844,79 +427,20 @@ class="d-block w-full body-2 grey--text text--darken-3"
       </v-col>
     </v-row>
 
-    <!-- historico de acesso -->
-    <!--<v-row>
-      <v-col
-          cols="12" class="mt-12"
-      >
-        <header-secao>
-          Histórico de acessos
-        </header-secao>
-      </v-col>
-
-      &lt;!&ndash; historico de acesso &ndash;&gt;
-      <v-col
-          cols="12" md="6"
-      >
-        <subheader-secao class="mb-4">
-          Histórico de acesso
-        </subheader-secao>
-
-        <v-card class="mr-4 mb-4 d-inline-block">
-          <v-card-text class="d-flex align-center justify-space-between grey&#45;&#45;text text&#45;&#45;darken-3">
-            <article>
-              <p class="font-weight-bold">
-                Dia 1
-              </p>
-
-              <p>
-                10.000 alunos
-              </p>
-            </article>
-
-            <article class="ml-2 d-flex align-center justify-center flex-shrink-0 w-40 h-40 rounded-circle azul">
-              <v-icon
-                  v-text="'mdi-play-outline'" color="black"
-              />
-            </article>
-          </v-card-text>
-        </v-card>
-
-        <v-card class="mr-4 mb-4 d-inline-block">
-          <v-card-text class="d-flex align-center justify-space-between grey&#45;&#45;text text&#45;&#45;darken-3">
-            <article>
-              <p class="font-weight-bold">
-                Dia 2
-              </p>
-
-              <p>
-                9.800 alunos
-              </p>
-            </article>
-
-            <article class="ml-2 d-flex align-center justify-center flex-shrink-0 w-40 h-40 rounded-circle azul">
-              <v-icon
-                  v-text="'mdi-checkbox-marked-circle-outline'" color="black"
-              />
-            </article>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>-->
-
     <TabsMobile />
+
     <ModalPadrao
         :objeto="objeto"
         @aparecerModal="sumirModal"
     />
-    
+
     <Dialog
-@aparecerModal="ciclo2"
-:dialog="dialog2"
-:titulo="titulo"
-:texto="texto"
-/>
-    
+      @aparecerModal="ciclo2"
+      :dialog="dialog2"
+      :titulo="titulo"
+      :texto="texto"
+    />
+
   </v-container>
 </template>
 
