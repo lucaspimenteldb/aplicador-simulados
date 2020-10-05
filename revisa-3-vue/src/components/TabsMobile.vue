@@ -24,10 +24,10 @@
           <v-icon v-text="'mdi-trophy-variant-outline'" />
         </v-tab>
 
-        <v-tab to="/suporte">
-          Suporte
+        <v-tab to="/aulas-gratuitas">
+          Aulas de Revisão
 
-          <v-icon v-text="'mdi-face-agent'" />
+          <v-icon v-text="'mdi-youtube'" />
         </v-tab>
       </v-tabs>
     </v-footer>

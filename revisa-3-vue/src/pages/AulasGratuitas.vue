@@ -54,6 +54,7 @@
         </a>
       </v-col>
     </v-row>
+    <TabsMobile />
     
   </v-container>
 </template>
@@ -61,10 +62,11 @@
 <script>
 import aula from '../services/aula/aula';
 import loading from '../components/loading/Loading.vue';
+import TabsMobile from '../components/TabsMobile.vue';
 
 export default {
   name: 'AulasGratuitas',
-  components: { loading },
+  components: { loading, TabsMobile },
 
   async created () {
     try {
