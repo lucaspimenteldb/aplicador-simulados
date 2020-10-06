@@ -73,12 +73,12 @@
             Entrar
           </v-btn>
 
-<!--          <v-btn-->
-<!--              text class="mt-8 pa-2 text-lowercase"-->
-<!--              to="/esqueci-senha"-->
-<!--          >-->
-<!--            esqueci minha senha-->
-<!--          </v-btn>-->
+          <v-btn
+              text class="mt-8 pa-2 text-lowercase"
+              to="/esqueci-senha"
+          >
+            esqueci minha senha
+          </v-btn>
         </section>
       </v-col>
     </v-row>
