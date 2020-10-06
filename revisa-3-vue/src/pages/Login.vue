@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-img
-        src="@/assets/logo_mvc_avalia.png"
+        src="@/assets/logo_mvc_avalia_azul.png"
         class="mx-auto d-block w-290"
     />
 
