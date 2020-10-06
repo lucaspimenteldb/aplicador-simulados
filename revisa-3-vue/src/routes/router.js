@@ -15,6 +15,12 @@ const routes = [
     name: 'EsqueciSenha',
     component: () => import('../pages/EsqueciSenha'),
   },
+
+  {
+    path: '/alterar-senha',
+    name: 'ChangePassword',
+    component: () => import('../pages/ChangePassword/ChangePassword'),
+  },
   // {
   //   path: '/home',
   //   name: 'Home',
