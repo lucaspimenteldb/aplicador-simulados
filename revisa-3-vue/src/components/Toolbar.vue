@@ -19,9 +19,14 @@
       </v-app-bar-nav-icon>
 
       <v-toolbar-title
-          class="white--text" v-text="'RevisaENEM'"
+          class="white--text"
           :class="{ 'd-none': width < 640 }"
-      />
+      >
+        <v-img
+            src="@/assets/logo_mvc_avalia.png"
+            width="110"
+        />
+      </v-toolbar-title>
     </v-app-bar>
   </nav>
 </template>

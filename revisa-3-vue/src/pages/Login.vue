@@ -5,10 +5,7 @@
         class="mx-auto d-block w-290"
     />
 
-    <v-row
-        v-show="showLocal"
-        class="mt-16"
-    >
+    <v-row v-show="showLocal">
       <v-col cols="12">
         <article class="mx-auto max-w-300">
           <v-alert
