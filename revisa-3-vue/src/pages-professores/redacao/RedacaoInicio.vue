@@ -414,9 +414,9 @@ export default {
 
   data () {
     return {
-      escolaSelecionada: '',
-      turma1: '',
-      turma2: '',
+      escolaSelecionada: 'Escola 1',
+      turma1: 'Escola 1 - Turma 1',
+      turma2: 'Escola 2 - Turma 1',
       escola: ['Escola 1', 'Escola 2', 'Escola 3'],
       turma: ['Turma 1', 'Turma 2', 'Turma 3'],
       turmaComparar: ['Escola 1 - Turma 1', 'Escola 2 - Turma 1', 'Escola 3 -Turma 1'],
