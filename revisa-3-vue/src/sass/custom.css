@@ -217,6 +217,14 @@
   min-width: auto;
 }
 
+.min-w-90 {
+  min-width: 90px;
+}
+
+.min-w-100 {
+  min-width: 100px;
+}
+
 .max-w-3\/4 {
   max-width: 75%;
 }
@@ -506,6 +514,14 @@
 
 .d-grid {
   display: grid;
+}
+
+.float-right {
+  float: right;
+}
+
+.clear-both {
+  clear: both;
 }
 
 @media only screen and (max-width: 680px) {

@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-img
         src="@/assets/logo_mvc_avalia_azul.png"
         class="mx-auto d-block w-290"

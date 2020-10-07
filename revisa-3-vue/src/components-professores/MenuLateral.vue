@@ -132,12 +132,6 @@ export default {
 
       itens: [
         {
-          icon: 'mdi-home-outline',
-          ttl: 'Tela inicial',
-          rota: '/',
-          menu: false,
-        },
-        {
           icon: 'mdi-check-box-multiple-outline',
           ttl: 'Simulados',
           rota: '/simulados-atividades-escolares-professores',
