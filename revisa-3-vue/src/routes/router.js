@@ -9,17 +9,26 @@ const routes = [
     path: '/',
     name: 'Login',
     component: () => import('../pages/Login'),
+    meta: {
+      public: true,
+    },
   },
   {
     path: '/esqueci-senha',
     name: 'EsqueciSenha',
     component: () => import('../pages/EsqueciSenha'),
+    meta: {
+      public: true,
+    },
   },
 
   {
     path: '/alterar-senha',
     name: 'ChangePassword',
     component: () => import('../pages/ChangePassword/ChangePassword'),
+    meta: {
+      public: true,
+    },
   },
   // {
   //   path: '/home',

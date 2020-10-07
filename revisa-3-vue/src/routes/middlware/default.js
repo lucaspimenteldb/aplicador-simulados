@@ -9,7 +9,7 @@ const funcao = async (to, from, next) => {
   if (to.name === 'Login' && token) {
     next({ path: '/home' });
   }
-  if (!token && (to.name !== 'Login' && to.name !== 'EsqueciSenha' && to.name !== 'ChangePassword')) {
+  if (!token && (!to.meta.public)) {
     storage.delete('token');
     Busao.$emit('autenticado', false);
     next({ path: '/' });

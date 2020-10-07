@@ -13,12 +13,14 @@
     "core-js": "^3.6.5",
     "node-forge": "^=0.10.0",
     "popper.js": "^1.16.1",
+    "save": "^2.4.0",
     "vue": "^2.6.12",
     "vue-loaders": "^4.1.1",
     "vue-router": "^3.4.3",
     "vue-socket.io": "^3.0.10",
     "vue-trend-chart": "^0.15.2",
-    "vuetify": "^2.3.10"
+    "vuetify": "^2.3.10",
+    "vuex": "^3.5.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.4.0",
