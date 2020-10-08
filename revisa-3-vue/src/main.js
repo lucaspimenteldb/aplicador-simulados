@@ -6,11 +6,13 @@ import App from './App.vue';
 import router from './routes/router';
 import vuetify from './plugins/vuetify';
 import env from './env';
+import http from './services/index';
 
 import './sass/main.scss';
 import './sass/custom.scss';
 
 Vue.config.productionTip = false;
+Vue.prototype.$http = http;
 
 /* loading  */
 Vue.use(VueLoaders);
