@@ -125,11 +125,13 @@
             append-icon="mdi-magnify"
             class="max-w-240 float-right"
             hide-details
+            v-model="search"
         />
 
         <v-data-table
             :headers="headerRedacao" :items="notaRedacao"
-            fixed-header hide-default-footer
+            fixed-header
+            :search="search"
             class="mt-2 relative top-2 clear-both"
         >
           <template v-slot:item.acoes>
@@ -205,7 +207,7 @@
                   width="60" height="60"
               >
                 <v-img
-                    src="@/assets/img/ranking/imagem-ranking.png"
+                    :src="melhor.img"
                 />
               </v-avatar>
 
@@ -264,6 +266,7 @@
           md="4"
       >
         <v-select
+                @change="changeSelectGra"
             v-model="escolaSelecionada"
             :items="escola" filled
             label="Filtrar desempenho por escola" color="azul"
@@ -280,12 +283,17 @@
           md="8"
       >
         <div class="random">
-          <trend-chart
-              :datasets="datasetsEscola" :grid="grid"
-              :labels="labels" :min="0"
-              :interactive="true" @mouse-move="onMouseMove"
-              class="random-chart-turma"
-          />
+<!--          <trend-chart-->
+<!--              :datasets="datasetsEscola" :grid="grid"-->
+<!--              :labels="labels" :min="0"-->
+<!--              :interactive="true" @mouse-move="onMouseMove"-->
+<!--              class="random-chart-turma"-->
+<!--          />-->
+
+          <Bar
+                  :chartdata="chartdata"
+               @reniciar="reiniciar"
+/>
 
           <div
               id="pop" role="tooltip"
@@ -363,11 +371,9 @@
           md="8"
       >
         <div class="random">
-          <trend-chart
-              :datasets="datasetsTurma" :grid="gridTurma"
-              :labels="labelsTurma" :min="0"
-              :interactive="true" @mouse-move="onMouseMoveTurma"
-              class="random-chart"
+          <Bar
+                  :chartdata="chartdata"
+                  @reniciar="reiniciar"
           />
 
           <div
@@ -409,6 +415,7 @@
 
 <script>
 import '../../sass/chart.css';
+import Bar from '../../components/Graficos/GraficoBar.vue';
 import data from '../../mixis/redacao-professor/data';
 import method from '../../mixis/redacao-professor/method';
 import loading from '../../components/loading/Loading.vue';
@@ -417,7 +424,7 @@ export default {
 
   name: 'RedacaoInicio',
   mixins: [data, method],
-  components: { loading },
+  components: { loading, Bar },
 
   mounted () {
     this.getRedacao();

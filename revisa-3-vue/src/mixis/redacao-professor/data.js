@@ -88,30 +88,10 @@ const dados = {
       ],
 
       notaRedacao: [
-        {
-          nome: 'Lucas',
-          nota: 880,
-          nota1: 160,
-          nota2: 200,
-          nota3: 160,
-          nota4: 160,
-          nota5: 200,
-          situacao: 'Ok',
-          tema: 'Bla bla tal 124',
-        },
-        {
-          nome: 'Jose',
-          nota: 800,
-          nota1: 160,
-          nota2: 200,
-          nota3: 160,
-          nota4: 160,
-          nota5: 200,
-          situacao: 'Ok',
-          tema: 'Bla bla tal',
-        },
+
       ],
 
+      search: '',
       competencias: [
         {
           competenciaNome: 'Competência 1',
@@ -146,46 +126,28 @@ const dados = {
       ],
 
       melhores: [
-        {
-          img: 'imagem-ranking',
-          colocacao: '1º',
-          podio: 'mdi-podium-gold',
-          nome: 'Santaninha Maria',
-          pontos: 960,
-        },
-        {
-          img: 'imagem-ranking',
-          colocacao: '2º',
-          podio: 'mdi-podium-silver',
-          nome: 'Avexadinho Pelanquis',
-          pontos: 920,
-        },
-        {
-          img: 'imagem-ranking',
-          colocacao: '3º',
-          podio: 'mdi-podium-bronze',
-          nome: 'Projetado Deum',
-          pontos: 920,
-        },
+
       ],
 
       // desempenho por escolas
       datasetsEscola: [
         {
           // o primeiro objeto serve apenas para definir o ponto máximo do gráfico
-          data: [1000],
+          data: [100],
           className: 'curve1',
+          smooth: true,
+          fill: true,
         },
         {
           // meu desempenho
-          data: [1000, 1000],
+          data: [100, 100],
           smooth: true,
           showPoints: true,
           className: 'curve2',
         },
         {
           // desempenho da turma
-          data: [1000, 1000],
+          data: [100, 100],
           smooth: true,
           showPoints: true,
           className: 'curve3',
@@ -197,7 +159,7 @@ const dados = {
         horizontalLines: true,
       },
       labels: {
-        xLabels: [0, 'Redação 1'],
+        xLabels: ['redacao'],
         yLabels: 6,
         yLabelsTextFormatter: (val) => val,
       },
@@ -252,6 +214,12 @@ const dados = {
           nota: 800,
         },
       ],
+      chartdata: {
+        datasets: [
+
+        ],
+        labels: [],
+      },
     };
   },
 };

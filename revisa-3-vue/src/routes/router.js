@@ -69,21 +69,33 @@ const routes = [
     path: '/ranking',
     name: 'Ranking',
     component: () => import('../pages/Ranking'),
+    meta: {
+      public: false,
+    },
   },
   {
     path: '/home',
     name: 'DesempenhoGeral',
     component: () => import('../pages/DesempenhoGeral'),
+    meta: {
+      public: false,
+    },
   },
   {
     path: '/suporte',
     name: 'Suporte',
     component: () => import('../pages/suporte/SuporteInicio'),
+    meta: {
+      public: false,
+    },
   },
   {
     path: '/aulas-gratuitas',
     name: 'AulasGratuitas',
     component: () => import('../pages/AulasGratuitas'),
+    meta: {
+      public: false,
+    },
   },
 
   /* professores */
@@ -91,41 +103,65 @@ const routes = [
     path: '/simulados-atividades-escolares-professores',
     name: 'SimuladosAtividadesInicio',
     component: () => import('../pages-professores/simulado-ativiades-escolares/SimuladosAtividadesInicio'),
+    meta: {
+      public: false,
+    },
   },
   {
     path: '/simulado-responder-professores',
     name: 'QuestoesSimuladosAtividades',
     component: () => import('../components-professores/QuestoesSimuladosAtividades'),
+    meta: {
+      public: false,
+    },
   },
   {
     path: '/simulado-escolar-desempenho-professores',
     name: 'DesempenhoSimulado',
     component: () => import('../pages-professores/simulado-ativiades-escolares/DesempenhoSimulado'),
+    meta: {
+      public: false,
+    },
   },
   {
     path: '/redacoes-professores',
     name: 'RedacaoInicio',
     component: () => import('../pages-professores/redacao/RedacaoInicio'),
+    meta: {
+      public: false,
+    },
   },
   {
     path: '/redacao-corrigida-professores',
     name: 'RedacaoCorrigida',
     component: () => import('../pages-professores/redacao/RedacaoCorrigida'),
+    meta: {
+      public: false,
+    },
   },
   {
     path: '/redacao-enviar-professores',
     name: 'RedacaoEnviar',
     component: () => import('../pages-professores/redacao/RedacaoEnviar'),
+    meta: {
+      public: false,
+    },
   },
   {
     path: '/ranking-professores',
     name: 'Ranking',
     component: () => import('../pages-professores/Ranking'),
+    meta: {
+      public: false,
+    },
   },
   {
     path: '/desempenho-geral-professores',
     name: 'DesempenhoGeral',
     component: () => import('../pages-professores/DesempenhoGeral'),
+    meta: {
+      public: false,
+    },
   },
 ];
 

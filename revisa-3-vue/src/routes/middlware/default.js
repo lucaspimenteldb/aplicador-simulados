@@ -6,7 +6,7 @@ import storage from '../../storage/storage';
 const funcao = async (to, from, next) => {
   const token = await storage.getToken();
   
-  if (to.name === 'Login' && token) {
+  if (to.meta.public && token) {
     next({ path: '/home' });
   }
   if (!token && (!to.meta.public)) {
