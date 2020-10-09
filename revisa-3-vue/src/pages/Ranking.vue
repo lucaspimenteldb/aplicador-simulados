@@ -344,19 +344,19 @@
                     <b>Redação:</b> {{ item.redacao }}
                   </p>
                   <p>
-                    <b style="text-transform: capitalize">CIÊNCIAS HUMANAS: </b> {{ item.Humanas }}
+                    <b>Ciências Humanas: </b> {{ item.Humanas }}
                   </p>
 
                   <p>
-                    <b style="text-transform: capitalize">CIÊNCIAS DA NATUREZA: </b> {{ item.Natureza }}
+                    <b>Ciências da Natureza: </b> {{ item.Natureza }}
                   </p>
 
                   <p>
-                    <b style="text-transform: capitalize">LINGUAGENS: </b> {{ item.Linguagens }}
+                    <b>Linguagens: </b> {{ item.Linguagens }}
                   </p>
 
                   <p>
-                    <b style="text-transform: capitalize">MATEMÁTICA: </b> {{ item.Matematica }}
+                    <b>Matemática: </b> {{ item.Matematica }}
                   </p>
 
                   <!-- media geral -->
@@ -716,7 +716,6 @@ export default {
           value: 'perfil',
           class: 'body-2 font-weight-bold',
         },
-
       ],
     };
   },

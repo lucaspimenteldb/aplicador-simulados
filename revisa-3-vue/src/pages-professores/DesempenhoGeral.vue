@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
 <!--    <MenuLateral />-->
 <!--    <Toolbar />-->
     <v-row>
@@ -17,13 +17,7 @@
         <v-btn
             class="mt-2 border-3 border__azul azul--text font-weight-medium text-capitalize rounded__normal"
         >
-          Estado
-        </v-btn>
-
-        <v-btn
-            class="mt-2 ml-4 border-3 border__azul azul--text font-weight-medium text-capitalize rounded__normal"
-        >
-          GRE
+          Turma
         </v-btn>
 
         <v-btn class="mt-2 ml-4 azul white--text font-weight-medium text-capitalize btn__shadow rounded__normal">
@@ -84,6 +78,7 @@
         </subheader-secao>
       </v-col>
 
+      <!-- desempenho geral da escola/turma comparada a do estado-->
       <v-col
           cols="12" sm="6"
           md="4" lg="3"
@@ -104,6 +99,36 @@
                 :style="{ height: `${desempenho.altura}%` }"
             >
               <p class="mt-4 text-center font-weight-medium white--text">
+                {{ desempenho.altura.toFixed() }}%
+              </p>
+            </div>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col
+          cols="12" class="pa-0"
+      />
+      <!-- desempenho do estado -->
+      <v-col
+          cols="12" sm="6"
+          md="4" lg="3"
+          v-for="desempenho in desempenhoGeralEstado" :key="desempenho.ttl"
+      >
+        <v-card>
+          <v-card-text>
+            <p class="font-weight-bold grey--text text--darken-3">
+              {{ desempenho.ttl }}
+            </p>
+
+            <h5 class="text-h4 font-weight-light grey--text text--darken-3">
+              {{ desempenho.nota }}
+            </h5>
+
+            <div
+                class="w-1/3 absolute bottom-0 right-4 amarelo rounded__normal__top"
+                :style="{ height: `${desempenho.altura}%` }"
+            >
+              <p class="mt-4 text-center font-weight-medium">
                 {{ desempenho.altura.toFixed() }}%
               </p>
             </div>
@@ -154,7 +179,7 @@
           cols="12" class="mt-8"
       >
         <subheader-secao>
-          Ranking por Área
+          Desempenho por Área
         </subheader-secao>
       </v-col>
 
@@ -165,12 +190,34 @@
       >
         <v-card>
           <v-card-text>
-            <p class="font-weight-bold grey--text text--darken-3">
+            <p class="caption font-weight-bold grey--text text--darken-3">
               {{ desempenho.ttl }}
             </p>
 
-            <h5 class="text-h6 font-weight-bold grey--text text--darken-3">
-              {{ desempenho.ranking }}º <span class="body-2">colocado</span>
+            <h5
+                class="body-1 font-weight-bold text--darken-3"
+                :class="{
+                          'errou--text': desempenho.nota < desempenho.notaEstado,
+                          'acertou--text': desempenho.nota > desempenho.notaEstado
+                }"
+            >
+              {{ desempenho.nota }}
+              <span
+                  class="body-2" v-if="desempenho.ttl != 'Redação'"
+              >
+                TRI
+              </span>
+              <span
+                  class="body-2" v-else
+              >
+                média
+              </span>
+            </h5>
+
+            <h5
+                class="body-1 grey--text text--darken-3"
+            >
+              {{ desempenho.notaEstado }} <span class="body-2"> estado </span>
             </h5>
 
             <div
@@ -185,8 +232,240 @@
         </v-card>
       </v-col>
 
-      <!-- tabela com o desempenho por área do aluno -->
+      <!-- desempenho por aluno -->
       <v-col
+          cols="12" class="mt-8"
+      >
+        <subheader-secao>
+          Desempenho por Aluno
+        </subheader-secao>
+      </v-col>
+
+      <v-col cols="12">
+        <v-data-table
+            :headers="headerRanking" :items="colocacoes"
+            fixed-header
+            class="text-no-wrap"
+        >
+          <template v-slot:item.posicao="{ item }">
+            <p class="font-weight-bold">
+              <v-icon
+                  v-text="item.icon" color="black"
+                  small
+              />
+              {{ item.posicao }}
+            </p>
+          </template>
+
+          <template v-slot:item.gabarito="{ item }">
+            <v-dialog
+                v-model="gabarito[item.id]"
+                max-width="80%"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                    small
+                    class="azul white--text rounded__normal text-capitalize mr-1"
+                    color="primary"
+                    v-bind="attrs" v-on="on"
+                    @click.stop="$set(gabarito, item.id, true)"
+                >
+                  ver gabarito
+                </v-btn>
+              </template>
+
+              <v-card class="relative w-full">
+                <!-- nome e avatar-->
+                <v-card-title>
+                  <v-avatar>
+                    <v-img :src="item.foto" />
+                  </v-avatar>
+
+                  <span class="ml-2 h6">
+                    {{ item.nome }}
+                  </span>
+                </v-card-title>
+
+                <v-card-text class="mt-4">
+                  <header-secao class="pt-3">
+                    Dados escolares
+                  </header-secao>
+
+                </v-card-text>
+
+                <v-card-actions class="px-4">
+                  <v-spacer />
+
+                  <v-btn
+                      color="green darken-1" text
+                      @click="$set(perfis, item.id, false)"
+                  >
+                    Fechar
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </template>
+        </v-data-table>
+      </v-col>
+
+      <!-- ver gabarito do aluno -->
+      <v-col
+          cols="12" class="mt-8"
+      >
+        <subheader-secao>
+         Gabarito do aluno
+        </subheader-secao>
+      </v-col>
+
+      <v-col
+          cols="12" sm="8"
+          md="5" lg="4"
+      >
+        <v-autocomplete
+            :items="alunos" filled
+            v-model="alunoGabarito"
+            label="Selecionar aluno para ver gabarito" color="azul"
+            hide-details
+        />
+      </v-col>
+
+      <v-col
+          cols="12" sm="6"
+          md="4"
+      >
+        <v-select
+            @change="changeSelectArea"
+            :items="areas"
+            :disabled="disabledSimulado"
+            filled color="azul"
+            label="Escolha qual área deseja ver"
+            hide-details
+        />
+      </v-col>
+
+      <v-col cols="12">
+        <v-data-table
+            :headers="headers" fixed-header
+            :items="questoesGabarito"
+        >
+          <template v-slot:item.resultado="{ item }">
+            <p
+                class="font-weight-medium"
+                :class="`${item.resultado}--text`"
+            >
+              {{ item.resultado }}
+            </p>
+          </template>
+
+          <template v-slot:item.dificuldade="{ item }">
+            <p>
+              {{ item.dificuldade }}
+            </p>
+          </template>
+
+          <!-- modal para ver a questão -->
+          <template v-slot:item.url="{ item }">
+            <v-dialog
+                v-model="dialog[item.id]"
+                max-width="90%"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                    small
+                    class="azul white--text rounded__normal text-capitalize mr-1"
+                    color="primary"
+                    v-bind="attrs" v-on="on"
+                    :to="item.url"
+                    @click.stop="$set(dialog, item.id, true)"
+                >
+                  ver questão
+                </v-btn>
+              </template>
+
+              <!--              <Dialog :dialog="true" />-->
+
+              <v-card class="relative w-full">
+                <v-card-title>
+                  <span class="headline">Questão {{ item.name }}</span>
+                </v-card-title>
+
+                <v-card-text>
+                  <!-- anunciado da questão -->
+                  <article v-html="item.descricao">
+                    <!-- eslint-disable max-len -->
+                  </article>
+
+                  <h6
+                      class="mt-4 body-1 acertou--text" v-if="item.marcada === item.gabarito"
+                  >
+                    Parabéns! Você arrasou na questão
+                  </h6>
+
+                  <h6
+                      class="mt-4 body-1 errou--text" v-else
+                  >
+                    O mouse deve ter escorregado na hora de marcar...
+                  </h6>
+
+                  <br>
+                  <!-- questões -->
+                  <v-hover
+                      v-for="(alternativa, questao) in item.alternativas" :key="questao"
+                  >
+                    <article
+                        class="pb-2 pt-2 mt-2 d-flex align-center border__bottom"
+                        :id="`alternativa${questao}`"
+                        :class="{
+                          'green lighten-3':item.gabarito === questao.toUpperCase(),
+                          'red lighten-3': item.gabarito != questao.toUpperCase() && item.marcada === questao.toUpperCase()
+                        }"
+                    >
+                      <!-- letra a,b etc.-->
+                      <p
+                          class="ml-1 mr-3 text-h6 leading__tight pointer__events__none"
+                          :class="[ questao === 'b' || questao === 'd' ? '' : 'mb-1' ]"
+                      >
+                        {{ questao }}
+                      </p>
+
+                      <p
+                          class="body-2 pointer__events__none"
+                          v-html="alternativa"
+                      />
+
+                      <v-icon
+                          v-if="item.gabarito === questao.toUpperCase()"
+                          v-text="'mdi-checkbox-marked-circle-outline'" class="mr-2"
+                      />
+
+                      <v-icon
+                          v-if="item.gabarito != questao.toUpperCase() && item.marcada === questao.toUpperCase()"
+                          v-text="'mdi-close-circle-outline'" class="mr-2"
+                      />
+                    </article>
+                  </v-hover>
+                </v-card-text>
+
+                <v-card-actions class="px-4">
+                  <v-spacer />
+
+                  <v-btn
+                      color="green darken-1" text
+                      @click="$set(dialog, item.id, false)"
+                  >
+                    Fechar
+                  </v-btn>
+                  <Dialog :item="item" />
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </template>
+        </v-data-table>
+      </v-col>
+
+      <!-- tabela com o desempenho por área do aluno -->
+      <!--<v-col
           cols="12" class="mt-8"
       >
         <subheader-secao>
@@ -199,9 +478,10 @@
             :headers="headerArea" :items="desempenhoArea"
             fixed-header hide-default-footer
         />
-      </v-col>
+      </v-col>-->
+
       <!-- tabela com o desempenho por disciplina do aluno -->
-      <v-col
+      <!--<v-col
           cols="12" class="mt-8"
       >
         <subheader-secao>
@@ -216,8 +496,8 @@
         />
       </v-col>
 
-      <!-- premios que a gente vai receber -->
-      <PremiosMensais class="mt-8" />
+      &lt;!&ndash; premios que a gente vai receber &ndash;&gt;
+      <PremiosMensais class="mt-8" />-->
     </v-row>
 
     <!-- escolher qual desempenho quer ver-->
@@ -232,8 +512,8 @@
 
       <!-- secao dos desempenhos do simulado -->
       <!-- parte da média geral -->
-      <v-col cols="12">
-        <subheader-secao class="grey--text text--darken-3">
+      <!--<v-col cols="12">
+        <subheader-secao class="grey&#45;&#45;text text&#45;&#45;darken-3">
           Média geral
         </subheader-secao>
       </v-col>
@@ -249,7 +529,7 @@
                 v-text="'mdi-checkbox-marked-circle-outline'" color="black"
             />
 
-            <p class="ml-2 font-weight-medium grey--text text--darken-3">
+            <p class="ml-2 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
               {{ simuladosEscolares.questoesCorretas }} questões corretas
             </p>
           </v-card-text>
@@ -262,7 +542,7 @@
                 v-text="'mdi-close-circle-outline'" color="black"
             />
 
-            <p class="ml-2 font-weight-medium grey--text text--darken-3">
+            <p class="ml-2 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
               {{ simuladosEscolares.questoesErradas }} questões erradas
             </p>
           </v-card-text>
@@ -272,7 +552,7 @@
       <v-col
           cols="12" sm="4"
       >
-        <p class="caption font-weight-medium grey--text text--darken-3">
+        <p class="caption font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
           Média de acertos
         </p>
 
@@ -282,13 +562,13 @@
             color="desempenhoOtimo"
             class="mt-2" rotate="-90"
         >
-          <p class="ml-1 font-weight-medium grey--text text--darken-3">
+          <p class="ml-1 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
             {{ ((simuladosEscolares.questoesCorretas / simuladosEscolares.questoesTotais) * 100).toFixed(1) }}%
           </p>
         </v-progress-circular>
       </v-col>
 
-      <!-- parte da média por disciplina e área -->
+      &lt;!&ndash; parte da média por disciplina e área &ndash;&gt;
       <v-col
           cols="12" class="mt-4"
       >
@@ -297,7 +577,7 @@
         </subheader-secao>
       </v-col>
 
-      <!-- area de linguagens -->
+      &lt;!&ndash; area de linguagens &ndash;&gt;
       <v-col
           cols="12" sm="6"
           md="4" lg="3"
@@ -312,9 +592,9 @@
             {{ disciplina.disciplina }}
           </v-card-title>
 
-          <!-- porcentagem em cima à direita -->
+          &lt;!&ndash; porcentagem em cima à direita &ndash;&gt;
           <article class="w-46 absolute top-4 right-4">
-            <p class="text-center body-2 font-weight-medium grey--text text--darken-3">
+            <p class="text-center body-2 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
               {{ (disciplina.qCorretas / disciplina.qTotais * 100).toFixed(1) }}%
             </p>
 
@@ -325,7 +605,7 @@
           </article>
 
           <v-card-text>
-            <p class="d-flex relative font-weight-medium grey--text text--darken-3">
+            <p class="d-flex relative font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
               <span class="bolinha__acertos absolute top-0 left-2" />
 
               <v-icon
@@ -336,7 +616,7 @@
               {{ disciplina.qCorretas }} questões corretas
             </p>
 
-            <p class="mt-2 d-flex relative font-weight-medium grey--text text--darken-3">
+            <p class="mt-2 d-flex relative font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
               <span class="bolinha__erro absolute top-0 left-2" />
 
               <v-icon
@@ -349,12 +629,12 @@
           </v-card-text>
         </v-card>
       </v-col>
-      <!-- gráficos de acertos por disciplina de linguagens-->
+      &lt;!&ndash; gráficos de acertos por disciplina de linguagens&ndash;&gt;
       <v-col
           cols="12" sm="6"
           lg="3"
       >
-        <p class="caption font-weight-medium grey--text text--darken-3">
+        <p class="caption font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
           Média da área de Linguagens
         </p>
 
@@ -364,7 +644,7 @@
             color="desempenhoOtimo"
             class="mt-2 mr-4" rotate="-90"
         >
-          <p class="ml-1 font-weight-medium grey--text text--darken-3">
+          <p class="ml-1 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
             {{
               ((simuladosEscolares.desempenhoLinguagens[0] / simuladosEscolares.desempenhoLinguagens[2]) * 100).toFixed(1)
             }}%
@@ -377,14 +657,14 @@
             color="desempenhoOtimo"
             class="mt-2" rotate="-90"
         >
-          <p class="ml-1 font-weight-medium grey--text text--darken-3">
+          <p class="ml-1 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
             {{ simuladosEscolares.desempenhoLinguagens[0] }}/{{ simuladosEscolares.desempenhoLinguagens[2] }}
           </p>
         </v-progress-circular>
       </v-col>
       <v-col cols="12" />
 
-      <!-- área de matemática -->
+      &lt;!&ndash; área de matemática &ndash;&gt;
       <v-col
           cols="12" sm="6"
           md="4" lg="3"
@@ -399,9 +679,9 @@
             {{ disciplina.disciplina }}
           </v-card-title>
 
-          <!-- porcentagem em cima à direita -->
+          &lt;!&ndash; porcentagem em cima à direita &ndash;&gt;
           <article class="w-46 absolute top-4 right-4">
-            <p class="text-center body-2 font-weight-medium grey--text text--darken-3">
+            <p class="text-center body-2 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
               {{ (disciplina.qCorretas / disciplina.qTotais * 100).toFixed(1) }}%
             </p>
 
@@ -412,7 +692,7 @@
           </article>
 
           <v-card-text>
-            <p class="d-flex relative font-weight-medium grey--text text--darken-3">
+            <p class="d-flex relative font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
               <span class="bolinha__acertos absolute top-0 left-2" />
 
               <v-icon
@@ -423,7 +703,7 @@
               {{ disciplina.qCorretas }} questões corretas
             </p>
 
-            <p class="mt-2 d-flex relative font-weight-medium grey--text text--darken-3">
+            <p class="mt-2 d-flex relative font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
               <span class="bolinha__erro absolute top-0 left-2" />
 
               <v-icon
@@ -436,12 +716,12 @@
           </v-card-text>
         </v-card>
       </v-col>
-      <!-- gráficos de acertos por disciplina de matemática-->
+      &lt;!&ndash; gráficos de acertos por disciplina de matemática&ndash;&gt;
       <v-col
           cols="12" sm="6"
           lg="3"
       >
-        <p class="caption font-weight-medium grey--text text--darken-3">
+        <p class="caption font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
           Média da área de Matemática
         </p>
 
@@ -451,7 +731,7 @@
             color="desempenhoOtimo"
             class="mt-2 mr-4" rotate="-90"
         >
-          <p class="ml-1 font-weight-medium grey--text text--darken-3">
+          <p class="ml-1 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
             {{
               ((simuladosEscolares.desempenhoMatematica[0] / simuladosEscolares.desempenhoMatematica[2]) * 100).toFixed(1)
             }}%
@@ -464,14 +744,14 @@
             color="desempenhoOtimo"
             class="mt-2" rotate="-90"
         >
-          <p class="ml-1 font-weight-medium grey--text text--darken-3">
+          <p class="ml-1 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
             {{ simuladosEscolares.desempenhoMatematica[0] }}/{{ simuladosEscolares.desempenhoMatematica[2] }}
           </p>
         </v-progress-circular>
       </v-col>
       <v-col cols="12" />
 
-      <!-- área de natureza -->
+      &lt;!&ndash; área de natureza &ndash;&gt;
       <v-col
           cols="12" sm="6"
           md="4" lg="3"
@@ -486,9 +766,9 @@
             {{ disciplina.disciplina }}
           </v-card-title>
 
-          <!-- porcentagem em cima à direita -->
+          &lt;!&ndash; porcentagem em cima à direita &ndash;&gt;
           <article class="w-46 absolute top-4 right-4">
-            <p class="text-center body-2 font-weight-medium grey--text text--darken-3">
+            <p class="text-center body-2 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
               {{ (disciplina.qCorretas / disciplina.qTotais * 100).toFixed(1) }}%
             </p>
 
@@ -499,7 +779,7 @@
           </article>
 
           <v-card-text>
-            <p class="d-flex relative font-weight-medium grey--text text--darken-3">
+            <p class="d-flex relative font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
               <span class="bolinha__acertos absolute top-0 left-2" />
 
               <v-icon
@@ -510,7 +790,7 @@
               {{ disciplina.qCorretas }} questões corretas
             </p>
 
-            <p class="mt-2 d-flex relative font-weight-medium grey--text text--darken-3">
+            <p class="mt-2 d-flex relative font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
               <span class="bolinha__erro absolute top-0 left-2" />
 
               <v-icon
@@ -523,12 +803,12 @@
           </v-card-text>
         </v-card>
       </v-col>
-      <!-- gráficos de acertos por disciplina de natureza -->
+      &lt;!&ndash; gráficos de acertos por disciplina de natureza &ndash;&gt;
       <v-col
           cols="12" sm="6"
           md="4" lg="3"
       >
-        <p class="caption font-weight-medium grey--text text--darken-3">
+        <p class="caption font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
           Média da área de Natureza
         </p>
 
@@ -538,7 +818,7 @@
             color="desempenhoOtimo"
             class="mt-2 mr-4" rotate="-90"
         >
-          <p class="ml-1 font-weight-medium grey--text text--darken-3">
+          <p class="ml-1 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
             {{
               ((simuladosEscolares.desempenhoNatureza[0] / simuladosEscolares.desempenhoNatureza[2]) * 100).toFixed(1)
             }}%
@@ -551,14 +831,14 @@
             color="desempenhoOtimo"
             class="mt-2" rotate="-90"
         >
-          <p class="ml-1 font-weight-medium grey--text text--darken-3">
+          <p class="ml-1 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
             {{ simuladosEscolares.desempenhoNatureza[0] }}/{{ simuladosEscolares.desempenhoNatureza[2] }}
           </p>
         </v-progress-circular>
       </v-col>
       <v-col cols="12" />
 
-      <!-- área de humanas -->
+      &lt;!&ndash; área de humanas &ndash;&gt;
       <v-col
           cols="12" sm="6"
           md="4" lg="3"
@@ -573,9 +853,9 @@
             {{ disciplina.disciplina }}
           </v-card-title>
 
-          <!-- porcentagem em cima à direita -->
+          &lt;!&ndash; porcentagem em cima à direita &ndash;&gt;
           <article class="w-46 absolute top-4 right-4">
-            <p class="text-center body-2 font-weight-medium grey--text text--darken-3">
+            <p class="text-center body-2 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
               {{ (disciplina.qCorretas / disciplina.qTotais * 100).toFixed(1) }}%
             </p>
 
@@ -586,7 +866,7 @@
           </article>
 
           <v-card-text>
-            <p class="d-flex relative font-weight-medium grey--text text--darken-3">
+            <p class="d-flex relative font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
               <span class="bolinha__acertos absolute top-0 left-2" />
 
               <v-icon
@@ -597,7 +877,7 @@
               {{ disciplina.qCorretas }} questões corretas
             </p>
 
-            <p class="mt-2 d-flex relative font-weight-medium grey--text text--darken-3">
+            <p class="mt-2 d-flex relative font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
               <span class="bolinha__erro absolute top-0 left-2" />
 
               <v-icon
@@ -610,12 +890,12 @@
           </v-card-text>
         </v-card>
       </v-col>
-      <!-- gráficos de acertos por disciplina de natureza -->
+      &lt;!&ndash; gráficos de acertos por disciplina de natureza &ndash;&gt;
       <v-col
           cols="12" sm="6"
           md="4" lg="3"
       >
-        <p class="caption font-weight-medium grey--text text--darken-3">
+        <p class="caption font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
           Média da área de Humanas
         </p>
 
@@ -625,7 +905,7 @@
             color="desempenhoOtimo"
             class="mt-2 mr-4" rotate="-90"
         >
-          <p class="ml-1 font-weight-medium grey--text text--darken-3">
+          <p class="ml-1 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
             {{
               ((simuladosEscolares.desempenhoHumanas[0] / simuladosEscolares.desempenhoHumanas[2]) * 100).toFixed(1)
             }}%
@@ -638,15 +918,15 @@
             color="desempenhoOtimo"
             class="mt-2" rotate="-90"
         >
-          <p class="ml-1 font-weight-medium grey--text text--darken-3">
+          <p class="ml-1 font-weight-medium grey&#45;&#45;text text&#45;&#45;darken-3">
             {{ simuladosEscolares.desempenhoHumanas[0] }}/{{ simuladosEscolares.desempenhoHumanas[2] }}
           </p>
         </v-progress-circular>
-      </v-col>
+      </v-col>-->
 
       <!-- media por assunto -->
       <v-col
-          cols="12" class="mt-8"
+          cols="12"
       >
         <subheader-secao>
           Média por assunto
@@ -749,7 +1029,7 @@
     </v-row>
 
     <!-- historico de acesso -->
-    <v-row>
+    <!--<v-row>
       <v-col
           cols="12" class="mt-12"
       >
@@ -758,7 +1038,7 @@
         </header-secao>
       </v-col>
 
-      <!-- historico de acesso -->
+      &lt;!&ndash; historico de acesso &ndash;&gt;
       <v-col
           cols="12" md="6"
       >
@@ -767,7 +1047,7 @@
         </subheader-secao>
 
         <v-card class="mr-4 mb-4 d-inline-block">
-          <v-card-text class="d-flex align-center justify-space-between grey--text text--darken-3">
+          <v-card-text class="d-flex align-center justify-space-between grey&#45;&#45;text text&#45;&#45;darken-3">
             <article>
               <p class="font-weight-bold">
                 Dia 1
@@ -787,7 +1067,7 @@
         </v-card>
 
         <v-card class="mr-4 mb-4 d-inline-block">
-          <v-card-text class="d-flex align-center justify-space-between grey--text text--darken-3">
+          <v-card-text class="d-flex align-center justify-space-between grey&#45;&#45;text text&#45;&#45;darken-3">
             <article>
               <p class="font-weight-bold">
                 Dia 2
@@ -806,23 +1086,28 @@
           </v-card-text>
         </v-card>
       </v-col>
-    </v-row>
+    </v-row>-->
   </v-container>
 </template>
 
 <script>
-import PremiosMensais from '../components-professores/PremiosMensais.vue';
+// import PremiosMensais from '../components-professores/PremiosMensais.vue';
 // import MenuLateral from '../components/MenuLateral.vue';
 // import Toolbar from '../components/Toolbar.vue';
+import desempenho from '../services/desempenho/desempenho-service';
+
 
 export default {
   name: 'DesempenhoGeral',
-  components: { PremiosMensais },
+  // components: { PremiosMensais },
 
   data () {
     return {
       play: 'mdi-play',
-
+      alunos: ['lskdfjl;sd', 'lucas piomennet', 'anderoson morujas'],
+      alunoGabarito: '',
+      gabarito: {},
+      areas: ['Sem dados'],
       simulados: ['Todos', 'Simulado 1', 'Simulado 2'],
       escola: ['Todas', 'Escola de Tal Canto', 'Escola Xzinho', 'Escolinha do Bairro'],
       turma: ['Todas', '3 ano - A', '3 ano - B', '3 ano - C', '3 ano - D'],
@@ -871,33 +1156,52 @@ export default {
             return this.nota / 10;
           },
         },
+      ],
+      desempenhoGeralEstado: [
         {
-          ttl: 'Acertos totais',
-          nota: 110,
+          ttl: 'Média TRI - Estado',
+          nota: 750,
           get altura () {
-            return (this.nota / 180) * 100;
+            return this.nota / 10;
+          },
+        },
+        {
+          ttl: 'Redação 1 - Estado',
+          nota: 920,
+          get altura () {
+            return this.nota / 10;
           },
         },
       ],
       desempenhoArea2: [
         {
           ttl: 'Linguagens',
+          nota: 643.48,
+          notaEstado: 615.76,
           ranking: 750,
         },
         {
           ttl: 'Humanas',
+          nota: 687.44,
+          notaEstado: 685.54,
           ranking: 920,
         },
         {
           ttl: 'Matemática',
+          nota: 583.22,
+          notaEstado: 625.90,
           ranking: 110,
         },
         {
           ttl: 'Natureza',
+          nota: 622.36,
+          notaEstado: 646.86,
           ranking: 110,
         },
         {
           ttl: 'Redação',
+          nota: 920,
+          notaEstado: 880,
           ranking: 110,
         },
       ],
@@ -923,6 +1227,70 @@ export default {
           ingles: 900,
           artes: 900,
           edFisica: 900,
+        },
+      ],
+
+      headerRanking: [
+        {
+          text: 'Nome',
+          sortable: false,
+          value: 'nome',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: 'Média TRI',
+          align: 'start',
+          sortable: false,
+          value: 'posicao',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: 'Ciências Humanas',
+          align: 'start',
+          sortable: false,
+          value: 'humanas',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: 'Ciências da Natureza',
+          sortable: false,
+          value: 'natureza',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: 'Liguagens e seus Códigos',
+          sortable: false,
+          value: 'linguagens',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: 'Matemática',
+          sortable: false,
+          value: 'matematica',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: 'Redação',
+          sortable: false,
+          value: 'redacao',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: '',
+          sortable: false,
+          value: 'gabarito',
+          class: 'body-2 font-weight-bold',
+        },
+      ],
+
+      colocacoes: [
+        {
+          posicao: 684.92,
+          nome: 'Lucas Pimentel',
+        },
+        {
+          posicao: 623.26,
+          nome: 'Uau',
         },
       ],
 
@@ -1217,7 +1585,132 @@ export default {
           desempenho: 'desempenhoOtimo',
         },
       ],
+
+      questoesGabarito: [],
+      headers: [
+        {
+          text: 'Questão',
+          align: 'start',
+          sortable: false,
+          value: 'name',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: 'Disciplina',
+          value: 'disciplina',
+          class: 'font-weight-bold',
+        },
+        {
+          text: 'Marcada',
+          value: 'marcada',
+          sortable: false,
+          class: 'font-weight-bold',
+        },
+        {
+          text: 'Gabarito',
+          value: 'gabarito',
+          sortable: false,
+          class: 'font-weight-bold',
+        },
+        {
+          text: 'Resultado',
+          value: 'resultado',
+          class: 'font-weight-bold',
+        },
+        {
+          text: 'Dificuldade',
+          value: 'dificuldade',
+          class: 'font-weight-bold',
+        },
+        {
+          text: 'Média De Acertos',
+          value: 'mediaEscolar',
+          class: 'font-weight-bold',
+        },
+        {
+          text: '',
+          value: 'url',
+          sortable: false,
+          class: 'font-weight-bold',
+        },
+      ],
     };
+  },
+
+  methods: {
+    async changeSelect (event) {
+      try {
+        const filtrado = this.pesquisarSimulado(event, this.simuladosPesquisa);
+        if (filtrado.length > 0) {
+          this.loadingBasl(true);
+          const desempenhoLocal = await desempenho.desempenhoAluno(`desempenho/desempenho-aluno/${filtrado[0].id}`);
+          this.meuDesempenho(desempenhoLocal);
+          this.loadingBasl(false);
+        }
+      } catch (err) {
+        this.errorDefault(err);
+        this.informacoesAdicionais[0].info = 'Nota indisponível';
+      }
+    },
+
+    async errorDefault (err) {
+      if (err.response.status <= 0 || err.response.status >= 500 || err.response.status === 401) {
+        this.objeto.dialog = true;
+      }
+      this.loadingBasl(false);
+    },
+
+    async changeSelectArea (event) {
+      try {
+        const filtrado = this.pesquisarSimulado(event, this.areasPesquisa);
+        const simuladoFiltrado = this.pesquisarSimulado(this.simuladoCurret, this.simuladosPesquisa);
+
+        if (filtrado.length > 0 && simuladoFiltrado.length > 0) {
+          this.loadingBasl(true);
+          const questoes = await desempenho.desempenhoAluno(`questao/${simuladoFiltrado[0].id}/area/${filtrado[0].id}`);
+          this.myQuestoes(questoes);
+          this.loadingBasl(false);
+        }
+      } catch (err) {
+        this.errorDefault(err);
+      }
+    },
+
+    myQuestoes (questoes) {
+      this.questoesGabarito = [];
+      const quest = questoes.data.questoes;
+      for (let i = 0; i < quest.length; i++) {
+        const beris = {
+          name: i + 1,
+          disciplina: quest[i].materia,
+          marcada: quest[i].marcada,
+          gabarito: quest[i].gabarito,
+          descricao: quest[i].descricao,
+          alternativas: {
+            a: quest[i].ra,
+            b: quest[i].rb,
+            c: quest[i].rc,
+            d: quest[i].rd,
+            e: quest[i].re,
+          },
+          get resultado () {
+            if (this.marcada === this.gabarito) {
+              return 'acertou';
+            }
+            return 'errou';
+          },
+          dificuldade: quest[i].dificuldade,
+          mediaEscolar: `${quest[i].media} %`,
+          id: quest[i].id,
+          comentario: quest[i].comentario,
+        };
+
+        this.questoesGabarito.push(beris);
+      }
+
+      document.querySelector('.v-data-footer__select').innerHTML = '';
+      document.querySelector('.v-data-footer__pagination').innerHTML = `1 - ${this.questoesGabarito.length > 10 ? 10 : this.questoesGabarito.length} de ${this.questoesGabarito.length}`;
+    },
   },
 };
 </script>
