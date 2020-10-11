@@ -3,13 +3,16 @@ const dados = {
     return {
       escolaSelecionada: '',
       escolaSelecionada2: '',
+      escolaSelecionada3: '',
       turma1: 'Escola 1 - Turma 1',
       turma2: 'Escola 2 - Turma 1',
       escola: ['Escola 1', 'Escola 2', 'Escola 3'],
       escolaPesquisa: [],
       turma: ['Sem dados'],
+      turma2s: ['Sem dados'],
       turmaPesquisa: [],
-      turmaComparar: ['Escola 1 - Turma 1', 'Escola 2 - Turma 1', 'Escola 3 -Turma 1'],
+      turmaPesquis2: [],
+      turmaComparar: [],
       redacao: ['Sem dados'],
       redacaoSelecionada: '',
       redacaoPesquisa: [],
@@ -215,6 +218,12 @@ const dados = {
         },
       ],
       chartdata: {
+        datasets: [
+
+        ],
+        labels: [],
+      },
+      chartdata2: {
         datasets: [
 
         ],

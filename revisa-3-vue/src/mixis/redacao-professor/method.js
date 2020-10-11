@@ -87,6 +87,23 @@ const method = {
       }
     },
 
+    async changeEscola2 ($event) {
+      try {
+        this.loading = true;
+        const filtrar = this.pesquisarSimulado($event, this.escolaPesquisa);
+
+        if (filtrar.length > 0) {
+          const dados = await this.$http.get(`redacao/turma/${filtrar[0].id}`);
+          this.turma2s = this.extrariTitulo(dados.data.turmas);
+          this.turmaPesquisa2 = dados.data.turmas;
+        }
+        this.loading = false;
+      } catch (e) {
+        this.loading = false;
+        console.log(e);
+      }
+    },
+
     async changeTurma ($event) {
       try {
         this.loading = true;
@@ -108,7 +125,6 @@ const method = {
     },
 
     setRedacao (objeto) {
-      console.log(objeto);
       for (let i = 0; i < objeto.length; i++) {
         const object = {
           nome: objeto[i].name,
@@ -120,6 +136,7 @@ const method = {
           nota5: objeto[i].notas.competencia_5,
           situacao: objeto[i].situacao,
           tema: this.redacaoSelecionada,
+          id: objeto[i].id,
         };
         this.notaRedacao.push(object);
       }
@@ -157,28 +174,53 @@ const method = {
         const filtrar = this.pesquisarSimulado(event, this.escolaPesquisa);
         if (filtrar.length > 0) {
           const dados = await this.$http.get(`redacao/media-escola/${filtrar[0].id}`);
-          this.preencherTubalina(dados.data);
+          const vetorData = [dados.data.media];
+          const vetorCor = ['#ffdd9e'];
+          this.chartdata.datasets = [];
+          this.chartdata.labels = [];
+          this.preencherTubalina(vetorCor, vetorData, this.chartdata, 1, [event]);
         }
         this.loading = false;
       } catch (e) {
         this.loading = false;
+      }
+    },
+
+    preencherTubalina (color, medias, chart, qtd, labels) {
+      chart.labels.push(this.redacaoPesquisa[0].titulo);
+      for (let i = 0; i < qtd; i++) {
+        const med = {
+          label: labels[i],
+          backgroundColor: [color[i]],
+          borderWidth: 1,
+          data: [medias[i]],
+        };
+        chart.datasets.push(med);
+        this.reiniciar();
+      }
+    },
+
+    async changeSelectGraComp () {
+      try {
+        const tur1 = this.pesquisarSimulado(this.turma1, this.turmaPesquisa2)
+        const tur2 = this.pesquisarSimulado(this.turma2, this.turmaPesquisa2);
+        const escola = this.pesquisarSimulado(this.escolaSelecionada3, this.escolaPesquisa);
+
+        if (escola.length > 0 && tur2.length > 0 && tur1.length > 0) {
+          const objeto = { turma: tur1[0].id, turma2: tur2[0].id, escola: escola[0].id };
+          const dados = await this.$http.post('redacao/media-escola-compara', objeto);
+          const color = ['#ffdd9e', '#a3ffa3'];
+          const medias = [dados.data.media, dados.data.media2];
+          this.chartdata2.datasets = [];
+          this.chartdata2.labels = [];
+          const labels = [this.turma1, this.turma2];
+          this.preencherTubalina(color, medias, this.chartdata2, 2, labels);
+        }
+      } catch (e) {
         console.log(e);
       }
     },
 
-    preencherTubalina (dados) {
-      for (let i = 0; i < 1; i++) {
-        const med = {
-          label: this.redacaoPesquisa[i].titulo,
-          backgroundColor: '#f87979',
-          borderWidth: 1,
-          data: [dados.media],
-        };
-        this.chartdata.datasets.push(med);
-        this.chartdata.labels.push(this.redacaoPesquisa[i].titulo);
-        this.reiniciar();
-      }
-    },
     reiniciar () {
       Busao.$emit('reiniciar');
     },

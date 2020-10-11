@@ -1,10 +1,10 @@
 <script>
-import { Bar } from 'vue-chartjs';
+import { Line } from 'vue-chartjs';
 import { Busao } from '../../main';
 
 export default {
-  extends: Bar,
-  name: 'bar-chart',
+  extends: Line,
+  name: 'line-chart',
   data () {
     return {
       options: {
@@ -29,9 +29,7 @@ export default {
   },
   props: {
     chartdata: {
-      datasets: [
-
-      ],
+      datasets: [],
       labels: [],
     },
   },
