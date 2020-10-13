@@ -213,49 +213,162 @@
           cols="12" class="mt-8"
       >
         <subheader-secao>
-          Os 20 melhores - Ranking Estadual
+          Os 10 melhores alunos - Ranking Estadual
         </subheader-secao>
-      </v-col>
-
-      <v-col cols="12">
-        <v-avatar>
-          <v-img src="@/assets/img/ranking/meu-ranking.png" />
-        </v-avatar>
-
-        <section class="pa-2 px-4 ml-4 d-inline-block border__bottom__azul">
-          <p class="d-inline-block font-weight-bold grey--text text--darken-3">
-            Minha posição
-          </p>
-
-          <p class="ml-6 d-inline-block font-weight-medium grey--text text--darken-3">
-            <v-icon
-                v-text="'mdi-podium-gold'" small
-                color="black" class="mb-1"
-            />
-            #10
-          </p>
-
-          <p class="ml-6 d-inline-block font-weight-medium grey--text text--darken-3">
-            <v-icon
-                v-text="'mdi-trophy-award'" small
-                color="black"
-            />
-            28 conquistas
-          </p>
-
-          <p class="ml-6 d-inline-block font-weight-medium grey--text text--darken-3">
-            <v-icon
-                v-text="'mdi-numeric-10-box-multiple-outline'" small
-                color="black"
-            />
-            840 pontos
-          </p>
-        </section>
       </v-col>
 
       <v-col cols="12">
         <v-data-table
             :headers="headerRanking" :items="colocacoes"
+            fixed-header
+        >
+          <template v-slot:item.posicao="{ item }">
+            <p class="font-weight-bold">
+              <v-icon
+                  v-text="item.icon" color="black"
+                  small
+              />
+              {{ item.posicao }}
+            </p>
+          </template>
+
+          <template v-slot:item.perfil="{ item }">
+            <v-dialog
+                v-model="perfis[item.id]"
+                max-width="80%"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                    small
+                    class="azul white--text rounded__normal text-capitalize mr-1"
+                    color="primary"
+                    v-bind="attrs" v-on="on"
+                    @click.stop="$set(perfis, item.id, true)"
+                >
+                  ver perfil
+                </v-btn>
+              </template>
+
+              <v-card class="relative w-full">
+                <!-- nome e avatar-->
+                <v-card-title>
+                  <v-avatar>
+                    <v-img :src="item.foto" />
+                  </v-avatar>
+
+                  <span class="ml-2 h6">
+                    {{ item.nome }}
+                  </span>
+                </v-card-title>
+
+                <v-card-text class="mt-4">
+                  <header-secao class="pt-3">
+                    Dados escolares
+                  </header-secao>
+
+                  <p class="mt-4">
+                    <b>Escola:</b> {{ item.escola }}
+                  </p>
+                  <p>
+                    <b>Turma</b>: {{item.turma}}
+                  </p>
+                  <p>
+                    <b>Turno</b>: {{item.turno}}
+                  </p>
+                  <p>
+                    <b>CRE</b>: {{ item.gre }}
+                  </p>
+
+                  <!-- dados gerais -->
+                  <header-secao class="mt-6 pt-3">
+                    Dados gerais
+                  </header-secao>
+
+                  <p class="mt-4">
+                    <b>1 Simulado(s) realizado(s)</b>
+                  </p>
+                  <p>
+                    <b>Média TRI:</b> {{ item.pontuacao }}
+                  </p>
+                  <p>
+                    <b>Redação:</b> {{ item.redacao }}
+                  </p>
+                  <p>
+                    <b>Ciências Humanas: </b> {{ item.Humanas }}
+                  </p>
+
+                  <p>
+                    <b>Ciências da Natureza: </b> {{ item.Natureza }}
+                  </p>
+
+                  <p>
+                    <b>Linguagens: </b> {{ item.Linguagens }}
+                  </p>
+
+                  <p>
+                    <b>Matemática: </b> {{ item.Matematica }}
+                  </p>
+
+                  <!-- media geral -->
+                  <!--<header-secao class="mt-6 pt-3">
+                    Média geral
+                  </header-secao>-->
+                </v-card-text>
+
+                <v-card-actions class="px-4">
+                  <v-spacer />
+
+                  <v-btn
+                      color="green darken-1" text
+                      @click="$set(perfis, item.id, false)"
+                  >
+                    Fechar
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </template>
+        </v-data-table>
+      </v-col>
+
+      <!-- ranking por escolas -->
+      <v-col
+          cols="12" class="mt-8"
+      >
+        <subheader-secao>
+          Ranking escolar
+        </subheader-secao>
+      </v-col>
+
+      <v-col cols="12">
+        <v-data-table
+            :headers="headerRankingEscolar" :items="colocacoesEscolar"
+            fixed-header
+        >
+          <template v-slot:item.posicao="{ item }">
+            <p class="font-weight-bold">
+              <v-icon
+                  v-text="item.icon" color="black"
+                  small
+              />
+              {{ item.posicao }}
+            </p>
+          </template>
+        </v-data-table>
+      </v-col>
+
+      <!-- ranking por area -->
+      <v-col
+          cols="12" class="mt-8"
+      >
+        <subheader-secao>
+          Ranking escolar por área
+        </subheader-secao>
+      </v-col>
+
+      <v-col cols="12">
+        <v-data-table
+            :headers="headerRankingEscolarArea" :items="colocacoesEscolarArea"
             fixed-header
         >
           <template v-slot:item.posicao="{ item }">
@@ -284,6 +397,7 @@ export default {
   data () {
     return {
       nivel: 90,
+      perfis: {},
 
       rankings: [
         {
@@ -379,6 +493,7 @@ export default {
           nome: 'Sanitizado Philips',
           redacao: 880,
           pontuacao: 950,
+          perfil: '',
         },
         {
           icon: 'mdi-podium-silver',
@@ -386,6 +501,7 @@ export default {
           nome: 'Philips',
           redacao: 880,
           pontuacao: 950,
+          perfil: '',
         },
         {
           icon: 'mdi-podium-bronze',
@@ -393,6 +509,7 @@ export default {
           nome: 'Sanilips',
           redacao: 880,
           pontuacao: 950,
+          perfil: '',
         },
         {
           icon: 'mdi-seal-variant',
@@ -400,6 +517,7 @@ export default {
           nome: 'Sahilips',
           redacao: 880,
           pontuacao: 950,
+          perfil: '',
         },
         {
           icon: 'mdi-seal-variant',
@@ -407,6 +525,7 @@ export default {
           nome: 'Sanzados',
           redacao: 880,
           pontuacao: 950,
+          perfil: '',
         },
         {
           icon: 'mdi-seal-variant',
@@ -414,6 +533,7 @@ export default {
           nome: 'Phil',
           redacao: 880,
           pontuacao: 950,
+          perfil: '',
         },
         {
           icon: 'mdi-seal-variant',
@@ -421,6 +541,7 @@ export default {
           nome: 'Pips',
           redacao: 880,
           pontuacao: 950,
+          perfil: '',
         },
         {
           icon: 'mdi-seal-variant',
@@ -428,6 +549,7 @@ export default {
           nome: 'Sanitizaps',
           redacao: 880,
           pontuacao: 950,
+          perfil: '',
         },
         {
           icon: 'mdi-seal-variant',
@@ -435,6 +557,7 @@ export default {
           nome: 'Sanitili',
           redacao: 880,
           pontuacao: 950,
+          perfil: '',
         },
       ],
       headerRanking: [
@@ -462,6 +585,250 @@ export default {
           sortable: false,
           value: 'pontuacao',
           class: 'body-2 font-weight-bold',
+        },
+        {
+          text: '',
+          sortable: false,
+          value: 'perfil',
+        },
+      ],
+      headerRankingEscolar: [
+        {
+          text: 'Ranking',
+          align: 'start',
+          sortable: false,
+          value: 'posicao',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: 'Escola',
+          sortable: false,
+          value: 'escola',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: 'Município',
+          sortable: false,
+          value: 'municipio',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: 'CRE',
+          sortable: false,
+          value: 'cre',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: 'Média TRI',
+          sortable: false,
+          value: 'pontuacao',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: 'Redação',
+          sortable: true,
+          value: 'redacao',
+          class: 'body-2 font-weight-bold',
+        },
+      ],
+      headerRankingEscolarArea: [
+        {
+          text: 'Escola',
+          align: 'start',
+          sortable: false,
+          value: 'escola',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: 'Ciências Humanas',
+          align: 'start',
+          sortable: false,
+          value: 'humanas',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: 'Ciências da Natureza',
+          sortable: false,
+          value: 'natureza',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: 'Liguagens e seus Códigos',
+          sortable: false,
+          value: 'linguagens',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: 'Matemática',
+          sortable: false,
+          value: 'matematica',
+          class: 'body-2 font-weight-bold',
+        },
+      ],
+      colocacoesEscolarArea: [
+        {
+          icon: 'mdi-podium-gold',
+          posicao: '#1',
+          escola: 'Escolinha do raimundo',
+          humanas: 680,
+          natureza: 680,
+          linguagens: 680,
+          matematica: 680,
+        },
+        {
+          icon: 'mdi-podium-silver',
+          posicao: '#2',
+          escola: 'Escolinha do raimundo',
+          humanas: 680,
+          natureza: 680,
+          linguagens: 680,
+          matematica: 680,
+        },
+        {
+          icon: 'mdi-podium-bronze',
+          posicao: '#3',
+          escola: 'Escolinha do raimundo',
+          humanas: 680,
+          natureza: 680,
+          linguagens: 680,
+          matematica: 680,
+        },
+        {
+          icon: 'mdi-seal-variant',
+          posicao: '#4',
+          escola: 'Escolinha do raimundo',
+          humanas: 680,
+          natureza: 680,
+          linguagens: 680,
+          matematica: 680,
+        },
+        {
+          icon: 'mdi-seal-variant',
+          posicao: '#5',
+          escola: 'Escolinha do raimundo',
+          humanas: 680,
+          natureza: 680,
+          linguagens: 680,
+          matematica: 680,
+        },
+        {
+          icon: 'mdi-seal-variant',
+          posicao: '#6',
+          escola: 'Escolinha do raimundo',
+          humanas: 680,
+          natureza: 680,
+          linguagens: 680,
+          matematica: 680,
+        },
+        {
+          icon: 'mdi-seal-variant',
+          posicao: '#7',
+          escola: 'Escolinha do raimundo',
+          humanas: 680,
+          natureza: 680,
+          linguagens: 680,
+          matematica: 680,
+        },
+        {
+          icon: 'mdi-seal-variant',
+          posicao: '#8',
+          escola: 'Escolinha do raimundo',
+          humanas: 680,
+          natureza: 680,
+          linguagens: 680,
+          matematica: 680,
+        },
+        {
+          icon: 'mdi-seal-variant',
+          posicao: '#9',
+          escola: 'Escolinha do raimundo',
+          humanas: 680,
+          natureza: 680,
+          linguagens: 680,
+          matematica: 680,
+        },
+      ],
+      colocacoesEscolar: [
+        {
+          icon: 'mdi-podium-gold',
+          posicao: '#1',
+          escola: 'Escolinha do raimundo',
+          cre: 'Sofisticada',
+          municipio: 'Sanitizado Philips',
+          redacao: 880,
+          pontuacao: 950,
+        },
+        {
+          icon: 'mdi-podium-silver',
+          posicao: '#2',
+          escola: 'Escolinha do raimundo',
+          cre: 'Sofisticada',
+          municipio: 'Philips',
+          redacao: 840,
+          pontuacao: 950,
+        },
+        {
+          icon: 'mdi-podium-bronze',
+          posicao: '#3',
+          escola: 'Escolinha do raimundo',
+          cre: 'Sofisticada',
+          municipio: 'Sanilips',
+          redacao: 600,
+          pontuacao: 950,
+        },
+        {
+          icon: 'mdi-seal-variant',
+          posicao: '#4',
+          escola: 'Escolinha do raimundo',
+          cre: 'Sofisticada',
+          municipio: 'Sahilips',
+          redacao: 880,
+          pontuacao: 950,
+        },
+        {
+          icon: 'mdi-seal-variant',
+          posicao: '#5',
+          escola: 'Escolinha do raimundo',
+          cre: 'Sofisticada',
+          municipio: 'Sanzados',
+          redacao: 960,
+          pontuacao: 950,
+        },
+        {
+          icon: 'mdi-seal-variant',
+          posicao: '#6',
+          escola: 'Escolinha do raimundo',
+          cre: 'Sofisticada',
+          municipio: 'Phil',
+          redacao: 920,
+          pontuacao: 950,
+        },
+        {
+          icon: 'mdi-seal-variant',
+          posicao: '#7',
+          escola: 'Escolinha do raimundo',
+          cre: 'Sofisticada',
+          municipio: 'Pips',
+          redacao: 880,
+          pontuacao: 950,
+        },
+        {
+          icon: 'mdi-seal-variant',
+          posicao: '#8',
+          escola: 'Escolinha do raimundo',
+          cre: 'Sofisticada',
+          municipio: 'Sanitizaps',
+          redacao: 840,
+          pontuacao: 950,
+        },
+        {
+          icon: 'mdi-seal-variant',
+          posicao: '#9',
+          escola: 'Escolinha do raimundo',
+          cre: 'Sofisticada',
+          municipio: 'Sanitili',
+          redacao: 880,
+          pontuacao: 950,
         },
       ],
     };

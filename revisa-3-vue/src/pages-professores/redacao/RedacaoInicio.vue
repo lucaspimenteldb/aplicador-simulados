@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <loading :dialog="loading" />
+    <loading :dialog="loading"/>
     <v-row>
       <v-col cols="12">
         <h1>
@@ -135,37 +135,38 @@
             v-slot:item="{ item }"
             class="mt-2 relative top-2 clear-both"
         >
-      <tr>
-        <td>
-{{ item.nome }}
-</td>
-        <td>
-{{ item.situacao }}</td>
-        <td>
-{{ item.tema }}
-</td>
-        <td>
-{{ item.nota }}
-</td>
-        <td>
-{{ item.nota1 }}
-</td>
-        <td>
-{{ item.nota2 }}
-</td>
-        <td>
-{{ item.nota3 }}
-</td>
-        <td>
-{{ item.nota4 }}
-</td>
-        <td>
-{{ item.nota5 }}
-</td>
-        <td>
-<DialogRedacao :item="item" />
-</td>
-      </tr>
+          <tr>
+            <td>
+              {{ item.nome }}
+            </td>
+            <td>
+              {{ item.situacao }}
+            </td>
+            <td>
+              {{ item.tema }}
+            </td>
+            <td>
+              {{ item.nota }}
+            </td>
+            <td>
+              {{ item.nota1 }}
+            </td>
+            <td>
+              {{ item.nota2 }}
+            </td>
+            <td>
+              {{ item.nota3 }}
+            </td>
+            <td>
+              {{ item.nota4 }}
+            </td>
+            <td>
+              {{ item.nota5 }}
+            </td>
+            <td>
+              <DialogRedacao :item="item"/>
+            </td>
+          </tr>
 
         </v-data-table>
       </v-col>
@@ -236,7 +237,7 @@
               </v-avatar>
 
               <div class="ml-4 d-flex align-center justify-center relative">
-                <div class="ml-8 bolinha__ranking" />
+                <div class="ml-8 bolinha__ranking"/>
 
                 <v-icon
                     v-text="melhor.podio" color="black"
@@ -255,7 +256,7 @@
             </p>
 
             <p class="h-30 relative font-weight-medium grey--text text--darken-3">
-              <span class="bolinha__melhores absolute left-0 top-1" />
+              <span class="bolinha__melhores absolute left-0 top-1"/>
               <v-icon
                   v-text="'mdi-numeric-10-box-multiple-outline'" color="black"
                   class="text-h6"
@@ -290,7 +291,7 @@
           md="4"
       >
         <v-select
-                @change="changeSelectGra"
+            @change="changeSelectGra"
             v-model="escolaSelecionada"
             :items="escola" filled
             label="Filtrar desempenho por escola" color="azul"
@@ -307,17 +308,17 @@
           md="8"
       >
         <div class="random">
-<!--          <trend-chart-->
-<!--              :datasets="datasetsEscola" :grid="grid"-->
-<!--              :labels="labels" :min="0"-->
-<!--              :interactive="true" @mouse-move="onMouseMove"-->
-<!--              class="random-chart-turma"-->
-<!--          />-->
+          <!--          <trend-chart-->
+          <!--              :datasets="datasetsEscola" :grid="grid"-->
+          <!--              :labels="labels" :min="0"-->
+          <!--              :interactive="true" @mouse-move="onMouseMove"-->
+          <!--              class="random-chart-turma"-->
+          <!--          />-->
 
           <Bar
-                  :chartdata="chartdata"
-               @reniciar="reiniciar"
-/>
+              :chartdata="chartdata"
+              @reniciar="reiniciar"
+          />
 
           <div
               id="pop" role="tooltip"
@@ -327,7 +328,7 @@
             <div
                 class="tooltip-container" v-if="tooltipData"
             >
-              <strong>{{labels.xLabels[tooltipData.index]}}</strong>
+              <strong>{{ labels.xLabels[tooltipData.index] }}</strong>
               <section class="tooltip-data">
                 <div class="tooltip-data-item tooltip-data-item--2">
                   <article>
@@ -364,21 +365,26 @@
       </v-col>
 
       <v-col
-cols="12"
-md="4" sm="8"
->
+          cols="12"
+          md="4" sm="8"
+      >
         <v-select
-                @change="changeEscola2"
-                v-model="escolaSelecionada3"
-                :items="escola" filled
-                label="Filtrar desempenho por escola" color="azul"
-                hide-details
+            @change="changeEscola2"
+            v-model="escolaSelecionada3"
+            :items="escola" filled
+            label="Filtrar desempenho por escola" color="azul"
+            hide-details
         />
       </v-col>
 
       <v-col
+          cols="12" class="pa-0"
+      />
+
+      <v-col
           cols="12" sm="8"
           md="4"
+          v-if="escolaSelecionada3 != ''"
       >
         <v-select
             v-model="turma1"
@@ -388,9 +394,11 @@ md="4" sm="8"
             hide-details
         />
       </v-col>
+
       <v-col
           cols="12" sm="8"
           md="4"
+          v-if="escolaSelecionada3 != ''"
       >
         <v-select
             v-model="turma2"
@@ -411,8 +419,8 @@ md="4" sm="8"
       >
         <div class="random">
           <Bar
-                  :chartdata="chartdata2"
-                  @reniciar="reiniciar"
+              :chartdata="chartdata2"
+              @reniciar="reiniciar"
           />
 
           <div
@@ -423,7 +431,7 @@ md="4" sm="8"
             <div
                 class="tooltip-container" v-if="tooltipDataTurma"
             >
-              <strong>{{labels.xLabels[tooltipDataTurma.index]}}</strong>
+              <strong>{{ labels.xLabels[tooltipDataTurma.index] }}</strong>
               <section class="tooltip-data">
                 <div class="tooltip-data-item tooltip-data-item--2">
                   <article>

@@ -958,6 +958,57 @@
             :assunto="`Assunto ${assunto}`" acertos="2/10"
         />
       </v-col>
+
+      <!-- desempenho por turma -->
+      <v-col
+          cols="12"
+          class="mt-8"
+      >
+        <subheader-secao>
+          Média TRI por escola ou turma
+        </subheader-secao>
+      </v-col>
+
+      <v-col
+          cols="12"
+          md="4" sm="8"
+      >
+        <v-select
+            :items="escola" filled
+            label="Filtrar desempenho por escola" color="azul"
+            hide-details
+        />
+      </v-col>
+
+      <v-col
+          cols="12" class="pa-0"
+      />
+
+      <v-col
+          cols="12" sm="8"
+          md="4"
+      >
+        <v-select
+            v-model="turma1"
+            @change="changeSelectGraComp"
+            :items="turma2s" filled
+            label="Comparar turmas" color="azul"
+            hide-details
+        />
+      </v-col>
+
+      <v-col
+          cols="12" sm="8"
+          md="4"
+      >
+        <v-select
+            v-model="turma2"
+            :items="turma2s" filled
+            @change="changeSelectGraComp"
+            label="Comparar turmas" color="azul"
+            hide-details
+        />
+      </v-col>
     </v-row>
 
     <!-- desempenho nas redações -->
