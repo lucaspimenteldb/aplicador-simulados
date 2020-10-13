@@ -24,6 +24,7 @@
             </v-card-title>
 
 <!--            <v-card-text v-html="item.comentario" />-->
+          <v-img :src="item.arquivo" />
 
             <v-card-actions class="px-4">
                 <v-spacer />
@@ -51,9 +52,9 @@ export default {
     };
   },
 
-    created () {
-      console.log(this.item);
-    },
+  created () {
+
+  },
 
   methods: {
 

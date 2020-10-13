@@ -126,6 +126,7 @@ export default {
         this.$router.replace('/home');
       } catch (err) {
         this.preLoading(true);
+        console.log(err);
         if (err.response.status === 403) {
           this.message = err.response.data.message;
         } else {

@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <loading :dialog="loading"/>
+    <loading :dialog="loading" />
     <v-row>
       <v-col cols="12">
         <h1>
@@ -164,7 +164,10 @@
               {{ item.nota5 }}
             </td>
             <td>
-              <DialogRedacao :item="item"/>
+              <DialogRedacao
+v-if="item.done"
+:item="item"
+/>
             </td>
           </tr>
 
@@ -237,7 +240,7 @@
               </v-avatar>
 
               <div class="ml-4 d-flex align-center justify-center relative">
-                <div class="ml-8 bolinha__ranking"/>
+                <div class="ml-8 bolinha__ranking" />
 
                 <v-icon
                     v-text="melhor.podio" color="black"
@@ -256,7 +259,7 @@
             </p>
 
             <p class="h-30 relative font-weight-medium grey--text text--darken-3">
-              <span class="bolinha__melhores absolute left-0 top-1"/>
+              <span class="bolinha__melhores absolute left-0 top-1" />
               <v-icon
                   v-text="'mdi-numeric-10-box-multiple-outline'" color="black"
                   class="text-h6"

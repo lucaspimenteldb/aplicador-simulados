@@ -125,6 +125,7 @@ const method = {
     },
 
     setRedacao (objeto) {
+      this.notaRedacao = [];
       for (let i = 0; i < objeto.length; i++) {
         const object = {
           nome: objeto[i].name,
@@ -137,6 +138,8 @@ const method = {
           situacao: objeto[i].situacao,
           tema: this.redacaoSelecionada,
           id: objeto[i].id,
+          done: objeto[i].done,
+          arquivo: env.ROTA_DOMINIO + objeto[i].arquivo,
         };
         this.notaRedacao.push(object);
       }
@@ -146,6 +149,7 @@ const method = {
     },
 
     OsMelhores (dados) {
+      this.melhores = [];
       const imgs = ['mdi-podium-gold', 'mdi-podium-silver', 'mdi-podium-bronze'];
       for (let i = 0; i < 3; i++) {
         const med = {
@@ -161,11 +165,13 @@ const method = {
     },
 
     metodosMedia (dados) {
-      this.competencias[0].notaCompetencia = dados.competencia_1;
-      this.competencias[1].notaCompetencia = dados.competencia_2;
-      this.competencias[2].notaCompetencia = dados.competencia_3;
-      this.competencias[3].notaCompetencia = dados.competencia_4;
-      this.competencias[4].notaCompetencia = dados.competencia_5;
+      
+      const cond = [dados.competencia_1, dados.competencia_2, dados.competencia_3, dados.competencia_4, dados.competencia_5];
+      
+      for (let i = 0; i < cond.length; i++) {
+        this.competencias[i].notaCompetencia = cond[i];
+        this.competencias[i].desempenho = this.resultIdioma(cond[i]);
+      }
     },
 
     async changeSelectGra (event) {
@@ -174,11 +180,12 @@ const method = {
         const filtrar = this.pesquisarSimulado(event, this.escolaPesquisa);
         if (filtrar.length > 0) {
           const dados = await this.$http.get(`redacao/media-escola/${filtrar[0].id}`);
-          const vetorData = [dados.data.media];
-          const vetorCor = ['#ffdd9e'];
+          const vetorData = [dados.data.media, dados.data.mediaGeral];
+          const vetorCor = ['#ffdd9e', '#a3ffa3'];
+
           this.chartdata.datasets = [];
           this.chartdata.labels = [];
-          this.preencherTubalina(vetorCor, vetorData, this.chartdata, 1, [event]);
+          this.preencherTubalina(vetorCor, vetorData, this.chartdata, 2, [event, 'Média Estadual'], this.redacaoPesquisa[0].titulo);
         }
         this.loading = false;
       } catch (e) {
@@ -186,8 +193,8 @@ const method = {
       }
     },
 
-    preencherTubalina (color, medias, chart, qtd, labels) {
-      chart.labels.push(this.redacaoPesquisa[0].titulo);
+    preencherTubalina (color, medias, chart, qtd, labels, titulo) {
+      chart.labels.unshift(titulo);
       for (let i = 0; i < qtd; i++) {
         const med = {
           label: labels[i],
@@ -199,10 +206,27 @@ const method = {
         this.reiniciar();
       }
     },
+    
+    resultIdioma (resultado) {
+      let desempenho = '';
+      if (resultado >= 0 && resultado <= 40) {
+        desempenho = 'desempenhoMuitoRuim';
+      } else if (resultado >= 41 && resultado <= 80) {
+        desempenho = 'desempenhoRuim';
+      } else if (resultado >= 81 && resultado <= 120) {
+        desempenho = 'desempenhoBom';
+      } else if (resultado >= 121 && resultado <= 160) {
+        desempenho = 'desempenhoOtimo';
+      } else {
+        desempenho = 'desempenhoExcelente';
+      }
+
+      return desempenho;
+    },
 
     async changeSelectGraComp () {
       try {
-        const tur1 = this.pesquisarSimulado(this.turma1, this.turmaPesquisa2)
+        const tur1 = this.pesquisarSimulado(this.turma1, this.turmaPesquisa2);
         const tur2 = this.pesquisarSimulado(this.turma2, this.turmaPesquisa2);
         const escola = this.pesquisarSimulado(this.escolaSelecionada3, this.escolaPesquisa);
 
@@ -214,7 +238,7 @@ const method = {
           this.chartdata2.datasets = [];
           this.chartdata2.labels = [];
           const labels = [this.turma1, this.turma2];
-          this.preencherTubalina(color, medias, this.chartdata2, 2, labels);
+          this.preencherTubalina(color, medias, this.chartdata2, 2, labels, this.redacaoPesquisa[0].titulo);
         }
       } catch (e) {
         console.log(e);
