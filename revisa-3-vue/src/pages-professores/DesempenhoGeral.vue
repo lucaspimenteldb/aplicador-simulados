@@ -9,28 +9,28 @@
         </h1>
       </v-col>
 
-      <v-col cols="12">
-        <subheader-secao class="mb-4">
-          Filtrar desempenho por:
-        </subheader-secao>
+<!--      <v-col cols="12">-->
+<!--        <subheader-secao class="mb-4">-->
+<!--          Filtrar desempenho por:-->
+<!--        </subheader-secao>-->
 
-        <v-btn
-            class="mt-2 border-3 border__azul azul--text font-weight-medium text-capitalize rounded__normal"
-        >
-          Turma
-        </v-btn>
+<!--        <v-btn-->
+<!--            class="mt-2 border-3 border__azul azul&#45;&#45;text font-weight-medium text-capitalize rounded__normal"-->
+<!--        >-->
+<!--          Turma-->
+<!--        </v-btn>-->
 
-        <v-btn class="mt-2 ml-4 azul white--text font-weight-medium text-capitalize btn__shadow rounded__normal">
-          Escola
-        </v-btn>
-      </v-col>
+<!--        <v-btn class="mt-2 ml-4 azul white&#45;&#45;text font-weight-medium text-capitalize btn__shadow rounded__normal">-->
+<!--          Escola-->
+<!--        </v-btn>-->
+<!--      </v-col>-->
 
       <v-col
           cols="12" sm="8"
           md="5" lg="4"
       >
         <v-select
-            :items="simulados" filled
+            :items="simulados.map((el => el.titulo))" filled
             label="Filtrar desempenho por simulado" color="azul"
             hide-details
         />
@@ -45,7 +45,9 @@
           md="4"
       >
         <v-select
-            :items="escola" filled
+            :items="escolas.map((el => el.titulo))" filled
+            @change="changeEscola"
+            v-model="escolaAtual"
             label="Filtrar desempenho por escola" color="azul"
             hide-details
         />
@@ -56,7 +58,8 @@
           md="4"
       >
         <v-select
-            :items="turma" filled
+            @change="changeTurma"
+            :items="turmas.map((el => el.titulo))" filled
             label="Filtrar desempenho por turma" color="azul"
             hide-details
         />
@@ -68,7 +71,7 @@
           cols="12" class="mt-12"
       >
         <header-secao>
-          Desempenho e Rankings
+          Desempenho
         </header-secao>
       </v-col>
 
@@ -136,43 +139,43 @@
         </v-card>
       </v-col>
 
-      <v-col
-          cols="12" class="mt-8"
-      >
-        <subheader-secao>
-          Médias Gerais das Escolas
-        </subheader-secao>
-      </v-col>
+<!--      <v-col-->
+<!--          cols="12" class="mt-8"-->
+<!--      >-->
+<!--        <subheader-secao>-->
+<!--          Médias Gerais da turma-->
+<!--        </subheader-secao>-->
+<!--      </v-col>-->
 
-      <v-col
-          cols="12"
-      >
-        <v-card>
-          <v-card-text class="py-0 d-flex h-240 align-end justify-space-between">
-            <div
-                class="w-1/6 relative rounded__normal__top"
-                :class="[ medias.selecionado ? 'azul' : 'grey']"
-                v-for="medias in mediasGerais" :key="medias.ttl"
-                :style="{ height: `${medias.altura * 2.4}%` }"
-            >
+<!--      <v-col-->
+<!--          cols="12"-->
+<!--      >-->
+<!--        <v-card>-->
+<!--          <v-card-text class="py-0 d-flex h-240 align-end justify-space-between">-->
+<!--            <div-->
+<!--                class="w-1/6 relative rounded__normal__top"-->
+<!--                :class="[ medias.selecionado ? 'azul' : 'grey']"-->
+<!--                v-for="medias in mediasGerais" :key="medias.ttl"-->
+<!--                :style="{ height: `${medias.altura * 2.4}%` }"-->
+<!--            >-->
 
-              <p
-                  class="w-full absolute top--6 text-center"
-                  :class="[ medias.selecionado ? 'font-weight-medium' : '' ]"
-              >
-                {{ medias.ttl }}
-              </p>
+<!--              <p-->
+<!--                  class="w-full absolute top&#45;&#45;6 text-center"-->
+<!--                  :class="[ medias.selecionado ? 'font-weight-medium' : '' ]"-->
+<!--              >-->
+<!--                {{ medias.ttl }}-->
+<!--              </p>-->
 
-              <p
-                  class="text-center font-weight-medium white--text"
-                  :class="[ medias.selecionado ? 'mt-2 text-h5' : '' ]"
-              >
-                {{ medias.altura }}%
-              </p>
-            </div>
-          </v-card-text>
-        </v-card>
-      </v-col>
+<!--              <p-->
+<!--                  class="text-center font-weight-medium white&#45;&#45;text"-->
+<!--                  :class="[ medias.selecionado ? 'mt-2 text-h5' : '' ]"-->
+<!--              >-->
+<!--                {{ medias.altura }}%-->
+<!--              </p>-->
+<!--            </div>-->
+<!--          </v-card-text>-->
+<!--        </v-card>-->
+<!--      </v-col>-->
 
       <!-- médias -->
       <v-col
@@ -1138,6 +1141,7 @@
         </v-card>
       </v-col>
     </v-row>-->
+    <loading :dialog="showLoading" />
   </v-container>
 </template>
 
@@ -1145,625 +1149,20 @@
 // import PremiosMensais from '../components-professores/PremiosMensais.vue';
 // import MenuLateral from '../components/MenuLateral.vue';
 // import Toolbar from '../components/Toolbar.vue';
-import desempenho from '../services/desempenho/desempenho-service';
-
+import data from '../mixis/desempenho-geral-professor/data';
+import methods from '../mixis/desempenho-geral-professor/method';
+import loading from '../components/loading/Loading.vue';
 
 export default {
   name: 'DesempenhoGeral',
+  mixins: [data, methods],
+  components: { loading },
   // components: { PremiosMensais },
-
-  data () {
-    return {
-      play: 'mdi-play',
-      alunos: ['lskdfjl;sd', 'lucas piomennet', 'anderoson morujas'],
-      alunoGabarito: '',
-      gabarito: {},
-      areas: ['Sem dados'],
-      simulados: ['Todos', 'Simulado 1', 'Simulado 2'],
-      escola: ['Todas', 'Escola de Tal Canto', 'Escola Xzinho', 'Escolinha do Bairro'],
-      turma: ['Todas', '3 ano - A', '3 ano - B', '3 ano - C', '3 ano - D'],
-
-      mediasGerais: [
-        {
-          ttl: 'nota < 400',
-          altura: 5,
-          selecionado: false,
-        },
-        {
-          ttl: '399 < nota < 600',
-          altura: 30,
-          selecionado: false,
-        },
-        {
-          ttl: '599 < nota < 700',
-          altura: 35,
-          selecionado: false,
-        },
-        {
-          ttl: '699 < nota < 800',
-          altura: 20,
-          selecionado: true,
-        },
-        {
-          ttl: '799 < nota',
-          altura: 10,
-          selecionado: false,
-        },
-
-      ],
-
-      desempenhoGeral: [
-        {
-          ttl: 'Média TRI',
-          nota: 750,
-          get altura () {
-            return this.nota / 10;
-          },
-        },
-        {
-          ttl: 'Redação 1',
-          nota: 920,
-          get altura () {
-            return this.nota / 10;
-          },
-        },
-      ],
-      desempenhoGeralEstado: [
-        {
-          ttl: 'Média TRI - Estado',
-          nota: 750,
-          get altura () {
-            return this.nota / 10;
-          },
-        },
-        {
-          ttl: 'Redação 1 - Estado',
-          nota: 920,
-          get altura () {
-            return this.nota / 10;
-          },
-        },
-      ],
-      desempenhoArea2: [
-        {
-          ttl: 'Linguagens',
-          nota: 643.48,
-          notaEstado: 615.76,
-          ranking: 750,
-        },
-        {
-          ttl: 'Humanas',
-          nota: 687.44,
-          notaEstado: 685.54,
-          ranking: 920,
-        },
-        {
-          ttl: 'Matemática',
-          nota: 583.22,
-          notaEstado: 625.90,
-          ranking: 110,
-        },
-        {
-          ttl: 'Natureza',
-          nota: 622.36,
-          notaEstado: 646.86,
-          ranking: 110,
-        },
-        {
-          ttl: 'Redação',
-          nota: 920,
-          notaEstado: 880,
-          ranking: 110,
-        },
-      ],
-      desempenhoArea: [
-        {
-          redacao: 880,
-          humanas: '950 - 42 acertos',
-          natureza: '800 - 30 acertos',
-          matematica: '730 - 30 acertos',
-          linguagens: '506 - 30 acertos',
-        },
-      ],
-      desempenhoDisciplina: [
-        {
-          geografia: 880,
-          historia: 950,
-          filosofia: 800,
-          sociologia: 800,
-          biologia: 900,
-          fisica: 900,
-          quimica: 900,
-          portugues: 900,
-          ingles: 900,
-          artes: 900,
-          edFisica: 900,
-        },
-      ],
-
-      headerRanking: [
-        {
-          text: 'Nome',
-          sortable: false,
-          value: 'nome',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Média TRI',
-          align: 'start',
-          sortable: false,
-          value: 'posicao',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Ciências Humanas',
-          align: 'start',
-          sortable: false,
-          value: 'humanas',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Ciências da Natureza',
-          sortable: false,
-          value: 'natureza',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Liguagens e seus Códigos',
-          sortable: false,
-          value: 'linguagens',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Matemática',
-          sortable: false,
-          value: 'matematica',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Redação',
-          sortable: false,
-          value: 'redacao',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: '',
-          sortable: false,
-          value: 'gabarito',
-          class: 'body-2 font-weight-bold',
-        },
-      ],
-
-      colocacoes: [
-        {
-          posicao: 684.92,
-          nome: 'Lucas Pimentel',
-        },
-        {
-          posicao: 623.26,
-          nome: 'Uau',
-        },
-      ],
-
-      headerArea: [
-        {
-          text: 'Ciências Humanas',
-          align: 'start',
-          sortable: false,
-          value: 'humanas',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Ciências da Natureza',
-          sortable: false,
-          value: 'natureza',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Liguagens e seus Códigos',
-          sortable: false,
-          value: 'linguagens',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Matemática',
-          sortable: false,
-          value: 'matematica',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Redação',
-          sortable: false,
-          value: 'redacao',
-          class: 'body-2 font-weight-bold',
-        },
-      ],
-      headerDisciplina: [
-        {
-          text: 'Geografia',
-          align: 'start',
-          sortable: false,
-          value: 'geografia',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'História',
-          sortable: false,
-          value: 'historia',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Filosofia',
-          sortable: false,
-          value: 'filosofia',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Sociologia',
-          sortable: false,
-          value: 'sociologia',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Biologia',
-          sortable: false,
-          value: 'biologia',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Física',
-          sortable: false,
-          value: 'fisica',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Química',
-          sortable: false,
-          value: 'quimica',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Português',
-          sortable: false,
-          value: 'portugues',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Inglês',
-          sortable: false,
-          value: 'ingles',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Artes',
-          sortable: false,
-          value: 'artes',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Ed. Física',
-          sortable: false,
-          value: 'edFisica',
-          class: 'body-2 font-weight-bold',
-        },
-      ],
-
-      disciplinas: ['Português', 'Espanhol', 'Inlgês', 'Literatura', 'Artes', 'Ed. Física', 'Matemática', 'Química', 'Física', 'Biologia', 'História', 'Geografia', 'Filosofia', 'Sociologia'],
-      desempenhoEscolhido: null,
-      informacoesAdicionais: [
-        {
-          ttl: 'Pontuação',
-          icon: 'mdi-podium',
-          info: '+740',
-          legenda: 'pontos',
-        },
-        {
-          ttl: 'Ranking Escolar',
-          icon: 'mdi-trophy-variant-outline',
-          info: '10º',
-          posicaoAnterior: '14º',
-          legenda: 'posição',
-        },
-      ],
-
-      desempenhos: [
-        {
-          tipo: 'Simulados Escolares',
-          descricao: 'Ver o meu desempenho das suas disciplinas e áreas nos simulados escolares',
-          classe: 'destaque__simulados__desempenho',
-        },
-        {
-          tipo: 'Redações',
-          descricao: 'Ver a evolução do meu desempenho nas redações corrigidas',
-          classe: 'destaque__redacao__desempenho',
-        },
-      ],
-
-      simuladosEscolares: {
-        questoesCorretas: 200,
-        questoesErradas: 80,
-        questoesTotais: 280,
-        get desempenhoLinguagens () {
-          let linguagensCorretas = 0;
-          let linguagensErradas = 0;
-          let linguagensTotais = 0;
-
-          this.disciplinas.forEach((disciplina) => {
-            if (disciplina.area === 'linguagens') {
-              linguagensCorretas += disciplina.qCorretas;
-              linguagensErradas += disciplina.qErradas;
-              linguagensTotais += disciplina.qErradas + disciplina.qCorretas;
-            }
-          });
-
-          return [linguagensCorretas, linguagensErradas, linguagensTotais];
-        },
-        get desempenhoMatematica () {
-          let matematicaCorretas = 0;
-          let matematicaErradas = 0;
-          let matematicaTotais = 0;
-
-          this.disciplinas.forEach((disciplina) => {
-            if (disciplina.area === 'matematica') {
-              matematicaCorretas += disciplina.qCorretas;
-              matematicaErradas += disciplina.qErradas;
-              matematicaTotais += disciplina.qErradas + disciplina.qCorretas;
-            }
-          });
-
-          return [matematicaCorretas, matematicaErradas, matematicaTotais];
-        },
-        get desempenhoNatureza () {
-          let naturezaCorretas = 0;
-          let naturezaErradas = 0;
-          let naturezaTotais = 0;
-
-          this.disciplinas.forEach((disciplina) => {
-            if (disciplina.area === 'natureza') {
-              naturezaCorretas += disciplina.qCorretas;
-              naturezaErradas += disciplina.qErradas;
-              naturezaTotais += disciplina.qErradas + disciplina.qCorretas;
-            }
-          });
-
-          return [naturezaCorretas, naturezaErradas, naturezaTotais];
-        },
-        get desempenhoHumanas () {
-          let humanasCorretas = 0;
-          let humanasErradas = 0;
-          let humanasTotais = 0;
-
-          this.disciplinas.forEach((disciplina) => {
-            if (disciplina.area === 'humanas') {
-              humanasCorretas += disciplina.qCorretas;
-              humanasErradas += disciplina.qErradas;
-              humanasTotais += disciplina.qErradas + disciplina.qCorretas;
-            }
-          });
-
-          return [humanasCorretas, humanasErradas, humanasTotais];
-        },
-
-        disciplinas: [
-          {
-            disciplina: 'Português',
-            qCorretas: 160,
-            qErradas: 120,
-            qTotais: 280,
-            area: 'linguagens',
-          },
-          {
-            disciplina: 'Espanhol',
-            qCorretas: 180,
-            qErradas: 100,
-            qTotais: 280,
-            area: 'linguagens',
-          },
-          {
-            disciplina: 'Inglês',
-            qCorretas: 240,
-            qErradas: 40,
-            qTotais: 280,
-            area: 'linguagens',
-          },
-          {
-            disciplina: 'Matemática',
-            qCorretas: 180,
-            qErradas: 20,
-            qTotais: 200,
-            area: 'matematica',
-          },
-          {
-            disciplina: 'Biologia',
-            qCorretas: 180,
-            qErradas: 20,
-            qTotais: 200,
-            area: 'natureza',
-          },
-          {
-            disciplina: 'Física',
-            qCorretas: 180,
-            qErradas: 20,
-            qTotais: 200,
-            area: 'natureza',
-          },
-          {
-            disciplina: 'História',
-            qCorretas: 100,
-            qErradas: 60,
-            qTotais: 160,
-            area: 'humanas',
-          },
-          {
-            disciplina: 'Geografia',
-            qCorretas: 180,
-            qErradas: 20,
-            qTotais: 200,
-            area: 'humanas',
-          },
-        ],
-      },
-
-      competencias: [
-        {
-          competenciaNome: 'Competência 1',
-          descricao: 'Domínio de escrito da língua portuguesa.',
-          notaCompetencia: 200,
-          desempenho: 'desempenhoExcelente',
-        },
-        {
-          competenciaNome: 'Competência 2',
-          descricao: 'Compreender o tema e não fugir do que é proposto.',
-          notaCompetencia: 120,
-          desempenho: 'desempenhoBom',
-        },
-        {
-          competenciaNome: 'Competência 3',
-          descricao: 'Selecionar, relacionar, organizar e interpretar informações, fatos, opiniões e argumentos em defesa de um ponto de vista.',
-          notaCompetencia: 80,
-          desempenho: 'desempenhoRuim',
-        },
-        {
-          competenciaNome: 'Competência 4',
-          descricao: 'Conhecimento dos mecanismos linguísticos necessários para a construção da argumentação.',
-          notaCompetencia: 40,
-          desempenho: 'desempenhoMuitoRuim',
-        },
-        {
-          competenciaNome: 'Competência 5',
-          descricao: 'Respeito aos direitos humanos.',
-          notaCompetencia: 160,
-          desempenho: 'desempenhoOtimo',
-        },
-      ],
-
-      questoesGabarito: [],
-      headers: [
-        {
-          text: 'Questão',
-          align: 'start',
-          sortable: false,
-          value: 'name',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Disciplina',
-          value: 'disciplina',
-          class: 'font-weight-bold',
-        },
-        {
-          text: 'Marcada',
-          value: 'marcada',
-          sortable: false,
-          class: 'font-weight-bold',
-        },
-        {
-          text: 'Gabarito',
-          value: 'gabarito',
-          sortable: false,
-          class: 'font-weight-bold',
-        },
-        {
-          text: 'Resultado',
-          value: 'resultado',
-          class: 'font-weight-bold',
-        },
-        {
-          text: 'Dificuldade',
-          value: 'dificuldade',
-          class: 'font-weight-bold',
-        },
-        {
-          text: 'Média De Acertos',
-          value: 'mediaEscolar',
-          class: 'font-weight-bold',
-        },
-        {
-          text: '',
-          value: 'url',
-          sortable: false,
-          class: 'font-weight-bold',
-        },
-      ],
-    };
-  },
-
-  methods: {
-    async changeSelect (event) {
-      try {
-        const filtrado = this.pesquisarSimulado(event, this.simuladosPesquisa);
-        if (filtrado.length > 0) {
-          this.loadingBasl(true);
-          const desempenhoLocal = await desempenho.desempenhoAluno(`desempenho/desempenho-aluno/${filtrado[0].id}`);
-          this.meuDesempenho(desempenhoLocal);
-          this.loadingBasl(false);
-        }
-      } catch (err) {
-        this.errorDefault(err);
-        this.informacoesAdicionais[0].info = 'Nota indisponível';
-      }
-    },
-
-    async errorDefault (err) {
-      if (err.response.status <= 0 || err.response.status >= 500 || err.response.status === 401) {
-        this.objeto.dialog = true;
-      }
-      this.loadingBasl(false);
-    },
-
-    async changeSelectArea (event) {
-      try {
-        const filtrado = this.pesquisarSimulado(event, this.areasPesquisa);
-        const simuladoFiltrado = this.pesquisarSimulado(this.simuladoCurret, this.simuladosPesquisa);
-
-        if (filtrado.length > 0 && simuladoFiltrado.length > 0) {
-          this.loadingBasl(true);
-          const questoes = await desempenho.desempenhoAluno(`questao/${simuladoFiltrado[0].id}/area/${filtrado[0].id}`);
-          this.myQuestoes(questoes);
-          this.loadingBasl(false);
-        }
-      } catch (err) {
-        this.errorDefault(err);
-      }
-    },
-
-    myQuestoes (questoes) {
-      this.questoesGabarito = [];
-      const quest = questoes.data.questoes;
-      for (let i = 0; i < quest.length; i++) {
-        const beris = {
-          name: i + 1,
-          disciplina: quest[i].materia,
-          marcada: quest[i].marcada,
-          gabarito: quest[i].gabarito,
-          descricao: quest[i].descricao,
-          alternativas: {
-            a: quest[i].ra,
-            b: quest[i].rb,
-            c: quest[i].rc,
-            d: quest[i].rd,
-            e: quest[i].re,
-          },
-          get resultado () {
-            if (this.marcada === this.gabarito) {
-              return 'acertou';
-            }
-            return 'errou';
-          },
-          dificuldade: quest[i].dificuldade,
-          mediaEscolar: `${quest[i].media} %`,
-          id: quest[i].id,
-          comentario: quest[i].comentario,
-        };
-
-        this.questoesGabarito.push(beris);
-      }
-
-      document.querySelector('.v-data-footer__select').innerHTML = '';
-      document.querySelector('.v-data-footer__pagination').innerHTML = `1 - ${this.questoesGabarito.length > 10 ? 10 : this.questoesGabarito.length} de ${this.questoesGabarito.length}`;
-    },
+  created () {
+    this.puxandoSimulEscol();
   },
 };
+
 </script>
 
 <style scoped>
