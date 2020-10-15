@@ -30,6 +30,7 @@
           md="5" lg="4"
       >
         <v-select
+                v-model="simuladoAtual"
             :items="simulados.map((el => el.titulo))" filled
             label="Filtrar desempenho por simulado" color="azul"
             hide-details
@@ -262,7 +263,7 @@
 
           <template v-slot:item.gabarito="{ item }">
             <v-dialog
-                v-model="gabarito[item.id]"
+                v-model="perfis[item.id]"
                 max-width="80%"
             >
               <template v-slot:activator="{ on, attrs }">
@@ -326,7 +327,7 @@
           md="5" lg="4"
       >
         <v-autocomplete
-            :items="alunos" filled
+            :items="alunos.map((el => el.titulo))" filled
             v-model="alunoGabarito"
             label="Selecionar aluno para ver gabarito" color="azul"
             hide-details
@@ -339,9 +340,9 @@
       >
         <v-select
             @change="changeSelectArea"
-            :items="areas"
-            :disabled="disabledSimulado"
+            :items="areas.map((el => el.titulo))"
             filled color="azul"
+            v-model="areaAtual"
             label="Escolha qual área deseja ver"
             hide-details
         />

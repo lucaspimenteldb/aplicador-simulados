@@ -4,13 +4,15 @@ const dados = {
       play: 'mdi-play',
       showLoading: false,
       escolaAtual: '',
-      alunos: ['lskdfjl;sd', 'lucas piomennet', 'anderoson morujas'],
+      alunos: [{ titulo: 'Sem dados' }],
       alunoGabarito: '',
       gabarito: {},
-      areas: ['Sem dados'],
+      areas: [{ titulo: 'Sem dados' }],
       simulados: [{ titulo: 'Sem dados' }],
       escolas: [{ titulo: 'Sem dados' }],
       turmas: [{ titulo: 'Sem dados' }],
+      areaAtual: '',
+      simuladoAtual: '',
 
       mediasGerais: [
         {
@@ -76,32 +78,32 @@ const dados = {
       desempenhoArea2: [
         {
           ttl: 'Linguagens',
-          nota: 643.48,
-          notaEstado: 615.76,
+          nota: '',
+          notaEstado: '',
           ranking: 750,
         },
         {
           ttl: 'Humanas',
-          nota: 687.44,
-          notaEstado: 685.54,
+          nota: '',
+          notaEstado: '',
           ranking: 920,
         },
         {
           ttl: 'Matemática',
-          nota: 583.22,
-          notaEstado: 625.90,
+          nota: '',
+          notaEstado: '',
           ranking: 110,
         },
         {
           ttl: 'Natureza',
-          nota: 622.36,
-          notaEstado: 646.86,
+          nota: '',
+          notaEstado: '',
           ranking: 110,
         },
         {
           ttl: 'Redação',
-          nota: 920,
-          notaEstado: 880,
+          nota: '',
+          notaEstado: '',
           ranking: 110,
         },
       ],
@@ -183,15 +185,10 @@ const dados = {
         },
       ],
 
+      perfis: {},
+
       colocacoes: [
-        {
-          posicao: 684.92,
-          nome: 'Lucas Pimentel',
-        },
-        {
-          posicao: 623.26,
-          nome: 'Uau',
-        },
+
       ],
 
       headerArea: [

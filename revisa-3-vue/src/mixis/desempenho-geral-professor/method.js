@@ -1,14 +1,32 @@
 const dados = {
   methods: {
     async errorDefault (err) {
+      this.showLoading = false;
       if (err.response.status <= 0 || err.response.status >= 500 || err.response.status === 401) {
-        this.objeto.dialog = true;
+        this.showLoading = false;
       }
-      this.loadingBasl(false);
     },
 
-    async changeSelectArea (event) {
-      console.log(event);
+    async changeSelectArea () {
+      try {
+        const filtrado = this.pesquisarSimulado(this.areaAtual, this.areas);
+        const simuladoFiltrado = this.pesquisarSimulado(this.simuladoAtual, this.simulados);
+        const usuario = this.pesquisarSimulado(this.alunoGabarito, this.alunos);
+
+        alert(JSON.stringify(this.simuladoAtual));
+
+        if (filtrado.length > 0 && simuladoFiltrado.length > 0 && usuario.length > 0) {
+          this.showLoading = true;
+          const questoes = await this.$http.get(`desempenho-professor/questao/${filtrado[0].id}/
+          ${simuladoFiltrado[0].id}/${usuario[0].id}`);
+          this.myQuestoes(questoes.data.questoes);
+          alert(JSON.stringify(questoes));
+          this.showLoading = false;
+        }
+      } catch (err) {
+        alert(JSON.stringify(err));
+        this.showLoading = false;
+      }
     },
 
     myQuestoes (questoes) {
@@ -53,6 +71,8 @@ const dados = {
         const escolas = await this.$http.get('desempenho-professor');
         this.escolas = escolas.data.escolas;
         this.simulados = escolas.data.simulados;
+        alert(JSON.stringify(this.simulados));
+        this.areas = escolas.data.areas;
         this.showLoading = false;
       } catch (e) {
         this.showLoading = false;
@@ -85,6 +105,9 @@ const dados = {
           const dados2 = await this.$http.post('desempenho-professor/medias-gerais/', objeto);
           this.preencherDesempenho(dados2.data);
           // this.colocadasFunc(dados2.data.calculadas);
+          this.desempenhoAreas(dados2.data.mediasAreas, dados2.data.mediaGeral);
+          this.preenchendoUsuarios(dados2.data.usuarios);
+          this.alunos = dados2.data.usuarios;
         }
         this.showLoading = false;
       } catch (e) {
@@ -101,18 +124,42 @@ const dados = {
       let vectorArea = [];
       let vectorEstado = [];
 
-      const turma = objeto[0];
-      const geralC = geral[0];
+      if (objeto.length > 0) {
+        const redacaoTurma = objeto[0].media_redacao;
+        const lingTurma = objeto[0].media_linguagens;
+        const matTurma = objeto[0].media_matematica;
+        const natTurma = objeto[0].media_natureza;
+        const humTurma = objeto[0].media_humana;
 
-      if (objeto.length <= 0) {
-        vectorArea = [0, 0, 0, 0, 0];
-        vectorEstado = [0, 0, 0, 0, 0];
-      } else {
-        vectorArea = [turma.media_redacao, turma.media_linguagens, turma.media_humanas, turma.media_matematica, turma.media_natureza];
-        vectorEstado = [geralC.media_redacao, geralC.media_linguagens, geralC.media_humanas, geralC.media_matematica, geralC.media_natureza];
+        const redacaoGeral = geral[0].media_redacao;
+        const lingGeral = geral[0].media_linguagens;
+        const matGeral = geral[0].media_matematica;
+        const natGeral = geral[0].media_natureza;
+        const humGeral = geral[0].media_humana;
+
+        vectorArea = [lingTurma, humTurma, matTurma, natTurma, redacaoTurma];
+        vectorEstado = [lingGeral, humGeral, matGeral, natGeral, redacaoGeral];
         for (let i = 0; i < vectorEstado.length; i++) {
-
+          this.desempenhoArea2[i].nota = vectorArea[i];
+          this.desempenhoArea2[i].notaEstado = vectorEstado[i];
         }
+      }
+    },
+
+    preenchendoUsuarios (usuarios) {
+      this.colocacoes = [];
+      for (let i = 0; i < usuarios.length; i++) {
+        const beris = {
+          posicao: usuarios[i].media,
+          nome: usuarios[i].titulo,
+          humanas: usuarios[i].Humanas,
+          natureza: usuarios[i].Natureza,
+          linguagens: usuarios[i].Linguagens,
+          matematica: usuarios[i].Matematica,
+          redacao: usuarios[i].redacao,
+          id: usuarios[i].id,
+        };
+        this.colocacoes.push(beris);
       }
     },
 
