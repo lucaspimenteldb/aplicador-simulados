@@ -64,7 +64,7 @@ const dados = {
       document.querySelector('.v-data-footer__select').innerHTML = '';
       document.querySelector('.v-data-footer__pagination').innerHTML = `1 - ${this.questoesGabarito.length > 10 ? 10 : this.questoesGabarito.length} de ${this.questoesGabarito.length}`;
     },
-   
+
     async puxandoSimulEscol () {
       try {
         this.showLoading = true;
@@ -178,13 +178,12 @@ const dados = {
       const mediaGeral = dadosOb.mediaGeral[0] ? dadosOb.mediaGeral[0].media_geral : 0;
 
       const vetor = [mediaTotalTurma, mediaRedacaoTurma, mediaGeral, mediaRedacaoGeral];
-      
+
       for (let i = 0; i < 2; i++) {
         this.desempenhoGeral[i].nota = vetor[i];
         this.desempenhoGeralEstado[i].nota = vetor[i + 2];
       }
     },
-    
   },
 };
 

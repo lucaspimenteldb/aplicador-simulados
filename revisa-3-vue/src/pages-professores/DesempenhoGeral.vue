@@ -30,7 +30,7 @@
           md="5" lg="4"
       >
         <v-select
-                v-model="simuladoAtual"
+            v-model="simuladoAtual"
             :items="simulados.map((el => el.titulo))" filled
             label="Filtrar desempenho por simulado" color="azul"
             hide-details
@@ -72,7 +72,7 @@
           cols="12" class="mt-12"
       >
         <header-secao>
-          Desempenho
+          Desempenho - {{ simuladoAtual }}
         </header-secao>
       </v-col>
 
@@ -261,54 +261,15 @@
             </p>
           </template>
 
-          <template v-slot:item.gabarito="{ item }">
-            <v-dialog
-                v-model="perfis[item.id]"
-                max-width="80%"
+          <template v-slot:item.gabarito>
+            <v-btn
+                small
+                id="ver__aluno"
+                class="azul white--text rounded__normal text-capitalize mr-1"
+                color="primary"
             >
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                    small
-                    class="azul white--text rounded__normal text-capitalize mr-1"
-                    color="primary"
-                    v-bind="attrs" v-on="on"
-                    @click.stop="$set(gabarito, item.id, true)"
-                >
-                  ver gabarito
-                </v-btn>
-              </template>
-
-              <v-card class="relative w-full">
-                <!-- nome e avatar-->
-                <v-card-title>
-                  <v-avatar>
-                    <v-img :src="item.foto" />
-                  </v-avatar>
-
-                  <span class="ml-2 h6">
-                    {{ item.nome }}
-                  </span>
-                </v-card-title>
-
-                <v-card-text class="mt-4">
-                  <header-secao class="pt-3">
-                    Dados escolares
-                  </header-secao>
-
-                </v-card-text>
-
-                <v-card-actions class="px-4">
-                  <v-spacer />
-
-                  <v-btn
-                      color="green darken-1" text
-                      @click="$set(perfis, item.id, false)"
-                  >
-                    Fechar
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
+              ver aluno
+            </v-btn>
           </template>
         </v-data-table>
       </v-col>
@@ -328,6 +289,7 @@
       >
         <v-autocomplete
             :items="alunos.map((el => el.titulo))" filled
+            id="aluno__gabarito"
             v-model="alunoGabarito"
             label="Selecionar aluno para ver gabarito" color="azul"
             hide-details
@@ -337,10 +299,19 @@
       <v-col
           cols="12" sm="6"
           md="4"
+          class="relative"
       >
+        <p
+            id="mensagem__select__area"
+            class="opacity-0 absolute top--4 left-4 errou--text transition transform-x--30"
+        >
+          Agora, escolha a área para ver o desempenho
+        </p>
+
         <v-select
             @change="changeSelectArea"
             :items="areas.map((el => el.titulo))"
+            id="select__area__gabarito"
             filled color="azul"
             v-model="areaAtual"
             label="Escolha qual área deseja ver"
@@ -510,7 +481,7 @@
           cols="12" class="mt-12"
       >
         <header-secao>
-          Desempenho nas Redações
+          Desempenho nas Redações - {{ simuladoAtual }}
         </header-secao>
       </v-col>
 
@@ -578,7 +549,7 @@
           cols="12" class="mt-12"
       >
         <header-secao>
-          Desempenho nos Simulados Escolares
+          Desempenho nos Simulados Escolares - {{ simuladoAtual }}
         </header-secao>
       </v-col>
 
@@ -1162,8 +1133,40 @@ export default {
   mixins: [data, methods],
   components: { TabsMobile, loading },
   // components: { PremiosMensais },
+
   created () {
     this.puxandoSimulEscol();
+  },
+
+  mounted () {
+    const alunoGabarito = document.getElementById('ver__aluno');
+    const alunoGabaritoSelect = document.getElementById('aluno__gabarito');
+    const mensagemSelectArea = document.getElementById('mensagem__select__area');
+    const selectAreaGabarito = document.getElementById('select__area__gabarito');
+    let alunoGabaritoNome;
+
+    alunoGabarito.addEventListener('click', () => {
+      alunoGabaritoNome = alunoGabarito.parentNode.parentNode.firstChild.innerText;
+
+      alunoGabaritoSelect.parentNode.parentNode.click();
+      alunoGabarito.scrollIntoView();
+
+      setTimeout(() => {
+        alunoGabaritoSelect.value = alunoGabaritoNome;
+      }, 800);
+
+      setTimeout(() => {
+        mensagemSelectArea.classList.remove('opacity-0');
+        mensagemSelectArea.classList.remove('transform-x--30');
+        mensagemSelectArea.classList.add('transform-x-0');
+      }, 1000);
+    });
+
+    selectAreaGabarito.parentNode.parentNode.addEventListener('click', () => {
+      mensagemSelectArea.classList.remove('transform-x-0');
+      mensagemSelectArea.classList.add('opacity-0');
+      mensagemSelectArea.classList.add('transform-x--30');
+    });
   },
 };
 

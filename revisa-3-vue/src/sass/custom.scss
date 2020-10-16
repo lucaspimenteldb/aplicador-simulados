@@ -180,6 +180,14 @@
   transition: .3s ease-in-out;
 }
 
+// transform
+.transform-x-0 {
+  transform: translateX(0);
+}
+.transform-x--30 {
+  transform: translateX(-60px);
+}
+
 // width & heights
 .min-w-auto {
   min-width: auto;

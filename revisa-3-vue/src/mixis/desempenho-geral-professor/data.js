@@ -178,7 +178,7 @@ const dados = {
           class: 'body-2 font-weight-bold',
         },
         {
-          text: '',
+          text: 'Gabarito Aluno',
           sortable: false,
           value: 'gabarito',
           class: 'body-2 font-weight-bold',
@@ -188,7 +188,9 @@ const dados = {
       perfis: {},
 
       colocacoes: [
-
+        {
+          nome: 'lucas',
+        },
       ],
 
       headerArea: [
@@ -525,7 +527,7 @@ const dados = {
           class: 'font-weight-bold',
         },
         {
-          text: '',
+          text: 'Resolução',
           value: 'url',
           sortable: false,
           class: 'font-weight-bold',

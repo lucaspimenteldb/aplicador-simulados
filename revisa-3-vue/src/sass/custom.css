@@ -213,6 +213,14 @@
   transition: 0.3s ease-in-out;
 }
 
+.transform-x-0 {
+  transform: translateX(0);
+}
+
+.transform-x--30 {
+  transform: translateX(-60px);
+}
+
 .min-w-auto {
   min-width: auto;
 }
