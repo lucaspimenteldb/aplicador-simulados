@@ -51,6 +51,9 @@ export default {
   },
 
   mounted () {
+    const sliderInutil = document.querySelector('.v-slide-group__prev--disabled');
+    sliderInutil.remove();
+
     window.addEventListener('resize', () => {
       this.width = window.innerWidth;
     });

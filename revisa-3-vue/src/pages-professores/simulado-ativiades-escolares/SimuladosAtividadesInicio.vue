@@ -117,12 +117,17 @@
         </v-data-table>
       </v-col>
     </v-row>
+
+    <TabsMobile />
   </v-container>
 </template>
 
 <script>
+import TabsMobile from '../../components/TabsMobile.vue';
+
 export default {
   name: 'SimuladosAtividadesInicio',
+  components: { TabsMobile },
 
   data () {
     return {

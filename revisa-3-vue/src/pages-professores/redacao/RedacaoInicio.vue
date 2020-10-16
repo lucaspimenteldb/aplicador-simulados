@@ -460,6 +460,8 @@ v-if="item.done"
         </div>
       </v-col>
     </v-row>
+
+    <TabsMobile />
   </v-container>
 </template>
 
@@ -471,12 +473,13 @@ import DialogRedacao from '../../components/dialog/DialogRedacao/DialogRedacao.v
 import data from '../../mixis/redacao-professor/data';
 import method from '../../mixis/redacao-professor/method';
 import loading from '../../components/loading/Loading.vue';
+import TabsMobile from '../../components/TabsMobile.vue';
 
 export default {
 
   name: 'RedacaoInicio',
   mixins: [data, method],
-  components: { loading, Bar, DialogRedacao },
+  components: { loading, Bar, DialogRedacao, TabsMobile },
 
   mounted () {
     this.getRedacao();

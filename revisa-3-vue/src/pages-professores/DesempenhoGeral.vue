@@ -504,6 +504,74 @@
       <PremiosMensais class="mt-8" />-->
     </v-row>
 
+    <!-- desempenho nas redações -->
+    <v-row>
+      <v-col
+          cols="12" class="mt-12"
+      >
+        <header-secao>
+          Desempenho nas Redações
+        </header-secao>
+      </v-col>
+
+      <v-col cols="12">
+        <subheader-secao>
+          Média das Redações
+        </subheader-secao>
+      </v-col>
+      <v-col
+          cols="6" sm="3"
+          md="2"
+      >
+        <v-card>
+          <v-card-title>
+            <p class="d-block w-full text-h4 font-weight-bold text-center grey--text text--darken-3">
+              820
+            </p>
+          </v-card-title>
+        </v-card>
+      </v-col>
+
+      <!-- por competencia -->
+      <v-col
+          cols="12" class="mt-8"
+      >
+        <subheader-secao>
+          Média por competência
+        </subheader-secao>
+      </v-col>
+
+      <v-col
+          cols="12" sm="6"
+          lg="4"
+          v-for="competencia in competencias" :key="competencia.competenciaNome"
+      >
+        <v-card class="h-full">
+          <v-card-text class="d-flex align-center justify-space-between">
+            <article class="max-w-3/4">
+              <p class="caption grey--text text--darken-3">
+                {{ competencia.competenciaNome }}
+              </p>
+
+              <p class="body-2 grey--text text--darken-3">
+                {{ competencia.descricao }}
+              </p>
+            </article>
+
+            <v-progress-circular
+                size="60" width="6"
+                :value="competencia.notaCompetencia / 2" :color="competencia.desempenho"
+                class="flex-shrink-0"
+            >
+              <p class="text-h6 text-center">
+                {{ competencia.notaCompetencia }}
+              </p>
+            </v-progress-circular>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+
     <!-- escolher qual desempenho quer ver-->
     <v-row>
       <v-col
@@ -969,7 +1037,7 @@
           class="mt-8"
       >
         <subheader-secao>
-          Média TRI por escola ou turma
+          Compares as médias TRI das escoles e turmas
         </subheader-secao>
       </v-col>
 
@@ -1012,74 +1080,6 @@
             label="Comparar turmas" color="azul"
             hide-details
         />
-      </v-col>
-    </v-row>
-
-    <!-- desempenho nas redações -->
-    <v-row>
-      <v-col
-          cols="12" class="mt-12"
-      >
-        <header-secao>
-          Desempenho nas Redações
-        </header-secao>
-      </v-col>
-
-      <v-col cols="12">
-        <subheader-secao>
-          Média das Redações
-        </subheader-secao>
-      </v-col>
-      <v-col
-          cols="6" sm="3"
-          md="2"
-      >
-        <v-card>
-          <v-card-title>
-            <p class="d-block w-full text-h4 font-weight-bold text-center grey--text text--darken-3">
-              820
-            </p>
-          </v-card-title>
-        </v-card>
-      </v-col>
-
-      <!-- por competencia -->
-      <v-col
-          cols="12" class="mt-8"
-      >
-        <subheader-secao>
-          Média por competência
-        </subheader-secao>
-      </v-col>
-
-      <v-col
-          cols="12" sm="6"
-          lg="4"
-          v-for="competencia in competencias" :key="competencia.competenciaNome"
-      >
-        <v-card class="h-full">
-          <v-card-text class="d-flex align-center justify-space-between">
-            <article class="max-w-3/4">
-              <p class="caption grey--text text--darken-3">
-                {{ competencia.competenciaNome }}
-              </p>
-
-              <p class="body-2 grey--text text--darken-3">
-                {{ competencia.descricao }}
-              </p>
-            </article>
-
-            <v-progress-circular
-                size="60" width="6"
-                :value="competencia.notaCompetencia / 2" :color="competencia.desempenho"
-                class="flex-shrink-0"
-            >
-              <p class="text-h6 text-center">
-                {{ competencia.notaCompetencia }}
-              </p>
-            </v-progress-circular>
-          </v-card-text>
-        </v-card>
       </v-col>
     </v-row>
 
@@ -1137,12 +1137,14 @@
               <v-icon
                   v-text="'mdi-checkbox-marked-circle-outline'" color="black"
               />
-            </article>
+            </article>m
           </v-card-text>
         </v-card>
       </v-col>
     </v-row>-->
     <loading :dialog="showLoading" />
+
+    <TabsMobile />
   </v-container>
 </template>
 
@@ -1153,11 +1155,12 @@
 import data from '../mixis/desempenho-geral-professor/data';
 import methods from '../mixis/desempenho-geral-professor/method';
 import loading from '../components/loading/Loading.vue';
+import TabsMobile from '../components/TabsMobile.vue';
 
 export default {
   name: 'DesempenhoGeral',
   mixins: [data, methods],
-  components: { loading },
+  components: { TabsMobile, loading },
   // components: { PremiosMensais },
   created () {
     this.puxandoSimulEscol();

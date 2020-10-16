@@ -384,15 +384,17 @@
       </v-col>
     </v-row>
 
+    <TabsMobile />
   </v-container>
 </template>
 
 <script>
 import SelecionarRanking from '../components-professores/SelecionarRanking.vue';
+import TabsMobile from '../components/TabsMobile.vue';
 
 export default {
   name: 'Ranking',
-  components: { SelecionarRanking },
+  components: { TabsMobile, SelecionarRanking },
 
   data () {
     return {
@@ -620,7 +622,7 @@ export default {
         },
         {
           text: 'Média TRI',
-          sortable: false,
+          sortable: true,
           value: 'pontuacao',
           class: 'body-2 font-weight-bold',
         },
@@ -633,6 +635,13 @@ export default {
       ],
       headerRankingEscolarArea: [
         {
+          text: 'Ranking',
+          align: 'start',
+          sortable: false,
+          value: 'posicao',
+          class: 'body-2 font-weight-bold',
+        },
+        {
           text: 'Escola',
           align: 'start',
           sortable: false,
@@ -642,25 +651,25 @@ export default {
         {
           text: 'Ciências Humanas',
           align: 'start',
-          sortable: false,
+          sortable: true,
           value: 'humanas',
           class: 'body-2 font-weight-bold',
         },
         {
           text: 'Ciências da Natureza',
-          sortable: false,
+          sortable: true,
           value: 'natureza',
           class: 'body-2 font-weight-bold',
         },
         {
           text: 'Liguagens e seus Códigos',
-          sortable: false,
+          sortable: true,
           value: 'linguagens',
           class: 'body-2 font-weight-bold',
         },
         {
           text: 'Matemática',
-          sortable: false,
+          sortable: true,
           value: 'matematica',
           class: 'body-2 font-weight-bold',
         },
@@ -670,55 +679,55 @@ export default {
           icon: 'mdi-podium-gold',
           posicao: '#1',
           escola: 'Escolinha do raimundo',
-          humanas: 680,
+          humanas: 734,
           natureza: 680,
-          linguagens: 680,
+          linguagens: 556,
           matematica: 680,
         },
         {
           icon: 'mdi-podium-silver',
           posicao: '#2',
           escola: 'Escolinha do raimundo',
-          humanas: 680,
-          natureza: 680,
-          linguagens: 680,
-          matematica: 680,
+          humanas: 764,
+          natureza: 468,
+          linguagens: 676,
+          matematica: 484,
         },
         {
           icon: 'mdi-podium-bronze',
           posicao: '#3',
           escola: 'Escolinha do raimundo',
-          humanas: 680,
-          natureza: 680,
-          linguagens: 680,
-          matematica: 680,
+          humanas: 564,
+          natureza: 844,
+          linguagens: 456,
+          matematica: 742,
         },
         {
           icon: 'mdi-seal-variant',
           posicao: '#4',
           escola: 'Escolinha do raimundo',
-          humanas: 680,
-          natureza: 680,
-          linguagens: 680,
-          matematica: 680,
+          humanas: 236,
+          natureza: 636,
+          linguagens: 568,
+          matematica: 832,
         },
         {
           icon: 'mdi-seal-variant',
           posicao: '#5',
           escola: 'Escolinha do raimundo',
-          humanas: 680,
-          natureza: 680,
-          linguagens: 680,
-          matematica: 680,
+          humanas: 822,
+          natureza: 348,
+          linguagens: 466,
+          matematica: 666,
         },
         {
           icon: 'mdi-seal-variant',
           posicao: '#6',
           escola: 'Escolinha do raimundo',
-          humanas: 680,
-          natureza: 680,
-          linguagens: 680,
-          matematica: 680,
+          humanas: 724,
+          natureza: 564,
+          linguagens: 622,
+          matematica: 640,
         },
         {
           icon: 'mdi-seal-variant',

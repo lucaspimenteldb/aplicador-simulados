@@ -432,12 +432,17 @@
         </v-card>
       </v-col>
     </v-row>
+
+    <TabsMobile />
   </v-container>
 </template>
 
 <script>
+import TabsMobile from '../../components/TabsMobile.vue';
+
 export default {
   name: 'DesempenhoSimulado',
+  components: { TabsMobile },
 
   data () {
     return {
