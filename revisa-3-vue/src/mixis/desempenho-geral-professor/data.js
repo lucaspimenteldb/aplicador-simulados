@@ -13,6 +13,9 @@ const dados = {
       turmas: [{ titulo: 'Sem dados' }],
       areaAtual: '',
       simuladoAtual: '',
+      search: '',
+      dialog: {},
+      redacaoGeral: '',
 
       mediasGerais: [
         {
@@ -296,7 +299,7 @@ const dados = {
         },
       ],
 
-      disciplinas: ['Português', 'Espanhol', 'Inlgês', 'Literatura', 'Artes', 'Ed. Física', 'Matemática', 'Química', 'Física', 'Biologia', 'História', 'Geografia', 'Filosofia', 'Sociologia'],
+      disciplinas: [{ titulo: 'Sem dados' }],
       desempenhoEscolhido: null,
       informacoesAdicionais: [
         {
@@ -456,31 +459,31 @@ const dados = {
         {
           competenciaNome: 'Competência 1',
           descricao: 'Domínio de escrito da língua portuguesa.',
-          notaCompetencia: 200,
+          notaCompetencia: '',
           desempenho: 'desempenhoExcelente',
         },
         {
           competenciaNome: 'Competência 2',
           descricao: 'Compreender o tema e não fugir do que é proposto.',
-          notaCompetencia: 120,
+          notaCompetencia: '',
           desempenho: 'desempenhoBom',
         },
         {
           competenciaNome: 'Competência 3',
           descricao: 'Selecionar, relacionar, organizar e interpretar informações, fatos, opiniões e argumentos em defesa de um ponto de vista.',
-          notaCompetencia: 80,
+          notaCompetencia: '',
           desempenho: 'desempenhoRuim',
         },
         {
           competenciaNome: 'Competência 4',
           descricao: 'Conhecimento dos mecanismos linguísticos necessários para a construção da argumentação.',
-          notaCompetencia: 40,
+          notaCompetencia: '',
           desempenho: 'desempenhoMuitoRuim',
         },
         {
           competenciaNome: 'Competência 5',
           descricao: 'Respeito aos direitos humanos.',
-          notaCompetencia: 160,
+          notaCompetencia: '',
           desempenho: 'desempenhoOtimo',
         },
       ],

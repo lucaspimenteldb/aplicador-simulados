@@ -165,7 +165,6 @@ const method = {
     },
 
     metodosMedia (dados) {
-      
       const cond = [dados.competencia_1, dados.competencia_2, dados.competencia_3, dados.competencia_4, dados.competencia_5];
       
       for (let i = 0; i < cond.length; i++) {

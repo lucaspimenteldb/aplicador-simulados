@@ -506,7 +506,7 @@
         <v-card>
           <v-card-title>
             <p class="d-block w-full text-h4 font-weight-bold text-center grey--text text--darken-3">
-              820
+              {{ redacaoGeral }}
             </p>
           </v-card-title>
         </v-card>
@@ -991,7 +991,7 @@
       >
         <!-- select da disciplina -->
         <v-select
-            :items="disciplinas" filled
+            :items="disciplinas.map((el) => el.titulo)" filled
             label="Escolha a disciplina" color="azul"
             hide-details
         />
@@ -1026,7 +1026,7 @@
           md="4" sm="8"
       >
         <v-select
-            :items="escola" filled
+                filled
             label="Filtrar desempenho por escola" color="azul"
             hide-details
         />
@@ -1041,9 +1041,7 @@
           md="4"
       >
         <v-select
-            v-model="turma1"
-            @change="changeSelectGraComp"
-            :items="turma2s" filled
+            filled
             label="Comparar turmas" color="azul"
             hide-details
         />
@@ -1054,9 +1052,7 @@
           md="4"
       >
         <v-select
-            v-model="turma2"
-            :items="turma2s" filled
-            @change="changeSelectGraComp"
+            filled
             label="Comparar turmas" color="azul"
             hide-details
         />
@@ -1136,47 +1132,48 @@ import data from '../mixis/desempenho-geral-professor/data';
 import methods from '../mixis/desempenho-geral-professor/method';
 import loading from '../components/loading/Loading.vue';
 import TabsMobile from '../components/TabsMobile.vue';
+import Dialog from '../components/dialog/Dialog.vue';
 
 export default {
   name: 'DesempenhoGeral',
   mixins: [data, methods],
-  components: { TabsMobile, loading },
+  components: { TabsMobile, loading, Dialog },
   // components: { PremiosMensais },
 
   created () {
     this.puxandoSimulEscol();
   },
 
-  mounted () {
-    const alunoGabarito = document.getElementById('ver__aluno');
-    const alunoGabaritoSelect = document.getElementById('aluno__gabarito');
-    const mensagemSelectArea = document.getElementById('mensagem__select__area');
-    const selectAreaGabarito = document.getElementById('select__area__gabarito');
-    let alunoGabaritoNome;
-
-    alunoGabarito.addEventListener('click', () => {
-      alunoGabaritoNome = alunoGabarito.parentNode.parentNode.firstChild.innerText;
-
-      alunoGabaritoSelect.parentNode.parentNode.click();
-      alunoGabarito.scrollIntoView();
-
-      setTimeout(() => {
-        alunoGabaritoSelect.value = alunoGabaritoNome;
-      }, 800);
-
-      setTimeout(() => {
-        mensagemSelectArea.classList.remove('opacity-0');
-        mensagemSelectArea.classList.remove('transform-x--30');
-        mensagemSelectArea.classList.add('transform-x-0');
-      }, 1000);
-    });
-
-    selectAreaGabarito.parentNode.parentNode.addEventListener('click', () => {
-      mensagemSelectArea.classList.remove('transform-x-0');
-      mensagemSelectArea.classList.add('opacity-0');
-      mensagemSelectArea.classList.add('transform-x--30');
-    });
-  },
+  // mounted () {
+  //   const alunoGabarito = document.getElementById('ver__aluno');
+  //   const alunoGabaritoSelect = document.getElementById('aluno__gabarito');
+  //   const mensagemSelectArea = document.getElementById('mensagem__select__area');
+  //   const selectAreaGabarito = document.getElementById('select__area__gabarito');
+  //   let alunoGabaritoNome;
+  //
+  //   alunoGabarito.addEventListener('click', () => {
+  //     alunoGabaritoNome = alunoGabarito.parentNode.parentNode.firstChild.innerText;
+  //
+  //     alunoGabaritoSelect.parentNode.parentNode.click();
+  //     alunoGabarito.scrollIntoView();
+  //
+  //     setTimeout(() => {
+  //       alunoGabaritoSelect.value = alunoGabaritoNome;
+  //     }, 800);
+  //
+  //     setTimeout(() => {
+  //       mensagemSelectArea.classList.remove('opacity-0');
+  //       mensagemSelectArea.classList.remove('transform-x--30');
+  //       mensagemSelectArea.classList.add('transform-x-0');
+  //     }, 1000);
+  //   });
+  //
+  //   selectAreaGabarito.parentNode.parentNode.addEventListener('click', () => {
+  //     mensagemSelectArea.classList.remove('transform-x-0');
+  //     mensagemSelectArea.classList.add('opacity-0');
+  //     mensagemSelectArea.classList.add('transform-x--30');
+  //   });
+  // },
 };
 
 </script>

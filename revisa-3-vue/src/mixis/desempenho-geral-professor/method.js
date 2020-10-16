@@ -13,18 +13,15 @@ const dados = {
         const simuladoFiltrado = this.pesquisarSimulado(this.simuladoAtual, this.simulados);
         const usuario = this.pesquisarSimulado(this.alunoGabarito, this.alunos);
 
-        alert(JSON.stringify(this.simuladoAtual));
-
         if (filtrado.length > 0 && simuladoFiltrado.length > 0 && usuario.length > 0) {
           this.showLoading = true;
           const questoes = await this.$http.get(`desempenho-professor/questao/${filtrado[0].id}/
           ${simuladoFiltrado[0].id}/${usuario[0].id}`);
-          this.myQuestoes(questoes.data.questoes);
-          alert(JSON.stringify(questoes));
+          this.myQuestoes(questoes);
           this.showLoading = false;
         }
       } catch (err) {
-        alert(JSON.stringify(err));
+        console.log(err);
         this.showLoading = false;
       }
     },
@@ -57,8 +54,8 @@ const dados = {
           id: quest[i].id,
           comentario: quest[i].comentario,
         };
-
         this.questoesGabarito.push(beris);
+        console.log(beris.marcada);
       }
 
       document.querySelector('.v-data-footer__select').innerHTML = '';
@@ -71,8 +68,8 @@ const dados = {
         const escolas = await this.$http.get('desempenho-professor');
         this.escolas = escolas.data.escolas;
         this.simulados = escolas.data.simulados;
-        alert(JSON.stringify(this.simulados));
         this.areas = escolas.data.areas;
+        this.disciplinas = escolas.data.materias;
         this.showLoading = false;
       } catch (e) {
         this.showLoading = false;
@@ -104,15 +101,42 @@ const dados = {
           const objeto = { turma: filtrar[0].id, escola: filtrar2[0].id };
           const dados2 = await this.$http.post('desempenho-professor/medias-gerais/', objeto);
           this.preencherDesempenho(dados2.data);
-          // this.colocadasFunc(dados2.data.calculadas);
           this.desempenhoAreas(dados2.data.mediasAreas, dados2.data.mediaGeral);
           this.preenchendoUsuarios(dados2.data.usuarios);
           this.alunos = dados2.data.usuarios;
+          this.metodosMediaRed(dados2.data.dom.media);
+          this.redacaoGeral = dados2.data.media_redacao ? dados2.data.media_redacao.media_redacao : 'Nota não disponível';
         }
         this.showLoading = false;
       } catch (e) {
         this.showLoading = false;
       }
+    },
+
+    metodosMediaRed (dadosR) {
+      const cond = [dadosR.competencia_1, dadosR.competencia_2, dadosR.competencia_3, dadosR.competencia_4, dadosR.competencia_5];
+
+      for (let i = 0; i < cond.length; i++) {
+        this.competencias[i].notaCompetencia = cond[i];
+        this.competencias[i].desempenho = this.resultIdioma(cond[i]);
+      }
+    },
+
+    resultIdioma (resultado) {
+      let desempenho = '';
+      if (resultado >= 0 && resultado <= 40) {
+        desempenho = 'desempenhoMuitoRuim';
+      } else if (resultado >= 41 && resultado <= 80) {
+        desempenho = 'desempenhoRuim';
+      } else if (resultado >= 81 && resultado <= 120) {
+        desempenho = 'desempenhoBom';
+      } else if (resultado >= 121 && resultado <= 160) {
+        desempenho = 'desempenhoOtimo';
+      } else {
+        desempenho = 'desempenhoExcelente';
+      }
+
+      return desempenho;
     },
 
     pesquisarSimulado (simulado, pesquisa) {
