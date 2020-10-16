@@ -133,7 +133,7 @@
             fixed-header
             :search="search"
             v-slot:item="{ item }"
-            class="mt-2 relative top-2 clear-both"
+            class="relative clear-both"
         >
           <tr>
             <td>

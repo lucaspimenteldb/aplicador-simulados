@@ -246,10 +246,19 @@
       </v-col>
 
       <v-col cols="12">
+        <v-text-field
+            label="Pesquisar..."
+            filled
+            append-icon="mdi-magnify"
+            class="max-w-240 float-right"
+            hide-details
+            v-model="search"
+        />
+
         <v-data-table
             :headers="headerRanking" :items="colocacoes"
             fixed-header
-            class="text-no-wrap"
+            class="text-no-wrap clear-both"
         >
           <template v-slot:item.posicao="{ item }">
             <p class="font-weight-bold">
