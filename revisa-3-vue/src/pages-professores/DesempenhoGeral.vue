@@ -60,6 +60,7 @@
       >
         <v-select
             @change="changeTurma"
+            v-model="turmaAtual"
             :items="turmas.map((el => el.titulo))" filled
             label="Filtrar desempenho por turma" color="azul"
             hide-details
@@ -992,6 +993,7 @@
         <!-- select da disciplina -->
         <v-select
             :items="disciplinas.map((el) => el.titulo)" filled
+            @change="changeAssuntos"
             label="Escolha a disciplina" color="azul"
             hide-details
         />
@@ -1002,12 +1004,12 @@
 
       <v-col
           cols="12" sm="6"
-          md="4" v-for="assunto in 6"
-          :key="assunto"
+          md="4" v-for="assunto in assuntos"
+          :key="assunto.id"
       >
         <!-- display dos assuntos -->
         <assunto
-            :assunto="`Assunto ${assunto}`" acertos="2/10"
+            :assunto="assunto.titulo" :acertos="assunto.totalFormat"
         />
       </v-col>
 
@@ -1027,6 +1029,9 @@
       >
         <v-select
                 filled
+                v-model="escolaAtualGraf"
+                @change="changeEscolaGraf"
+                :items="escolas.map((el) => el.titulo)"
             label="Filtrar desempenho por escola" color="azul"
             hide-details
         />
@@ -1042,6 +1047,9 @@
       >
         <v-select
             filled
+            :items="turmasGraf.map((el) => el.titulo)"
+            v-model="turmaGraf1"
+            @change="changeTurmaGraf"
             label="Comparar turmas" color="azul"
             hide-details
         />
@@ -1053,6 +1061,9 @@
       >
         <v-select
             filled
+            :items="turmasGraf.map((el) => el.titulo)"
+            v-model="turmaGraf2"
+            @change="changeTurmaGraf"
             label="Comparar turmas" color="azul"
             hide-details
         />
@@ -1118,6 +1129,10 @@
         </v-card>
       </v-col>
     </v-row>-->
+    <Bar
+:chartdata="chartdata"
+@reniciar="reiniciar"
+/>
     <loading :dialog="showLoading" />
 
     <TabsMobile />
@@ -1133,11 +1148,14 @@ import methods from '../mixis/desempenho-geral-professor/method';
 import loading from '../components/loading/Loading.vue';
 import TabsMobile from '../components/TabsMobile.vue';
 import Dialog from '../components/dialog/Dialog.vue';
+import Bar from '../components/Graficos/GraficoBar.vue';
 
 export default {
   name: 'DesempenhoGeral',
   mixins: [data, methods],
-  components: { TabsMobile, loading, Dialog },
+  components: {
+    TabsMobile, loading, Dialog, Bar,
+  },
   // components: { PremiosMensais },
 
   created () {

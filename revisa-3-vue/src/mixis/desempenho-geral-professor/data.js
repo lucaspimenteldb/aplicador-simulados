@@ -4,6 +4,7 @@ const dados = {
       play: 'mdi-play',
       showLoading: false,
       escolaAtual: '',
+      escolaAtualGraf: '',
       alunos: [{ titulo: 'Sem dados' }],
       alunoGabarito: '',
       gabarito: {},
@@ -11,11 +12,21 @@ const dados = {
       simulados: [{ titulo: 'Sem dados' }],
       escolas: [{ titulo: 'Sem dados' }],
       turmas: [{ titulo: 'Sem dados' }],
+      turmasGraf: [{ titulo: 'Sem dados' }],
+      turmaAtual: '',
+      turmaGraf1: '',
+      turmaGraf2: '',
       areaAtual: '',
       simuladoAtual: '',
       search: '',
       dialog: {},
       redacaoGeral: '',
+      chartdata: {
+        datasets: [
+
+        ],
+        labels: [],
+      },
 
       mediasGerais: [
         {
@@ -299,6 +310,7 @@ const dados = {
         },
       ],
 
+      assuntos: [],
       disciplinas: [{ titulo: 'Sem dados' }],
       desempenhoEscolhido: null,
       informacoesAdicionais: [

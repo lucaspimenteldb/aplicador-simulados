@@ -1,3 +1,5 @@
+import { Busao } from '../../main';
+
 const dados = {
   methods: {
     async errorDefault (err) {
@@ -76,6 +78,25 @@ const dados = {
       }
     },
 
+    async changeAssuntos (event) {
+      try {
+        this.showLoading = true;
+        const disciplFilter = this.pesquisarSimulado(event, this.disciplinas);
+        const escolaFilter = this.pesquisarSimulado(this.escolaAtual, this.escolas);
+        const turmaFilter = this.pesquisarSimulado(this.turmaAtual, this.turmas);
+        // const simulFiltrar = this.pesquisarSimulado(this.simuladoCurret, this.simuladosPesquisa);
+        if (disciplFilter.length > 0 && escolaFilter.length > 0 && turmaFilter.length > 0) {
+          const retorno = await this.$http.get(`desempenho-professor/assuntos/${disciplFilter[0].id}
+          /${escolaFilter[0].id}/${turmaFilter[0].id}`);
+          this.assuntos = retorno.data.assuntos;
+        }
+        this.showLoading = false;
+      } catch (err) {
+        this.showLoading = false;
+        this.errorDefault(err);
+      }
+    },
+
     async changeEscola ($event) {
       try {
         this.showLoading = true;
@@ -88,6 +109,57 @@ const dados = {
         this.showLoading = false;
       } catch (e) {
         this.showLoading = false;
+      }
+    },
+
+    async changeEscolaGraf ($event) {
+      try {
+        this.showLoading = true;
+        const filtrar = this.pesquisarSimulado($event, this.escolas);
+
+        if (filtrar.length > 0) {
+          const dados2 = await this.$http.get(`desempenho-professor/turma/${filtrar[0].id}`);
+          this.turmasGraf = dados2.data.turmas;
+        }
+        this.showLoading = false;
+      } catch (e) {
+        this.showLoading = false;
+      }
+    },
+
+    async changeTurmaGraf () {
+      try {
+        this.showLoading = true;
+        const turma1 = this.pesquisarSimulado(this.turmaGraf1, this.turmasGraf);
+        const turma2 = this.pesquisarSimulado(this.turmaGraf2, this.turmasGraf);
+        const escolaAux = this.pesquisarSimulado(this.escolaAtualGraf, this.escolas);
+
+        if (turma2.length > 0 && turma1.length > 0 && escolaAux.length > 0) {
+          const dados2 = await this.$http.get(`desempenho-professor/comparar-turmas/${escolaAux[0].id}/${turma1[0].id}/${turma2[0].id}`);
+          const color = ['#ffdd9e', '#a3ffa3'];
+          const medias = [dados2.data.turma1[0].media_geral, dados2.data.turma2[0].media_geral];
+          this.chartdata.datasets = [];
+          this.chartdata.labels = [];
+          const labels = [this.turmaGraf1, this.turmaGraf2];
+          this.preencherTubalina(color, medias, this.chartdata, 2, labels, 'Média estadual');
+        }
+        this.showLoading = false;
+      } catch (e) {
+        this.showLoading = false;
+      }
+    },
+
+    preencherTubalina (color, medias, chart, qtd, labels, titulo) {
+      chart.labels.unshift(titulo);
+      for (let i = 0; i < qtd; i++) {
+        const med = {
+          label: labels[i],
+          backgroundColor: [color[i]],
+          borderWidth: 1,
+          data: [medias[i]],
+        };
+        chart.datasets.push(med);
+        this.reiniciar();
       }
     },
 
@@ -208,6 +280,11 @@ const dados = {
         this.desempenhoGeralEstado[i].nota = vetor[i + 2];
       }
     },
+
+    reiniciar () {
+      Busao.$emit('reiniciar');
+    },
+    
   },
 };
 
