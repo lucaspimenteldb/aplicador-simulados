@@ -1,3 +1,4 @@
+import DesempenhoArea from '../../models/desempenho-geral-professor/desempenhoArea';
 import { Busao } from '../../main';
 
 const dados = {
@@ -84,15 +85,17 @@ const dados = {
         const disciplFilter = this.pesquisarSimulado(event, this.disciplinas);
         const escolaFilter = this.pesquisarSimulado(this.escolaAtual, this.escolas);
         const turmaFilter = this.pesquisarSimulado(this.turmaAtual, this.turmas);
-        // const simulFiltrar = this.pesquisarSimulado(this.simuladoCurret, this.simuladosPesquisa);
-        if (disciplFilter.length > 0 && escolaFilter.length > 0 && turmaFilter.length > 0) {
+        const simulFiltrar = this.pesquisarSimulado(this.simuladoAtual, this.simulados);
+
+        if (disciplFilter.length > 0 && escolaFilter.length > 0 && turmaFilter.length > 0 && simulFiltrar.length > 0) {
           const retorno = await this.$http.get(`desempenho-professor/assuntos/${disciplFilter[0].id}
-          /${escolaFilter[0].id}/${turmaFilter[0].id}`);
+          /${escolaFilter[0].id}/${turmaFilter[0].id}/${simulFiltrar[0].id}`);
           this.assuntos = retorno.data.assuntos;
         }
         this.showLoading = false;
       } catch (err) {
         this.showLoading = false;
+        console.log(err);
         this.errorDefault(err);
       }
     },
@@ -163,14 +166,15 @@ const dados = {
       }
     },
 
-    async changeTurma ($event) {
+    async changeTurma () {
       try {
         this.showLoading = true;
-        const filtrar = this.pesquisarSimulado($event, this.turmas);
+        const filtrar = this.pesquisarSimulado(this.turmaAtual, this.turmas);
         const filtrar2 = this.pesquisarSimulado(this.escolaAtual, this.escolas);
+        const simuladosFilter = this.pesquisarSimulado(this.simuladoAtual, this.simulados);
 
-        if (filtrar.length > 0 && filtrar2.length > 0) {
-          const objeto = { turma: filtrar[0].id, escola: filtrar2[0].id };
+        if (filtrar.length > 0 && filtrar2.length > 0 && simuladosFilter.length > 0) {
+          const objeto = { turma: filtrar[0].id, escola: filtrar2[0].id, simulado: simuladosFilter[0].id };
           const dados2 = await this.$http.post('desempenho-professor/medias-gerais/', objeto);
           this.preencherDesempenho(dados2.data);
           this.desempenhoAreas(dados2.data.mediasAreas, dados2.data.mediaGeral);
@@ -219,6 +223,7 @@ const dados = {
     desempenhoAreas (objeto, geral) {
       let vectorArea = [];
       let vectorEstado = [];
+      this.desempenhoArea2 = [];
 
       if (objeto.length > 0) {
         const redacaoTurma = objeto[0].media_redacao;
@@ -235,9 +240,9 @@ const dados = {
 
         vectorArea = [lingTurma, humTurma, matTurma, natTurma, redacaoTurma];
         vectorEstado = [lingGeral, humGeral, matGeral, natGeral, redacaoGeral];
+        const vectorName = ['Linguagens', 'Humanas', 'Matemática', 'Natureza', 'Redação'];
         for (let i = 0; i < vectorEstado.length; i++) {
-          this.desempenhoArea2[i].nota = vectorArea[i];
-          this.desempenhoArea2[i].notaEstado = vectorEstado[i];
+          this.desempenhoArea2.push(new DesempenhoArea(vectorName[i], '', vectorArea[i], vectorEstado[i]));
         }
       }
     },

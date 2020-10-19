@@ -31,6 +31,7 @@
       >
         <v-select
             v-model="simuladoAtual"
+            @change="changeTurma"
             :items="simulados.map((el => el.titulo))" filled
             label="Filtrar desempenho por simulado" color="azul"
             hide-details
@@ -298,6 +299,7 @@
           md="5" lg="4"
       >
         <v-autocomplete
+            @change="changeSelectArea"
             :items="alunos.map((el => el.titulo))" filled
             id="aluno__gabarito"
             v-model="alunoGabarito"
@@ -559,7 +561,7 @@
           cols="12" class="mt-12"
       >
         <header-secao>
-          Desempenho nos Simulados Escolares - {{ simuladoAtual }}
+         Média por assunto e Comparação de Media TRI - {{ simuladoAtual }}
         </header-secao>
       </v-col>
 
@@ -994,7 +996,7 @@
         <v-select
             :items="disciplinas.map((el) => el.titulo)" filled
             @change="changeAssuntos"
-            label="Escolha a disciplina" color="azul"
+            label="Escolha o componente curricular" color="azul"
             hide-details
         />
       </v-col>
