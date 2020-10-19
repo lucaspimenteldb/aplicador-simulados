@@ -34,8 +34,8 @@
             filled
             hide-details
             @change="changeEscola"
-            :items="escolas.map((el) => el.titulo)"
-            v-model="escolaAtual"
+            :items="simulados.map((el) => el.titulo)"
+            v-model="simuladoAtual"
         />
       </v-col>
     </v-row>
@@ -376,30 +376,30 @@
       </v-col>
 
       <!-- ranking por area -->
-      <v-col
-          cols="12" class="mt-8"
-      >
-        <subheader-secao>
-          Ranking escolar por área
-        </subheader-secao>
-      </v-col>
+<!--      <v-col-->
+<!--          cols="12" class="mt-8"-->
+<!--      >-->
+<!--        <subheader-secao>-->
+<!--          Ranking escolar por área-->
+<!--        </subheader-secao>-->
+<!--      </v-col>-->
 
-      <v-col cols="12">
-        <v-data-table
-            :headers="headerRankingEscolarArea" :items="colocacoesEscolarArea"
-            fixed-header
-        >
-          <template v-slot:item.posicao="{ item }">
-            <p class="font-weight-bold">
-              <v-icon
-                  v-text="item.icon" color="black"
-                  small
-              />
-              {{ item.posicao }}
-            </p>
-          </template>
-        </v-data-table>
-      </v-col>
+<!--      <v-col cols="12">-->
+<!--        <v-data-table-->
+<!--            :headers="headerRankingEscolarArea" :items="colocacoesEscolarArea"-->
+<!--            fixed-header-->
+<!--        >-->
+<!--          <template v-slot:item.posicao="{ item }">-->
+<!--            <p class="font-weight-bold">-->
+<!--              <v-icon-->
+<!--                  v-text="item.icon" color="black"-->
+<!--                  small-->
+<!--              />-->
+<!--              {{ item.posicao }}-->
+<!--            </p>-->
+<!--          </template>-->
+<!--        </v-data-table>-->
+<!--      </v-col>-->
     </v-row>
     <Loading :dialog="dialog" />
     <TabsMobile />

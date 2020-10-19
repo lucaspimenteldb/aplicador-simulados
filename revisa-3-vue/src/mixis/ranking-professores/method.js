@@ -13,8 +13,9 @@ const methods = {
         this.dialog = true;
         const escolaAux = await this.$http.get('ranking-professor');
         this.escolas = escolaAux.data.escolas;
-        this.desempenhoGeral.push(new DesempenhoGeral('Média Estadual', escolaAux.data.desempenhoEstadual[0].media_geral));
-        this.desempenhoGeral.push(new DesempenhoGeral('Redação Estadual', escolaAux.data.desempenhoEstadual[0].media_redacao));
+        this.simulados = escolaAux.data.simulados;
+        // this.desempenhoGeral.push(new DesempenhoGeral('Média Estadual', escolaAux.data.desempenhoEstadual[0].media_geral));
+        // this.desempenhoGeral.push(new DesempenhoGeral('Redação Estadual', escolaAux.data.desempenhoEstadual[0].media_redacao));
         const vector = ['mdi-podium-gold', 'mdi-podium-silver', 'mdi-podium-bronze', 'mdi-seal-variant'];
         for (let i = 0; i < 3; i++) {
           const user = escolaAux.data.melhores[i];
@@ -25,9 +26,7 @@ const methods = {
         this.preencherRanking(escolaAux.data.melhores, vector);
         this.dialog = false;
       } catch (e) {
-        this.dialog = false;
-        alert('Sem conexão com o servidor');
-        console.log(e);
+        this.msgErro(e);
         throw e;
       }
     },
@@ -44,17 +43,19 @@ const methods = {
       }
     },
 
-    async changeEscola (event) {
+    async changeEscola () {
       try {
         this.dialog = true;
         this.colocacoesEscolar = [];
         this.colocacoesEscolarArea = [];
         this.rankings = [];
         this.desempenhoArea = [];
-        const filterEscola = this.escolas.filter((el) => el.titulo === event);
-        if (filterEscola.length > 0) {
+        this.desempenhoGeral = [];
+        const filterEscola = this.escolas.filter((el) => el.titulo === this.escolaAtual);
+        const filterSimulado = this.simulados.filter((el) => el.titulo === this.simuladoAtual);
+        if (filterEscola.length > 0 && filterSimulado.length > 0) {
           const vector = ['mdi-podium-gold', 'mdi-podium-silver', 'mdi-podium-bronze', 'mdi-seal-variant'];
-          const dados = await this.$http.get(`ranking-professor/escola/${filterEscola[0].id}`);
+          const dados = await this.$http.get(`ranking-professor/escola/${filterEscola[0].id}/${filterSimulado[0].id}`);
           const alunos = dados.data.desempenho_escolar;
           for (let i = 0; i < alunos.length; i++) {
             const podio = vector[i] || 'mdi-seal-variant';
@@ -68,6 +69,8 @@ const methods = {
             this.colocacoesEscolar.push(colocacao);
           }
           this.rankings.push(new Ranking('Estadual', dados.data.positions.media_geral, dados.data.myEscola[0].media_geral));
+          this.desempenhoGeral.push(new DesempenhoGeral('Média Da Escola', dados.data.myEscola[0].media_geral));
+          this.desempenhoGeral.push(new DesempenhoGeral('Redação', dados.data.myEscola[0].media_redacao));
           this.desempenhoArea.push(new DesempenhoArea('Linguagens', dados.data.positions.media_linguagens));
           this.desempenhoArea.push(new DesempenhoArea('Matématica', dados.data.positions.media_matematica));
           this.desempenhoArea.push(new DesempenhoArea('Humanas', dados.data.positions.media_humana));
@@ -77,10 +80,19 @@ const methods = {
 
         this.dialog = false;
       } catch (e) {
-        console.log(e);
-        this.dialog = false;
-        alert('Sem conexão do servidor');
+        this.msgErro(e);
       }
+    },
+    
+    msgErro (e) {
+      this.dialog = false;
+      let message = 'Dados não encontrados';
+      if (e.response) {
+        if (e.response.status !== 400 || e.response.status !== 401) {
+          message = 'Sem conexão com o servidor';
+        }
+      }
+      alert(message);
     },
   },
 };

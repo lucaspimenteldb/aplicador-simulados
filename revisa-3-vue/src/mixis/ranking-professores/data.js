@@ -5,6 +5,8 @@ const dados = {
       perfis: {},
       escolaAtual: '',
       escolas: [{ titulo: 'Sem dados' }],
+      simulados: [{ titulo: 'Sem dados' }],
+      simuladoAtual: '',
       rankings: [],
       dialog: false,
 
