@@ -56,6 +56,44 @@
               hide-details
           />
 
+          <v-dialog
+          v-model="dialog"
+          persistent
+          max-width="360"
+          >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+                small
+                outlined
+                color="azul"
+                v-text="'O que é o código de acesso?'"
+                class="mt-2 ml-2 white--text text-none"
+                v-bind="attrs"
+                v-on="on"
+            />
+          </template>
+          <v-card>
+            <v-card-title class="headline">
+              O que é o código de acesso?
+            </v-card-title>
+
+            <v-card-text>
+              O código de acesso vem junto ao kit de livro do Revisa ENEM, que você deve ter recebido na sua escola.
+              Se você perdeu o código entre em contato com o nosso suporte online através do botão chat, no canto inferior direito, e o ajudaremos.
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer />
+              <v-btn
+                  text
+                  @click="dialog = false"
+                  class="errou--text text-none"
+              >
+                fechar
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+          </v-dialog>
+
           <v-text-field
               v-model="login"
               label="Email ou login" filled
@@ -120,6 +158,7 @@ export default {
       senha: '',
       confirmarSenha: '',
       show: false,
+      dialog: false,
     };
   },
 
