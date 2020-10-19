@@ -77,14 +77,14 @@
             esqueci minha senha
           </v-btn>
 
-          <v-btn
-              outlined
-              color="azul"
-              class="mt-8 ml-2 max-w-300 text-none"
-              to="/cadastro"
-          >
-            Quero me cadastrar
-          </v-btn>
+<!--          <v-btn-->
+<!--              outlined-->
+<!--              color="azul"-->
+<!--              class="mt-8 ml-2 max-w-300 text-none"-->
+<!--              to="/cadastro"-->
+<!--          >-->
+<!--            Quero me cadastrar-->
+<!--          </v-btn>-->
         </section>
       </v-col>
     </v-row>
