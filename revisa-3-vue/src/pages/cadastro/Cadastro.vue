@@ -79,7 +79,8 @@
 
             <v-card-text>
               O código de acesso vem junto ao kit de livro do Revisa ENEM, que você deve ter recebido na sua escola.
-              Se você perdeu o código entre em contato com o nosso suporte online através do botão chat, no canto inferior direito, e o ajudaremos.
+              Se você perdeu o código entre em contato com o nosso suporte online através do botão chat,
+              no canto inferior direito, e o ajudaremos.
             </v-card-text>
             <v-card-actions>
               <v-spacer />
