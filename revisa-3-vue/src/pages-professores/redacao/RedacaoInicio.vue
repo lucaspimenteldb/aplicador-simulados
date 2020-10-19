@@ -167,9 +167,9 @@
             </td>
             <td>
               <DialogRedacao
-v-if="item.done"
-:item="item"
-/>
+                  v-if="item.done"
+                  :item="item"
+              />
             </td>
           </tr>
 
@@ -463,7 +463,7 @@ v-if="item.done"
       </v-col>
     </v-row>
 
-    <TabsMobile />
+    <TabsMobile/>
   </v-container>
 </template>
 
@@ -478,10 +478,11 @@ import loading from '../../components/loading/Loading.vue';
 import TabsMobile from '../../components/TabsMobile.vue';
 
 export default {
-
   name: 'RedacaoInicio',
   mixins: [data, method],
-  components: { loading, Bar, DialogRedacao, TabsMobile },
+  components: {
+    loading, Bar, DialogRedacao, TabsMobile,
+  },
 
   mounted () {
     this.getRedacao();
