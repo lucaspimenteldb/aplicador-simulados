@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <v-row>
+    <v-row v-show="erro">
       <v-col cols="12">
         <article class="mx-auto max-w-300">
           <v-alert
@@ -161,6 +161,7 @@ export default {
 
   data () {
     return {
+      erro: false,
       completo: false,
       completo2: false,
       codigoAcesso: '',
