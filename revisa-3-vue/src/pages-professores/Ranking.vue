@@ -1,6 +1,18 @@
 <template>
   <v-container fluid>
     <v-row>
+      <v-col
+              cols="12" sm="8"
+              md="4"
+      >
+        <v-select
+                label="Filtrar desempenho por escola" color="azul"
+                hide-details
+                @change="changeEscola"
+                :items="escolas.map((el) => el.titulo)"
+                v-model="escolaAtual"
+        />
+      </v-col>
       <v-col cols="12">
         <h1>
           Ranking Geral
@@ -66,7 +78,7 @@
         </header-secao>
       </v-col>
 
-      <SelecionarRanking />
+<!--      <SelecionarRanking />-->
 
       <!-- médias -->
       <v-col
@@ -163,7 +175,7 @@
                   width="60" height="60"
               >
                 <v-img
-                    src="@/assets/img/ranking/imagem-ranking.png"
+                    :src="melhor.img"
                 />
               </v-avatar>
 
@@ -253,7 +265,7 @@
                 <!-- nome e avatar-->
                 <v-card-title>
                   <v-avatar>
-                    <v-img :src="item.foto" />
+                    <v-img :src="item.photo" />
                   </v-avatar>
 
                   <span class="ml-2 h6">
@@ -345,15 +357,6 @@
             :headers="headerRankingEscolar" :items="colocacoesEscolar"
             fixed-header
         >
-          <template v-slot:item.posicao="{ item }">
-            <p class="font-weight-bold">
-              <v-icon
-                  v-text="item.icon" color="black"
-                  small
-              />
-              {{ item.posicao }}
-            </p>
-          </template>
         </v-data-table>
       </v-col>
 
@@ -383,464 +386,29 @@
         </v-data-table>
       </v-col>
     </v-row>
-
+    <Loading :dialog="dialog" />
     <TabsMobile />
   </v-container>
 </template>
 
 <script>
-import SelecionarRanking from '../components-professores/SelecionarRanking.vue';
+// import SelecionarRanking from '../components-professores/SelecionarRanking.vue';
 import TabsMobile from '../components/TabsMobile.vue';
+import data from '../mixis/ranking-professores/data';
+import method from '../mixis/ranking-professores/method';
+import Loading from '../components/loading/Loading.vue';
 
 export default {
   name: 'Ranking',
-  components: { TabsMobile, SelecionarRanking },
+  components: { TabsMobile, Loading },
+  mixins: [data, method],
 
-  data () {
-    return {
-      nivel: 90,
-      perfis: {},
-
-      rankings: [
-        {
-          tipo: 'Estadual',
-          colocacao: 10,
-          pontos: 740,
-        },
-        {
-          tipo: 'Escolar',
-          colocacao: 16,
-          pontos: 740,
-        },
-      ],
-
-      desempenhoArea: [
-        {
-          ttl: 'Linguagens',
-          ranking: 750,
-        },
-        {
-          ttl: 'Humanas',
-          ranking: 920,
-        },
-        {
-          ttl: 'Matemática',
-          ranking: 110,
-        },
-        {
-          ttl: 'Natureza',
-          ranking: 110,
-        },
-        {
-          ttl: 'Redação',
-          ranking: 110,
-        },
-      ],
-
-      desempenhoGeral: [
-        {
-          ttl: 'Média TRI',
-          nota: 750,
-          get altura () {
-            return this.nota / 10;
-          },
-        },
-        {
-          ttl: 'Redação 1',
-          nota: 920,
-          get altura () {
-            return this.nota / 10;
-          },
-        },
-        {
-          ttl: 'Acertos totais',
-          nota: 110,
-          get altura () {
-            return (this.nota / 180) * 100;
-          },
-        },
-      ],
-
-      melhores: [
-        {
-          img: 'imagem-ranking',
-          colocacao: '1º',
-          podio: 'mdi-podium-gold',
-          nome: 'Santaninha Maria',
-          pontos: 9012,
-          conquistas: 32,
-        },
-        {
-          img: 'imagem-ranking',
-          colocacao: '2º',
-          podio: 'mdi-podium-silver',
-          nome: 'Avexadinho Pelanquis',
-          pontos: 7812,
-          conquistas: 26,
-        },
-        {
-          img: 'imagem-ranking',
-          colocacao: '3º',
-          podio: 'mdi-podium-bronze',
-          nome: 'Projetado Deum',
-          pontos: 6062,
-          conquistas: 24,
-        },
-      ],
-
-      colocacoes: [
-        {
-          icon: 'mdi-podium-gold',
-          posicao: '#1',
-          nome: 'Sanitizado Philips',
-          redacao: 880,
-          pontuacao: 950,
-          perfil: '',
-        },
-        {
-          icon: 'mdi-podium-silver',
-          posicao: '#2',
-          nome: 'Philips',
-          redacao: 880,
-          pontuacao: 950,
-          perfil: '',
-        },
-        {
-          icon: 'mdi-podium-bronze',
-          posicao: '#3',
-          nome: 'Sanilips',
-          redacao: 880,
-          pontuacao: 950,
-          perfil: '',
-        },
-        {
-          icon: 'mdi-seal-variant',
-          posicao: '#4',
-          nome: 'Sahilips',
-          redacao: 880,
-          pontuacao: 950,
-          perfil: '',
-        },
-        {
-          icon: 'mdi-seal-variant',
-          posicao: '#5',
-          nome: 'Sanzados',
-          redacao: 880,
-          pontuacao: 950,
-          perfil: '',
-        },
-        {
-          icon: 'mdi-seal-variant',
-          posicao: '#6',
-          nome: 'Phil',
-          redacao: 880,
-          pontuacao: 950,
-          perfil: '',
-        },
-        {
-          icon: 'mdi-seal-variant',
-          posicao: '#7',
-          nome: 'Pips',
-          redacao: 880,
-          pontuacao: 950,
-          perfil: '',
-        },
-        {
-          icon: 'mdi-seal-variant',
-          posicao: '#8',
-          nome: 'Sanitizaps',
-          redacao: 880,
-          pontuacao: 950,
-          perfil: '',
-        },
-        {
-          icon: 'mdi-seal-variant',
-          posicao: '#9',
-          nome: 'Sanitili',
-          redacao: 880,
-          pontuacao: 950,
-          perfil: '',
-        },
-      ],
-      headerRanking: [
-        {
-          text: 'Ranking',
-          align: 'start',
-          sortable: false,
-          value: 'posicao',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Nome',
-          sortable: false,
-          value: 'nome',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Redação',
-          sortable: false,
-          value: 'redacao',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Média TRI',
-          sortable: false,
-          value: 'pontuacao',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: '',
-          sortable: false,
-          value: 'perfil',
-        },
-      ],
-      headerRankingEscolar: [
-        {
-          text: 'Ranking',
-          align: 'start',
-          sortable: false,
-          value: 'posicao',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Escola',
-          sortable: false,
-          value: 'escola',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Município',
-          sortable: false,
-          value: 'municipio',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'CRE',
-          sortable: false,
-          value: 'cre',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Média TRI',
-          sortable: true,
-          value: 'pontuacao',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Redação',
-          sortable: true,
-          value: 'redacao',
-          class: 'body-2 font-weight-bold',
-        },
-      ],
-      headerRankingEscolarArea: [
-        {
-          text: 'Ranking',
-          align: 'start',
-          sortable: false,
-          value: 'posicao',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Escola',
-          align: 'start',
-          sortable: false,
-          value: 'escola',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Ciências Humanas',
-          align: 'start',
-          sortable: true,
-          value: 'humanas',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Ciências da Natureza',
-          sortable: true,
-          value: 'natureza',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Liguagens e seus Códigos',
-          sortable: true,
-          value: 'linguagens',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Matemática',
-          sortable: true,
-          value: 'matematica',
-          class: 'body-2 font-weight-bold',
-        },
-      ],
-      colocacoesEscolarArea: [
-        {
-          icon: 'mdi-podium-gold',
-          posicao: '#1',
-          escola: 'Escolinha do raimundo',
-          humanas: 734,
-          natureza: 680,
-          linguagens: 556,
-          matematica: 680,
-        },
-        {
-          icon: 'mdi-podium-silver',
-          posicao: '#2',
-          escola: 'Escolinha do raimundo',
-          humanas: 764,
-          natureza: 468,
-          linguagens: 676,
-          matematica: 484,
-        },
-        {
-          icon: 'mdi-podium-bronze',
-          posicao: '#3',
-          escola: 'Escolinha do raimundo',
-          humanas: 564,
-          natureza: 844,
-          linguagens: 456,
-          matematica: 742,
-        },
-        {
-          icon: 'mdi-seal-variant',
-          posicao: '#4',
-          escola: 'Escolinha do raimundo',
-          humanas: 236,
-          natureza: 636,
-          linguagens: 568,
-          matematica: 832,
-        },
-        {
-          icon: 'mdi-seal-variant',
-          posicao: '#5',
-          escola: 'Escolinha do raimundo',
-          humanas: 822,
-          natureza: 348,
-          linguagens: 466,
-          matematica: 666,
-        },
-        {
-          icon: 'mdi-seal-variant',
-          posicao: '#6',
-          escola: 'Escolinha do raimundo',
-          humanas: 724,
-          natureza: 564,
-          linguagens: 622,
-          matematica: 640,
-        },
-        {
-          icon: 'mdi-seal-variant',
-          posicao: '#7',
-          escola: 'Escolinha do raimundo',
-          humanas: 680,
-          natureza: 680,
-          linguagens: 680,
-          matematica: 680,
-        },
-        {
-          icon: 'mdi-seal-variant',
-          posicao: '#8',
-          escola: 'Escolinha do raimundo',
-          humanas: 680,
-          natureza: 680,
-          linguagens: 680,
-          matematica: 680,
-        },
-        {
-          icon: 'mdi-seal-variant',
-          posicao: '#9',
-          escola: 'Escolinha do raimundo',
-          humanas: 680,
-          natureza: 680,
-          linguagens: 680,
-          matematica: 680,
-        },
-      ],
-      colocacoesEscolar: [
-        {
-          icon: 'mdi-podium-gold',
-          posicao: '#1',
-          escola: 'Escolinha do raimundo',
-          cre: 'Sofisticada',
-          municipio: 'Sanitizado Philips',
-          redacao: 880,
-          pontuacao: 950,
-        },
-        {
-          icon: 'mdi-podium-silver',
-          posicao: '#2',
-          escola: 'Escolinha do raimundo',
-          cre: 'Sofisticada',
-          municipio: 'Philips',
-          redacao: 840,
-          pontuacao: 950,
-        },
-        {
-          icon: 'mdi-podium-bronze',
-          posicao: '#3',
-          escola: 'Escolinha do raimundo',
-          cre: 'Sofisticada',
-          municipio: 'Sanilips',
-          redacao: 600,
-          pontuacao: 950,
-        },
-        {
-          icon: 'mdi-seal-variant',
-          posicao: '#4',
-          escola: 'Escolinha do raimundo',
-          cre: 'Sofisticada',
-          municipio: 'Sahilips',
-          redacao: 880,
-          pontuacao: 950,
-        },
-        {
-          icon: 'mdi-seal-variant',
-          posicao: '#5',
-          escola: 'Escolinha do raimundo',
-          cre: 'Sofisticada',
-          municipio: 'Sanzados',
-          redacao: 960,
-          pontuacao: 950,
-        },
-        {
-          icon: 'mdi-seal-variant',
-          posicao: '#6',
-          escola: 'Escolinha do raimundo',
-          cre: 'Sofisticada',
-          municipio: 'Phil',
-          redacao: 920,
-          pontuacao: 950,
-        },
-        {
-          icon: 'mdi-seal-variant',
-          posicao: '#7',
-          escola: 'Escolinha do raimundo',
-          cre: 'Sofisticada',
-          municipio: 'Pips',
-          redacao: 880,
-          pontuacao: 950,
-        },
-        {
-          icon: 'mdi-seal-variant',
-          posicao: '#8',
-          escola: 'Escolinha do raimundo',
-          cre: 'Sofisticada',
-          municipio: 'Sanitizaps',
-          redacao: 840,
-          pontuacao: 950,
-        },
-        {
-          icon: 'mdi-seal-variant',
-          posicao: '#9',
-          escola: 'Escolinha do raimundo',
-          cre: 'Sofisticada',
-          municipio: 'Sanitili',
-          redacao: 880,
-          pontuacao: 950,
-        },
-      ],
-    };
+  created () {
+    try {
+      this.iniciar();
+    } catch (e) {
+      alert('Erro de conexão com o servidor');
+    }
   },
 };
 </script>
