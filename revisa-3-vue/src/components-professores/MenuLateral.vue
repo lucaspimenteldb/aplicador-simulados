@@ -138,6 +138,12 @@ export default {
           menu: false,
         },
         {
+          icon: 'view-dashboard-outline',
+          ttl: 'Acompanhar Simulados',
+          rota: '/acompanhar-simulados-professores',
+          menu: false,
+        },
+        {
           icon: 'mdi-pencil-outline',
           ttl: 'Redação',
           rota: '/redacoes-professores',

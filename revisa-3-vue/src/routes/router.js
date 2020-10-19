@@ -116,6 +116,14 @@ const routes = [
 
   /* professores */
   {
+    path: '/acompanhar-simulados-professores',
+    name: 'AcompanharSimulados',
+    component: () => import('../pages-professores/AcompanharSimulados'),
+    meta: {
+      public: false,
+    },
+  },
+  {
     path: '/simulados-atividades-escolares-professores',
     name: 'SimuladosAtividadesInicio',
     component: () => import('../pages-professores/simulado-ativiades-escolares/SimuladosAtividadesInicio'),
