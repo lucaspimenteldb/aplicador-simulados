@@ -55,14 +55,13 @@ const method = {
       try {
         this.loading = true;
         const dados = await this.$http.get('redacao');
-        this.redacao = this.extrariTitulo(dados.data.redacao);
+        this.redacao = (dados.data.redacao).map((el) => el.descricao);
         this.escola = this.extrariTitulo(dados.data.escola);
         this.escolaPesquisa = dados.data.escola;
         this.redacaoPesquisa = dados.data.redacao;
         this.loading = false;
       } catch (e) {
-        console.log(e);
-        this.loading = false;
+        this.msgErro();
       }
     },
 
@@ -82,8 +81,7 @@ const method = {
         }
         this.loading = false;
       } catch (e) {
-        this.loading = false;
-        console.log(e);
+        this.msgErro();
       }
     },
 
@@ -99,19 +97,18 @@ const method = {
         }
         this.loading = false;
       } catch (e) {
-        this.loading = false;
-        console.log(e);
+        this.msgErro();
       }
     },
 
-    async changeTurma ($event) {
+    async changeTurma () {
       try {
         this.loading = true;
-        const filtrar = this.pesquisarSimulado($event, this.turmaPesquisa);
+        const filtrar = this.pesquisarSimulado(this.turmaSelecionada, this.turmaPesquisa);
         const filtrar2 = this.pesquisarSimulado(this.escolaSelecionada2, this.escolaPesquisa);
-        const redaFiltra = this.pesquisarSimulado(this.redacaoSelecionada, this.redacaoPesquisa);
+        const redaFiltra = this.redacaoPesquisa.filter((el) => el.descricao === this.redacaoSelecionada);
 
-        if (filtrar.length > 0) {
+        if (filtrar.length > 0 && filtrar2.length > 0 && redaFiltra.length > 0) {
           const dados = await this.$http.get(`redacao/usuarios/${filtrar2[0].id}/${filtrar[0].id}/${redaFiltra[0].id}`);
           this.setRedacao(dados.data.usuario);
           this.OsMelhores(dados.data.melhores);
@@ -119,8 +116,7 @@ const method = {
         }
         this.loading = false;
       } catch (e) {
-        this.loading = false;
-        console.log(e);
+        this.msgErro();
       }
     },
 
@@ -188,7 +184,7 @@ const method = {
         }
         this.loading = false;
       } catch (e) {
-        this.loading = false;
+        this.msgErro();
       }
     },
 
@@ -240,13 +236,19 @@ const method = {
           this.preencherTubalina(color, medias, this.chartdata2, 2, labels, this.redacaoPesquisa[0].titulo);
         }
       } catch (e) {
-        console.log(e);
+        this.msgErro();
       }
     },
 
     reiniciar () {
       Busao.$emit('reiniciar');
     },
+    
+    msgErro () {
+      this.loading = false;
+      alert('Sem conexão com o servidor!');
+    },
+    
   },
 
 };

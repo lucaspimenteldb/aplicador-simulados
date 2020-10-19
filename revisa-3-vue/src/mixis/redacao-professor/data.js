@@ -13,6 +13,7 @@ const dados = {
       turmaPesquisa: [],
       turmaPesquis2: [],
       turmaComparar: [],
+      turmaSelecionada: '',
       redacao: ['Sem dados'],
       redacaoSelecionada: '',
       redacaoPesquisa: [],

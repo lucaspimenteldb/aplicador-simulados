@@ -73,6 +73,7 @@
         <v-select
             :items="redacao" filled
             :disabled="loading"
+            @change="changeTurma"
             v-model="redacaoSelecionada"
             label="Filtrar desempenho por redação" color="azul"
             hide-details
@@ -103,6 +104,7 @@
       >
         <v-select
             :items="turma" filled
+            v-model="turmaSelecionada"
             @change="changeTurma"
             :disabled="loading"
             label="Filtrar por turma" color="azul"
