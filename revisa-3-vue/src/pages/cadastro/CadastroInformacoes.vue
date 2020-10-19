@@ -3,6 +3,18 @@
     <v-row>
       <v-col cols="12">
         <article class="mx-auto max-w-300">
+          <v-alert
+              class="ml-2 errou white--text"
+          >
+            mensagem de erro
+          </v-alert>
+        </article>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="12">
+        <article class="mx-auto max-w-300">
           <v-btn
               color="azul"
               outlined
@@ -10,46 +22,78 @@
               class="ml-2 mr-1 pa-0 w-24 h-34 min-w-34"
               to="/cadastro"
           />
+          <v-icon
+              v-text="'mdi-checkbox-marked-outline'"
+              color="azul"
+              :class="[completo ? 'mr-2' : 'd-none']"
+          />
+          <v-icon
+              v-text="'mdi-checkbox-blank-outline'"
+              :class="[completo ? 'd-none' : 'mr-2']"
+          />
 
           <v-btn
               color="azul"
               v-text="2"
               class="ml-1 pa-0 w-24 h-34 min-w-34 white--text"
           />
+          <v-icon
+              v-text="'mdi-checkbox-marked-outline'"
+              color="azul"
+              :class="[completo2 ? 'mr-2' : 'd-none']"
+          />
+          <v-icon
+              v-text="'mdi-checkbox-blank-outline'"
+              :class="[completo2 ? 'd-none' : 'mr-2']"
+          />
 
           <v-text-field
-              v-model="login"
-              label="Escola" filled
-              color="azul"
+              v-model="cre"
+              label="CRE" filled
               class="mt-6 ml-2"
               aria-autocomplete="off"
               hide-details
           />
 
           <v-text-field
-              v-model="senha"
-              label="Turna" filled
+              v-model="escola"
+              label="Escola" filled
               hide-details
               class="mt-2 ml-2"
-              autocomplete="new-password"
               color="azul"
           />
 
           <v-text-field
-              v-model="confirmarSenha"
-              label="Alguma coisa" filled
+              v-model="turma"
+              label="Turma" filled
               hide-details
               class="mt-2 ml-2"
-              autocomplete="new-password"
+              color="azul"
+          />
+
+          <v-select
+              v-model="turno"
+              label="Turno" filled
+              :items="['Matutino', 'Vespertinho', 'Noturno']"
+              hide-details
+              class="mt-2 ml-2"
+              color="azul"
+          />
+
+          <v-select
+              v-if="professor"
+              v-model="turno"
+              label="Disciplina" filled
+              :items="['Artes', 'Biologia', 'Educação Física', 'Física', 'Geografia', 'História', 'Inglês', 'Literatura']"
+              hide-details
+              class="mt-2 ml-2"
               color="azul"
           />
 
           <v-btn
-              :loading="loading"
-              :disabled="loading"
               id="btn__entrar"
               class="mt-4 ml-2 azul white--text text-none"
-              @click="show"
+              @click="completoInformacoes"
           >
             Confirmar cadastro
           </v-btn>
@@ -60,17 +104,38 @@
 </template>
 
 <script>
+import { Busao } from '../../main';
+
 export default {
   name: 'CadastroInformacoes',
 
   data () {
     return {
-      codigoAcesso: '',
-      login: '',
-      senha: '',
-      confirmarSenha: '',
+      completo: false,
+      completo2: false,
+      professor: true,
+      cre: '',
+      escola: '',
+      turma: '',
+      turno: '',
+      disciplina: '',
       show: false,
     };
+  },
+
+  methods: {
+    completoInformacoes () {
+      Busao.$emit('completo2', this.completo2);
+
+      this.completo2 = true;
+    },
+  },
+
+  mounted () {
+    Busao.$on('completo', (data) => {
+      this.completo = data;
+      console.log(data);
+    });
   },
 };
 </script>

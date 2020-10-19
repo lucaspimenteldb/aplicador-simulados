@@ -3,10 +3,31 @@
     <v-row>
       <v-col cols="12">
         <article class="mx-auto max-w-300">
+          <v-alert
+              class="ml-2 errou white--text"
+          >
+            mensagem de erro
+          </v-alert>
+        </article>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="12">
+        <article class="mx-auto max-w-300">
           <v-btn
               color="azul"
               v-text="1"
-              class="ml-2 mr-1 pa-0 w-24 h-34 min-w-34 white--text"
+              class="ml-2 pa-0 w-24 h-34 min-w-34 white--text"
+          />
+          <v-icon
+              v-text="'mdi-checkbox-marked-outline'"
+              color="azul"
+              :class="[completo ? 'mr-2' : 'd-none']"
+          />
+          <v-icon
+              v-text="'mdi-checkbox-blank-outline'"
+              :class="[completo ? 'd-none' : 'mr-2']"
           />
 
           <v-btn
@@ -15,6 +36,15 @@
               v-text="2"
               class="ml-1 pa-0 w-24 h-34 min-w-34"
               to="/cadastro-informacoes"
+          />
+          <v-icon
+              v-text="'mdi-checkbox-marked-outline'"
+              color="azul"
+              :class="[completo2 ? 'mr-2' : 'd-none']"
+          />
+          <v-icon
+              v-text="'mdi-checkbox-blank-outline'"
+              :class="[completo2 ? 'd-none' : 'mr-2']"
           />
 
           <v-text-field
@@ -62,11 +92,9 @@
           />
 
           <v-btn
-              :loading="loading"
-              :disabled="loading"
               id="btn__entrar"
               class="mt-4 ml-2 azul white--text text-none"
-              @click="show"
+              @click="infosIniciais"
               to="cadastro-informacoes"
           >
             Próximo passo
@@ -78,17 +106,48 @@
 </template>
 
 <script>
+import { Busao } from '../../main';
+
 export default {
   name: 'Cadastro',
 
   data () {
     return {
+      completo: false,
+      completo2: false,
       codigoAcesso: '',
       login: '',
       senha: '',
       confirmarSenha: '',
       show: false,
     };
+  },
+
+  methods: {
+    completoPrimeiro () {
+      Busao.$emit('completo', this.completo);
+    },
+
+    infosIniciais () {
+      if
+      (
+        this.codigoAcesso !== null && this.codigoAcesso !== ''
+        && this.login !== null && this.login !== ''
+        && this.senha !== null && this.senha !== ''
+        && this.confirmarSenha !== null && this.confirmarSenha !== ''
+        && this.senha === this.confirmarSenha
+      ) {
+        this.completo = true;
+        this.completoPrimeiro();
+        console.log('emiti');
+      }
+    },
+  },
+
+  mounted () {
+    Busao.$on('completo2', (data) => {
+      this.completo2 = data;
+    });
   },
 };
 </script>
