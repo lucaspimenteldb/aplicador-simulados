@@ -89,38 +89,7 @@ const dados = {
           },
         },
       ],
-      desempenhoArea2: [
-        {
-          ttl: 'Linguagens',
-          nota: '',
-          notaEstado: '',
-          ranking: 750,
-        },
-        {
-          ttl: 'Humanas',
-          nota: '',
-          notaEstado: '',
-          ranking: 920,
-        },
-        {
-          ttl: 'Matemática',
-          nota: '',
-          notaEstado: '',
-          ranking: 110,
-        },
-        {
-          ttl: 'Natureza',
-          nota: '',
-          notaEstado: '',
-          ranking: 110,
-        },
-        {
-          ttl: 'Redação',
-          nota: '',
-          notaEstado: '',
-          ranking: 110,
-        },
-      ],
+      desempenhoArea2: [],
       desempenhoArea: [
         {
           redacao: 880,
