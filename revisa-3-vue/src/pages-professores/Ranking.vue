@@ -1,18 +1,6 @@
 <template>
   <v-container fluid>
     <v-row>
-      <v-col
-              cols="12" sm="8"
-              md="4"
-      >
-        <v-select
-                label="Filtrar desempenho por escola" color="azul"
-                hide-details
-                @change="changeEscola"
-                :items="escolas.map((el) => el.titulo)"
-                v-model="escolaAtual"
-        />
-      </v-col>
       <v-col cols="12">
         <h1>
           Ranking Geral
@@ -21,6 +9,34 @@
         <h3>
           Ranking de Escolas e Estados
         </h3>
+      </v-col>
+
+      <v-col
+          cols="12" sm="8"
+          md="4"
+      >
+        <v-select
+            label="Filtrar desempenho por escola" color="azul"
+            filled
+            hide-details
+            @change="changeEscola"
+            :items="escolas.map((el) => el.titulo)"
+            v-model="escolaAtual"
+        />
+      </v-col>
+
+      <v-col
+          cols="12" sm="8"
+          md="4"
+      >
+        <v-select
+            label="Escolha qual o simulado" color="azul"
+            filled
+            hide-details
+            @change="changeEscola"
+            :items="escolas.map((el) => el.titulo)"
+            v-model="escolaAtual"
+        />
       </v-col>
     </v-row>
 
@@ -356,8 +372,7 @@
         <v-data-table
             :headers="headerRankingEscolar" :items="colocacoesEscolar"
             fixed-header
-        >
-        </v-data-table>
+        />
       </v-col>
 
       <!-- ranking por area -->

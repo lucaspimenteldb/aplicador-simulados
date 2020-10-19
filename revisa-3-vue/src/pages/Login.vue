@@ -21,7 +21,7 @@
       <v-col cols="12">
         <article class="mx-auto max-w-300">
           <p class="ml-2 mb-4 text-h">
-            Informe os dados de acesso cadastrados no RevisaENEM
+            Use os dados de acesso cadastrados no RevisaENEM
           </p>
         </article>
       </v-col>
@@ -36,7 +36,7 @@
               v-model="login"
               label="Email ou login" filled
               color="azul"
-              class="ml-2"
+              class="ml-2 text-none"
               aria-autocomplete="off"
               hide-details
               @keyup.enter="entrar"
@@ -64,7 +64,7 @@
               :loading="loading"
               :disabled="loading"
               id="btn__entrar"
-              class="ml-2 azul white--text w-140"
+              class="ml-2 azul white--text w-140 text-none"
               @click="entrar"
           >
             Entrar
@@ -75,6 +75,15 @@
               to="/esqueci-senha"
           >
             esqueci minha senha
+          </v-btn>
+
+          <v-btn
+              outlined
+              color="azul"
+              class="mt-8 ml-2 max-w-300 text-none"
+              to="/cadastro"
+          >
+            Quero me cadastrar
           </v-btn>
         </section>
       </v-col>

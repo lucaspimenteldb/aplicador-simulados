@@ -21,6 +21,22 @@ const routes = [
       public: true,
     },
   },
+  {
+    path: '/cadastro',
+    name: 'Cadastro',
+    component: () => import('../pages/cadastro/Cadastro'),
+    meta: {
+      public: true,
+    },
+  },
+  {
+    path: '/cadastro-informacoes',
+    name: 'Cadastro',
+    component: () => import('../pages/cadastro/CadastroInformacoes'),
+    meta: {
+      public: true,
+    },
+  },
 
   {
     path: '/alterar-senha',

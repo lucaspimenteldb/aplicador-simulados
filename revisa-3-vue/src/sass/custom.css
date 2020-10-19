@@ -225,6 +225,10 @@
   min-width: auto;
 }
 
+.min-w-34 {
+  min-width: 34px !important;
+}
+
 .min-w-90 {
   min-width: 90px;
 }
@@ -302,7 +306,7 @@
 }
 
 .h-34 {
-  height: 34px;
+  height: 34px !important;
 }
 
 .h-40 {
@@ -343,6 +347,14 @@
 
 .h-menu__lateral {
   height: calc(100% - 72px);
+}
+
+.w-24 {
+  width: 24px;
+}
+
+.w-34 {
+  width: 34px;
 }
 
 .w-40 {

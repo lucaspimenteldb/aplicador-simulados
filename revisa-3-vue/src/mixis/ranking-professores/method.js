@@ -4,7 +4,7 @@ import Colocacao from '../../models/ranking-professores/colocacao';
 import ColocacaoEscola from '../../models/ranking-professores/colocacaoEscola';
 import Ranking from '../../models/ranking-professores/ranking';
 import env from '../../env';
-import DesempenhoArea from "../../models/ranking-professores/desempenhoArea";
+import DesempenhoArea from '../../models/ranking-professores/desempenhoArea';
 
 const methods = {
   methods: {
