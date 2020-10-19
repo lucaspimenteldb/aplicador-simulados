@@ -41,8 +41,25 @@
             :items="informacoes"
             fixed-header
             :search="search"
-        />
+        >
+          <template v-slot:item.simulado="{ item }">
+            <p
+                class="font-weight-bold"
+                :class="{ 'acertou--text':item.simulado === 'Entregue', 'errou--text':item.simulado === 'Não entregue' }"
+            >
+              {{ item.simulado }}
+            </p>
+          </template>
 
+          <template v-slot:item.redacao="{ item }">
+            <p
+                class="font-weight-bold acertou--text"
+                :class="[ item.simulado === 'Entregue' ? 'acertou--text' : 'errou--text' ]"
+            >
+              {{ item.redacao }}
+            </p>
+          </template>
+        </v-data-table>
         <v-btn
             filled
             color="azul"
@@ -137,6 +154,13 @@ export default {
           class: 'body-2 font-weight-bold',
         },
         {
+          text: 'Simulado',
+          value: 'simulado',
+          sortable: false,
+          align: 'start',
+          class: 'body-2 font-weight-bold',
+        },
+        {
           text: 'Redação',
           value: 'redacao',
           sortable: false,
@@ -173,6 +197,13 @@ export default {
           align: 'start',
           class: 'body-2 font-weight-bold',
         },
+        {
+          text: 'Redação',
+          value: 'redacao',
+          sortable: false,
+          align: 'start',
+          class: 'body-2 font-weight-bold',
+        },
       ],
 
       informacoes: [
@@ -180,6 +211,21 @@ export default {
           nome: 'lucas',
           escola: 'escola x doidona amrivalda',
           turma: '3 ano B / Tarde',
+          simulado: 'Iniciado',
+          redacao: 'Entregue',
+        },
+        {
+          nome: 'lucas',
+          escola: 'escola x doidona amrivalda',
+          turma: '3 ano B / Tarde',
+          simulado: 'Não entregue',
+          redacao: 'Entregue',
+        },
+        {
+          nome: 'lucas',
+          escola: 'escola x doidona amrivalda',
+          turma: '3 ano B / Tarde',
+          simulado: 'Entregue',
           redacao: 'Entregue',
         },
       ],
@@ -191,6 +237,7 @@ export default {
           get total () {
             return this.iniciados + this.entregues;
           },
+          redacao: '234 entregues',
         },
       ],
     };
