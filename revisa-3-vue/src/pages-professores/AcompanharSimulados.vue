@@ -87,10 +87,60 @@
                     v-bind="attrs"
                     v-on="on"
                     @click.stop="$set(alunos, item.id, true)"
+                    @click="envioEmail, envioEmailErro, camposBrancos = false"
                 />
               </template>
 
-              <v-card>
+              <v-card class="transition-ease-in-out">
+                <v-alert
+                    v-show="envioEmail"
+                    class="pl-6 azul white--text rounded-0"
+                >
+                  Email enviado com sucesso
+
+                  <v-icon
+                      color="white"
+                      v-text="'mdi-email-check-outline'"
+                      small
+                      class="ml-2"
+                  />
+
+                  <v-icon
+                      v-text="'mdi-close-circle-outline'"
+                      color="white"
+                      @click="$set(alunos, item.id, false)"
+                      class="float-right"
+                  />
+                </v-alert>
+
+                <v-alert
+                    class="pl-6 errou white--text rounded-0"
+                    v-show="envioEmailErro"
+                >
+                  O envio do email falhou...
+
+                  <v-icon
+                      color="white"
+                      v-text="'mdi-email-remove-outline'"
+                      small
+                      class="ml-2"
+                  />
+                </v-alert>
+
+                <v-alert
+                    class="pl-6 errou white--text rounded-0"
+                    v-show="camposBrancos"
+                >
+                  Preencha todos campos antes de enviar...
+
+                  <v-icon
+                      color="white"
+                      v-text="'mdi-email-remove-outline'"
+                      small
+                      class="ml-2"
+                  />
+                </v-alert>
+
                 <v-card-title class="mb-4">
                   Enviar email para {{ item.nome }}
                 </v-card-title>
@@ -102,6 +152,7 @@
                       label="Assunto"
                       hide-details
                       class="mb-2"
+                      v-model="assuntoEmail"
                   />
 
                   <v-textarea
@@ -109,7 +160,7 @@
                       filled
                       color="azul"
                       auto-grow
-                      :value="assuntoEmail"
+                      v-model="mensagemEmail"
                   />
                 </v-card-text>
 
@@ -128,6 +179,7 @@
                       color="azul"
                       v-text="'Enviar email'"
                       class="text-none white--text"
+                      @click.stop="enviarEmail"
                   />
                 </v-card-actions>
               </v-card>
@@ -208,10 +260,14 @@ export default {
   data () {
     return {
       simuladoSelecionado: '',
-      assuntoEmail: '',
       dialog: false,
       alunos: {},
+      assuntoEmail: '',
+      mensagemEmail: '',
       privilegioCRE: true,
+      envioEmail: false,
+      envioEmailErro: false,
+      camposBrancos: false,
 
       selects: [
         {
@@ -420,6 +476,21 @@ export default {
   methods: {
     mudarModal () {
       this.simuladoSelecionado = this.selects[0].model;
+    },
+
+    enviarEmail () {
+      if
+      (
+        this.mensagemEmail.trim() !== '' && this.mensagemEmail !== null
+        && this.assuntoEmail.trim() !== '' && this.assuntoEmail !== null
+      ) {
+        this.envioEmailErro = false;
+        this.camposBrancos = false;
+        this.envioEmail = true;
+      } else {
+        this.envioEmail = false;
+        this.camposBrancos = true;
+      }
     },
   },
 };
