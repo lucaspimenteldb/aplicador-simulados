@@ -44,10 +44,10 @@
     >
       <section>
         <div
-            v-for="(item, i) in itens" :key="i"
+            v-for="(item, i) in routes" :key="i"
         >
           <v-list-item
-              link :to="item.rota"
+              link :to="item.path"
               v-if="!item.menu" class="mb-2"
           >
             <v-list-item-icon class="mr-4">
@@ -64,7 +64,7 @@
           </v-list-item>
 
           <v-list-group
-              link :to="item.rota"
+              link :to="item.path"
               class="ma-0 mb-2 w-full" v-if="item.menu"
               color="white"
           >
@@ -193,6 +193,10 @@ export default {
         confirm: true,
       },
     };
+  },
+
+  props: {
+    routes: [],
   },
 
   created () {

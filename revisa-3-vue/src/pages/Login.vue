@@ -104,6 +104,8 @@ import axios from 'axios';
 import env from '../env';
 import { Busao } from '../main';
 import storage from '../storage/storage';
+import aluno from '../routes/routes-modelo/aluno';
+import professor from '../routes/routes-modelo/professor';
 
 export default {
   name: 'Login',
@@ -131,8 +133,11 @@ export default {
         Busao.$emit('autenticado', true, resposta.data.data.usuario.id);
         const cache = this.getCache(resposta.data.data);
         storage.set('token', JSON.stringify(cache));
-        this.$destroy();
+        this.$store.commit('DEFINIR_USUARIO_LOGADO', {
+          token: `Bearer ${cache.token}`,
+        });
         this.$router.replace('/home');
+        this.$destroy();
       } catch (err) {
         this.preLoading(true);
         console.log(err);
@@ -159,9 +164,19 @@ export default {
         photo: dados.usuario.photo,
         name: dados.usuario.name,
         id: dados.usuario.id,
+        privilegio: dados.usuario.id_cms_privileges,
       };
 
+      this.getPrivileges(dados.usuario.id_cms_privileges);
       return cache;
+    },
+    
+    getPrivileges (privilegio) {
+      if (Number(privilegio) === 7) {
+        this.$router.addRoutes(aluno);
+      } else {
+        this.$router.addRoutes(professor);
+      }
     },
   },
 };

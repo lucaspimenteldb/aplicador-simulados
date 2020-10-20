@@ -11,7 +11,7 @@ const methods = {
     async iniciar () {
       try {
         this.dialog = true;
-        const escolaAux = await this.$http.get('ranking-professor');
+        const escolaAux = await this.$http.get('ranking-professor', { headers: { Authorization: this.$store.state.token } });
         this.escolas = escolaAux.data.escolas;
         this.simulados = escolaAux.data.simulados;
         // this.desempenhoGeral.push(new DesempenhoGeral('Média Estadual', escolaAux.data.desempenhoEstadual[0].media_geral));
@@ -55,7 +55,8 @@ const methods = {
         const filterSimulado = this.simulados.filter((el) => el.titulo === this.simuladoAtual);
         if (filterEscola.length > 0 && filterSimulado.length > 0) {
           const vector = ['mdi-podium-gold', 'mdi-podium-silver', 'mdi-podium-bronze', 'mdi-seal-variant'];
-          const dados = await this.$http.get(`ranking-professor/escola/${filterEscola[0].id}/${filterSimulado[0].id}`);
+          const dados = await this.$http.get(`ranking-professor/escola/${filterEscola[0].id}/${filterSimulado[0].id}`,
+            { headers: { Authorization: this.$store.state.token } });
           const alunos = dados.data.desempenho_escolar;
           for (let i = 0; i < alunos.length; i++) {
             const podio = vector[i] || 'mdi-seal-variant';

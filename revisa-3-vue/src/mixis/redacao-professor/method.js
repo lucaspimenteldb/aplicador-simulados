@@ -54,7 +54,7 @@ const method = {
     async getRedacao () {
       try {
         this.loading = true;
-        const dados = await this.$http.get('redacao');
+        const dados = await this.$http.get('redacao', { headers: { Authorization: this.$store.state.token } });
         this.redacao = (dados.data.redacao).map((el) => el.descricao);
         this.escola = this.extrariTitulo(dados.data.escola);
         this.escolaPesquisa = dados.data.escola;
@@ -75,7 +75,7 @@ const method = {
         const filtrar = this.pesquisarSimulado($event, this.escolaPesquisa);
 
         if (filtrar.length > 0) {
-          const dados = await this.$http.get(`redacao/turma/${filtrar[0].id}`);
+          const dados = await this.$http.get(`redacao/turma/${filtrar[0].id}`, { headers: { Authorization: this.$store.state.token } });
           this.turma = this.extrariTitulo(dados.data.turmas);
           this.turmaPesquisa = dados.data.turmas;
         }
@@ -91,7 +91,7 @@ const method = {
         const filtrar = this.pesquisarSimulado($event, this.escolaPesquisa);
 
         if (filtrar.length > 0) {
-          const dados = await this.$http.get(`redacao/turma/${filtrar[0].id}`);
+          const dados = await this.$http.get(`redacao/turma/${filtrar[0].id}`, { headers: { Authorization: this.$store.state.token } });
           this.turma2s = this.extrariTitulo(dados.data.turmas);
           this.turmaPesquisa2 = dados.data.turmas;
         }
@@ -109,7 +109,8 @@ const method = {
         const redaFiltra = this.redacaoPesquisa.filter((el) => el.descricao === this.redacaoSelecionada);
 
         if (filtrar.length > 0 && filtrar2.length > 0 && redaFiltra.length > 0) {
-          const dados = await this.$http.get(`redacao/usuarios/${filtrar2[0].id}/${filtrar[0].id}/${redaFiltra[0].id}`);
+          const dados = await this.$http.get(`redacao/usuarios/${filtrar2[0].id}/${filtrar[0].id}/${redaFiltra[0].id}`,
+            { headers: { Authorization: this.$store.state.token } });
           this.setRedacao(dados.data.usuario);
           this.OsMelhores(dados.data.melhores);
           this.metodosMedia(dados.data.mediaPComp);
@@ -174,7 +175,8 @@ const method = {
         this.loading = true;
         const filtrar = this.pesquisarSimulado(event, this.escolaPesquisa);
         if (filtrar.length > 0) {
-          const dados = await this.$http.get(`redacao/media-escola/${filtrar[0].id}`);
+          const dados = await this.$http.get(`redacao/media-escola/${filtrar[0].id}`,
+            { headers: { Authorization: this.$store.state.token } });
           const vetorData = [dados.data.media, dados.data.mediaGeral];
           const vetorCor = ['#ffdd9e', '#a3ffa3'];
 
@@ -227,7 +229,7 @@ const method = {
 
         if (escola.length > 0 && tur2.length > 0 && tur1.length > 0) {
           const objeto = { turma: tur1[0].id, turma2: tur2[0].id, escola: escola[0].id };
-          const dados = await this.$http.post('redacao/media-escola-compara', objeto);
+          const dados = await this.$http.post('redacao/media-escola-compara', objeto, { headers: { Authorization: this.$store.state.token } });
           const color = ['#ffdd9e', '#a3ffa3'];
           const medias = [dados.data.media, dados.data.media2];
           this.chartdata2.datasets = [];

@@ -19,7 +19,7 @@ const dados = {
         if (filtrado.length > 0 && simuladoFiltrado.length > 0 && usuario.length > 0) {
           this.showLoading = true;
           const questoes = await this.$http.get(`desempenho-professor/questao/${filtrado[0].id}/
-          ${simuladoFiltrado[0].id}/${usuario[0].id}`);
+          ${simuladoFiltrado[0].id}/${usuario[0].id}`, { headers: { Authorization: this.$store.state.token } });
           this.myQuestoes(questoes);
           this.showLoading = false;
         }
@@ -68,13 +68,14 @@ const dados = {
     async puxandoSimulEscol () {
       try {
         this.showLoading = true;
-        const escolas = await this.$http.get('desempenho-professor');
+        const escolas = await this.$http.get('desempenho-professor', { headers: { Authorization: this.$store.state.token } });
         this.escolas = escolas.data.escolas;
         this.simulados = escolas.data.simulados;
         this.areas = escolas.data.areas;
         this.disciplinas = escolas.data.materias;
         this.showLoading = false;
       } catch (e) {
+        console.log(e);
         this.showLoading = false;
       }
     },
@@ -89,7 +90,7 @@ const dados = {
 
         if (disciplFilter.length > 0 && escolaFilter.length > 0 && turmaFilter.length > 0 && simulFiltrar.length > 0) {
           const retorno = await this.$http.get(`desempenho-professor/assuntos/${disciplFilter[0].id}
-          /${escolaFilter[0].id}/${turmaFilter[0].id}/${simulFiltrar[0].id}`);
+          /${escolaFilter[0].id}/${turmaFilter[0].id}/${simulFiltrar[0].id}`, { headers: { Authorization: this.$store.state.token } });
           this.assuntos = retorno.data.assuntos;
         }
         this.showLoading = false;
@@ -106,7 +107,8 @@ const dados = {
         const filtrar = this.pesquisarSimulado($event, this.escolas);
 
         if (filtrar.length > 0) {
-          const dados2 = await this.$http.get(`desempenho-professor/turma/${filtrar[0].id}`);
+          const dados2 = await this.$http.get(`desempenho-professor/turma/${filtrar[0].id}`,
+            { headers: { Authorization: this.$store.state.token } });
           this.turmas = dados2.data.turmas;
         }
         this.showLoading = false;
@@ -121,7 +123,8 @@ const dados = {
         const filtrar = this.pesquisarSimulado($event, this.escolas);
 
         if (filtrar.length > 0) {
-          const dados2 = await this.$http.get(`desempenho-professor/turma/${filtrar[0].id}`);
+          const dados2 = await this.$http.get(`desempenho-professor/turma/${filtrar[0].id}`,
+            { headers: { Authorization: this.$store.state.token } });
           this.turmasGraf = dados2.data.turmas;
         }
         this.showLoading = false;
@@ -138,7 +141,8 @@ const dados = {
         const escolaAux = this.pesquisarSimulado(this.escolaAtualGraf, this.escolas);
 
         if (turma2.length > 0 && turma1.length > 0 && escolaAux.length > 0) {
-          const dados2 = await this.$http.get(`desempenho-professor/comparar-turmas/${escolaAux[0].id}/${turma1[0].id}/${turma2[0].id}`);
+          const dados2 = await this.$http.get(`desempenho-professor/comparar-turmas/${escolaAux[0].id}/${turma1[0].id}/${turma2[0].id}`,
+            { headers: { Authorization: this.$store.state.token } });
           const color = ['#ffdd9e', '#a3ffa3'];
           const medias = [dados2.data.turma1[0].media_geral, dados2.data.turma2[0].media_geral];
           this.chartdata.datasets = [];
@@ -175,7 +179,7 @@ const dados = {
 
         if (filtrar.length > 0 && filtrar2.length > 0 && simuladosFilter.length > 0) {
           const objeto = { turma: filtrar[0].id, escola: filtrar2[0].id, simulado: simuladosFilter[0].id };
-          const dados2 = await this.$http.post('desempenho-professor/medias-gerais/', objeto);
+          const dados2 = await this.$http.post('desempenho-professor/medias-gerais/', objeto, { headers: { Authorization: this.$store.state.token } });
           this.preencherDesempenho(dados2.data);
           this.desempenhoAreas(dados2.data.mediasAreas, dados2.data.mediaGeral);
           this.preenchendoUsuarios(dados2.data.usuarios);
