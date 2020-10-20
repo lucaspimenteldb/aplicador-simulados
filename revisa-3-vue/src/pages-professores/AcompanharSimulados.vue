@@ -31,16 +31,27 @@
           class="mt-12"
       >
         <header-secao>
-          Desempenho do {{ simuladoSelecionado }}
+          Desempenho do {{ simuladoSelecionado }} por Aluno
         </header-secao>
       </v-col>
 
       <v-col cols="12">
+        <v-text-field
+            label="Pesquisar..."
+            filled
+            color="azul"
+            append-icon="mdi-magnify"
+            class="max-w-240 float-right"
+            hide-details
+            v-model="search"
+        />
+
         <v-data-table
             :headers="headerInformacoes"
             :items="informacoes"
             fixed-header
             :search="search"
+            class="clear-both"
         >
           <template v-slot:item.simulado="{ item }">
             <p
@@ -59,11 +70,76 @@
               {{ item.redacao }}
             </p>
           </template>
+
+          <template v-slot:item.email="{ item }">
+            <v-dialog
+                persistent
+                max-width="500px"
+                v-model="alunos[item.id]"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                    small
+                    filled
+                    color="azul"
+                    v-text="item.email"
+                    class=" white--text text-none"
+                    v-bind="attrs"
+                    v-on="on"
+                    @click.stop="$set(alunos, item.id, true)"
+                />
+              </template>
+
+              <v-card>
+                <v-card-title class="mb-4">
+                  Enviar email para {{ item.nome }}
+                </v-card-title>
+
+                <v-card-text>
+                  <v-text-field
+                      filled
+                      color="azul"
+                      label="Assunto"
+                      hide-details
+                      class="mb-2"
+                  />
+
+                  <v-textarea
+                      label="Mensagem..."
+                      filled
+                      color="azul"
+                      auto-grow
+                      :value="assuntoEmail"
+                  />
+                </v-card-text>
+
+                <v-card-actions class="px-6">
+                  <v-spacer />
+
+                  <v-btn
+                      v-text="'cancelar'"
+                      color="errou"
+                      text
+                      class="text-none"
+                      @click.stop="$set(alunos, item.id, false)"
+                  />
+
+                  <v-btn
+                      color="azul"
+                      v-text="'Enviar email'"
+                      class="text-none white--text"
+                  />
+                </v-card-actions>
+              </v-card>
+
+            </v-dialog>
+          </template>
         </v-data-table>
+
         <v-btn
             filled
             color="azul"
-            v-text="'Exportar todos os dados'"
+            v-text="'Exportar dados dos alunos'"
             class="mt-2 white--text text-none"
         />
       </v-col>
@@ -76,7 +152,7 @@
           class="mt-12"
       >
         <header-secao>
-          Desempenho do {{ simuladoSelecionado }} por escola
+          Desempenho do {{ simuladoSelecionado }} por Escola
         </header-secao>
       </v-col>
 
@@ -85,13 +161,39 @@
             :headers="headerCoordenador"
             :items="informacoesCoordenador"
             fixed-header
-            :search="search"
         />
 
         <v-btn
             filled
             color="azul"
-            v-text="'Exportar todos os dados'"
+            v-text="'Exportar dados das escolas'"
+            class="mt-2 white--text text-none"
+        />
+      </v-col>
+    </v-row>
+
+    <!-- diretor das CRE -->
+    <v-row>
+      <v-col
+          cols="12"
+          class="mt-12"
+      >
+        <header-secao>
+          Desempenho por CRE
+        </header-secao>
+      </v-col>
+
+      <v-col cols="12">
+        <v-data-table
+            :headers="headerCRE"
+            :items="informacoesCRE"
+            fixed-header
+        />
+
+        <v-btn
+            filled
+            color="azul"
+            v-text="'Exportar dados das CREs'"
             class="mt-2 white--text text-none"
         />
       </v-col>
@@ -106,6 +208,9 @@ export default {
   data () {
     return {
       simuladoSelecionado: '',
+      assuntoEmail: '',
+      dialog: false,
+      alunos: {},
 
       selects: [
         {
@@ -167,6 +272,11 @@ export default {
           align: 'start',
           class: 'body-2 font-weight-bold',
         },
+        {
+          text: '',
+          value: 'email',
+          sortable: false,
+        },
       ],
       headerCoordenador: [
         {
@@ -205,33 +315,96 @@ export default {
           class: 'body-2 font-weight-bold',
         },
       ],
+      headerCRE: [
+        {
+          text: 'CRE',
+          value: 'cre',
+          sortable: false,
+          align: 'start',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: 'Simulados Iniciados',
+          value: 'iniciados',
+          sortable: true,
+          align: 'start',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: 'Simulados Entregues',
+          value: 'entregues',
+          sortable: true,
+          align: 'start',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: 'Total',
+          value: 'total',
+          sortable: false,
+          align: 'start',
+          class: 'body-2 font-weight-bold',
+        },
+        {
+          text: 'Redação',
+          value: 'redacao',
+          sortable: false,
+          align: 'start',
+          class: 'body-2 font-weight-bold',
+        },
+      ],
 
       informacoes: [
         {
-          nome: 'lucas',
+          nome: 'Lucas Pimente',
           escola: 'escola x doidona amrivalda',
           turma: '3 ano B / Tarde',
           simulado: 'Iniciado',
           redacao: 'Entregue',
+          email: 'enviar email',
+          id: 0,
         },
         {
-          nome: 'lucas',
+          nome: 'José',
           escola: 'escola x doidona amrivalda',
           turma: '3 ano B / Tarde',
           simulado: 'Não entregue',
           redacao: 'Entregue',
+          email: 'enviar email',
+          id: 2,
         },
         {
-          nome: 'lucas',
+          nome: 'Mariazinha',
           escola: 'escola x doidona amrivalda',
           turma: '3 ano B / Tarde',
           simulado: 'Entregue',
           redacao: 'Entregue',
+          email: 'enviar email',
+          id: 3,
         },
       ],
       informacoesCoordenador: [
         {
           escola: 'escola x doidona amrivalda',
+          iniciados: 485,
+          entregues: 234,
+          get total () {
+            return this.iniciados + this.entregues;
+          },
+          redacao: '234 entregues',
+        },
+      ],
+      informacoesCRE: [
+        {
+          cre: 'CRE X',
+          iniciados: 485,
+          entregues: 234,
+          get total () {
+            return this.iniciados + this.entregues;
+          },
+          redacao: '234 entregues',
+        },
+        {
+          cre: 'CRE XYZ',
           iniciados: 485,
           entregues: 234,
           get total () {

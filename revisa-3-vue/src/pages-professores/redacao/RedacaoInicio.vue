@@ -463,7 +463,7 @@
       </v-col>
     </v-row>
 
-    <TabsMobile/>
+    <TabsMobile />
   </v-container>
 </template>
 
