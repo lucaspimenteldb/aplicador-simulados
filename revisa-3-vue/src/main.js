@@ -7,6 +7,7 @@ import router from './routes/router';
 import vuetify from './plugins/vuetify';
 import env from './env';
 import http from './services/index';
+import providers from './vuex/providers';
 
 import './sass/main.scss';
 import './sass/custom.scss';
@@ -72,6 +73,7 @@ Vue.component('historico-card', {
 new Vue({
   router,
   vuetify,
+  store: providers,
   render: (h) => h(App),
 }).$mount('#app');
 

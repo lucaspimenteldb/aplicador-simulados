@@ -40,8 +40,10 @@ export default {
     const objeto = storage.get('token');
     if (objeto) {
       const menu = JSON.parse(objeto);
+      this.$store.commit('DEFINIR_USUARIO_LOGADO', {
+        token: `Bearer ${menu.token}`,
+      });
       this.autenticado = menu.menu;
-      console.log(menu);
       this.emitWebSocket(menu.id);
     }
   },

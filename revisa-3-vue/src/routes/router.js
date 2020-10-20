@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import middleware from './middlware/default';
+import aluno from './routes-modelo/aluno';
+import professor from './routes-modelo/professor';
 
 Vue.use(VueRouter);
 
@@ -8,6 +10,8 @@ const routes = [
   {
     path: '/',
     name: 'Login',
+    ttl: 'Login',
+    menu: false,
     component: () => import('../pages/Login'),
     meta: {
       public: true,
@@ -16,6 +20,8 @@ const routes = [
   {
     path: '/esqueci-senha',
     name: 'EsqueciSenha',
+    menu: false,
+    ttl: 'Esqueci senha',
     component: () => import('../pages/EsqueciSenha'),
     meta: {
       public: true,
@@ -24,6 +30,8 @@ const routes = [
   {
     path: '/cadastro',
     name: 'Cadastro',
+    menu: false,
+    ttl: 'Cadastro',
     component: () => import('../pages/cadastro/Cadastro'),
     meta: {
       public: true,
@@ -32,6 +40,8 @@ const routes = [
   {
     path: '/cadastro-informacoes',
     name: 'Cadastro',
+    ttl: 'Cadastro Informações',
+    menu: false,
     component: () => import('../pages/cadastro/CadastroInformacoes'),
     meta: {
       public: true,
@@ -41,9 +51,12 @@ const routes = [
   {
     path: '/alterar-senha',
     name: 'ChangePassword',
+    menu: false,
+    ttl: 'Alterar Senha',
     component: () => import('../pages/ChangePassword/ChangePassword'),
     meta: {
       public: true,
+      menu: false,
     },
   },
   // {
@@ -197,5 +210,13 @@ const router = new VueRouter({
 
 // eslint-disable-next-line no-unused-vars
 router.beforeEach(middleware);
+const token = JSON.parse(localStorage.getItem('token'));
+if (token) {
+  if (Number(token.privilegio) === 7) {
+    router.addRoutes(aluno);
+  } else {
+    router.addRoutes(professor);
+  }
+}
 
 export default router;
