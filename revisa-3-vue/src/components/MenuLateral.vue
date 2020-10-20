@@ -152,12 +152,12 @@ export default {
         //   rota: '/simulados-atividades-escolares',
         //   menu: false,
         // },
-        {
-          icon: 'mdi-pencil-outline',
-          ttl: 'Redação',
-          rota: '/redacoes',
-          menu: false,
-        },
+        // {
+        //   icon: 'mdi-pencil-outline',
+        //   ttl: 'Redação',
+        //   rota: '/redacoes',
+        //   menu: false,
+        // },
         {
           icon: 'mdi-poll-box-outline',
           ttl: 'Meu Desempenho',
