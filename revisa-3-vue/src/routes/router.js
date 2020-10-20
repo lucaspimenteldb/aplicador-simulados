@@ -66,21 +66,21 @@ const routes = [
   //   name: 'DesempenhoSimulado',
   //   component: () => import('../pages/simulado-ativiades-escolares/DesempenhoSimulado'),
   // },
-  // {
-  //   path: '/redacoes',
-  //   name: 'RedacaoInicio',
-  //   component: () => import('../pages/redacao/RedacaoInicio'),
-  // },
-  // {
-  //   path: '/redacao-corrigida',
-  //   name: 'RedacaoCorrigida',
-  //   component: () => import('../pages/redacao/RedacaoCorrigida'),
-  // },
-  // {
-  //   path: '/redacao-enviar',
-  //   name: 'RedacaoEnviar',
-  //   component: () => import('../pages/redacao/RedacaoEnviar'),
-  // },
+  {
+    path: '/redacoes',
+    name: 'RedacaoInicio',
+    component: () => import('../pages/redacao/RedacaoInicio'),
+  },
+  {
+    path: '/redacao-corrigida',
+    name: 'RedacaoCorrigida',
+    component: () => import('../pages/redacao/RedacaoCorrigida'),
+  },
+  {
+    path: '/redacao-enviar',
+    name: 'RedacaoEnviar',
+    component: () => import('../pages/redacao/RedacaoEnviar'),
+  },
   {
     path: '/ranking',
     name: 'Ranking',

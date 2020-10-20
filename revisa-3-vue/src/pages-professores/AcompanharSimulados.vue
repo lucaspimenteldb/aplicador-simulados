@@ -493,6 +493,18 @@ export default {
       }
     },
   },
+
+  mounted () {
+    document.querySelectorAll('.v-data-footer__select').forEach((paginacao) => {
+      // eslint-disable-next-line no-param-reassign
+      paginacao.innerHTML = '';
+    });
+    document.querySelectorAll('.v-data-footer__pagination').forEach((itens) => {
+      const elementos = itens.innerHTML.split(' ');
+      // eslint-disable-next-line no-param-reassign
+      itens.innerHTML = `${elementos[0]} de ${elementos[2]}`;
+    });
+  },
 };
 </script>
 

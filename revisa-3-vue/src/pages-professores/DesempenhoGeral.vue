@@ -1164,36 +1164,46 @@ export default {
     this.puxandoSimulEscol();
   },
 
-  // mounted () {
-  //   const alunoGabarito = document.getElementById('ver__aluno');
-  //   const alunoGabaritoSelect = document.getElementById('aluno__gabarito');
-  //   const mensagemSelectArea = document.getElementById('mensagem__select__area');
-  //   const selectAreaGabarito = document.getElementById('select__area__gabarito');
-  //   let alunoGabaritoNome;
-  //
-  //   alunoGabarito.addEventListener('click', () => {
-  //     alunoGabaritoNome = alunoGabarito.parentNode.parentNode.firstChild.innerText;
-  //
-  //     alunoGabaritoSelect.parentNode.parentNode.click();
-  //     alunoGabarito.scrollIntoView();
-  //
-  //     setTimeout(() => {
-  //       alunoGabaritoSelect.value = alunoGabaritoNome;
-  //     }, 800);
-  //
-  //     setTimeout(() => {
-  //       mensagemSelectArea.classList.remove('opacity-0');
-  //       mensagemSelectArea.classList.remove('transform-x--30');
-  //       mensagemSelectArea.classList.add('transform-x-0');
-  //     }, 1000);
-  //   });
-  //
-  //   selectAreaGabarito.parentNode.parentNode.addEventListener('click', () => {
-  //     mensagemSelectArea.classList.remove('transform-x-0');
-  //     mensagemSelectArea.classList.add('opacity-0');
-  //     mensagemSelectArea.classList.add('transform-x--30');
-  //   });
-  // },
+  mounted () {
+    document.querySelectorAll('.v-data-footer__select').forEach((paginacao) => {
+      // eslint-disable-next-line no-param-reassign
+      paginacao.innerHTML = '';
+    });
+    document.querySelectorAll('.v-data-footer__pagination').forEach((itens) => {
+      const elementos = itens.innerHTML.split(' ');
+      // eslint-disable-next-line no-param-reassign
+      itens.innerHTML = `${elementos[0]} de ${elementos[2]}`;
+    });
+
+    const alunoGabarito = document.getElementById('ver__aluno');
+    const alunoGabaritoSelect = document.getElementById('aluno__gabarito');
+    const mensagemSelectArea = document.getElementById('mensagem__select__area');
+    const selectAreaGabarito = document.getElementById('select__area__gabarito');
+    let alunoGabaritoNome;
+
+    /* alunoGabarito.addEventListener('click', () => {
+      alunoGabaritoNome = alunoGabarito.parentNode.parentNode.firstChild.innerText;
+
+      alunoGabaritoSelect.parentNode.parentNode.click();
+      alunoGabarito.scrollIntoView();
+
+      setTimeout(() => {
+        alunoGabaritoSelect.value = alunoGabaritoNome;
+      }, 800);
+
+      setTimeout(() => {
+        mensagemSelectArea.classList.remove('opacity-0');
+        mensagemSelectArea.classList.remove('transform-x--30');
+        mensagemSelectArea.classList.add('transform-x-0');
+      }, 1000);
+    });
+
+    selectAreaGabarito.parentNode.parentNode.addEventListener('click', () => {
+      mensagemSelectArea.classList.remove('transform-x-0');
+      mensagemSelectArea.classList.add('opacity-0');
+      mensagemSelectArea.classList.add('transform-x--30');
+    }); */
+  },
 };
 
 </script>

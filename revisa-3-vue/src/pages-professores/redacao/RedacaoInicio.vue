@@ -485,8 +485,10 @@ export default {
   },
 
   mounted () {
-    this.getRedacao();
-    this.initPopper();
+    const paginacao = document.querySelector('.v-data-footer__pagination');
+
+    document.querySelector('.v-data-footer__select').innerHTML = '';
+    document.querySelector('.v-data-footer__pagination').innerHTML = `${paginacao.innerHTML.split[0]} de ${paginacao.innerHTML.split[2]}`;
   },
 
 };

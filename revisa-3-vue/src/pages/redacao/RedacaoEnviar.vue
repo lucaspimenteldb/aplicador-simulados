@@ -24,15 +24,11 @@
       </v-col>
 
       <v-col
-          cols="12" class="max-h-400 relative overflow-hidden"
+          cols="12" class="max-h-500 relative overflow__y__scroll"
       >
         <v-img
             src="@/assets/img/redacao/enviar-redacao/texto-motivador.png" class="w-full"
         />
-
-        <botao class="absolute top-1/2 right-1/2">
-          Baixar texto motivador
-        </botao>
       </v-col>
     </v-row>
 
@@ -65,9 +61,14 @@
           </p>
           <br>
 
-          <botao class="mt-2">
-            Baixar folha de rascunho
-          </botao>
+          <v-btn
+              v-bind="attrs"
+              v-on="on"
+              color="azul"
+              class="botao mt-2 px-4 py-2 white--text text-none rounded__normal transition"
+          >
+            Baixar folha rascunho
+          </v-btn>
         </subheader-secao>
 
         <subheader-secao class="mt-8">
@@ -77,9 +78,123 @@
           </p>
           <br>
 
-          <botao class="mt-2">
-            Enviar foto da redação
-          </botao>
+          <v-dialog
+            v-model="dialog"
+            max-width="500px"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                  v-on="on"
+                  v-bind="attrs"
+                  color="azul"
+                  class="botao mt-2 px-4 py-2 white--text text-none rounded__normal transition"
+              >
+                Enviar foto da redação
+              </v-btn>
+            </template>
+
+            <v-card>
+              <v-card-title>
+                Termos de compromisso do envio da redação
+              </v-card-title>
+
+              <v-card-text>
+                <p>
+                  textão
+                </p>
+              </v-card-text>
+
+              <v-card-actions class="pr-6">
+                <v-spacer />
+
+                <v-btn
+                    text
+                    color="errou"
+                    v-text="'Cancelar'"
+                    @click="dialog = false"
+                    class="text-none"
+                />
+
+                <v-dialog
+                  v-model="enviarRedacao"
+                  max-width="500px"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                        color="azul"
+                        v-text="'Enviar redação'"
+                        v-on="on"
+                        v-bind="attrs"
+                        class="botao mt-2 px-4 py-2 white--text text-none rounded__normal transition"
+                    />
+                  </template>
+
+                  <v-card>
+                    <v-alert
+                        class="pl-6 azul white--text rounded-0"
+                        v-show="redacaoEnviada"
+                    >
+                      Sua redação foi enviada com sucesso!
+
+                      <v-icon
+                          color="white"
+                          v-text="'mdi-checkbox-marked-outline'"
+                          small
+                          class="ml-2"
+                      />
+                    </v-alert>
+
+                    <v-alert
+                        class="pl-6 errou white--text rounded-0"
+                        v-show="redacaoEnvioErro"
+                    >
+                      Um erro ocorreu ao enviar sua redação...
+
+                      <v-icon
+                          color="white"
+                          v-text="'mdi-close-circle-outline'"
+                          small
+                          class="ml-2"
+                      />
+                    </v-alert>
+
+                    <v-card-title>
+                      Enviar redação
+                    </v-card-title>
+
+                    <v-card-text>
+                      <v-file-input
+                          filled
+                          label="Enviar foto da redação"
+                          color="azul"
+                          v-show="enviarRedacao"
+                          class="mt-4"
+                      />
+                    </v-card-text>
+
+                    <v-card-actions>
+                      <v-spacer />
+
+                      <v-btn
+                          text
+                          color="errou"
+                          v-text="'fechar'"
+                          class="text-none"
+                          @click="redacaoEnviada, redacaoEnvioErro, dialog = false"
+                      />
+
+                      <v-btn
+                          color="azul"
+                          v-text="'Enviar redação'"
+                          class="botao mt-2 px-4 py-2 white--text text-none rounded__normal transition"
+                          @click="redacaoEnviada = true"
+                      />
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
         </subheader-secao>
       </v-col>
     </v-row>
@@ -89,6 +204,15 @@
 <script>
 export default {
   name: 'RedacaoEnviar',
+
+  data () {
+    return {
+      dialog: false,
+      enviarRedacao: false,
+      redacaoEnviada: false,
+      redacaoEnvioErro: false,
+    };
+  },
 };
 </script>
 
