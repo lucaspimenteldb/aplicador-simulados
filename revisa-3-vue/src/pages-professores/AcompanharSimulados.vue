@@ -173,7 +173,7 @@
     </v-row>
 
     <!-- diretor das CRE -->
-    <v-row>
+    <v-row v-show="privilegioCRE">
       <v-col
           cols="12"
           class="mt-12"
@@ -211,6 +211,7 @@ export default {
       assuntoEmail: '',
       dialog: false,
       alunos: {},
+      privilegioCRE: true,
 
       selects: [
         {
