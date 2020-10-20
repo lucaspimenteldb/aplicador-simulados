@@ -160,12 +160,12 @@ const dados = {
           value: 'redacao',
           class: 'body-2 font-weight-bold',
         },
-        {
-          text: 'Gabarito Aluno',
-          sortable: false,
-          value: 'gabarito',
-          class: 'body-2 font-weight-bold',
-        },
+        // {
+        //   text: 'Gabarito Aluno',
+        //   sortable: false,
+        //   value: 'gabarito',
+        //   class: 'body-2 font-weight-bold',
+        // },
       ],
 
       perfis: {},

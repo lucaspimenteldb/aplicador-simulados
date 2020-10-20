@@ -48,7 +48,7 @@
         >
           <v-list-item
               link :to="item.path"
-              v-if="!item.menu" class="mb-2"
+              v-if="item.menu" class="mb-2"
           >
             <v-list-item-icon class="mr-4">
               <v-icon
@@ -63,38 +63,38 @@
             </v-list-item-content>
           </v-list-item>
 
-          <v-list-group
-              link :to="item.path"
-              class="ma-0 mb-2 w-full" v-if="item.menu"
-              color="white"
-          >
-            <template v-slot:activator>
-              <v-list-item-icon class="mr-4 white--text">
-                <v-icon v-text="item.icon" />
-              </v-list-item-icon>
-              <v-list-item-title
-                  class="ma-0 white--text" v-text="item.ttl"
-              />
-            </template>
+<!--          <v-list-group-->
+<!--              link :to="item.path"-->
+<!--              class="ma-0 mb-2 w-full" v-if="item.menu"-->
+<!--              color="white"-->
+<!--          >-->
+<!--            <template v-slot:activator>-->
+<!--              <v-list-item-icon class="mr-4 white&#45;&#45;text">-->
+<!--                <v-icon v-text="item.icon" />-->
+<!--              </v-list-item-icon>-->
+<!--              <v-list-item-title-->
+<!--                  class="ma-0 white&#45;&#45;text" v-text="item.ttl"-->
+<!--              />-->
+<!--            </template>-->
 
-            <v-list-item
-                v-for="(subMenu, i) in item.submenu" :key="i"
-                :to="subMenu.rota" :disabled="subMenu.disabled"
-            >
-              <v-list-item-icon
-                  v-text="subMenu.volume" class="ml-2 white--text"
-              />
+<!--&lt;!&ndash;            <v-list-item&ndash;&gt;-->
+<!--&lt;!&ndash;                v-for="(subMenu, i) in item.submenu" :key="i"&ndash;&gt;-->
+<!--&lt;!&ndash;                :to="subMenu.rota" :disabled="subMenu.disabled"&ndash;&gt;-->
+<!--&lt;!&ndash;            >&ndash;&gt;-->
+<!--&lt;!&ndash;              <v-list-item-icon&ndash;&gt;-->
+<!--&lt;!&ndash;                  v-text="subMenu.volume" class="ml-2 white&#45;&#45;text"&ndash;&gt;-->
+<!--&lt;!&ndash;              />&ndash;&gt;-->
 
-              <v-list-item-title
-                  v-text="subMenu.volume" class="white--text"
-              />
+<!--&lt;!&ndash;              <v-list-item-title&ndash;&gt;-->
+<!--&lt;!&ndash;                  v-text="subMenu.volume" class="white&#45;&#45;text"&ndash;&gt;-->
+<!--&lt;!&ndash;              />&ndash;&gt;-->
 
-              <v-icon
-                  v-text="subMenu.icon" small
-                  class="white--text"
-              />
-            </v-list-item>
-          </v-list-group>
+<!--&lt;!&ndash;              <v-icon&ndash;&gt;-->
+<!--&lt;!&ndash;                  v-text="subMenu.icon" small&ndash;&gt;-->
+<!--&lt;!&ndash;                  class="white&#45;&#45;text"&ndash;&gt;-->
+<!--&lt;!&ndash;              />&ndash;&gt;-->
+<!--&lt;!&ndash;            </v-list-item>&ndash;&gt;-->
+<!--          </v-list-group>-->
         </div>
       </section>
 

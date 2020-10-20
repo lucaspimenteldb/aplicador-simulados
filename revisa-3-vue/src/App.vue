@@ -1,7 +1,10 @@
 <template>
   <v-app>
 
-    <MenuLateral v-if="autenticado" />
+    <MenuLateral
+:routes="routes"
+v-if="autenticado"
+/>
     <Toolbar v-if="autenticado" />
 
     <v-main class="pa-sm-16 mr-0 grey lighten-4">
@@ -33,6 +36,7 @@ export default {
   data () {
     return {
       autenticado: false,
+      routes: [],
     };
   },
 
@@ -44,6 +48,7 @@ export default {
         token: `Bearer ${menu.token}`,
       });
       this.autenticado = menu.menu;
+      this.routes = this.$router.options.routes;
       this.emitWebSocket(menu.id);
     }
   },
@@ -57,6 +62,7 @@ export default {
   mounted () {
     Busao.$on('autenticado', (d, id = 0) => {
       this.autenticado = d;
+      this.routes = this.$router.options.routes;
       this.emitWebSocket(id);
     });
   },

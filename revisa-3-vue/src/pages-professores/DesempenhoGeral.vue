@@ -260,6 +260,7 @@
         <v-data-table
             :headers="headerRanking" :items="colocacoes"
             fixed-header
+            :search="search"
             class="text-no-wrap clear-both"
         >
           <template v-slot:item.posicao="{ item }">
@@ -272,16 +273,16 @@
             </p>
           </template>
 
-          <template v-slot:item.gabarito>
-            <v-btn
-                small
-                id="ver__aluno"
-                class="azul white--text rounded__normal text-capitalize mr-1"
-                color="primary"
-            >
-              ver aluno
-            </v-btn>
-          </template>
+<!--          <template v-slot:item.gabarito>-->
+<!--            <v-btn-->
+<!--                small-->
+<!--                id="ver__aluno"-->
+<!--                class="azul white&#45;&#45;text rounded__normal text-capitalize mr-1"-->
+<!--                color="primary"-->
+<!--            >-->
+<!--              ver aluno-->
+<!--            </v-btn>-->
+<!--          </template>-->
         </v-data-table>
       </v-col>
 

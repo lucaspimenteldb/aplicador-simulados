@@ -484,6 +484,10 @@ export default {
     loading, Bar, DialogRedacao, TabsMobile,
   },
 
+  async created () {
+    this.getRedacao();
+  },
+
   mounted () {
     const paginacao = document.querySelector('.v-data-footer__pagination');
 
