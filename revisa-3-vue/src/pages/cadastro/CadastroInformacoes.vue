@@ -47,41 +47,48 @@
               :class="[completo2 ? 'd-none' : 'mr-2']"
           />
 
-          <v-text-field
+          <v-select
               v-model="cre"
               label="CRE" filled
+              :items="['Artes', 'Biologia', 'Educação Física', 'Física', 'Geografia', 'História', 'Inglês', 'Literatura']"
               class="mt-6 ml-2"
               aria-autocomplete="off"
               hide-details
+              :multiple="!aluno"
           />
 
-          <v-text-field
+          <v-select
               v-model="escola"
               label="Escola" filled
+              :items="['Artes', 'Biologia', 'Educação Física', 'Física', 'Geografia', 'História', 'Inglês', 'Literatura']"
               hide-details
               class="mt-2 ml-2"
               color="azul"
-          />
-
-          <v-text-field
-              v-model="turma"
-              label="Turma" filled
-              hide-details
-              class="mt-2 ml-2"
-              color="azul"
+              :multiple="!aluno"
           />
 
           <v-select
               v-model="turno"
               label="Turno" filled
-              :items="['Matutino', 'Vespertinho', 'Noturno']"
+              :items="['Matutino', 'Vespertino', 'Noturno']"
               hide-details
               class="mt-2 ml-2"
               color="azul"
+              :multiple="!aluno"
           />
 
           <v-select
-              v-if="professor"
+              v-model="turma"
+              label="Turma" filled
+              :items="['Artes', 'Biologia', 'Educação Física', 'Física', 'Geografia', 'História', 'Inglês', 'Literatura']"
+              hide-details
+              class="mt-2 ml-2"
+              color="azul"
+              :multiple="!aluno"
+          />
+
+          <v-select
+              v-if="!aluno"
               v-model="turno"
               label="Disciplina" filled
               :items="['Artes', 'Biologia', 'Educação Física', 'Física', 'Geografia', 'História', 'Inglês', 'Literatura']"
@@ -114,7 +121,7 @@ export default {
       erro: false,
       completo: false,
       completo2: false,
-      professor: true,
+      aluno: true,
       cre: '',
       escola: '',
       turma: '',

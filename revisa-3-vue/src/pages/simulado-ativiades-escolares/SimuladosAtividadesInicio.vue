@@ -64,14 +64,18 @@
               />
             </article>
 
-            <!-- quantas notificacoes são -->
+            <p class="font-weight-bold black--text">
+              Humanas e Linguagens
+            </p>
+
+            <!-- prazo de entrega e informações-->
             <div class="mt-4 d-flex justify-space-between">
               <article>
                 <p class="black--text">
                   Prazo de entrega:
                 </p>
                 <p class="font-weight-bold black--text">
-                  21/08 às 18:00 horas
+                  21/08 - 10:00 às 18:00 horas
                 </p>
               </article>
 
@@ -104,132 +108,132 @@
           cols="12" class="mt-12"
       >
         <header-secao>
-          Gabarito do simulado
+          Guia do Aluno
         </header-secao>
       </v-col>
 
       <!-- tabela das questoes -->
-      <v-col cols="12">
-        <v-data-table
-            :headers="headers" fixed-header
-            :items="questoesGabarito"
-        >
-          <template v-slot:item.resultado="{ item }">
-            <p
-                class="font-weight-medium"
-                :class="`${item.resultado}--text`"
-            >
-              {{ item.resultado }}
-            </p>
-          </template>
+<!--      <v-col cols="12">-->
+<!--        <v-data-table-->
+<!--            :headers="headers" fixed-header-->
+<!--            :items="questoesGabarito"-->
+<!--        >-->
+<!--          <template v-slot:item.resultado="{ item }">-->
+<!--            <p-->
+<!--                class="font-weight-medium"-->
+<!--                :class="`${item.resultado}&#45;&#45;text`"-->
+<!--            >-->
+<!--              {{ item.resultado }}-->
+<!--            </p>-->
+<!--          </template>-->
 
-          <template v-slot:item.dificuldade="{ item }">
-            <p>
-              {{ item.dificuldade.split('-')[1] }}
-            </p>
-          </template>
+<!--          <template v-slot:item.dificuldade="{ item }">-->
+<!--            <p>-->
+<!--              {{ item.dificuldade.split('-')[1] }}-->
+<!--            </p>-->
+<!--          </template>-->
 
-          <!-- modal para ver a questão -->
-          <template v-slot:item.url="{ item }">
-            <v-dialog
-                v-model="dialog[item.id]" width="600px"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                    small
-                    class="azul white--text rounded__normal text-capitalize"
-                    color="primary"
-                    v-bind="attrs" v-on="on"
-                    :to="item.url"
-                    @click.stop="$set(dialog, item.id, true)"
-                >
-                  ver questão
-                </v-btn>
-              </template>
+<!--          &lt;!&ndash; modal para ver a questão &ndash;&gt;-->
+<!--          <template v-slot:item.url="{ item }">-->
+<!--            <v-dialog-->
+<!--                v-model="dialog[item.id]" width="600px"-->
+<!--            >-->
+<!--              <template v-slot:activator="{ on, attrs }">-->
+<!--                <v-btn-->
+<!--                    small-->
+<!--                    class="azul white&#45;&#45;text rounded__normal text-capitalize"-->
+<!--                    color="primary"-->
+<!--                    v-bind="attrs" v-on="on"-->
+<!--                    :to="item.url"-->
+<!--                    @click.stop="$set(dialog, item.id, true)"-->
+<!--                >-->
+<!--                  ver questão-->
+<!--                </v-btn>-->
+<!--              </template>-->
 
-              <v-card class="relative overflow-hidden">
-                <v-icon
-                    v-text="'mdi-close-circle-outline'" class="absolute top--8 right--8 pointer__events__none cursor__pointer z-1000"
-                    color="errou" large
-                />
+<!--              <v-card class="relative overflow-hidden">-->
+<!--                <v-icon-->
+<!--                    v-text="'mdi-close-circle-outline'" class="absolute top&#45;&#45;8 right&#45;&#45;8 pointer__events__none cursor__pointer z-1000"-->
+<!--                    color="errou" large-->
+<!--                />-->
 
-                <v-card-title>
-                  <span class="headline">Questão {{ item.name }}</span>
-                </v-card-title>
+<!--                <v-card-title>-->
+<!--                  <span class="headline">Questão {{ item.name }}</span>-->
+<!--                </v-card-title>-->
 
-                <v-card-text>
-                  <!-- anunciado da questão -->
-                  <article>
-                    <!-- eslint-disable max-len -->
-                    Lorem ipsum dolor sit amet, semper quis, sapien id natoque elit. Nostra urna at, magna at neque sed sed ante imperdiet, dolor mauris cursus velit, velit non, sem nec. Volutpat sem ridiculus placerat leo, augue in, duis erat proin condimentum in a eget, sed fermentum sed vestibulum varius ac, vestibulum volutpat orci ut elit eget tortor.
+<!--                <v-card-text>-->
+<!--                  &lt;!&ndash; anunciado da questão &ndash;&gt;-->
+<!--                  <article>-->
+<!--                    &lt;!&ndash; eslint-disable max-len &ndash;&gt;-->
+<!--                    Lorem ipsum dolor sit amet, semper quis, sapien id natoque elit. Nostra urna at, magna at neque sed sed ante imperdiet, dolor mauris cursus velit, velit non, sem nec. Volutpat sem ridiculus placerat leo, augue in, duis erat proin condimentum in a eget, sed fermentum sed vestibulum varius ac, vestibulum volutpat orci ut elit eget tortor.-->
 
-                  </article>
+<!--                  </article>-->
 
-                  <h6
-                      class="mt-4 body-1 acertou--text" v-if="item.marcada === item.gabarito"
-                  >
-                    Parabéns! Você arrasou na questão
-                  </h6>
+<!--                  <h6-->
+<!--                      class="mt-4 body-1 acertou&#45;&#45;text" v-if="item.marcada === item.gabarito"-->
+<!--                  >-->
+<!--                    Parabéns! Você arrasou na questão-->
+<!--                  </h6>-->
 
-                  <h6
-                      class="mt-4 body-1 errou--text" v-else
-                  >
-                    O mouse deve ter escorregado na hora de marcar...
-                  </h6>
+<!--                  <h6-->
+<!--                      class="mt-4 body-1 errou&#45;&#45;text" v-else-->
+<!--                  >-->
+<!--                    O mouse deve ter escorregado na hora de marcar...-->
+<!--                  </h6>-->
 
-                  <br>
-                  <!-- questões -->
-                  <v-hover
-                      v-for="(alternativa, questao) in alternativas" :key="questao"
-                  >
-                    <article
-                        class="pb-2 pt-2 mt-2 d-flex align-center border__bottom"
-                        :id="`alternativa${questao}`"
-                        :class="{
-                          'green lighten-3':item.gabarito === questao.toUpperCase(),
-                          'red lighten-3': item.gabarito != questao.toUpperCase() && item.marcada === questao.toUpperCase()
-                        }"
-                    >
-                      <!-- letra a,b etc.-->
-                      <p
-                          class="ml-1 mr-3 text-h6 leading__tight pointer__events__none"
-                          :class="[ questao === 'b' || questao === 'd' ? '' : 'mb-1' ]"
-                      >
-                        {{ questao }}
-                      </p>
+<!--                  <br>-->
+<!--                  &lt;!&ndash; questões &ndash;&gt;-->
+<!--                  <v-hover-->
+<!--                      v-for="(alternativa, questao) in alternativas" :key="questao"-->
+<!--                  >-->
+<!--                    <article-->
+<!--                        class="pb-2 pt-2 mt-2 d-flex align-center border__bottom"-->
+<!--                        :id="`alternativa${questao}`"-->
+<!--                        :class="{-->
+<!--                          'green lighten-3':item.gabarito === questao.toUpperCase(),-->
+<!--                          'red lighten-3': item.gabarito != questao.toUpperCase() && item.marcada === questao.toUpperCase()-->
+<!--                        }"-->
+<!--                    >-->
+<!--                      &lt;!&ndash; letra a,b etc.&ndash;&gt;-->
+<!--                      <p-->
+<!--                          class="ml-1 mr-3 text-h6 leading__tight pointer__events__none"-->
+<!--                          :class="[ questao === 'b' || questao === 'd' ? '' : 'mb-1' ]"-->
+<!--                      >-->
+<!--                        {{ questao }}-->
+<!--                      </p>-->
 
-                      <p class="body-2 pointer__events__none">
-                        {{ alternativa }}
-                      </p>
+<!--                      <p class="body-2 pointer__events__none">-->
+<!--                        {{ alternativa }}-->
+<!--                      </p>-->
 
-                      <v-icon
-                          v-if="item.gabarito === questao.toUpperCase()"
-                          v-text="'mdi-checkbox-marked-circle-outline'" class="mr-2"
-                      />
+<!--                      <v-icon-->
+<!--                          v-if="item.gabarito === questao.toUpperCase()"-->
+<!--                          v-text="'mdi-checkbox-marked-circle-outline'" class="mr-2"-->
+<!--                      />-->
 
-                      <v-icon
-                          v-if="item.gabarito != questao.toUpperCase() && item.marcada === questao.toUpperCase()"
-                          v-text="'mdi-close-circle-outline'" class="mr-2"
-                      />
-                    </article>
-                  </v-hover>
-                </v-card-text>
+<!--                      <v-icon-->
+<!--                          v-if="item.gabarito != questao.toUpperCase() && item.marcada === questao.toUpperCase()"-->
+<!--                          v-text="'mdi-close-circle-outline'" class="mr-2"-->
+<!--                      />-->
+<!--                    </article>-->
+<!--                  </v-hover>-->
+<!--                </v-card-text>-->
 
-                <v-card-actions class="px-4">
-                  <v-spacer />
+<!--                <v-card-actions class="px-4">-->
+<!--                  <v-spacer />-->
 
-                  <v-btn
-                      color="green darken-1" text
-                      @click="$set(dialog, item.id, false)"
-                  >
-                    Fechar
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </template>
-        </v-data-table>
-      </v-col>
+<!--                  <v-btn-->
+<!--                      color="green darken-1" text-->
+<!--                      @click="$set(dialog, item.id, false)"-->
+<!--                  >-->
+<!--                    Fechar-->
+<!--                  </v-btn>-->
+<!--                </v-card-actions>-->
+<!--              </v-card>-->
+<!--            </v-dialog>-->
+<!--          </template>-->
+<!--        </v-data-table>-->
+<!--      </v-col>-->
     </v-row>
 
     <!-- gabaritos -->
@@ -600,8 +604,8 @@ export default {
   },
 
   mounted () {
-    document.querySelector('.v-data-footer__select').innerHTML = '';
-    document.querySelector('.v-data-footer__pagination').innerHTML = `1 - ${this.questoesGabarito.length > 10 ? 10 : this.questoesGabarito.length} de ${this.questoesGabarito.length}`;
+    // document.querySelector('.v-data-footer__select').innerHTML = '';
+    // document.querySelector('.v-data-footer__pagination').innerHTML = `1 - ${this.questoesGabarito.length > 10 ? 10 : this.questoesGabarito.length} de ${this.questoesGabarito.length}`;
   },
 
   methods: {

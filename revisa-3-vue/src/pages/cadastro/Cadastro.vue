@@ -6,7 +6,7 @@
           <v-alert
               class="ml-2 errou white--text"
           >
-            mensagem de erro
+            {{ mensagemErro }}
           </v-alert>
         </article>
       </v-col>
@@ -36,6 +36,7 @@
               v-text="2"
               class="ml-1 pa-0 w-24 h-34 min-w-34"
               to="/cadastro-informacoes"
+              :disabled="!pagina2"
           />
           <v-icon
               v-text="'mdi-checkbox-marked-outline'"
@@ -143,7 +144,6 @@
               id="btn__entrar"
               class="mt-4 ml-2 azul white--text text-none"
               @click="infosIniciais"
-              to="cadastro-informacoes"
           >
             Próximo passo
           </v-btn>
@@ -170,6 +170,8 @@ export default {
       confirmarSenha: '',
       show: false,
       dialog: false,
+      mensagemErro: '',
+      pagina2: false,
     };
   },
 
@@ -185,11 +187,25 @@ export default {
         && this.login !== null && this.login !== ''
         && this.senha !== null && this.senha !== ''
         && this.confirmarSenha !== null && this.confirmarSenha !== ''
-        && this.senha === this.confirmarSenha
       ) {
-        this.completo = true;
+        if (this.senha !== this.confirmarSenha) {
+          this.mensagemErro = 'Os campos senha e confirmar senha devem ser iguais';
+          this.erro = true;
+          this.completo = false
+        } else {
+          this.pagina2 = true;
+          this.completo = true;
+          this.$router.push('/cadastro-informacoes');
+        }
+      } else {
+        this.mensagemErro = 'Preencha todos os campos abaixo';
+        this.erro = true;
+        this.completo = false;
+      }
+
+      if (this.completo) {
+        this.erro = false;
         this.completoPrimeiro();
-        console.log('emiti');
       }
     },
   },
