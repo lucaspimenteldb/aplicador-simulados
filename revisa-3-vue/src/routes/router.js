@@ -39,7 +39,7 @@ const routes = [
   },
   {
     path: '/cadastro-informacoes',
-    name: 'Cadastro',
+    name: 'CadastroInformacoes',
     ttl: 'Cadastro Informações',
     menu: false,
     component: () => import('../pages/cadastro/CadastroInformacoes'),
@@ -64,21 +64,21 @@ const routes = [
   //   name: 'Home',
   //   component: () => import('../pages/Home'),
   // },
-  {
-    path: '/simulados-atividades-escolares',
-    name: 'SimuladosAtividadesInicio',
-    component: () => import('../pages/simulado-ativiades-escolares/SimuladosAtividadesInicio'),
-  },
-  {
-    path: '/simulado-responder',
-    name: 'QuestoesSimuladosAtividades',
-    component: () => import('../components/QuestoesSimuladosAtividades'),
-  },
-  {
-    path: '/simulado-escolar-desempenho',
-    name: 'DesempenhoSimulado',
-    component: () => import('../pages/simulado-ativiades-escolares/DesempenhoSimulado'),
-  },
+  // {
+  //   path: '/simulados-atividades-escolares',
+  //   name: 'SimuladosAtividadesInicio',
+  //   component: () => import('../pages/simulado-ativiades-escolares/SimuladosAtividadesInicio'),
+  // },
+  // {
+  //   path: '/simulado-responder',
+  //   name: 'QuestoesSimuladosAtividades',
+  //   component: () => import('../components/QuestoesSimuladosAtividades'),
+  // },
+  // {
+  //   path: '/simulado-escolar-desempenho',
+  //   name: 'DesempenhoSimulado',
+  //   component: () => import('../pages/simulado-ativiades-escolares/DesempenhoSimulado'),
+  // },
   // {
   //   path: '/redacoes',
   //   name: 'RedacaoInicio',

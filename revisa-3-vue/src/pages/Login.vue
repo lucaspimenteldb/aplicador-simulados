@@ -75,7 +75,7 @@
               @verify="onCaptchaVerified"
               class="ml-2 azul white--text w-140 text-none capctha"
               :loadRecaptchaScript="true"
-              sitekey="6Ld93KMZAAAAAFlLG_Us-VvFqaFNRa4TIMPiLB0c"
+              :sitekey="site_key"
           />
 
           <v-btn
@@ -130,6 +130,7 @@ export default {
       login: '',
       loading: false,
       token: '',
+      site_key: env.KEY_CAPTCHA,
     };
   },
 
@@ -222,6 +223,7 @@ export default {
     },
     onCaptchaVerified (token) {
       this.token = token;
+      console.log(token);
     },
   },
 };
