@@ -70,6 +70,14 @@
             Entrar
           </v-btn>
 
+          <VueRecaptcha
+              ref="recaptcha"
+              @verify="onCaptchaVerified"
+              class="ml-2 azul white--text w-140 text-none capctha"
+              :loadRecaptchaScript="true"
+              sitekey="6Ld93KMZAAAAAFlLG_Us-VvFqaFNRa4TIMPiLB0c"
+          />
+
           <v-btn
               text class="mt-8 pa-2 text-lowercase"
               to="/esqueci-senha"
@@ -101,15 +109,16 @@
 
 <script>
 import axios from 'axios';
+import VueRecaptcha from 'vue-recaptcha';
 import env from '../env';
 import { Busao } from '../main';
 import storage from '../storage/storage';
 import aluno from '../routes/routes-modelo/aluno';
 import professor from '../routes/routes-modelo/professor';
-import router from "@/routes/router";
 
 export default {
   name: 'Login',
+  components: { VueRecaptcha },
 
   data () {
     return {
@@ -120,6 +129,7 @@ export default {
       senha: '',
       login: '',
       loading: false,
+      token: '',
     };
   },
 
@@ -128,9 +138,13 @@ export default {
       Busao.$emit('autenticado', false);
     },
     async entrar () {
+      const verif = this.verificarCaptcha();
+      if (!verif) return;
+      const veriL = this.verificarBranco();
+      if (!veriL) return;
       this.preLoading(false);
       try {
-        const resposta = await axios.post(`${env.ROOT_API}auth`, { login: this.login, senha: this.senha });
+        const resposta = await axios.post(`${env.ROOT_API}auth`, { login: this.login, senha: this.senha, recaptchaToken: 123 });
         Busao.$emit('autenticado', true, resposta.data.data.usuario.id);
         const cache = this.getCache(resposta.data.data);
         storage.set('token', JSON.stringify(cache));
@@ -148,6 +162,25 @@ export default {
           this.message = 'Usuário ou senha errado. Por favor, tente novamente';
         }
       }
+    },
+
+    verificarBranco () {
+      if (!this.login.trim() || !this.senha.trim()) {
+        this.message = 'Preencha os campos obrigatórios';
+        this.showLocal = true;
+        return false;
+      }
+      return true;
+    },
+
+    verificarCaptcha () {
+      if (!this.token) {
+        this.message = 'Marque a opção não sou rôbo';
+        this.showLocal = true;
+        return false;
+      }
+
+      return true;
     },
     preLoading (terminar) {
       if (!terminar) {
@@ -187,10 +220,15 @@ export default {
         }
       }
     },
+    onCaptchaVerified (token) {
+      this.token = token;
+    },
   },
 };
 </script>
 
 <style scoped>
-
+  .capctha {
+    margin-top: 1rem;
+  }
 </style>
