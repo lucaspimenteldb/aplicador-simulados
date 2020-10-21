@@ -1,8 +1,47 @@
 <template>
-  <v-container>
+  <v-container fluid>
+    <v-dialog
+        persistent
+        max-width="500px"
+        v-model="termos"
+    >
+      <v-card>
+        <v-card-title>
+          Termos de compromisso do envio da redação
+        </v-card-title>
+
+        <v-card-text>
+          <p>
+            textão
+          </p>
+        </v-card-text>
+
+        <v-card-actions class="pr-6">
+          <v-spacer />
+
+          <v-btn
+              text
+              color="errou"
+              v-text="'Cancelar'"
+              class="text-none"
+              to="/simulados-atividades-escolares"
+          />
+
+          <v-btn
+              filled
+              color="azul"
+              v-text="'Aceitar'"
+              @click="termos = false"
+              class="text-none white--text"
+          />
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     <v-row>
-      <v-col cols="12">
+      <v-col
+          cols="12" md="7"
+      >
         <h1>
           {{ tituloPagina }}
         </h1>
@@ -10,6 +49,18 @@
         <h3>
           {{ tipoAtividadeDisciplina }}
         </h3>
+      </v-col>
+
+      <v-col
+          cols="12" md="5"
+      >
+        <v-alert
+            color="amarelo"
+            class="mb-0 float-right"
+            max-width="300px"
+        >
+          Tempo restante: {{ '4:30" horas' }}
+        </v-alert>
       </v-col>
     </v-row>
 
@@ -164,15 +215,16 @@
               Após finalizado o simulado não pode ser feito novamente e você poderá ver o seu desempenho.
             </v-card-text>
 
-            <v-card-actions>
+            <v-card-actions class="px-6">
               <v-spacer />
               <v-btn
                   color="red" text
                   @click="dialog = false"
                   v-text="'Cancelar'"
+                  class="text-none"
               />
               <v-btn
-                  color="azul" class="white--text"
+                  color="azul" class="text-none white--text"
                   @click="dialog = false"
                   v-text="'Enviar simulado'"
                   to="/simulado-escolar-desempenho"
@@ -196,25 +248,6 @@
           />
         </div>
       </v-col>
-
-      <v-col
-          cols="12" md="8"
-          class="d-sm-none d-md-block"
-      >
-        <v-btn
-            class="mr-4 text-lowercase border-3 border__azul rounded__normal transition hover:botao__outline"
-            outlined
-        >
-          Questão anterior
-        </v-btn>
-
-        <v-btn
-            class="text-lowercase border-3 border__azul rounded__normal transition hover:botao__outline"
-            outlined
-        >
-          Próxima questão
-        </v-btn>
-      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -225,8 +258,9 @@ export default {
   data () {
     return {
       dialog: false,
+      termos: false,
       tituloPagina: 'Simulados Escolares',
-      tipoAtividadeDisciplina: 'Simulado de Português',
+      tipoAtividadeDisciplina: 'Simulado de Linguagens e Humanas',
       desmarcado: 'mdi-checkbox-blank-circle-outline',
       marcado: 'mdi-checkbox-marked-circle-outline',
       page: 1,
@@ -290,6 +324,7 @@ export default {
   mounted () {
     this.larguraQuestao = document.querySelector('.container__questoes').offsetWidth;
     this.questoes = document.getElementsByClassName('container__questoes').length;
+    this.termos = true;
   },
 
   methods: {

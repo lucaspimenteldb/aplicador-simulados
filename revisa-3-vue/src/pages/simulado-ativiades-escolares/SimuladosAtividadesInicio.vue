@@ -21,7 +21,6 @@
     </v-row>
 
     <v-row
-        :class="[ area.notificacao ? '' : 'd-none']"
         v-for="(area, areaNome, i) in areas" :key="areaNome"
     >
       <v-col
@@ -34,8 +33,8 @@
 
       <!-- card da disciplina com nova atividade ou simulado-->
       <v-col
-          cols="12" sm="6"
-          md="4" lg="3"
+          cols="12" sm="8"
+          md="6" lg="4"
           v-for="(disciplina, i) in area.disciplinas" :key="disciplina"
       >
         <v-card
@@ -44,36 +43,50 @@
         >
           <v-card-text>
             <article class="d-flex align-center relative z-1">
-              <v-img
-                  :src="require(`@/assets/icon/disciplinas/${disciplina}.png`)" width="30"
-                  class="flex-grow-0"
-              />
-
-              <p class="ml-2 text-h6 leading__tight grey--text text--darken-3">
+              <p class="text-h6 leading__tight grey--text text--darken-3">
                 {{ area.ttl[i] }}
               </p>
 
               <!-- sino de notificacao -->
-              <div
-                  class="bolinha__notificacao d-flex align-center justify-center absolute top--2 right--2 font-weight-bold
-                  grey--text text--darken-3 z--1"
+          <!--    <div
+                  class="bolinha__notificacao d-flex align-center justify-center absolute top&#45;&#45;2 right&#45;&#45;2 font-weight-bold
+                  grey&#45;&#45;text text&#45;&#45;darken-3 z&#45;&#45;1"
               >
                 {{ area.quantidadeNotificacao}}
-              </div>
-              <v-icon
-                  v-text="'mdi-bell'" class="w__icons__28 icone__backdrop absolute top-0 right-0 z-10"
+              </div>-->
+              <v-img
+                  :src="require(`@/assets/icon/humanas.png`)" width="30"
+                  class="mr-2 ml-auto flex-grow-0"
+              />
+              <v-img
+                  :src="require(`@/assets/icon/linguagens.png`)" width="30"
+                  class="flex-grow-0"
               />
             </article>
 
             <!-- quantas notificacoes são -->
-            <p class="mt-2 black--text">
-              {{ area.textoNotificacao }}
-            </p>
+            <div class="mt-4 d-flex justify-space-between">
+              <article>
+                <p class="black--text">
+                  Prazo de entrega:
+                </p>
+                <p class="font-weight-bold black--text">
+                  21/08 às 18:00 horas
+                </p>
+              </article>
+
+              <v-alert
+                  max-height="40px"
+                  v-text="situacaoSimulado"
+                  class="mb-0 d-flex align-center white--text font-weight-bold"
+                  :class="{ 'azul': situacaoSimulado === 'iniciado',  }"
+              />
+            </div>
 
             <!-- texto para acessar as atividades novas-->
-            <article class="mt-8 relative">
+            <article class="mt-6 relative">
               <p class="font-weight-bold grey--text text--darken-3">
-                {{ `Fazer ${area.textoNotificacao.split(' ')[4]} de  ${area.ttl}` }}
+                {{ `Fazer simulado ${area.ttl}` }}
               </p>
 
               <!-- icone para acessar -->
@@ -260,6 +273,7 @@ export default {
   data () {
     return {
       professorSelecionado: null,
+      situacaoSimulado: 'iniciado',
       dialog: {},
       alternativas: {
         a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed laboris nisi ut aliquip ex ea commodo consequat.?',
@@ -482,18 +496,18 @@ export default {
       ],
 
       areas: {
-        linguagens: {
+        simulado1: {
           notificacao: true,
           get quantidadeNotificacao () {
             return this.notificacao ? 1 : 0;
           },
-          get textoNotificacao () {
-            return this.notificacao ? `Você tem ${this.quantidadeNotificacao} novo simulado` : '';
-          },
-          disciplinas: ['portugues'],
-          ttl: ['Linguagens'],
+          // get textoNotificacao () {
+          //   return this.notificacao ? `Você tem ${this.quantidadeNotificacao} novo simulado` : '';
+          // },
+          disciplinas: ['Humanas e Linguagens'],
+          ttl: ['Simulado - Dia 1'],
         },
-        humanas: {
+        /* humanas: {
           notificacao: true,
           get quantidadeNotificacao () {
             return this.notificacao ? 1 : 0;
@@ -525,7 +539,7 @@ export default {
           },
           disciplinas: [],
           ttl: [],
-        },
+        }, */
       },
 
       professores: ['Carlos - Matemática', 'Maria - Português', 'Fernanda - Química', 'Bernardo - Biologia', 'João de Deus - Física', 'Mário - Sociologia', 'Jesus - Filosofia', 'História - Saldanha', 'Geografia - Paulo'],
