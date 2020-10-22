@@ -61,8 +61,8 @@ const dados = {
         console.log(beris.marcada);
       }
 
-      document.querySelector('.v-data-footer__select').innerHTML = '';
-      document.querySelector('.v-data-footer__pagination').innerHTML = `1 - ${this.questoesGabarito.length > 10 ? 10 : this.questoesGabarito.length} de ${this.questoesGabarito.length}`;
+      document.querySelectorAll('.v-data-footer__select')[1].innerHTML = '';
+      document.querySelectorAll('.v-data-footer__pagination')[1].innerHTML = `1 - ${this.questoesGabarito.length > 10 ? 10 : this.questoesGabarito.length} de ${this.questoesGabarito.length}`;
     },
 
     async puxandoSimulEscol () {
@@ -293,7 +293,7 @@ const dados = {
     reiniciar () {
       Busao.$emit('reiniciar');
     },
-    
+
   },
 };
 

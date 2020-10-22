@@ -171,9 +171,6 @@ const dados = {
       perfis: {},
 
       colocacoes: [
-        {
-          nome: 'lucas',
-        },
       ],
 
       headerArea: [

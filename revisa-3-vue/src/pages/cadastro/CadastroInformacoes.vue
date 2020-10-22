@@ -121,7 +121,7 @@ export default {
       erro: false,
       completo: false,
       completo2: false,
-      aluno: true,
+      aluno: false,
       cre: '',
       escola: '',
       turma: '',

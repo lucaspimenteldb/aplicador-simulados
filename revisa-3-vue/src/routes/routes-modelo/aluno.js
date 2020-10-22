@@ -20,6 +20,26 @@ const routes = [{
     public: false,
   },
 },
+{
+  path: '/redacoes',
+  name: 'RedacaoInicio',
+  component: () => import('../../pages/redacao/RedacaoInicio'),
+},
+{
+  path: '/redacao-corrigida',
+  name: 'RedacaoCorrigida',
+  component: () => import('../../pages/redacao/RedacaoCorrigida'),
+},
+{
+  path: '/redacao-enviar',
+  name: 'RedacaoEnviar',
+  component: () => import('../../pages/redacao/RedacaoEnviar'),
+},
+{
+  path: '/simulados-atividades-escolares',
+  name: 'SimuladosAtividadesInicio',
+  component: () => import('../../pages/simulado-ativiades-escolares/SimuladosAtividadesInicio'),
+},
 // {
 //   path: '/suporte',
 //   name: 'Suporte',

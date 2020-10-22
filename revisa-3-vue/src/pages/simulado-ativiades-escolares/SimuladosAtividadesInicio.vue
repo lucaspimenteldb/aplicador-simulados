@@ -35,6 +35,7 @@
       <v-col
           cols="12" sm="8"
           md="6" lg="4"
+          xl="3"
           v-for="(disciplina, i) in area.disciplinas" :key="disciplina"
       >
         <v-card
@@ -101,6 +102,43 @@
           </v-card-text>
         </v-card>
       </v-col>
+
+      <v-col
+          cols="12" sm="6"
+          md="4" lg="3"
+      >
+        <v-card
+            class="destaque__redacao transition rounded__normal cursor__pointer btn__shadow" to="/redacao-enviar"
+        >
+          <v-card-text>
+            <article class="d-flex align-end justify-space-between">
+              <!-- descricoes da redacao -->
+              <v-card-title class="pa-0 d-inline-block grey--text text--darken-3">
+                {{ 'Redacao Tal' }}
+              </v-card-title>
+
+              <p class="caption font-weight-bold">
+                sua nota <span class="font-weight-bold"> -- </span>
+              </p>
+            </article>
+
+            <p class="grey--text text--darken-3">
+              {{ 'Tema da redação' }}
+            </p>
+
+            <article class="mt-4 relative">
+              <p class="font-weight-bold grey--text text--darken-3">
+                {{ 'Acessar a redação' }}
+              </p>
+
+              <!-- icone para acessar -->
+              <v-icon
+                  v-text="'mdi-location-enter'" class="w__icons__28 absolute bottom-0 right-0"
+              />
+            </article>
+          </v-card-text>
+        </v-card>
+      </v-col>
     </v-row>
 
     <v-row>
@@ -110,6 +148,28 @@
         <header-secao>
           Guia do Aluno
         </header-secao>
+      </v-col>
+
+      <v-col
+          cols="12" md="6"
+      >
+        <iframe
+            width="100%" height="360"
+            src="https://www.youtube.com/embed/C1eG9NuhRd8" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+        >
+        </iframe>
+      </v-col>
+
+      <v-col
+          cols="12" md="6"
+      >
+        <iframe
+            width="100%" height="360"
+            src="https://www.youtube.com/embed/xgcIJggKtmY" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+        >
+        </iframe>
       </v-col>
 
       <!-- tabela das questoes -->

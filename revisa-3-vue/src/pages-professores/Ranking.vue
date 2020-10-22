@@ -173,7 +173,7 @@
           cols="12" class="mt-8"
       >
         <subheader-secao>
-          Os melhores dos melhores - Ranking Estadual
+          Redações Nota 1000 - Ranking Estadual
         </subheader-secao>
       </v-col>
 
@@ -199,13 +199,13 @@
                 <div class="ml-8 bolinha__ranking" />
 
                 <v-icon
-                    v-text="melhor.podio" color="black"
+                    v-text="'mdi-podium-gold'" color="black"
                     large class=""
                 />
               </div>
 
               <p class="ml-6 text-h5 font-weight-medium grey--text text--darken-3">
-                {{ `${melhor.colocacao} lugar` }}
+                Nota 1000
               </p>
             </section>
 
@@ -222,15 +222,6 @@
               />
 
               {{ melhor.pontos }} pontos
-            </p>
-            <p class="h-30 relative font-weight-medium grey--text text--darken-3">
-              <span class="bolinha__melhores absolute left-0 top-1" />
-              <v-icon
-                  v-text="'mdi-trophy-award'" color="black"
-                  class="text-h6"
-              />
-
-              {{ melhor.conquistas }} conquistas
             </p>
           </v-card-text>
         </v-card>
@@ -249,6 +240,7 @@
         <v-data-table
             :headers="headerRanking" :items="colocacoes"
             fixed-header
+            hide-default-footer
         >
           <template v-slot:item.posicao="{ item }">
             <p class="font-weight-bold">
@@ -369,9 +361,21 @@
       </v-col>
 
       <v-col cols="12">
+        <v-text-field
+            label="Pesquisar..."
+            filled
+            color="azul"
+            append-icon="mdi-magnify"
+            class="max-w-240 float-right"
+            hide-details
+            v-model="searchEscola"
+        />
+
         <v-data-table
             :headers="headerRankingEscolar" :items="colocacoesEscolar"
             fixed-header
+            :search="searchEscola"
+            class="clear-both"
         />
       </v-col>
 
@@ -418,6 +422,12 @@ export default {
   components: { TabsMobile, Loading },
   mixins: [data, method],
 
+  data () {
+    return {
+      searchEscola: '',
+    };
+  },
+
   created () {
     try {
       this.iniciar();
@@ -431,10 +441,12 @@ export default {
       // eslint-disable-next-line no-param-reassign
       paginacao.innerHTML = '';
     });
+
     document.querySelectorAll('.v-data-footer__pagination').forEach((itens) => {
-      const elementos = itens.innerHTML.split(' ');
+      console.log(itens.innerHTML);
+
       // eslint-disable-next-line no-param-reassign
-      itens.innerHTML = `${elementos[0]} de ${elementos[2]}`;
+
     });
   },
 };

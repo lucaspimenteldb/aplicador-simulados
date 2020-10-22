@@ -104,7 +104,7 @@
                 class="w-1/3 absolute bottom-0 right-4 azul rounded__normal__top"
                 :style="{ height: `${desempenho.altura}%` }"
             >
-              <p class="mt-4 text-center font-weight-medium white--text">
+              <p class="mt-1 text-center font-weight-medium white--text">
                 {{ desempenho.altura.toFixed() }}%
               </p>
             </div>
@@ -134,7 +134,7 @@
                 class="w-1/3 absolute bottom-0 right-4 amarelo rounded__normal__top"
                 :style="{ height: `${desempenho.altura}%` }"
             >
-              <p class="mt-4 text-center font-weight-medium">
+              <p class="mt-1 text-center font-weight-medium">
                 {{ desempenho.altura.toFixed() }}%
               </p>
             </div>
@@ -504,8 +504,8 @@
         </subheader-secao>
       </v-col>
       <v-col
-          cols="6" sm="3"
-          md="2"
+          cols="6" sm="4"
+          md="3" lg="2"
       >
         <v-card>
           <v-card-title>
@@ -1166,14 +1166,9 @@ export default {
   },
 
   mounted () {
-    document.querySelectorAll('.v-data-footer__select').forEach((paginacao) => {
+    document.querySelectorAll('.v-data-footer__select').forEach((elementos) => {
       // eslint-disable-next-line no-param-reassign
-      paginacao.innerHTML = '';
-    });
-    document.querySelectorAll('.v-data-footer__pagination').forEach((itens) => {
-      const elementos = itens.innerHTML.split(' ');
-      // eslint-disable-next-line no-param-reassign
-      itens.innerHTML = `${elementos[0]} de ${elementos[2]}`;
+      elementos.innerHTML = '';
     });
 
     const alunoGabarito = document.getElementById('ver__aluno');

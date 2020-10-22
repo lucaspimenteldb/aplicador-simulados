@@ -271,6 +271,7 @@
         <v-data-table
             :headers="headerRanking" :items="colocacoes"
             fixed-header
+            hide-default-footer
         >
           <template v-slot:item.posicao="{ item }">
             <p class="font-weight-bold">

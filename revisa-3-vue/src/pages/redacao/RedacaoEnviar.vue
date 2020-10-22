@@ -24,10 +24,12 @@
       </v-col>
 
       <v-col
-          cols="12" class="max-h-500 relative overflow__y__scroll"
+          cols="12" class="max-h-500 relative"
       >
-        <v-img
-            src="@/assets/img/redacao/enviar-redacao/texto-motivador.png" class="w-full"
+        <iframe
+            src="https://iopscience.iop.org/article/10.1086/305618/pdf" frameborder="0"
+            width="100%"
+            height="500px"
         />
       </v-col>
     </v-row>
@@ -48,6 +50,14 @@
         <subheader-secao>
           Aprenda como enviar a sua redação
         </subheader-secao>
+
+        <iframe
+            width="100%" height="360"
+            src="https://www.youtube.com/embed/xgcIJggKtmY" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+            class="mt-2"
+        >
+        </iframe>
       </v-col>
 
       <v-col
