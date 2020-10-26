@@ -488,7 +488,7 @@ export default {
       this.desempenhoArea[1].ranking = rankingP.position_total_area.Humanas;
       this.desempenhoArea[2].ranking = rankingP.position_total_area.Matematica;
       this.desempenhoArea[3].ranking = rankingP.position_total_area.Natureza;
-      this.desempenhoArea[3].ranking = rankingP.position_total_area.redacao;
+      this.desempenhoArea[4].ranking = rankingP.position_total_area.redacao;
     },
     preencherPrimeiros (rankingP) {
       for (let i = 0; i < this.melhores.length; i++) {
