@@ -43,6 +43,26 @@ const routes = [
       public: false,
     },
   },
+
+  // coordenadores
+  {
+    path: '/ranking-coordenadores',
+    name: 'Ranking',
+    ttl: 'Ranking Geral',
+    component: () => import('../../pages-coordenadores/Ranking'),
+    meta: {
+      public: false,
+    },
+  },
+  {
+    path: '/home-coordenadores',
+    name: 'DesempenhoGeral',
+    ttl: 'Desempenho geral',
+    component: () => import('../../pages-coordenadores/DesempenhoGeral'),
+    meta: {
+      public: false,
+    },
+  },
 ];
 
 export default routes;
