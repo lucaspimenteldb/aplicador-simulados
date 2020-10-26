@@ -94,7 +94,7 @@
           </v-card>
 
           <section
-              class="mt-6" id="alternativas"
+              class="mt-6" :id="`alternativas${i}`"
               @click="marcar"
           >
             <v-hover
@@ -165,7 +165,11 @@
 
                 <v-icon
                     v-text="'mdi-circle-outline'" small
+                    v-if="!questoesMarcadasGabarito[gabarito - 1]"
                 />
+                <span v-else>
+                  {{ questoesMarcadasGabarito[gabarito -1].alternativa[0] }}
+                </span>
               </p>
             </v-btn>
           </article>
@@ -185,7 +189,7 @@
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
-                color="azul" class="mt-4 white--text rounded__normal"
+                color="azul" class="mt-4 white--text text-none rounded__normal"
                 dark v-bind="attrs"
                 v-on="on"
             >
@@ -252,7 +256,7 @@ export default {
       page: 1,
       larguraQuestao: 0,
       questoes: 1,
-      value: 20,
+      value: 0,
       questoesMarcadasGabarito: [],
       mixer: '',
 
@@ -316,25 +320,34 @@ export default {
   },
 
   methods: {
-    marcar: (el) => {
+    marcar (el) {
       const opcao = el.target;
       const opcaoIcone = opcao.firstElementChild;
       const wrapper = el.target.parentNode;
-      const alternativas = document.getElementById('alternativas');
       const desmarcado = 'mdi-checkbox-blank-circle-outline';
       const marcado = 'mdi-checkbox-marked-circle-outline';
+      const questaoAtual = document.querySelector('.v-pagination__item--active').innerHTML;
 
       wrapper.childNodes.forEach((item) => {
-        if (item === opcao && opcao !== alternativas) {
+        if (item === opcao && opcao.nodeName !== 'SECTION') {
           opcao.style.background = '#81D4FA';
           opcaoIcone.classList.remove(desmarcado);
           opcaoIcone.classList.add(marcado);
+
+          const alternativaSelecionada = opcao.id.split('');
+          this.questoesMarcadasGabarito[questaoAtual - 1] = ({
+            questao: `${questaoAtual}`,
+            alternativa: alternativaSelecionada.slice(-1),
+          });
         } else {
           item.style.removeProperty('background');
           item.firstElementChild.classList.remove(marcado);
           item.firstElementChild.classList.add(desmarcado);
         }
       });
+
+      const questoesTotais = Number(Object.keys(this.questoesMarcadasGabarito).length);
+      this.value = Math.floor((questoesTotais / this.questoes) * 100);
     },
 
     mudarPagina: (paginaAtual) => {
