@@ -40,6 +40,11 @@ const routes = [{
   name: 'SimuladosAtividadesInicio',
   component: () => import('../../pages/simulado-ativiades-escolares/SimuladosAtividadesInicio'),
 },
+{
+  path: '/simulado-responder',
+  name: 'QuestoesSimuladosAtividades',
+  component: () => import('../../components/QuestoesSimuladosAtividades'),
+},
 // {
 //   path: '/suporte',
 //   name: 'Suporte',

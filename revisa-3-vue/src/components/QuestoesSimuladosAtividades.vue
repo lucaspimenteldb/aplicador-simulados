@@ -7,7 +7,7 @@
     >
       <v-card>
         <v-card-title>
-          Termos de compromisso do envio da redação
+          Termos de compromisso do Simulado
         </v-card-title>
 
         <v-card-text>
@@ -141,23 +141,6 @@
         </div>
       </v-col>
 
-      <v-col
-          cols="12" md="8"
-          class="mb-8 d-md-none"
-      >
-        <v-btn
-            class="mr-4 text-lowercase border-3 border__azul rounded__normal" outlined
-        >
-          Questão anterior
-        </v-btn>
-
-        <v-btn
-            class="text-lowercase border-3 border__azul rounded__normal" outlined
-        >
-          Próxima questão
-        </v-btn>
-      </v-col>
-
       <!-- gabarito e questoes respondidas -->
       <v-col
           cols="12" md="4"
@@ -174,7 +157,10 @@
                 class="pa-2 mt-4 mr-3 w-46 h-46"
                 min-width="46" min-height="46"
             >
-              <p class="d-flex align-center">
+              <p
+                  class="d-flex align-center"
+                  :class="[ page === gabarito ? 'azul--text' : 'black--text']"
+              >
                 {{ gabarito }}
 
                 <v-icon
@@ -208,7 +194,7 @@
           </template>
           <v-card>
             <v-card-title class="headline">
-              Tem certeza que deseja finalizar o simulado?
+              Tem certeza que deseja finalizar e enviar o simulado?
             </v-card-title>
 
             <v-card-text>
@@ -238,7 +224,7 @@
     <v-row>
       <v-col
           cols="12" md="8"
-          class="pl-0 d-sm-none d-md-block"
+          class="pl-0 d-none d-md-block"
       >
         <div class="d-flex justify-sm-space-between">
           <v-pagination
@@ -267,6 +253,8 @@ export default {
       larguraQuestao: 0,
       questoes: 1,
       value: 20,
+      questoesMarcadasGabarito: [],
+      mixer: '',
 
       tabs: [
         {
@@ -332,11 +320,12 @@ export default {
       const opcao = el.target;
       const opcaoIcone = opcao.firstElementChild;
       const wrapper = el.target.parentNode;
+      const alternativas = document.getElementById('alternativas');
       const desmarcado = 'mdi-checkbox-blank-circle-outline';
       const marcado = 'mdi-checkbox-marked-circle-outline';
 
       wrapper.childNodes.forEach((item) => {
-        if (item === opcao) {
+        if (item === opcao && opcao !== alternativas) {
           opcao.style.background = '#81D4FA';
           opcaoIcone.classList.remove(desmarcado);
           opcaoIcone.classList.add(marcado);
