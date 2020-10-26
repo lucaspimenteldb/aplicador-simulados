@@ -10,16 +10,61 @@
       <v-col
           cols="12" sm="8"
           md="5" lg="4"
-          v-for="select of selects" :key="select.label"
       >
         <v-select
             filled
             hide-details
             color="azul"
-            v-model="select.model"
-            :items="select.items"
-            :label="select.label"
-            @change="mudarModal"
+            @change="changeSelect"
+            v-model="simuladoSelecionado"
+            :items="simulados.map((el) => `${el.titulo} (${el.SimuladoEstadoMaster.titulo})`)"
+            label="Selecione qual simulado quer ver"
+        />
+      </v-col>
+
+      <v-col
+          cols="12" sm="8"
+          md="5" lg="4"
+      >
+        <v-select
+            filled
+            hide-details
+            color="azul"
+            v-model="escolaAtual"
+            @change="changeEscola"
+            :items="escolas.map((el) => el.nome)"
+            label="Selecione qual escola quer ver"
+        />
+      </v-col>
+
+      <v-col
+          cols="12" sm="8"
+          md="5" lg="4"
+      >
+        <v-select
+            filled
+            hide-details
+            color="azul"
+            @change="changeSelect"
+            v-model="turmaAtual"
+            label="Selecione qual turma quer ver"
+            :items="turmas.map((el) => el.descricao)"
+        />
+      </v-col>
+
+      <v-col
+          cols="12" sm="8"
+          md="5" lg="4"
+      >
+        <v-select
+            filled
+            hide-details
+            color="azul"
+            v-model="tipoAtual"
+            :items="tipos"
+            @change="changeSelect"
+
+            label="Selecione a situação do simulado"
         />
       </v-col>
     </v-row>
@@ -64,8 +109,8 @@
 
           <template v-slot:item.redacao="{ item }">
             <p
-                class="font-weight-bold acertou--text"
-                :class="[ item.simulado === 'Entregue' ? 'acertou--text' : 'errou--text' ]"
+                class="font-weight-bold"
+                :class="[ item.redacao === 'Entregue' ? 'acertou--text' : 'errou--text' ]"
             >
               {{ item.redacao }}
             </p>
@@ -87,7 +132,7 @@
                     v-bind="attrs"
                     v-on="on"
                     @click.stop="$set(alunos, item.id, true)"
-                    @click="envioEmail, envioEmailErro, camposBrancos = false"
+                    @click="reset(item)"
                 />
               </template>
 
@@ -250,250 +295,22 @@
         />
       </v-col>
     </v-row>
+    <loading :dialog="loading" />
   </v-container>
 </template>
 
 <script>
+import data from '../mixis/acompanhar_simulado/data';
+import methods from '../mixis/acompanhar_simulado/methods';
+import loading from '../components/loading/Loading.vue';
+
 export default {
   name: 'AcompanharSimulados',
-
-  data () {
-    return {
-      simuladoSelecionado: '',
-      dialog: false,
-      alunos: {},
-      assuntoEmail: '',
-      mensagemEmail: '',
-      privilegioCRE: true,
-      envioEmail: false,
-      envioEmailErro: false,
-      camposBrancos: false,
-
-      selects: [
-        {
-          model: '',
-          items: ['nada', 'algo'],
-          label: 'Selecione qual simulado quer ver',
-        },
-        {
-          model: '',
-          items: ['nada'],
-          label: 'Selecione qual escola quer ver',
-        },
-        {
-          model: '',
-          items: ['nada'],
-          label: 'Selecione qual turma quer ver',
-        },
-        {
-          model: '',
-          items: ['Iniciados', 'Entregues', 'Não iniciados', 'Todos'],
-          label: 'Selecione a situação do simulado',
-        },
-      ],
-
-      search: '',
-      headerInformacoes: [
-        {
-          text: 'Nome',
-          value: 'nome',
-          sortable: false,
-          align: 'start',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Escola',
-          value: 'escola',
-          sortable: false,
-          align: 'start',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Turma/Turno',
-          value: 'turma',
-          sortable: false,
-          align: 'start',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Simulado',
-          value: 'simulado',
-          sortable: false,
-          align: 'start',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Redação',
-          value: 'redacao',
-          sortable: false,
-          align: 'start',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: '',
-          value: 'email',
-          sortable: false,
-        },
-      ],
-      headerCoordenador: [
-        {
-          text: 'Escola',
-          value: 'escola',
-          sortable: false,
-          align: 'start',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Simulados Iniciados',
-          value: 'iniciados',
-          sortable: true,
-          align: 'start',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Simulados Entregues',
-          value: 'entregues',
-          sortable: true,
-          align: 'start',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Total',
-          value: 'total',
-          sortable: false,
-          align: 'start',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Redação',
-          value: 'redacao',
-          sortable: false,
-          align: 'start',
-          class: 'body-2 font-weight-bold',
-        },
-      ],
-      headerCRE: [
-        {
-          text: 'CRE',
-          value: 'cre',
-          sortable: false,
-          align: 'start',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Simulados Iniciados',
-          value: 'iniciados',
-          sortable: true,
-          align: 'start',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Simulados Entregues',
-          value: 'entregues',
-          sortable: true,
-          align: 'start',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Total',
-          value: 'total',
-          sortable: false,
-          align: 'start',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Redação',
-          value: 'redacao',
-          sortable: false,
-          align: 'start',
-          class: 'body-2 font-weight-bold',
-        },
-      ],
-
-      informacoes: [
-        {
-          nome: 'Lucas Pimente',
-          escola: 'escola x doidona amrivalda',
-          turma: '3 ano B / Tarde',
-          simulado: 'Iniciado',
-          redacao: 'Entregue',
-          email: 'enviar email',
-          id: 0,
-        },
-        {
-          nome: 'José',
-          escola: 'escola x doidona amrivalda',
-          turma: '3 ano B / Tarde',
-          simulado: 'Não entregue',
-          redacao: 'Entregue',
-          email: 'enviar email',
-          id: 2,
-        },
-        {
-          nome: 'Mariazinha',
-          escola: 'escola x doidona amrivalda',
-          turma: '3 ano B / Tarde',
-          simulado: 'Entregue',
-          redacao: 'Entregue',
-          email: 'enviar email',
-          id: 3,
-        },
-      ],
-      informacoesCoordenador: [
-        {
-          escola: 'escola x doidona amrivalda',
-          iniciados: 485,
-          entregues: 234,
-          get total () {
-            return this.iniciados + this.entregues;
-          },
-          redacao: '234 entregues',
-        },
-      ],
-      informacoesCRE: [
-        {
-          cre: 'CRE X',
-          iniciados: 485,
-          entregues: 234,
-          get total () {
-            return this.iniciados + this.entregues;
-          },
-          redacao: '234 entregues',
-        },
-        {
-          cre: 'CRE XYZ',
-          iniciados: 485,
-          entregues: 234,
-          get total () {
-            return this.iniciados + this.entregues;
-          },
-          redacao: '234 entregues',
-        },
-      ],
-    };
+  components: { loading },
+  mixins: [data, methods],
+  created () {
+    this.iniciar();
   },
-
-  methods: {
-    mudarModal () {
-      this.simuladoSelecionado = this.selects[0].model;
-    },
-
-    enviarEmail () {
-      if
-      (
-        this.mensagemEmail.trim() !== '' && this.mensagemEmail !== null
-        && this.assuntoEmail.trim() !== '' && this.assuntoEmail !== null
-      ) {
-        this.envioEmailErro = false;
-        this.camposBrancos = false;
-        this.envioEmail = true;
-      } else {
-        this.envioEmail = false;
-        this.camposBrancos = true;
-      }
-    },
-  },
-
   mounted () {
     document.querySelectorAll('.v-data-footer__select').forEach((paginacao) => {
       // eslint-disable-next-line no-param-reassign
