@@ -222,6 +222,8 @@
 
                   <v-btn
                       color="azul"
+                      :loading="giroBtn"
+                      :disabled="giroBtn"
                       v-text="'Enviar email'"
                       class="text-none white--text"
                       @click.stop="enviarEmail"
@@ -233,11 +235,39 @@
           </template>
         </v-data-table>
 
+        <JsonExcel
+name="Alunos.xls"
+:data="informacoes"
+id="json"
+v-show="false"
+:before-generate="startExcel"
+:before-finish="finishExcel"
+/>
+        <JsonExcel
+name="Alunos.xls"
+:data="informacoesCRE"
+id="jsonCre"
+v-show="false"
+:before-generate="startExcel"
+:before-finish="finishExcel"
+/>
+
+        <JsonExcel
+                name="Alunos.xls"
+                :data="informacoesCoordenador"
+                id="jsonCoorde"
+                v-show="false"
+                :before-generate="startExcel"
+                :before-finish="finishExcel"
+        />
         <v-btn
-            filled
-            color="azul"
-            v-text="'Exportar dados dos alunos'"
-            class="mt-2 white--text text-none"
+                @click="download"
+                :disabled="excel"
+                :loading="excel"
+                filled
+                color="azul"
+                v-text="'Exportar dados dos alunos'"
+                class="mt-2 white--text text-none"
         />
       </v-col>
     </v-row>
@@ -263,6 +293,7 @@
         <v-btn
             filled
             color="azul"
+            @click="downloadCoord"
             v-text="'Exportar dados das escolas'"
             class="mt-2 white--text text-none"
         />
@@ -290,6 +321,7 @@
         <v-btn
             filled
             color="azul"
+            @click="downloadCre"
             v-text="'Exportar dados das CREs'"
             class="mt-2 white--text text-none"
         />
@@ -300,13 +332,14 @@
 </template>
 
 <script>
+import JsonExcel from 'vue-json-excel';
 import data from '../mixis/acompanhar_simulado/data';
 import methods from '../mixis/acompanhar_simulado/methods';
 import loading from '../components/loading/Loading.vue';
 
 export default {
   name: 'AcompanharSimulados',
-  components: { loading },
+  components: { loading, JsonExcel },
   mixins: [data, methods],
   created () {
     this.iniciar();

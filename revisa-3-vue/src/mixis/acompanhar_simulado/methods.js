@@ -6,12 +6,31 @@ const dados = {
       this.simuladoSelecionado = this.selects[0].model;
     },
 
+    startExcel () {
+      if (this.informacoes.length > 0) this.excel = true;
+    },
+
+    finishExcel () {
+      this.excel = false;
+    },
+
+    download () {
+      document.getElementById('json').click();
+    },
+    downloadCoord () {
+      document.getElementById('jsonCoorde').click();
+    },
+    downloadCre () {
+      document.getElementById('jsonCre').click();
+    },
+
     async iniciar () {
       try {
         this.loading = true;
         const data = await this.$http.get('simulado-estado', { headers: { Authorization: this.$store.state.token } });
         this.simulados = (data.data.simulados);
         this.escolas = data.data.escolas;
+        this.informacoesCoordenador = data.data.users;
         this.loading = false;
       } catch (e) {
         console.log(e);
@@ -96,6 +115,7 @@ const dados = {
 
     async enviarEmail () {
       try {
+        this.giroBtn = true;
         this.camposBrancos = false;
         this.envioEmail = false;
         this.envioEmailErro = false;
@@ -104,11 +124,12 @@ const dados = {
           this.camposBrancos = true;
           return;
         }
-        
-        await this.$http.get('enviar-email', object, { headers: { Authorization: this.$store.state.token } });
+        await this.$http.post('users/enviar-email', object, { headers: { Authorization: this.$store.state.token } });
         
         this.envioEmail = true;
+        this.giroBtn = false;
       } catch (e) {
+        this.giroBtn = false;
         this.envioEmailErro = true;
       }
     },

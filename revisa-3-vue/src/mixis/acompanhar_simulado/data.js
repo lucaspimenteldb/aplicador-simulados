@@ -7,6 +7,8 @@ const dados = {
       alunos: {},
       assuntoEmail: '',
       escolaAtual: '',
+      giroBtn: false,
+      excel: false,
       email: '',
       tipoAtual: '',
       turmaAtual: '',
@@ -154,22 +156,22 @@ const dados = {
       ],
       informacoesCRE: [
         {
-          cre: 'CRE X',
-          iniciados: 485,
-          entregues: 234,
+          cre: '1° CRE - Alta Floresta',
+          iniciados: 0,
+          entregues: 334,
           get total () {
             return this.iniciados + this.entregues;
           },
-          redacao: '234 entregues',
+          redacao: '252 entregues',
         },
         {
-          cre: 'CRE XYZ',
-          iniciados: 485,
-          entregues: 234,
+          cre: '11° CRE - JI-PARANÁ',
+          iniciados: 0,
+          entregues: 537,
           get total () {
             return this.iniciados + this.entregues;
           },
-          redacao: '234 entregues',
+          redacao: '294 entregues',
         },
       ],
     };
