@@ -27,7 +27,7 @@
 
       <v-col
           cols="12" sm="8"
-          md="5" lg="4"
+          md="4" lg="4"
       >
         <v-select
             v-model="simuladoAtual"
@@ -39,31 +39,14 @@
       </v-col>
 
       <v-col
-          cols="12" class="pa-0"
-      />
-
-      <v-col
           cols="12" sm="8"
-          md="4"
+          md="5"
       >
         <v-select
             :items="escolas.map((el => el.titulo))" filled
             @change="changeEscola"
             v-model="escolaAtual"
             label="Filtrar desempenho por escola" color="azul"
-            hide-details
-        />
-      </v-col>
-
-      <v-col
-          cols="12" sm="8"
-          md="4"
-      >
-        <v-select
-            @change="changeTurma"
-            v-model="turmaAtual"
-            :items="turmas.map((el => el.titulo))" filled
-            label="Filtrar desempenho por turma" color="azul"
             hide-details
         />
       </v-col>
@@ -179,7 +162,7 @@
 <!--          </v-card-text>-->
 <!--        </v-card>-->
 <!--      </v-col>-->
-      <!-- desempenho por aluno -->
+      <!-- desempenho por cre -->
       <v-col
           cols="12" class="mt-8"
       >
@@ -1039,8 +1022,8 @@
       </v-col>
 
       <v-col
-          cols="12" sm="6"
-          md="4"
+          cols="12" sm="8"
+          md="5"
       >
         <!-- select da disciplina -->
         <v-select
@@ -1065,33 +1048,15 @@
         />
       </v-col>
 
-      <!-- desempenho por turma -->
+      <!-- desempenho por escola -->
       <v-col
           cols="12"
           class="mt-8"
       >
         <subheader-secao>
-          Compares as médias TRI das escoles e turmas
+          Compares as médias TRI das escolas
         </subheader-secao>
       </v-col>
-
-      <v-col
-          cols="12"
-          md="4" sm="8"
-      >
-        <v-select
-                filled
-                v-model="escolaAtualGraf"
-                @change="changeEscolaGraf"
-                :items="escolas.map((el) => el.titulo)"
-            label="Filtrar desempenho por escola" color="azul"
-            hide-details
-        />
-      </v-col>
-
-      <v-col
-          cols="12" class="pa-0"
-      />
 
       <v-col
           cols="12" sm="8"
@@ -1102,7 +1067,7 @@
             :items="turmasGraf.map((el) => el.titulo)"
             v-model="turmaGraf1"
             @change="changeTurmaGraf"
-            label="Comparar turmas" color="azul"
+            label="Comparar escola" color="azul"
             hide-details
         />
       </v-col>
@@ -1116,7 +1081,7 @@
             :items="turmasGraf.map((el) => el.titulo)"
             v-model="turmaGraf2"
             @change="changeTurmaGraf"
-            label="Comparar turmas" color="azul"
+            label="Comparar escola" color="azul"
             hide-details
         />
       </v-col>
@@ -1182,9 +1147,41 @@
       </v-col>
     </v-row>-->
     <Bar
-:chartdata="chartdata"
-@reniciar="reiniciar"
-/>
+      :chartdata="chartdata"
+      @reniciar="reiniciar"
+    />
+    <loading :dialog="showLoading" />
+
+    <!-- desempenho por turma -->
+    <v-row>
+      <v-col
+          cols="12"
+          class="mt-8"
+      >
+        <subheader-secao>
+          Compares as médias TRI das turmas
+        </subheader-secao>
+      </v-col>
+
+      <v-col
+          cols="12" sm="8"
+          md="4"
+      >
+        <v-select
+            filled
+            :items="turmasGraf.map((el) => el.titulo)"
+            v-model="turmaGraf2"
+            @change="changeTurmaGraf"
+            label="Escolha a escola" color="azul"
+            hide-details
+        />
+      </v-col>
+    </v-row>
+
+    <Bar
+        :chartdata="chartdata"
+        @reniciar="reiniciar"
+    />
     <loading :dialog="showLoading" />
 
     <TabsMobile />

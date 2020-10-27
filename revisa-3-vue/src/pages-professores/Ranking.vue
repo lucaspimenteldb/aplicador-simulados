@@ -375,7 +375,7 @@
             :headers="headerRankingEscolar" :items="colocacoesEscolar"
             fixed-header
             :search="searchEscola"
-            class="clear-both"
+            class="clear-both text-no-wrap"
         />
       </v-col>
 

@@ -123,6 +123,12 @@ const dados = {
           class: 'body-2 font-weight-bold',
         },
         {
+          text: 'Turma',
+          sortable: false,
+          value: 'turma',
+          class: 'body-2 font-weight-bold',
+        },
+        {
           text: 'Média TRI',
           align: 'start',
           sortable: false,

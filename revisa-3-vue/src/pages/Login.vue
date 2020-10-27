@@ -79,7 +79,8 @@
           />
 
           <v-btn
-              text class="mt-8 pa-2 text-lowercase"
+              text
+              class="mt-8 pa-2 text-lowercase border__bottom__azul rounded-0"
               to="/esqueci-senha"
           >
             esqueci minha senha
@@ -205,7 +206,7 @@ export default {
       this.getPrivileges(dados.usuario.id_cms_privileges);
       return cache;
     },
-    
+
     getPrivileges (privilegio) {
       if (Number(privilegio) === 7) {
         this.$router.addRoutes(aluno);

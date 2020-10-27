@@ -366,7 +366,7 @@
           md="4"
       >
         <v-select
-            label="Filtrar desempenho por CRE" color="azul"
+            label="Filtrar escolas por CRE" color="azul"
             filled
             hide-details
             @change="changeEscola"
@@ -390,7 +390,125 @@
             :headers="headerRankingEscolar" :items="colocacoesEscolar"
             fixed-header
             :search="searchEscola"
-            class="clear-both"
+            class="clear-both text-no-wrap"
+        />
+
+        <v-btn
+            filled
+            color="azul"
+            v-text="'Exportar dados dos alunos'"
+            class="mt-2 white--text text-none"
+        />
+      </v-col>
+
+      <v-col
+          cols="12" class="mt-8"
+      >
+        <subheader-secao>
+          Ranking por aluno
+        </subheader-secao>
+      </v-col>
+
+      <v-col
+          cols="12" sm="8"
+          md="4"
+      >
+        <v-select
+            label="Filtrar alunos por CRE" color="azul"
+            filled
+            hide-details
+            @change="changeEscola"
+            :items="['Estadual', 'CRE 1']"
+            v-model="creAtual"
+        />
+      </v-col>
+
+      <v-col cols="12">
+        <v-text-field
+            label="Pesquisar..."
+            filled
+            color="azul"
+            append-icon="mdi-magnify"
+            class="max-w-240 float-right"
+            hide-details
+            v-model="searchAluno"
+        />
+
+        <v-data-table
+            :headers="headerRankingAluno" :items="colocacoes"
+            fixed-header
+            class="clear-both text-no-wrap"
+            :search="searchAluno"
+        >
+          <template v-slot:item.posicao="{ item }">
+            <p class="font-weight-bold">
+              <v-icon
+                  v-text="item.icon" color="black"
+                  small
+              />
+              {{ item.posicao }}
+            </p>
+          </template>
+
+          <!--          <template v-slot:item.gabarito>-->
+          <!--            <v-btn-->
+          <!--                small-->
+          <!--                id="ver__aluno"-->
+          <!--                class="azul white&#45;&#45;text rounded__normal text-capitalize mr-1"-->
+          <!--                color="primary"-->
+          <!--            >-->
+          <!--              ver aluno-->
+          <!--            </v-btn>-->
+          <!--          </template>-->
+        </v-data-table>
+
+        <v-btn
+            color="azul"
+            v-text="'Exportar dados das CREs'"
+            class="mt-4 white--text text-none"
+        />
+      </v-col>
+
+      <v-col
+          cols="12" class="mt-8"
+      >
+        <subheader-secao>
+          Desempenho por CRE
+        </subheader-secao>
+      </v-col>
+
+      <v-col cols="12">
+        <v-data-table
+            :headers="headerRankingCRE" :items="colocacoes"
+            fixed-header
+            class="text-no-wrap"
+        >
+          <template v-slot:item.posicao="{ item }">
+            <p class="font-weight-bold">
+              <v-icon
+                  v-text="item.icon" color="black"
+                  small
+              />
+              {{ item.posicao }}
+            </p>
+          </template>
+
+          <!--          <template v-slot:item.gabarito>-->
+          <!--            <v-btn-->
+          <!--                small-->
+          <!--                id="ver__aluno"-->
+          <!--                class="azul white&#45;&#45;text rounded__normal text-capitalize mr-1"-->
+          <!--                color="primary"-->
+          <!--            >-->
+          <!--              ver aluno-->
+          <!--            </v-btn>-->
+          <!--          </template>-->
+        </v-data-table>
+
+        <v-btn
+            color="azul"
+            v-text="'Exportar dados das CREs'"
+            class="mt-4 white--text text-none"
         />
       </v-col>
 
@@ -440,6 +558,7 @@ export default {
   data () {
     return {
       searchEscola: '',
+      searchAluno: '',
     };
   },
 
