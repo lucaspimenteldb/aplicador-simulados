@@ -237,7 +237,7 @@
 
         <JsonExcel
 name="Alunos.xls"
-:data="informacoes"
+:data="informacoesExcel"
 id="json"
 v-show="false"
 :before-generate="startExcel"
@@ -273,60 +273,60 @@ v-show="false"
     </v-row>
 
     <!-- só coordenador -->
-    <v-row>
-      <v-col
-          cols="12"
-          class="mt-12"
-      >
-        <header-secao>
-          Desempenho do {{ simuladoSelecionado }} por Escola
-        </header-secao>
-      </v-col>
+<!--    <v-row>-->
+<!--      <v-col-->
+<!--          cols="12"-->
+<!--          class="mt-12"-->
+<!--      >-->
+<!--        <header-secao>-->
+<!--          Desempenho do {{ simuladoSelecionado }} por Escola-->
+<!--        </header-secao>-->
+<!--      </v-col>-->
 
-      <v-col cols="12">
-        <v-data-table
-            :headers="headerCoordenador"
-            :items="informacoesCoordenador"
-            fixed-header
-        />
+<!--      <v-col cols="12">-->
+<!--        <v-data-table-->
+<!--            :headers="headerCoordenador"-->
+<!--            :items="informacoesCoordenador"-->
+<!--            fixed-header-->
+<!--        />-->
 
-        <v-btn
-            filled
-            color="azul"
-            @click="downloadCoord"
-            v-text="'Exportar dados das escolas'"
-            class="mt-2 white--text text-none"
-        />
-      </v-col>
-    </v-row>
+<!--        <v-btn-->
+<!--            filled-->
+<!--            color="azul"-->
+<!--            @click="downloadCoord"-->
+<!--            v-text="'Exportar dados das escolas'"-->
+<!--            class="mt-2 white&#45;&#45;text text-none"-->
+<!--        />-->
+<!--      </v-col>-->
+<!--    </v-row>-->
 
     <!-- diretor das CRE -->
-    <v-row v-show="privilegioCRE">
-      <v-col
-          cols="12"
-          class="mt-12"
-      >
-        <header-secao>
-          Desempenho por CRE
-        </header-secao>
-      </v-col>
+<!--    <v-row v-show="privilegioCRE">-->
+<!--      <v-col-->
+<!--          cols="12"-->
+<!--          class="mt-12"-->
+<!--      >-->
+<!--        <header-secao>-->
+<!--          Desempenho por CRE-->
+<!--        </header-secao>-->
+<!--      </v-col>-->
 
-      <v-col cols="12">
-        <v-data-table
-            :headers="headerCRE"
-            :items="informacoesCRE"
-            fixed-header
-        />
+<!--      <v-col cols="12">-->
+<!--        <v-data-table-->
+<!--            :headers="headerCRE"-->
+<!--            :items="informacoesCRE"-->
+<!--            fixed-header-->
+<!--        />-->
 
-        <v-btn
-            filled
-            color="azul"
-            @click="downloadCre"
-            v-text="'Exportar dados das CREs'"
-            class="mt-2 white--text text-none"
-        />
-      </v-col>
-    </v-row>
+<!--        <v-btn-->
+<!--            filled-->
+<!--            color="azul"-->
+<!--            @click="downloadCre"-->
+<!--            v-text="'Exportar dados das CREs'"-->
+<!--            class="mt-2 white&#45;&#45;text text-none"-->
+<!--        />-->
+<!--      </v-col>-->
+<!--    </v-row>-->
     <loading :dialog="loading" />
   </v-container>
 </template>

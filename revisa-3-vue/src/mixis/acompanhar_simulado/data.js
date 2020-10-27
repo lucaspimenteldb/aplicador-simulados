@@ -143,6 +143,9 @@ const dados = {
       informacoes: [
 
       ],
+      informacoesExcel: [
+
+      ],
       informacoesCoordenador: [
         {
           escola: 'escola x doidona amrivalda',
