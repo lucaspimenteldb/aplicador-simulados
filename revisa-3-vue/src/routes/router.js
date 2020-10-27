@@ -128,17 +128,17 @@ const routes = [
   // },
 
   /* professores */
-  {
-    path: '/acompanhar-simulados-professores',
-    name: 'AcompanharSimulados',
-    ttl: 'Acompanhamento de simulado',
-    icon: 'mdi-check-box-multiple-outline',
-    menu: true,
-    component: () => import('../pages-professores/AcompanharSimulados'),
-    meta: {
-      public: false,
-    },
-  },
+  // {
+  //   path: '/acompanhar-simulados-professores',
+  //   name: 'AcompanharSimulados',
+  //   ttl: 'Acompanhamento de simulado',
+  //   icon: 'mdi-check-box-multiple-outline',
+  //   menu: true,
+  //   component: () => import('../pages-professores/AcompanharSimulados'),
+  //   meta: {
+  //     public: false,
+  //   },
+  // },
   // {
   //   path: '/simulados-atividades-escolares-professores',
   //   name: 'SimuladosAtividadesInicio',

@@ -22,6 +22,17 @@ const routes = [
     },
   },
   {
+    path: '/acompanhar-simulados-professores',
+    name: 'AcompanharSimulados',
+    ttl: 'Acompanhamento de simulado',
+    icon: 'mdi-check-box-multiple-outline',
+    menu: true,
+    component: () => import('../../pages-professores/AcompanharSimulados'),
+    meta: {
+      public: false,
+    },
+  },
+  {
     path: '/ranking-professores',
     name: 'Ranking',
     ttl: 'Ranking Geral',

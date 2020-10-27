@@ -31,6 +31,7 @@ const dados = {
         this.simulados = (data.data.simulados);
         this.escolas = data.data.escolas;
         this.informacoesCoordenador = data.data.users;
+        this.informacoesCRE = data.data.gres;
         this.loading = false;
       } catch (e) {
         console.log(e);
@@ -85,19 +86,34 @@ const dados = {
     },
 
     preencherUsuario (users) {
+      let usuariosFilter = users;
+      if (this.tipoAtual !== 'Todos') {
+        usuariosFilter = usuariosFilter.filter((el) => el.situacao === this.tipoAtual);
+      }
+      
       this.informacoes = [];
-      for (let i = 0; i < users.length; i++) {
+      for (let i = 0; i < usuariosFilter.length; i++) {
         const beris = {
-          nome: users[i].name,
-          escola: users[i].Escolas[0].nome,
-          turma: users[i].Turmas[0].descricao,
-          simulado: users[i].situacao,
-          redacao: users[i].situacaoRedacao,
+          nome: usuariosFilter[i].name,
+          escola: usuariosFilter[i].Escolas[0].nome,
+          turma: usuariosFilter[i].Turmas[0].descricao,
+          simulado: usuariosFilter[i].situacao,
+          redacao: usuariosFilter[i].situacaoRedacao,
           email: 'Enviar E-mail',
-          email2: users[i].email,
-          id: users[i].id,
+          email2: usuariosFilter[i].email,
+          id: usuariosFilter[i].id,
         };
 
+        const beris11 = {
+          nome: usuariosFilter[i].name,
+          escola: usuariosFilter[i].Escolas[0].nome,
+          turma: usuariosFilter[i].Turmas[0].descricao,
+          simulado: usuariosFilter[i].situacao,
+          redacao: usuariosFilter[i].situacaoRedacao,
+          email: usuariosFilter[i].email,
+        };
+
+        this.informacoesExcel.push(beris11);
         this.informacoes.push(beris);
       }
 
