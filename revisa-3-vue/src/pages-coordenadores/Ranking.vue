@@ -370,7 +370,7 @@
             filled
             hide-details
             @change="changeEscola"
-            :items="['Estadual', 'CRE 1']"
+            :items="cres.map((el) => el.nome)"
             v-model="creAtual"
         />
       </v-col>
@@ -418,7 +418,7 @@
             filled
             hide-details
             @change="changeEscola"
-            :items="['Estadual', 'CRE 1']"
+            :items="cres.map((el) => el.nome)"
             v-model="creAtual"
         />
       </v-col>
@@ -546,8 +546,8 @@
 <script>
 // import SelecionarRanking from '../components-professores/SelecionarRanking.vue';
 import TabsMobile from '../components/TabsMobile.vue';
-import data from '../mixis/ranking-professores/data';
-import method from '../mixis/ranking-professores/method';
+import data from '../mixis/ranking-coordenadores/data';
+import method from '../mixis/ranking-coordenadores/method';
 import Loading from '../components/loading/Loading.vue';
 
 export default {
