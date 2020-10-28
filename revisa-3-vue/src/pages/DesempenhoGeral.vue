@@ -58,7 +58,7 @@
 
       <v-col
           cols="6" sm="4"
-          md="2"
+          md="3" lg="2"
           v-for="card in informacoesAdicionais" :key="card.ttl"
       >
         <!-- pontuacao e posicao no ranking selecionado -->
@@ -108,6 +108,7 @@
         <v-data-table
             :headers="headerArea" :items="desempenhoArea"
             fixed-header hide-default-footer
+            class="text-no-wrap"
         >
           <template v-slot:item.media="{ item }">
             <p class="font-weight-bold">
@@ -144,7 +145,7 @@
           cols="12" class="mt-8"
       >
         <subheader-secao>
-          Gabarito do {{simuladoCurret}}
+          Ver Gabarito do {{simuladoCurret}}
         </subheader-secao>
       </v-col>
 
@@ -166,6 +167,7 @@
         <v-data-table
             :headers="headers" fixed-header
             :items="questoesGabarito"
+            class="text-no-wrap"
         >
           <template v-slot:item.resultado="{ item }">
             <p
@@ -688,6 +690,7 @@ export default {
         {
           text: 'Disciplina',
           value: 'disciplina',
+          sortable: false,
           class: 'font-weight-bold',
         },
         {
@@ -705,16 +708,19 @@ export default {
         {
           text: 'Resultado',
           value: 'resultado',
+          sortable: false,
           class: 'font-weight-bold',
         },
         {
           text: 'Dificuldade',
           value: 'dificuldade',
+          sortable: false,
           class: 'font-weight-bold',
         },
         {
           text: 'Média De Acertos',
           value: 'mediaEscolar',
+          sortable: false,
           class: 'font-weight-bold',
         },
         {

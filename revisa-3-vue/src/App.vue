@@ -2,18 +2,18 @@
   <v-app>
 
     <MenuLateral
-:routes="routes"
-v-if="autenticado"
-/>
+      :routes="routes"
+      v-if="autenticado"
+    />
+
     <Toolbar v-if="autenticado" />
 
-    <v-main class="pa-sm-16 mr-0 grey lighten-4">
-      <keep-alive class="pa-sm-16 mr-0 grey lighten-4">
-      <router-view
-              class="pa-4 mx-0" :class="'mr-0 ml-0'"
-      />
+    <v-main class="py-16 px-2 pr-sm-4 pl-sm-16 mr-0 relative grey lighten-4">
+      <keep-alive>
+        <router-view
+                class="pa-4 mx-0" :class="'mr-0 ml-0'"
+        />
       </keep-alive>
-
     </v-main>
   </v-app>
 </template>

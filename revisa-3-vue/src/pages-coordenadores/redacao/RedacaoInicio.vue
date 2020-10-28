@@ -81,10 +81,6 @@
       </v-col>
 
       <v-col
-          cols="12" class="pa-0"
-      />
-
-      <v-col
           cols="12" sm="8"
           md="4"
       >
@@ -97,24 +93,6 @@
             hide-details
         />
       </v-col>
-
-      <v-col
-          cols="12" sm="8"
-          md="4"
-      >
-        <v-select
-            :items="turma" filled
-            v-model="turmaSelecionada"
-            @change="changeTurma"
-            :disabled="loading"
-            label="Filtrar por turma" color="azul"
-            hide-details
-        />
-      </v-col>
-
-      <v-col
-          cols="12" class="pa-0"
-      />
 
       <!-- tabela com as notas da redacao -->
       <v-col
@@ -296,17 +274,45 @@
           md="4"
       >
         <v-select
-            @change="changeSelectGra"
-            v-model="escolaSelecionada"
-            :items="escola" filled
-            label="Filtrar desempenho por escola" color="azul"
+            :items="redacao" filled
+            :disabled="loading"
+            @change="changeTurma"
+            v-model="redacaoSelecionada"
+            label="Filtrar desempenho por redação" color="azul"
             hide-details
         />
       </v-col>
 
       <v-col
-          cols="12" class="pa-0"
+          cols="12"
+          class="pa-0"
       />
+
+      <v-col
+          cols="12" sm="8"
+          md="6"
+      >
+        <v-select
+            @change="changeSelectGra"
+            v-model="escolaSelecionada"
+            :items="escola" filled
+            label="Comparar escola" color="azul"
+            hide-details
+        />
+      </v-col>
+
+      <v-col
+          cols="12" sm="8"
+          md="5"
+      >
+        <v-select
+            @change="changeSelectGra"
+            v-model="escolaSelecionada"
+            :items="escola" filled
+            label="Comparar escola" color="azul"
+            hide-details
+        />
+      </v-col>
 
       <v-col
           cols="12"
@@ -350,109 +356,6 @@
 
                     <p class="caption">
                       Média Estadual
-                    </p>
-                  </article>
-                </div>
-              </section>
-            </div>
-          </div>
-        </div>
-      </v-col>
-
-      <!-- desempenho por turma -->
-      <v-col
-          cols="12"
-          class="mt-8"
-      >
-        <subheader-secao>
-          Desempenho por Turmas
-        </subheader-secao>
-      </v-col>
-
-      <v-col
-          cols="12"
-          md="4" sm="8"
-      >
-        <v-select
-            @change="changeEscola2"
-            v-model="escolaSelecionada3"
-            :items="escola" filled
-            label="Filtrar desempenho por escola" color="azul"
-            hide-details
-        />
-      </v-col>
-
-      <v-col
-          cols="12" class="pa-0"
-      />
-
-      <v-col
-          cols="12" sm="8"
-          md="4"
-          v-if="escolaSelecionada3 != ''"
-      >
-        <v-select
-            v-model="turma1"
-            @change="changeSelectGraComp"
-            :items="turma2s" filled
-            label="Comparar turmas" color="azul"
-            hide-details
-        />
-      </v-col>
-
-      <v-col
-          cols="12" sm="8"
-          md="4"
-          v-if="escolaSelecionada3 != ''"
-      >
-        <v-select
-            v-model="turma2"
-            :items="turma2s" filled
-            @change="changeSelectGraComp"
-            label="Comparar turmas" color="azul"
-            hide-details
-        />
-      </v-col>
-
-      <v-col
-          cols="12" class="pa-0"
-      />
-
-      <v-col
-          cols="12"
-          md="8"
-      >
-        <div class="random">
-          <Bar
-              :chartdata="chartdata2"
-              @reniciar="reiniciar"
-          />
-
-          <div
-              id="popTurma" role="tooltip"
-              ref="tooltipTurma" class="tooltip"
-              :class="{'is-active': tooltipDataTurma}"
-          >
-            <div
-                class="tooltip-container" v-if="tooltipDataTurma"
-            >
-              <strong>{{ labels.xLabels[tooltipDataTurma.index] }}</strong>
-              <section class="tooltip-data">
-                <div class="tooltip-data-item tooltip-data-item--2">
-                  <article>
-                    {{ tooltipDataTurma.data[1] }}
-
-                    <p class="caption">
-                      {{ turma1 }}
-                    </p>
-                  </article>
-                </div>
-                <div class="tooltip-data-item tooltip-data-item--3">
-                  <article>
-                    {{ tooltipDataTurma.data[2] }}
-
-                    <p class="caption">
-                      {{ turma2 }}
                     </p>
                   </article>
                 </div>

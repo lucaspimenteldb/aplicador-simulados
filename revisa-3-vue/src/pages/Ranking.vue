@@ -135,9 +135,7 @@
 <!--      <SelecionarRanking />-->
 
       <!-- médias -->
-      <v-col
-          cols="12" class="mt-8"
-      >
+      <v-col cols="12">
         <subheader-secao>
           Ranking por Área
         </subheader-secao>

@@ -74,6 +74,15 @@ const routes = [
       public: false,
     },
   },
+  {
+    path: '/redacoes-coordenadores',
+    name: 'RedacaoInicio',
+    ttl: 'Desempenho geral',
+    component: () => import('../../pages-coordenadores/redacao/RedacaoInicio'),
+    meta: {
+      public: false,
+    },
+  },
 ];
 
 export default routes;
