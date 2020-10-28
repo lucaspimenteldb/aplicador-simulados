@@ -1,7 +1,7 @@
 <template v-slot:item.url="{ item }">
   <v-dialog
       v-model="dialog[item.id]"
-      max-width="30%"
+      max-width="80%"
   >
     <template v-slot:activator="{ on, attrs }">
       <v-btn
@@ -47,14 +47,14 @@ export default {
       textoAux: 'Texto',
       textoAux2: 'Texto',
       dialog: {},
-      
+
     };
   },
-    
+
   methods: {
 
   },
-    
+
   props: {
     item: {},
   },

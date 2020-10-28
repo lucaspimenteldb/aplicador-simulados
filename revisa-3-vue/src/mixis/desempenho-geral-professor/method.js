@@ -62,7 +62,8 @@ const dados = {
       }
 
       document.querySelectorAll('.v-data-footer__select')[1].innerHTML = '';
-      document.querySelectorAll('.v-data-footer__pagination')[1].innerHTML = `1 - ${this.questoesGabarito.length > 10 ? 10 : this.questoesGabarito.length} de ${this.questoesGabarito.length}`;
+      // eslint-disable-next-line max-len
+      /* document.querySelectorAll('.v-data-footer__pagination')[1].innerHTML = `1 - ${this.questoesGabarito.length > 10 ? 10 : this.questoesGabarito.length} de ${this.questoesGabarito.length}`; */
     },
 
     async puxandoSimulEscol () {
