@@ -625,7 +625,8 @@ export default {
       }
 
       document.querySelector('.v-data-footer__select').innerHTML = '';
-      document.querySelector('.v-data-footer__pagination').innerHTML = `1 - ${this.questoesGabarito.length > 10 ? 10 : this.questoesGabarito.length} de ${this.questoesGabarito.length}`;
+      // eslint-disable-next-line max-len
+      /* document.querySelector('.v-data-footer__pagination').innerHTML = `1 - ${this.questoesGabarito.length > 10 ? 10 : this.questoesGabarito.length} de ${this.questoesGabarito.length}`; */
     },
 
     loadingBasl (on) {
@@ -1194,7 +1195,8 @@ export default {
 
   mounted () {
     document.querySelector('.v-data-footer__select').innerHTML = '';
-    document.querySelector('.v-data-footer__pagination').innerHTML = `1 - ${this.questoesGabarito.length > 10 ? 10 : this.questoesGabarito.length} de ${this.questoesGabarito.length}`;
+    // eslint-disable-next-line max-len
+    /* document.querySelector('.v-data-footer__pagination').innerHTML = `1 - ${this.questoesGabarito.length > 10 ? 10 : this.questoesGabarito.length} de ${this.questoesGabarito.length}`; */
   },
 
 };
