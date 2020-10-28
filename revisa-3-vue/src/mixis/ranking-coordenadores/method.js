@@ -115,6 +115,32 @@ const methods = {
       }
     },
 
+    async usersPerCre () {
+      try {
+        this.loader = true;
+        let url = 'desempenho-aluno-gre/';
+        if (this.creAtualAluno !== 'Geral') {
+          const id = this.cres.filter((el) => el.nome === this.creAtualAluno);
+          url = `desempenho-aluno-gre/${id[0].id}`;
+        }
+
+        const dados = await this.$http.get(url, { headers: { Authorization: this.$store.state.token } });
+        this.colocacoesGre = [];
+        for (let i = 0; i < dados.data.length; i++) {
+          const user = dados.data[i];
+          const novo = new Colocacao('', i + 1, user.User.name, user.redacao, user.media, 'perfil', user.id);
+          novo.setNotas(user.Humanas, user.Natureza, user.Linguagens, user.Matematica);
+          novo.setEscolares(user.Escola.nome, user.Escola.Gre.nome, '', '', '');
+          this.colocacoesGre.push(novo);
+        }
+        this.loader = false;
+        console.log(dados);
+      } catch (e) {
+        this.loader = false;
+        console.log(e);
+      }
+    },
+
     msgErro (e) {
       this.dialog = false;
       let message = 'Dados não encontrados';

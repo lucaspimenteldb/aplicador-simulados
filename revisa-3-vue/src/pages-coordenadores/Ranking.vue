@@ -392,10 +392,20 @@
             :search="searchEscola"
             class="clear-both text-no-wrap"
         />
-
+        <JsonExcel
+            name="Alunos.xls"
+            :data="colocacoesEscolarCre"
+            id="jsonCoorde"
+            v-show="false"
+            :before-generate="startExcel"
+            :before-finish="finishExcel"
+/>
         <v-btn
             filled
             color="azul"
+            :disabled="excel"
+            :loading="excel"
+            @click="exportar('jsonCoorde')"
             v-text="'Exportar dados dos alunos'"
             class="mt-2 white--text text-none"
         />
@@ -417,7 +427,7 @@
             label="Filtrar alunos por CRE" color="azul"
             filled
             hide-details
-            @change="changeEscola"
+            @change="usersPerCre"
             :items="cres.map((el) => el.nome)"
             v-model="creAtualAluno"
         />
@@ -435,8 +445,9 @@
         />
 
         <v-data-table
-            :headers="headerRankingAluno" :items="colocacoes"
+            :headers="headerRankingAluno" :items="colocacoesGre"
             fixed-header
+            :loading="loader"
             class="clear-both text-no-wrap"
             :search="searchAluno"
         >
@@ -461,8 +472,25 @@
           <!--            </v-btn>-->
           <!--          </template>-->
         </v-data-table>
+<!--        <Pagination-->
+<!--            :lenght="length"-->
+<!--            :circle="true"-->
+<!--            @nextLocal="nextPage"-->
+<!--            @prevLocal="previousPage"-->
+<!--            @inputLocal="inputPage"-->
+<!--        />-->
+
+        <JsonExcel
+            name="Alunos.xls"
+            :data="colocacoesGre"
+            id="jsonCre"
+            v-show="false"
+            :before-generate="startExcel"
+            :before-finish="finishExcel"
+        />
 
         <v-btn
+            @click="exportar('jsonCre')"
             color="azul"
             v-text="'Exportar dados das CREs'"
             class="mt-4 white--text text-none"
@@ -545,15 +573,21 @@
 
 <script>
 // import SelecionarRanking from '../components-professores/SelecionarRanking.vue';
+import JsonExcel from 'vue-json-excel';
 import TabsMobile from '../components/TabsMobile.vue';
 import data from '../mixis/ranking-coordenadores/data';
+import loadins from '../mixis/loading/loading';
 import method from '../mixis/ranking-coordenadores/method';
+import excelCom from '../mixis/excel/funcoesExcel';
+import pageCom from '../mixis/pagination/pagination';
 import Loading from '../components/loading/Loading.vue';
 
 export default {
   name: 'Ranking',
-  components: { TabsMobile, Loading },
-  mixins: [data, method],
+  components: {
+    TabsMobile, Loading, JsonExcel,
+  },
+  mixins: [data, method, excelCom, pageCom, loadins],
 
   data () {
     return {
@@ -580,7 +614,6 @@ export default {
       console.log(itens.innerHTML);
 
       // eslint-disable-next-line no-param-reassign
-
     });
   },
 };

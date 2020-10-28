@@ -18,6 +18,7 @@ const dados = {
       desempenhoGeral: [],
       melhores: [],
       colocacoes: [],
+      colocacoesGre: [],
 
       headerRanking: [
         {
@@ -179,32 +180,32 @@ const dados = {
           text: 'Média TRI',
           align: 'start',
           sortable: false,
-          value: 'media',
+          value: 'pontuacao',
           class: 'body-2 font-weight-bold',
         },
         {
           text: 'Ciências Humanas',
           align: 'start',
           sortable: false,
-          value: 'humanas',
+          value: 'Humanas',
           class: 'body-2 font-weight-bold',
         },
         {
           text: 'Ciências da Natureza',
           sortable: false,
-          value: 'natureza',
+          value: 'Natureza',
           class: 'body-2 font-weight-bold',
         },
         {
           text: 'Liguagens e seus Códigos',
           sortable: false,
-          value: 'linguagens',
+          value: 'Linguagens',
           class: 'body-2 font-weight-bold',
         },
         {
           text: 'Matemática',
           sortable: false,
-          value: 'matematica',
+          value: 'Matematica',
           class: 'body-2 font-weight-bold',
         },
         {
