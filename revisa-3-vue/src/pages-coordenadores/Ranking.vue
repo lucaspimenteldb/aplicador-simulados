@@ -369,7 +369,7 @@
             label="Filtrar escolas por CRE" color="azul"
             filled
             hide-details
-            @change="changeEscola"
+            @change="changeGreEscola"
             :items="cres.map((el) => el.nome)"
             v-model="creAtual"
         />
@@ -387,7 +387,7 @@
         />
 
         <v-data-table
-            :headers="headerRankingEscolar" :items="colocacoesEscolar"
+            :headers="headerRankingEscolar" :items="colocacoesEscolarCre"
             fixed-header
             :search="searchEscola"
             class="clear-both text-no-wrap"
@@ -419,7 +419,7 @@
             hide-details
             @change="changeEscola"
             :items="cres.map((el) => el.nome)"
-            v-model="creAtual"
+            v-model="creAtualAluno"
         />
       </v-col>
 

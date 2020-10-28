@@ -8,6 +8,8 @@ const dados = {
       simulados: [{ titulo: 'Sem dados' }],
       simuladoAtual: '',
       rankings: [],
+      creAtual: '',
+      creAtualAluno: '',
       cres: [{ nome: 'Sem dados' }],
       dialog: false,
 
@@ -284,6 +286,7 @@ const dados = {
       ],
       colocacoesEscolarArea: [],
       colocacoesEscolar: [],
+      colocacoesEscolarCre: [],
     };
   },
 };

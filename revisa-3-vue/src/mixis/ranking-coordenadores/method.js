@@ -13,16 +13,17 @@ const methods = {
         this.dialog = true;
         const { id } = JSON.parse(localStorage.getItem('token'));
         const escolaAux = await this.$http.get(`simulado-master/${id}`, { headers: { Authorization: this.$store.state.token } });
-        this.escolas = escolaAux.data.escolas;
-        this.simulados = escolaAux.data.simulados;
-        this.cres = escolaAux.data.cres;
+        this.escolas = escolaAux.data.escolas ? escolaAux.data.escolas : [{ titulo: 'Sem dados' }];
+        this.simulados = escolaAux.data.simulados ? escolaAux.data.simulados : [{ titulo: 'Sem dados' }];
+        this.cres = escolaAux.data.cres ? escolaAux.data.cres : [{ nome: 'Sem dados' }];
+        this.cres.push({ nome: 'Geral' });
         // this.desempenhoGeral.push(new DesempenhoGeral('Média Estadual', escolaAux.data.desempenhoEstadual[0].media_geral));
         // this.desempenhoGeral.push(new DesempenhoGeral('Redação Estadual', escolaAux.data.desempenhoEstadual[0].media_redacao));
         const vector = ['mdi-podium-gold', 'mdi-podium-silver', 'mdi-podium-bronze', 'mdi-seal-variant'];
         for (let i = 0; i < 3; i++) {
           const user = escolaAux.data.melhores[i];
-          const photo = user.photo ? env.ROTA_DOMINIO + user.photo : `${env.ROTA_DOMINIO}vendor/crudbooster/avatar.jpg`;
-          const melhor = new Melhores(photo, vector[i], i + 1, user.name, user.media, 26);
+          const photo = user.User.photo ? env.ROTA_DOMINIO + user.User.photo : `${env.ROTA_DOMINIO}vendor/crudbooster/avatar.jpg`;
+          const melhor = new Melhores(photo, vector[i], i + 1, user.User.name, user.media, 26);
           this.melhores.push(melhor);
         }
         this.preencherRanking(escolaAux.data.melhores, vector);
@@ -36,8 +37,8 @@ const methods = {
     preencherRanking (objeto, vector) {
       for (let i = 0; i < objeto.length; i++) {
         const podio = vector[i] || 'mdi-seal-variant';
-        const photo = objeto[i].photo ? env.ROTA_DOMINIO + objeto[i].photo : `${env.ROTA_DOMINIO}vendor/crudbooster/avatar.jpg`;
-        const colocacao = new Colocacao(podio, i + 1, objeto[i].name, objeto[i].redacao, objeto[i].media, '', objeto[i].id);
+        const photo = objeto[i].User.photo ? env.ROTA_DOMINIO + objeto[i].User.photo : `${env.ROTA_DOMINIO}vendor/crudbooster/avatar.jpg`;
+        const colocacao = new Colocacao(podio, i + 1, objeto[i].User.name, objeto[i].redacao, objeto[i].media, '', objeto[i].id);
         colocacao.setRedacao(objeto[i].redacao);
         colocacao.setNotas(objeto[i].hum, objeto[i].nat, objeto[i].ling, objeto[i].mat);
         colocacao.setEscolares(objeto[i].escola, objeto[i].gre, objeto[i].turno, objeto[i].turma, photo);
@@ -84,6 +85,33 @@ const methods = {
         this.dialog = false;
       } catch (e) {
         this.msgErro(e);
+      }
+    },
+      
+    async changeGreEscola (event) {
+      try {
+        this.dialog = true;
+        let url = 'desempenho-escola';
+        if (event !== 'Geral') {
+          const cre = this.cres.filter((el) => el.nome === event);
+          url = `desempenho-escola/${cre[0].id}`;
+        }
+        const dados = await this.$http.get(url, { headers: { Authorization: this.$store.state.token } });
+        console.log(dados);
+        this.colocacoesEscolarCre = [];
+        for (let i = 0; i < dados.data.length; i++) {
+          const number = dados.data[i];
+          const novo = new ColocacaoEscola();
+          novo.preencherNota('teste', i + 1, number.Escola.nome, number.media_natureza, number.media_linguagens, number.media_humanas, number.media_matematica);
+          novo.media = number.media_geral;
+          novo.municipio = number.Escola.cidade;
+          this.colocacoesEscolarCre.push(novo);
+        }
+       
+        this.dialog = false;
+      } catch (e) {
+        alert('Sem conexão com o servidor');
+        this.dialog = false;
       }
     },
 
