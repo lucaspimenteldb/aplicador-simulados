@@ -273,9 +273,11 @@
                   <v-btn
                       color="green darken-1" text
                       @click="$set(dialog, item.id, false)"
+                      class="text-none"
                   >
                     Fechar
                   </v-btn>
+
                   <Dialog :item="item" />
                 </v-card-actions>
               </v-card>

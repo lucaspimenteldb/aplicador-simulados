@@ -6,7 +6,7 @@
         <template v-slot:activator="{ on, attrs }">
             <v-btn
                     small
-                    class="desempenhoOtimo white--text rounded__normal text-capitalize mr-1"
+                    class="desempenhoOtimo white--text rounded__normal text-none mr-1"
                     color="primary"
                     v-bind="attrs" v-on="on"
                     :to="item.url"
@@ -32,6 +32,7 @@
                 <v-btn
                         color="green darken-1" text
                         @click="$set(dialog, item.id, false)"
+                        class="text-none"
                 >
                     Fechar
                 </v-btn>
