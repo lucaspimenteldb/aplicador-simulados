@@ -167,6 +167,7 @@
           cols="12" sm="6"
           lg="4"
           v-for="competencia in competencias" :key="competencia.competenciaNome"
+          class="pt-0"
       >
         <v-card class="h-full">
           <v-card-text class="d-flex align-center justify-space-between">
@@ -205,6 +206,7 @@
           cols="12" sm="6"
           md="4"
           v-for="melhor in melhores" :key="melhor.nome"
+          class="pt-0"
       >
         <v-card>
           <v-card-text>
@@ -272,6 +274,7 @@
       <v-col
           cols="12" sm="8"
           md="4"
+          class="pt-0"
       >
         <v-select
             :items="redacao" filled

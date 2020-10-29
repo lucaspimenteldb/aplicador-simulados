@@ -72,6 +72,7 @@
           cols="12" sm="6"
           md="4" lg="3"
           v-for="desempenho in desempenhoGeral" :key="desempenho.ttl"
+          class="pt-0"
       >
         <v-card>
           <v-card-text>
@@ -171,7 +172,10 @@
         </subheader-secao>
       </v-col>
 
-      <v-col cols="12">
+      <v-col
+          cols="12"
+          class="pt-0"
+      >
         <v-data-table
             :headers="headerRanking" :items="colocacoes"
             fixed-header
@@ -219,6 +223,7 @@
           cols="12" sm="4"
           md="3"
           v-for="desempenho in desempenhoArea2" :key="desempenho.ttl"
+          class="pt-0"
       >
         <v-card>
           <v-card-text>
@@ -273,7 +278,10 @@
         </subheader-secao>
       </v-col>
 
-      <v-col cols="12">
+      <v-col
+          cols="12"
+          class="pt-0"
+      >
         <v-text-field
             label="Pesquisar..."
             filled
@@ -330,6 +338,7 @@
       <v-col
           cols="12" sm="8"
           md="5" lg="4"
+          class="pt-0"
       >
         <v-autocomplete
             @change="changeSelectArea"
@@ -535,9 +544,11 @@
           Média das Redações
         </subheader-secao>
       </v-col>
+
       <v-col
           cols="6" sm="4"
           md="3" lg="2"
+          class="pt-0"
       >
         <v-card>
           <v-card-title>
@@ -561,6 +572,7 @@
           cols="12" sm="6"
           lg="4"
           v-for="competencia in competencias" :key="competencia.competenciaNome"
+          class="pt-0"
       >
         <v-card class="h-full">
           <v-card-text class="d-flex align-center justify-space-between">
@@ -1024,6 +1036,7 @@
       <v-col
           cols="12" sm="8"
           md="5"
+          class="pt-0"
       >
         <!-- select da disciplina -->
         <v-select
@@ -1061,6 +1074,7 @@
       <v-col
           cols="12" sm="8"
           md="4"
+          class="pt-0"
       >
         <v-select
             filled
@@ -1166,6 +1180,7 @@
       <v-col
           cols="12" sm="8"
           md="4"
+          class="pt-0"
       >
         <v-select
             filled

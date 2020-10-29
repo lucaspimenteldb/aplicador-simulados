@@ -54,6 +54,7 @@
           cols="6" sm="5"
           md="3"
           v-for="ranking in rankings" :key="ranking.tipo"
+          class="pt-0"
       >
         <subheader-secao>
           {{ `Ranking ${ranking.tipo}` }}
@@ -98,9 +99,7 @@
 <!--      <SelecionarRanking />-->
 
       <!-- médias -->
-      <v-col
-          cols="12" class="mt-8"
-      >
+      <v-col cols="12">
         <subheader-secao>
           Desempenho Geral
         </subheader-secao>
@@ -110,6 +109,7 @@
           cols="12" sm="6"
           md="4" lg="3"
           v-for="desempenho in desempenhoGeral" :key="desempenho.ttl"
+          class="pt-0"
       >
         <v-card>
           <v-card-text>
@@ -146,6 +146,7 @@
           cols="12" sm="4"
           md="3"
           v-for="desempenho in desempenhoArea" :key="desempenho.ttl"
+          class="pt-0"
       >
         <v-card>
           <v-card-text>
@@ -182,6 +183,7 @@
           cols="12" sm="6"
           md="4"
           v-for="melhor in melhores" :key="melhor.nome"
+          class="pt-0"
       >
         <v-card>
           <v-card-text>
@@ -237,7 +239,10 @@
         </subheader-secao>
       </v-col>
 
-      <v-col cols="12">
+      <v-col
+          cols="12"
+          class="pt-0"
+      >
         <v-data-table
             :headers="headerRanking" :items="colocacoes"
             fixed-header
@@ -364,6 +369,7 @@
       <v-col
           cols="12" sm="8"
           md="4"
+          class="pt-0"
       >
         <v-select
             label="Filtrar escolas por CRE" color="azul"
@@ -422,6 +428,7 @@
       <v-col
           cols="12" sm="8"
           md="4"
+          class="pt-0"
       >
         <v-select
             label="Filtrar alunos por CRE" color="azul"
@@ -505,7 +512,10 @@
         </subheader-secao>
       </v-col>
 
-      <v-col cols="12">
+      <v-col
+          cols="12"
+          class="pt-0"
+      >
         <v-data-table
             :headers="headerRankingCRE" :items="colocacoesCresGeral"
             fixed-header
