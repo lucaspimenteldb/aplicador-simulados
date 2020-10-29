@@ -116,6 +116,7 @@ import { Busao } from '../main';
 import storage from '../storage/storage';
 import aluno from '../routes/routes-modelo/aluno';
 import professor from '../routes/routes-modelo/professor';
+import administrador from '../routes/routes-modelo/administrador';
 
 export default {
   name: 'Login',
@@ -212,6 +213,12 @@ export default {
         this.$router.addRoutes(aluno);
         // eslint-disable-next-line no-restricted-syntax
         for (const user of aluno) {
+          this.$router.options.routes.push(user);
+        }
+      } else if (Number(privilegio) === 1) {
+        this.$router.addRoutes(administrador);
+        // eslint-disable-next-line no-restricted-syntax
+        for (const user of administrador) {
           this.$router.options.routes.push(user);
         }
       } else {

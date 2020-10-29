@@ -9,6 +9,11 @@ const routes = [
       public: false,
     },
   },
+  {
+    path: '/redacoes',
+    name: 'RedacaoInicio',
+    component: () => import('../../pages/redacao/RedacaoInicio'),
+  },
 ];
 
 export default routes;

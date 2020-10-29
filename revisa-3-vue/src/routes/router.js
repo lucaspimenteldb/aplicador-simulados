@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import middleware from './middlware/default';
 import aluno from './routes-modelo/aluno';
 import professor from './routes-modelo/professor';
+import administrador from './routes-modelo/administrador';
 
 Vue.use(VueRouter);
 
@@ -219,6 +220,12 @@ if (token) {
     router.addRoutes(aluno);
     // eslint-disable-next-line no-restricted-syntax
     for (const user of aluno) {
+      router.options.routes.push(user);
+    }
+  } else if (Number(token.privilegio) === 1) {
+    router.addRoutes(administrador);
+    // eslint-disable-next-line no-restricted-syntax
+    for (const user of administrador) {
       router.options.routes.push(user);
     }
   } else {
