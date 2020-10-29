@@ -27,10 +27,29 @@ const methods = {
           this.melhores.push(melhor);
         }
         this.preencherRanking(escolaAux.data.melhores, vector);
+        this.preencherCres(escolaAux.data.desempenho_cre, escolaAux.data.user_cre);
         this.dialog = false;
       } catch (e) {
         this.msgErro(e);
         throw e;
+      }
+    },
+
+    preencherCres (cres, userCre) {
+      this.colocacoesCresGeral = [];
+      for (let i = 0; i < cres.length; i++) {
+        const beris = {
+          posicao: i + 1,
+          cre: cres[i].Gre.nome,
+          alunos: userCre.filter((el) => el.id_gre === cres[i].id_gre).length,
+          media: cres[i].media,
+          humanas: cres[i].humanas,
+          natureza: cres[i].natureza,
+          linguagens: cres[i].linguagens,
+          matematica: cres[i].matematica,
+          redacao: cres[i].redacao,
+        };
+        this.colocacoesCresGeral.push(beris);
       }
     },
 

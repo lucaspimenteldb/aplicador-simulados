@@ -507,7 +507,7 @@
 
       <v-col cols="12">
         <v-data-table
-            :headers="headerRankingCRE" :items="colocacoes"
+            :headers="headerRankingCRE" :items="colocacoesCresGeral"
             fixed-header
             class="text-no-wrap"
         >

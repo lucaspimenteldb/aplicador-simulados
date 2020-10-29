@@ -12,6 +12,7 @@ const dados = {
       creAtualAluno: '',
       cres: [{ nome: 'Sem dados' }],
       dialog: false,
+      colocacoesCresGeral: [],
 
       desempenhoArea: [],
 
