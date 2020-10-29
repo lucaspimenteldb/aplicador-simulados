@@ -164,51 +164,51 @@
 <!--        </v-card>-->
 <!--      </v-col>-->
       <!-- desempenho por cre -->
-      <v-col
-          cols="12" class="mt-8"
-      >
-        <subheader-secao>
-          Desempenho por CRE
-        </subheader-secao>
-      </v-col>
+<!--      <v-col-->
+<!--          cols="12" class="mt-8"-->
+<!--      >-->
+<!--        <subheader-secao>-->
+<!--          Desempenho por CRE-->
+<!--        </subheader-secao>-->
+<!--      </v-col>-->
 
-      <v-col
-          cols="12"
-          class="pt-0"
-      >
-        <v-data-table
-            :headers="headerRanking" :items="colocacoes"
-            fixed-header
-            class="text-no-wrap"
-        >
-          <template v-slot:item.posicao="{ item }">
-            <p class="font-weight-bold">
-              <v-icon
-                  v-text="item.icon" color="black"
-                  small
-              />
-              {{ item.posicao }}
-            </p>
-          </template>
+<!--      <v-col-->
+<!--          cols="12"-->
+<!--          class="pt-0"-->
+<!--      >-->
+<!--        <v-data-table-->
+<!--            :headers="headerRanking" :items="colocacoes"-->
+<!--            fixed-header-->
+<!--            class="text-no-wrap"-->
+<!--        >-->
+<!--          <template v-slot:item.posicao="{ item }">-->
+<!--            <p class="font-weight-bold">-->
+<!--              <v-icon-->
+<!--                  v-text="item.icon" color="black"-->
+<!--                  small-->
+<!--              />-->
+<!--              {{ item.posicao }}-->
+<!--            </p>-->
+<!--          </template>-->
 
-          <!--          <template v-slot:item.gabarito>-->
-          <!--            <v-btn-->
-          <!--                small-->
-          <!--                id="ver__aluno"-->
-          <!--                class="azul white&#45;&#45;text rounded__normal text-capitalize mr-1"-->
-          <!--                color="primary"-->
-          <!--            >-->
-          <!--              ver aluno-->
-          <!--            </v-btn>-->
-          <!--          </template>-->
-        </v-data-table>
+<!--          &lt;!&ndash;          <template v-slot:item.gabarito>&ndash;&gt;-->
+<!--          &lt;!&ndash;            <v-btn&ndash;&gt;-->
+<!--          &lt;!&ndash;                small&ndash;&gt;-->
+<!--          &lt;!&ndash;                id="ver__aluno"&ndash;&gt;-->
+<!--          &lt;!&ndash;                class="azul white&#45;&#45;text rounded__normal text-capitalize mr-1"&ndash;&gt;-->
+<!--          &lt;!&ndash;                color="primary"&ndash;&gt;-->
+<!--          &lt;!&ndash;            >&ndash;&gt;-->
+<!--          &lt;!&ndash;              ver aluno&ndash;&gt;-->
+<!--          &lt;!&ndash;            </v-btn>&ndash;&gt;-->
+<!--          &lt;!&ndash;          </template>&ndash;&gt;-->
+<!--        </v-data-table>-->
 
-        <v-btn
-            color="azul"
-            v-text="'Exportar dados das CREs'"
-            class="mt-4 white--text text-none"
-        />
-      </v-col>
+<!--        <v-btn-->
+<!--            color="azul"-->
+<!--            v-text="'Exportar dados das CREs'"-->
+<!--            class="mt-4 white&#45;&#45;text text-none"-->
+<!--        />-->
+<!--      </v-col>-->
 
       <!-- médias -->
       <v-col
@@ -342,7 +342,7 @@
       >
         <v-autocomplete
             @change="changeSelectArea"
-            :items="alunos.map((el => el.titulo))" filled
+            :items="alunos.map((el => el.name))" filled
             id="aluno__gabarito"
             v-model="alunoGabarito"
             label="Selecionar aluno para ver gabarito" color="azul"
@@ -1207,8 +1207,8 @@
 // import PremiosMensais from '../components-professores/PremiosMensais.vue';
 // import MenuLateral from '../components/MenuLateral.vue';
 // import Toolbar from '../components/Toolbar.vue';
-import data from '../mixis/desempenho-geral-professor/data';
-import methods from '../mixis/desempenho-geral-professor/method';
+import data from '../mixis/desempenho_geral_coordenador/data';
+import methods from '../mixis/desempenho_geral_coordenador/methods';
 import loading from '../components/loading/Loading.vue';
 import TabsMobile from '../components/TabsMobile.vue';
 import Dialog from '../components/dialog/Dialog.vue';

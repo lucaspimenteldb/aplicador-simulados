@@ -60,6 +60,20 @@ const routes = [
       menu: false,
     },
   },
+
+
+  {
+    path: '/desempenho-cooordenador',
+    name: 'DesempenhoCoordenador',
+    menu: true,
+    icon: 'mdi-poll-box-outline',
+    ttl: 'Desempenho Coordenador',
+    component: () => import('../pages-coordenadores/DesempenhoGeral'),
+    meta: {
+      public: true,
+      menu: false,
+    },
+  },
   // {
   //   path: '/home',
   //   name: 'Home',
