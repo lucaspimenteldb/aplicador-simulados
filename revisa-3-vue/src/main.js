@@ -44,8 +44,8 @@ Vue.component('botao', {
 });
 Vue.component('assunto', {
   props: ['assunto', 'acertos'],
-  template: `<article class="d-flex align-center justify-space-between px-4 py-2 border__bottom__azul transition"> 
-              <p class="body-1 font-weight-medium grey--text text--darken-3"> {{ assunto }} </p> 
+  template: `<article class="d-flex align-center justify-space-between px-2 py-2 border__bottom__azul transition"> 
+              <p class="body-2 font-weight-medium grey--text text--darken-3"> {{ assunto }} </p> 
               <p class="body1 font-weight-bold grey--text text--darken-3"> {{ acertos }} </p>
             </article>`,
 });

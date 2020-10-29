@@ -23,9 +23,7 @@
         </header-secao>
       </v-col>
 
-      <v-col
-          cols="12"
-      >
+      <v-col cols="12">
         <subheader-secao>
           Você quer ver o ver desempenho de qual simulado?
         </subheader-secao>
@@ -34,6 +32,7 @@
       <v-col
           cols="12" sm="6"
           md="4"
+          class="pt-0"
       >
         <v-select
             @change="changeSelect"
@@ -60,6 +59,7 @@
           cols="6" sm="4"
           md="3" lg="2"
           v-for="card in informacoesAdicionais" :key="card.ttl"
+          class="pt-0"
       >
         <!-- pontuacao e posicao no ranking selecionado -->
         <v-card
@@ -104,7 +104,10 @@
         </subheader-secao>
       </v-col>
 
-      <v-col cols="12">
+      <v-col
+          cols="12"
+          class="pt-0"
+      >
         <v-data-table
             :headers="headerArea" :items="desempenhoArea"
             fixed-header hide-default-footer
@@ -152,6 +155,7 @@
       <v-col
           cols="12" sm="6"
           md="4"
+          class="pt-0"
       >
         <v-select
             @change="changeSelectArea"
@@ -299,6 +303,7 @@
       <v-col
           cols="12" sm="6"
           md="4"
+          class="pt-0"
       >
         <!-- select da disciplina -->
         <v-select
@@ -325,7 +330,7 @@
           cols="12" sm="6"
           md="4" v-for="assunto in assuntos"
           :key="assunto.id"
->
+      >
         <!-- display dos assuntos -->
         <assunto
             :assunto="`Assunto ${assunto.titulo}`" :acertos="assunto.totalFormat"
@@ -352,10 +357,11 @@
       <v-col
           cols="6" sm="3"
           md="2"
+          class="pt-0"
       >
         <v-card>
           <v-card-title>
-            <p class="d-block w-full text-h4 font-weight-bold text-center grey--text text--darken-3">
+            <p class="d-block w-full text-h5 font-weight-bold text-center grey--text text--darken-3">
               {{nota_redacao}}
             </p>
           </v-card-title>
@@ -371,7 +377,10 @@
         </subheader-secao>
       </v-col>
 
-      <v-col cols="12">
+      <v-col
+          cols="12"
+          class="pt-0"
+      >
         <v-card>
           <v-card-title>
             <p
@@ -396,6 +405,7 @@
           cols="12" sm="6"
           lg="4"
           v-for="competencia in competencias" :key="competencia.competenciaNome"
+          class="pt-0"
       >
         <v-card class="h-full">
           <v-card-text class="d-flex align-center justify-space-between">
@@ -720,7 +730,7 @@ export default {
           class: 'font-weight-bold',
         },
         {
-          text: 'Média De Acertos',
+          text: 'Média de acertos estadual',
           value: 'mediaEscolar',
           sortable: false,
           class: 'font-weight-bold',

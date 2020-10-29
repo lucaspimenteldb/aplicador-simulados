@@ -177,7 +177,7 @@ export default {
 
     verificarCaptcha () {
       if (!this.token) {
-        this.message = 'Marque a opção não sou rôbo';
+        this.message = 'Marque a opção não sou robô';
         this.showLocal = true;
         return false;
       }

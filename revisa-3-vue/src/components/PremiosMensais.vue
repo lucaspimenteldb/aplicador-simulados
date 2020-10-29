@@ -11,6 +11,7 @@
         :md="i > 0 ? 5 : 10"
         :class="i === 0 ? 'h-300' : ''"
         v-for="(premio, i) in premios" :key="premio.ttl"
+        class="pt-0"
     >
       <v-card
           class="d-flex align-center justify-center overflow-hidden" :height="i === 0 ? '280px' : '190px'"

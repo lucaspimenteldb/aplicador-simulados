@@ -35,6 +35,7 @@
       <v-col
           cols="12" sm="6"
           md="4"
+          class="pt-0"
       >
         <v-select
             @change="changeSelect"
@@ -95,6 +96,7 @@
           cols="12" sm="6"
           md="4" lg="3"
           v-for="desempenho in desempenhoGeral" :key="desempenho.ttl"
+          class="pt-0"
       >
         <v-card>
           <v-card-text style="height: 180px">
@@ -137,7 +139,7 @@
       <!-- médias -->
       <v-col cols="12">
         <subheader-secao>
-          Ranking por Área
+          Ranking Estadual por Área
         </subheader-secao>
       </v-col>
 
@@ -145,6 +147,7 @@
           cols="12" sm="4"
           md="3"
           v-for="desempenho in desempenhoArea" :key="desempenho.ttl"
+          class="pt-0"
       >
         <v-card>
           <v-card-text>
@@ -181,6 +184,7 @@
           cols="12" sm="6"
           md="4"
           v-for="melhor in melhores" :key="melhor.nome"
+          class="pt-0"
       >
         <v-card>
           <v-card-text>
@@ -237,7 +241,10 @@
         </subheader-secao>
       </v-col>
 
-      <v-col cols="12">
+      <v-col
+          cols="12"
+          class="pt-0"
+      >
         <v-avatar>
           <v-img :src="myData.photo" />
         </v-avatar>

@@ -509,7 +509,7 @@ const dados = {
           class: 'font-weight-bold',
         },
         {
-          text: 'Média De Acertos',
+          text: 'Média de acertos',
           value: 'mediaEscolar',
           class: 'font-weight-bold',
         },
