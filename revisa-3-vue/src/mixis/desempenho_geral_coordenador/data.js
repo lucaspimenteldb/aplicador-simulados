@@ -5,6 +5,7 @@ const dados = {
       showLoading: false,
       escolaAtual: '',
       escolaAtualGraf: '',
+      escolaAtualGraf2: '',
       alunos: [{ titulo: 'Sem dados' }],
       alunoGabarito: '',
       gabarito: {},

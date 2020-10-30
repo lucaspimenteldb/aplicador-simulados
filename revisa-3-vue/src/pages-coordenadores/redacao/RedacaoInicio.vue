@@ -73,7 +73,6 @@
         <v-select
             :items="redacao" filled
             :disabled="loading"
-            @change="changeTurma"
             v-model="redacaoSelecionada"
             label="Filtrar desempenho por redação" color="azul"
             hide-details
@@ -279,8 +278,9 @@
         <v-select
             :items="redacao" filled
             :disabled="loading"
-            @change="changeTurma"
-            v-model="redacaoSelecionada"
+            v-if="false"
+            @change="changeSelectGraComp"
+            v-model="redacaoSelecionada2"
             label="Filtrar desempenho por redação" color="azul"
             hide-details
         />
@@ -296,7 +296,7 @@
           md="6"
       >
         <v-select
-            @change="changeSelectGra"
+            @change="changeSelectGraComp"
             v-model="escolaSelecionada"
             :items="escola" filled
             label="Comparar escola" color="azul"
@@ -309,8 +309,8 @@
           md="5"
       >
         <v-select
-            @change="changeSelectGra"
-            v-model="escolaSelecionada"
+            @change="changeSelectGraComp"
+            v-model="escolaSelecionada3"
             :items="escola" filled
             label="Comparar escola" color="azul"
             hide-details
@@ -378,8 +378,8 @@ import '../../sass/chart.css';
 import Bar from '../../components/Graficos/GraficoBar.vue';
 // import Line2 from '../../components/Graficos/GraficoLine.vue';
 import DialogRedacao from '../../components/dialog/DialogRedacao/DialogRedacao.vue';
-import data from '../../mixis/redacao-professor/data';
-import method from '../../mixis/redacao-professor/method';
+import data from '../../mixis/redacao-coordenador/data';
+import method from '../../mixis/redacao-coordenador/method';
 import loading from '../../components/loading/Loading.vue';
 import TabsMobile from '../../components/TabsMobile.vue';
 

@@ -68,7 +68,7 @@ const routes = [
     menu: true,
     icon: 'mdi-poll-box-outline',
     ttl: 'Desempenho Coordenador',
-    component: () => import('../pages-coordenadores/DesempenhoGeral'),
+    component: () => import('../pages-coordenadores/redacao/RedacaoInicio'),
     meta: {
       public: true,
       menu: false,

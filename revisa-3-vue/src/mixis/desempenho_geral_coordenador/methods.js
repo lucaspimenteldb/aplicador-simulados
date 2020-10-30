@@ -14,7 +14,7 @@ const dados = {
       try {
         const filtrado = this.pesquisarSimulado(this.areaAtual, this.areas);
         const simuladoFiltrado = this.pesquisarSimulado(this.simuladoAtual, this.simulados);
-        const usuario = this.alunos.filter(el => el.name === this.alunoGabarito);
+        const usuario = this.alunos.filter((el) => el.name === this.alunoGabarito);
 
         if (filtrado.length > 0 && simuladoFiltrado.length > 0 && usuario.length > 0) {
           this.showLoading = true;
@@ -87,6 +87,12 @@ const dados = {
         const disciplFilter = this.pesquisarSimulado(event, this.disciplinas);
         const escolaFilter = this.pesquisarSimulado(this.escolaAtual, this.escolas);
         const simulFiltrar = this.pesquisarSimulado(this.simuladoAtual, this.simulados);
+
+        if (disciplFilter.length > 0 && escolaFilter.length > 0 && simulFiltrar.length > 0) {
+          const retorno = await this.$http.get(`assunto/${disciplFilter[0].id}/${escolaFilter[0].id}/${simulFiltrar[0].id}`,
+            { headers: { Authorization: this.$store.state.token } });
+          this.assuntos = retorno.data.assuntos;
+        }
         
         this.showLoading = false;
       } catch (err) {
@@ -131,20 +137,18 @@ const dados = {
     async changeTurmaGraf () {
       try {
         this.showLoading = true;
-        const turma1 = this.pesquisarSimulado(this.turmaGraf1, this.turmasGraf);
-        const turma2 = this.pesquisarSimulado(this.turmaGraf2, this.turmasGraf);
-        const escolaAux = this.pesquisarSimulado(this.escolaAtualGraf, this.escolas);
-
-        if (turma2.length > 0 && turma1.length > 0 && escolaAux.length > 0) {
-          const dados2 = await this.$http.get(`desempenho-professor/comparar-turmas/${escolaAux[0].id}/${turma1[0].id}/${turma2[0].id}`,
-            { headers: { Authorization: this.$store.state.token } });
+        const escola1Filter = this.escolas.filter((el) => el.titulo === this.escolaAtualGraf);
+        const escola1Filter2 = this.escolas.filter((el) => el.titulo === this.escolaAtualGraf2);
+        if (escola1Filter.length > 0 && escola1Filter2.length > 0) {
+          const dados2 = await this.$http.get(`desempenho-escola/comparar-escola/${escola1Filter[0].id}/${escola1Filter2[0].id}`);
           const color = ['#ffdd9e', '#a3ffa3'];
-          const medias = [dados2.data.turma1[0].media_geral, dados2.data.turma2[0].media_geral];
+          const medias = [dados2.data.desempenho[0].media_geral, dados2.data.desempenho2[0].media_geral];
           this.chartdata.datasets = [];
           this.chartdata.labels = [];
-          const labels = [this.turmaGraf1, this.turmaGraf2];
-          this.preencherTubalina(color, medias, this.chartdata, 2, labels, 'Média estadual');
+          const labels = [this.escolaAtualGraf, this.escolaAtualGraf2];
+          this.preencherTubalina(color, medias, this.chartdata, 2, labels, 'Média Geral');
         }
+
         this.showLoading = false;
       } catch (e) {
         this.showLoading = false;

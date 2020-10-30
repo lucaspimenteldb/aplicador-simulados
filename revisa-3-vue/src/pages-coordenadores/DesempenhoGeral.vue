@@ -1057,7 +1057,7 @@
       >
         <!-- display dos assuntos -->
         <assunto
-            :assunto="assunto.titulo" :acertos="assunto.totalFormat"
+            :assunto="assunto.nome" :acertos="assunto.totalFormat"
         />
       </v-col>
 
@@ -1078,8 +1078,8 @@
       >
         <v-select
             filled
-            :items="turmasGraf.map((el) => el.titulo)"
-            v-model="turmaGraf1"
+            :items="escolas.map((el) => el.titulo)"
+            v-model="escolaAtualGraf"
             @change="changeTurmaGraf"
             label="Comparar escola" color="azul"
             hide-details
@@ -1092,8 +1092,8 @@
       >
         <v-select
             filled
-            :items="turmasGraf.map((el) => el.titulo)"
-            v-model="turmaGraf2"
+            :items="escolas.map((el) => el.titulo)"
+            v-model="escolaAtualGraf2"
             @change="changeTurmaGraf"
             label="Comparar escola" color="azul"
             hide-details
@@ -1167,7 +1167,7 @@
     <loading :dialog="showLoading" />
 
     <!-- desempenho por turma -->
-    <v-row>
+    <v-row v-if="false">
       <v-col
           cols="12"
           class="mt-8"
@@ -1194,6 +1194,7 @@
     </v-row>
 
     <Bar
+v-if="false"
         :chartdata="chartdata"
         @reniciar="reiniciar"
     />
