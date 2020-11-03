@@ -118,6 +118,7 @@ import aluno from '../routes/routes-modelo/aluno';
 import professor from '../routes/routes-modelo/professor';
 import administrador from '../routes/routes-modelo/administrador';
 import coordenador from '../routes/routes-modelo/coordenador';
+import router from "@/routes/router";
 
 
 export default {
@@ -217,9 +218,15 @@ export default {
             this.$router.options.routes.push(user);
           }
           break;
-        case 3, 5: this.$router.addRoutes(coordenador);
+        case 3: this.$router.addRoutes(coordenador);
           for (const user of coordenador) {
             this.$router.options.routes.push(user);
+          }
+          break;
+
+        case 5: router.addRoutes(coordenador);
+          for (const user of coordenador) {
+            router.options.routes.push(user);
           }
           break;
 

@@ -224,7 +224,13 @@ if (token) {
         router.options.routes.push(user);
       }
       break;
-    case 3, 5: router.addRoutes(coordenador);
+    case 3: router.addRoutes(coordenador);
+      for (const user of coordenador) {
+        router.options.routes.push(user);
+      }
+      break;
+
+    case 5: router.addRoutes(coordenador);
       for (const user of coordenador) {
         router.options.routes.push(user);
       }
