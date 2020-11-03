@@ -217,7 +217,7 @@ export default {
             this.$router.options.routes.push(user);
           }
           break;
-        case 3: this.$router.addRoutes(coordenador);
+        case 3, 5: this.$router.addRoutes(coordenador);
           for (const user of coordenador) {
             this.$router.options.routes.push(user);
           }
