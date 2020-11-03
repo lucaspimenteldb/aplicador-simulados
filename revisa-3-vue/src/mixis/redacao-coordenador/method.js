@@ -147,7 +147,7 @@ const method = {
     OsMelhores (dados) {
       this.melhores = [];
       const imgs = ['mdi-podium-gold', 'mdi-podium-silver', 'mdi-podium-bronze'];
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < 4; i++) {
         const med = {
           img: dados[i].photo ? env.ROTA_DOMINIO + dados[i].photo : `${env.ROTA_DOMINIO}/vendor/crudbooster/avatar.jpg`,
           colocacao: `${(i + 1).toString()}º`,

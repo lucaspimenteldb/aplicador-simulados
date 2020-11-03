@@ -244,32 +244,28 @@
               </v-avatar>
 
               <div class="ml-4 d-flex align-center justify-center relative">
-                <div class="ml-8 bolinha__ranking" />
+                <!--                <div class="ml-8 bolinha__ranking" />-->
 
-                <v-icon
-                    v-text="melhor.podio" color="black"
-                    large class=""
-                />
+                <!--                <v-icon-->
+                <!--                    v-text="melhor.podio" color="black"-->
+                <!--                    large class=""-->
+                <!--                />-->
               </div>
 
-              <p class="ml-6 text-h5 font-weight-medium grey--text text--darken-3">
-                {{ `${melhor.colocacao} lugar` }}
+              <p class=" pg34 h-30 relative font-weight-medium grey--text text--darken-3">
+                <span class="bolinha__melhores absolute left-0 top-1" />
+                <v-icon
+                    v-text="'mdi-numeric-10-box-multiple-outline'" color="black"
+                    class="text-h6"
+                />
+
+                {{ melhor.pontos }} pontos
               </p>
             </section>
 
             <!-- nome do aluno -->
             <p class="mt-4 body-1 font-weight-bold grey--text text--darken-3">
               {{ melhor.nome }}
-            </p>
-
-            <p class="h-30 relative font-weight-medium grey--text text--darken-3">
-              <span class="bolinha__melhores absolute left-0 top-1" />
-              <v-icon
-                  v-text="'mdi-numeric-10-box-multiple-outline'" color="black"
-                  class="text-h6"
-              />
-
-              {{ melhor.pontos }} pontos
             </p>
           </v-card-text>
         </v-card>
@@ -500,5 +496,11 @@ export default {
 </script>
 
 <style scoped>
+.pg34 {
+  font-size: 24px;
+}
 
+.pg34 span + .text-h6 {
+  font-size: 31px !important;
+}
 </style>
