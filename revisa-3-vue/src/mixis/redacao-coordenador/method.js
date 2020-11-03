@@ -222,7 +222,7 @@ const method = {
 
     async changeSelectGraComp () {
       try {
-        this.showLoading = true;
+        this.loading = true;
         const escola1 = this.pesquisarSimulado(this.escolaSelecionada, this.escolaPesquisa);
         const escola2 = this.pesquisarSimulado(this.escolaSelecionada3, this.escolaPesquisa);
 
@@ -237,10 +237,10 @@ const method = {
           this.preencherTubalina(color, medias, this.chartdata, 2, labels, this.redacaoSelecionada);
         }
 
-        this.showLoading = false;
+        this.loading = false;
       } catch (e) {
         console.log(e);
-        this.showLoading = false;
+        this.loading = false;
         this.msgErro();
       }
     },

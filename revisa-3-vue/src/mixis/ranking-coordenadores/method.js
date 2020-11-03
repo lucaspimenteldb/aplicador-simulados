@@ -42,7 +42,7 @@ const methods = {
           posicao: i + 1,
           cre: cres[i].Gre.nome,
           alunos: userCre.filter((el) => el.id_gre === cres[i].id_gre).length,
-          media: cres[i].media,
+          media: cres[i].geral,
           humanas: cres[i].humanas,
           natureza: cres[i].natureza,
           linguagens: cres[i].linguagens,
@@ -59,8 +59,18 @@ const methods = {
         const photo = objeto[i].User.photo ? env.ROTA_DOMINIO + objeto[i].User.photo : `${env.ROTA_DOMINIO}vendor/crudbooster/avatar.jpg`;
         const colocacao = new Colocacao(podio, i + 1, objeto[i].User.name, objeto[i].redacao, objeto[i].media, '', objeto[i].id);
         colocacao.setRedacao(objeto[i].redacao);
-        colocacao.setNotas(objeto[i].hum, objeto[i].nat, objeto[i].ling, objeto[i].mat);
-        colocacao.setEscolares(objeto[i].escola, objeto[i].gre, objeto[i].turno, objeto[i].turma, photo);
+        colocacao.setNotas(objeto[i].Humanas, objeto[i].Natureza, objeto[i].Linguagens, objeto[i].Matematica);
+        const escola = objeto[i].User.Escolas[0] ? objeto[i].User.Escolas[0].nome : 'Sem escola';
+        const cre = objeto[i].User.Gres[0] ? objeto[i].User.Gres[0].nome : '';
+        const turma = objeto[i].User.Turmas[0] ? objeto[i].User.Turmas[0].descricao : '';
+        let turno = '';
+        if (turma) {
+          turno = objeto[i].User.Turmas[0].Turno ? objeto[i].User.Turmas[0].Turno.descricao : '';
+        } else {
+          turno = '';
+        }
+        colocacao.setEscolares(escola, cre,
+          turno, turma, photo);
         this.colocacoes.push(colocacao);
       }
     },
@@ -116,14 +126,17 @@ const methods = {
           url = `desempenho-escola/${cre[0].id}`;
         }
         const dados = await this.$http.get(url, { headers: { Authorization: this.$store.state.token } });
-        console.log(dados);
         this.colocacoesEscolarCre = [];
         for (let i = 0; i < dados.data.length; i++) {
           const number = dados.data[i];
-          const novo = new ColocacaoEscola();
-          novo.preencherNota('teste', i + 1, number.Escola.nome, number.media_natureza, number.media_linguagens, number.media_humanas, number.media_matematica);
-          novo.media = number.media_geral;
-          novo.municipio = number.Escola.cidade;
+          const novo = {
+            posicao: i + 1,
+            escola: number.Escola.nome,
+            cidade: number.Escola.cidade,
+            cre: number.Escola.Gre.nome,
+            media: number.media_geral,
+            redacao: number.media_redacao,
+          };
           this.colocacoesEscolarCre.push(novo);
         }
        

@@ -117,6 +117,8 @@ import storage from '../storage/storage';
 import aluno from '../routes/routes-modelo/aluno';
 import professor from '../routes/routes-modelo/professor';
 import administrador from '../routes/routes-modelo/administrador';
+import coordenador from '../routes/routes-modelo/coordenador';
+
 
 export default {
   name: 'Login',
@@ -147,7 +149,7 @@ export default {
       if (!veriL) return;
       this.preLoading(false);
       try {
-        const resposta = await axios.post(`${env.ROOT_API}auth`, { login: this.login, senha: this.senha, recaptchaToken: 123 });
+        const resposta = await axios.post(`${env.ROOT_API}auth`, { login: this.login, senha: this.senha, recaptchaToken: this.token });
         Busao.$emit('autenticado', true, resposta.data.data.usuario.id);
         const cache = this.getCache(resposta.data.data);
         storage.set('token', JSON.stringify(cache));
@@ -209,24 +211,28 @@ export default {
     },
 
     getPrivileges (privilegio) {
-      if (Number(privilegio) === 7) {
-        this.$router.addRoutes(aluno);
-        // eslint-disable-next-line no-restricted-syntax
-        for (const user of aluno) {
-          this.$router.options.routes.push(user);
-        }
-      } else if (Number(privilegio) === 1) {
-        this.$router.addRoutes(administrador);
-        // eslint-disable-next-line no-restricted-syntax
-        for (const user of administrador) {
-          this.$router.options.routes.push(user);
-        }
-      } else {
-        this.$router.addRoutes(professor);
-        // eslint-disable-next-line no-restricted-syntax
-        for (const user of professor) {
-          this.$router.options.routes.push(user);
-        }
+      switch (Number(privilegio)) {
+        case 1: this.$router.addRoutes(administrador);
+          for (const user of administrador) {
+            this.$router.options.routes.push(user);
+          }
+          break;
+        case 3: this.$router.addRoutes(coordenador);
+          for (const user of coordenador) {
+            this.$router.options.routes.push(user);
+          }
+          break;
+
+        case 6: this.$router.addRoutes(professor);
+          for (const user of professor) {
+            this.$router.options.routes.push(user);
+          }
+          break;
+
+        default: this.$router.addRoutes(aluno);
+          for (const user of aluno) {
+            this.$router.options.routes.push(user);
+          }
       }
     },
     onCaptchaVerified (token) {

@@ -45,4 +45,13 @@ export default class ColocacaoEscola {
       this.posicao = posicao;
       this.icon = icon;
     }
+
+    preencherNormal (posicao, escola, municipio, cre, media, redacao) {
+      this.posicao = posicao;
+      this.escola = escola;
+      this.municipio = municipio;
+      this.cre = cre;
+      this.media = media;
+      this.redacao = redacao;
+    }
 }

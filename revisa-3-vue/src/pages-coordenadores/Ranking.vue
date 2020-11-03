@@ -399,7 +399,7 @@
             class="clear-both text-no-wrap"
         />
         <JsonExcel
-            name="Alunos.xls"
+            name="Alunos2.xls"
             :data="colocacoesEscolarCre"
             id="jsonCoorde"
             v-show="false"
@@ -543,8 +543,20 @@
           <!--          </template>-->
         </v-data-table>
 
+        <JsonExcel
+            name="Alunos.xls"
+            :data="colocacoesCresGeral"
+            id="jsonCreDes"
+            v-show="false"
+            :before-generate="startExcel"
+            :before-finish="finishExcel"
+        />
+
         <v-btn
             color="azul"
+            :disabled="excel"
+            :loading="excel"
+            @click="exportar('jsonCreDes')"
             v-text="'Exportar dados das CREs'"
             class="mt-4 white--text text-none"
         />

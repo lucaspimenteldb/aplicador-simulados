@@ -31,7 +31,7 @@
       >
         <v-select
             v-model="simuladoAtual"
-            @change="changeTurma"
+            @change="changeEscola"
             :items="simulados.map((el => el.titulo))" filled
             label="Filtrar desempenho por simulado" color="azul"
             hide-details
@@ -319,8 +319,20 @@
 <!--          </template>-->
         </v-data-table>
 
+        <JsonExcel
+            name="Alunos.xls"
+            :data="colocacoes"
+            id="jsonCoorde"
+            v-show="false"
+            :before-generate="startExcel"
+            :before-finish="finishExcel"
+        />
+
         <v-btn
             color="azul"
+            :disabled="excel"
+            :loading="excel"
+            @click="exportar('jsonCoorde')"
             v-text="'Exportar dados dos alunos'"
             class="mt-4 white--text text-none"
         />
@@ -1208,8 +1220,10 @@ v-if="false"
 // import PremiosMensais from '../components-professores/PremiosMensais.vue';
 // import MenuLateral from '../components/MenuLateral.vue';
 // import Toolbar from '../components/Toolbar.vue';
+import JsonExcel from 'vue-json-excel';
 import data from '../mixis/desempenho_geral_coordenador/data';
 import methods from '../mixis/desempenho_geral_coordenador/methods';
+import excel from '../mixis/excel/funcoesExcel';
 import loading from '../components/loading/Loading.vue';
 import TabsMobile from '../components/TabsMobile.vue';
 import Dialog from '../components/dialog/Dialog.vue';
@@ -1217,9 +1231,9 @@ import Bar from '../components/Graficos/GraficoBar.vue';
 
 export default {
   name: 'DesempenhoGeral',
-  mixins: [data, methods],
+  mixins: [data, methods, excel],
   components: {
-    TabsMobile, loading, Dialog, Bar,
+    TabsMobile, loading, Dialog, Bar, JsonExcel,
   },
   // components: { PremiosMensais },
 

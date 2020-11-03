@@ -140,7 +140,8 @@ const dados = {
         const escola1Filter = this.escolas.filter((el) => el.titulo === this.escolaAtualGraf);
         const escola1Filter2 = this.escolas.filter((el) => el.titulo === this.escolaAtualGraf2);
         if (escola1Filter.length > 0 && escola1Filter2.length > 0) {
-          const dados2 = await this.$http.get(`desempenho-escola/comparar-escola/${escola1Filter[0].id}/${escola1Filter2[0].id}`);
+          const dados2 = await this.$http.get(`desempenho-escola/comparar-escola/${escola1Filter[0].id}/${escola1Filter2[0].id}`,
+              { headers: { Authorization: this.$store.state.token } });
           const color = ['#ffdd9e', '#a3ffa3'];
           const medias = [dados2.data.desempenho[0].media_geral, dados2.data.desempenho2[0].media_geral];
           this.chartdata.datasets = [];
@@ -192,7 +193,7 @@ const dados = {
         }
         this.showLoading = false;
       } catch (e) {
-        alert(JSON.stringify(e));
+        alert('Sem conexão com o servidor');
         console.log(e);
         this.showLoading = false;
       }
@@ -288,6 +289,7 @@ const dados = {
     },
 
     trinchar (dadosOb) {
+      this.desempenhoArea2 = [];
       const titulos = ['Redação', 'Matématica', 'Natureza', 'Humanas', 'Linguagens'];
       const notasEstaaduais = [dadosOb.mediaGeral[0].media_redacao, dadosOb.mediaGeral[0].media_matematica,
         dadosOb.mediaGeral[0].media_natureza, dadosOb.mediaGeral[0].media_humana, dadosOb.mediaGeral[0].media_linguagens];

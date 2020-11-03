@@ -4,6 +4,7 @@ import middleware from './middlware/default';
 import aluno from './routes-modelo/aluno';
 import professor from './routes-modelo/professor';
 import administrador from './routes-modelo/administrador';
+import coordenador from './routes-modelo/coordenador';
 
 Vue.use(VueRouter);
 
@@ -61,19 +62,6 @@ const routes = [
     },
   },
 
-
-  {
-    path: '/desempenho-cooordenador',
-    name: 'DesempenhoCoordenador',
-    menu: true,
-    icon: 'mdi-poll-box-outline',
-    ttl: 'Desempenho Coordenador',
-    component: () => import('../pages-coordenadores/redacao/RedacaoInicio'),
-    meta: {
-      public: true,
-      menu: false,
-    },
-  },
   // {
   //   path: '/home',
   //   name: 'Home',
@@ -230,23 +218,28 @@ const router = new VueRouter({
 router.beforeEach(middleware);
 const token = JSON.parse(localStorage.getItem('token'));
 if (token) {
-  if (Number(token.privilegio) === 7) {
-    router.addRoutes(aluno);
-    // eslint-disable-next-line no-restricted-syntax
-    for (const user of aluno) {
-      router.options.routes.push(user);
-    }
-  } else if (Number(token.privilegio) === 1) {
-    router.addRoutes(administrador);
-    // eslint-disable-next-line no-restricted-syntax
-    for (const user of administrador) {
-      router.options.routes.push(user);
-    }
-  } else {
-    router.addRoutes(professor);
-    for (const user of professor) {
-      router.options.routes.push(user);
-    }
+  switch (Number(token.privilegio)) {
+    case 1: router.addRoutes(administrador);
+      for (const user of administrador) {
+        router.options.routes.push(user);
+      }
+      break;
+    case 3: router.addRoutes(coordenador);
+      for (const user of coordenador) {
+        router.options.routes.push(user);
+      }
+      break;
+
+    case 6: router.addRoutes(professor);
+      for (const user of professor) {
+        router.options.routes.push(user);
+      }
+      break;
+
+    default: router.addRoutes(aluno);
+      for (const user of aluno) {
+        router.options.routes.push(user);
+      }
   }
 }
 
