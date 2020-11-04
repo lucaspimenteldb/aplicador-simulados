@@ -25,7 +25,7 @@
                 v-bind="attrs"
                 v-on="on"
                 color="azul"
-                class="text-none white--text"
+                class="text-none white--text font-weight-bold"
             >
               Adicionar horas
             </v-btn>
@@ -71,7 +71,9 @@
       >
         <v-text-field
             label="Nome"
+            v-model="nome"
             filled
+            readonly
             color="azul"
             hide-details
         />
@@ -199,6 +201,7 @@ export default {
 
   data () {
     return {
+      nome: 'A smile in every cup is great',
       inicio: '21/20/2020',
       fim: '21/20/2020',
       situacao: 'Entregue',
