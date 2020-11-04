@@ -111,6 +111,7 @@
 <script>
 import axios from 'axios';
 import VueRecaptcha from 'vue-recaptcha';
+import router from '../routes/router';
 import env from '../env';
 import { Busao } from '../main';
 import storage from '../storage/storage';
@@ -118,8 +119,6 @@ import aluno from '../routes/routes-modelo/aluno';
 import professor from '../routes/routes-modelo/professor';
 import administrador from '../routes/routes-modelo/administrador';
 import coordenador from '../routes/routes-modelo/coordenador';
-import router from "@/routes/router";
-
 
 export default {
   name: 'Login',
@@ -150,7 +149,11 @@ export default {
       if (!veriL) return;
       this.preLoading(false);
       try {
-        const resposta = await axios.post(`${env.ROOT_API}auth`, { login: this.login, senha: this.senha, recaptchaToken: this.token });
+        const resposta = await axios.post(`${env.ROOT_API}auth`, {
+          login: this.login.trim(),
+          senha: this.senha.trim(),
+          recaptchaToken: this.token,
+        });
         Busao.$emit('autenticado', true, resposta.data.data.usuario.id);
         const cache = this.getCache(resposta.data.data);
         storage.set('token', JSON.stringify(cache));
@@ -244,7 +247,6 @@ export default {
     },
     onCaptchaVerified (token) {
       this.token = token;
-      console.log(token);
     },
   },
 };
