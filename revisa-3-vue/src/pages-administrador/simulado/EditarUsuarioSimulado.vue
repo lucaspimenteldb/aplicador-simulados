@@ -15,6 +15,7 @@
         </header-secao>
       </v-col>
 
+      <!-- adicionar horas aos simulados do aluno -->
       <v-col>
         <v-dialog
             v-model="addHoras"
@@ -46,6 +47,7 @@
                   :items="['1 hora', '2 horas', '3 horas']"
                   hide-details
                   class="mt-2"
+                  v-model="horasAdded"
               />
             </v-card-text>
 
@@ -54,18 +56,57 @@
             <v-card-actions class="px-6">
               <v-spacer />
 
-              <v-btn
-                  color="azul"
-                  @click="addHoras = false"
-                  class="white--text text-none"
+              <v-dialog
+                  v-model="addHorasConfirmar"
+                  width="500"
               >
-                Adicionar horas
-              </v-btn>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                      v-bind="attrs"
+                      v-on="on"
+                      color="azul"
+                      class="text-none white--text font-weight-bold"
+                  >
+                    Adicionar horas
+                  </v-btn>
+                </template>
+
+                <v-card>
+                  <v-card-title class="headline white--text azul">
+                    {{ horasAdded }} foram adicionadas com sucesso
+                  </v-card-title>
+
+                  <v-divider />
+
+                  <v-card-text>
+                    <v-icon
+                        x-large
+                        v-text="'mdi-checkbox-marked-outline'"
+                        class="mt-2"
+                        color="azul"
+                    />
+                  </v-card-text>
+
+                  <v-card-actions class="px-6">
+                    <v-spacer />
+
+                    <v-btn
+                        color="errou"
+                        text
+                        @click="addHoras = false"
+                        class="white--text text-none"
+                    >
+                      Fechar
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </v-card-actions>
           </v-card>
         </v-dialog>
       </v-col>
 
+      <!-- form de informações -->
       <v-col
           cols="12"
       >
@@ -138,17 +179,59 @@
         />
       </v-col>
 
+      <!-- salvar alteracoes realizadas -->
       <v-col cols="12">
-        <v-btn
-            color="azul" class="float-left text-none white--text"
+        <v-dialog
+            v-model="dialogAlteracoes"
+            width="500"
         >
-          Salvar alterações
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+                v-bind="attrs"
+                v-on="on"
+                color="azul"
+                class="float-left text-none white--text"
+            >
+              Salvar alterações
 
-          <v-icon
-              v-text="'mdi-content-save-outline'" class="ml-1"
-          />
-        </v-btn>
+              <v-icon
+                  v-text="'mdi-content-save-outline'" class="ml-1"
+              />
+            </v-btn>
+          </template>
 
+          <v-card>
+            <v-card-title class="headline white--text azul">
+              Alterações salvas com sucesso
+            </v-card-title>
+
+            <v-card-text class="mt-2 black--text">
+              <v-icon
+                  x-large
+                  v-text="'mdi-checkbox-marked-outline'"
+                  class="mt-2"
+                  color="azul"
+              />
+            </v-card-text>
+
+            <v-divider />
+
+            <v-card-actions class="px-6">
+              <v-spacer />
+
+              <v-btn
+                  text
+                  color="errou"
+                  @click="dialogAlteracoes = false"
+                  class="text-none"
+              >
+                Fechar
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
+        <!-- excluir usuario -->
         <v-dialog
             v-model="dialog"
             width="500"
@@ -179,14 +262,51 @@
             <v-card-actions class="px-6">
               <v-spacer />
 
-              <v-btn
-                  :color="message.delete ? 'errou' : 'azul'"
-                  @click="dialog = false"
-                  class="white--text text-none"
-                  v-text="message.delete ? 'Excluir usuário' : 'Cancelar'"
+              <v-dialog
+                  v-model="dialogExcluir"
+                  width="500"
               >
-                Excluir usuário
-              </v-btn>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                      v-bind="attrs"
+                      v-on="on"
+                      color="errou" class="float-right text-none white--text"
+                  >
+                    Excluir usuário
+
+                    <v-icon v-text="'mdi-delete-outline'" />
+                  </v-btn>
+                </template>
+
+                <v-card>
+                  <v-card-title class="headline white--text errou">
+                    Usuário excluído com sucesso
+                  </v-card-title>
+
+                  <v-card-text class="mt-2 black--text">
+                    <v-icon
+                        x-large
+                        v-text="'mdi-checkbox-marked-outline'"
+                        color="errou"
+                    />
+                  </v-card-text>
+
+                  <v-divider />
+
+                  <v-card-actions class="px-6">
+                    <v-spacer />
+
+                    <v-btn
+                        color="errou"
+                        text
+                        @click="dialog = false"
+                        class="white--text text-none"
+                    >
+                      Fechar
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -206,7 +326,11 @@ export default {
       fim: '21/20/2020',
       situacao: 'Entregue',
       addHoras: false,
+      horasAdded: '',
+      addHorasConfirmar: false,
       dialog: false,
+      dialogAlteracoes: false,
+      dialogExcluir: false,
       message: {
         delete: true,
         ttl: 'Realmente deseja excluir o usuário?',

@@ -16,7 +16,7 @@
       </v-col>
 
       <v-col
-          v-for="input of inputs" :key="input"
+          v-for="input of inputs" :key="input.label"
           cols="12"
           :sm="input.cols"
       >
@@ -57,15 +57,55 @@
       </v-col>
 
       <v-col cols="12">
-        <v-btn
-            color="azul" class="float-left text-none white--text rounded__norma"
+        <v-dialog
+            v-model="dialogAlteracoes"
+            width="500"
         >
-          Salvar alterações
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+                v-bind="attrs"
+                v-on="on"
+                color="azul"
+                class="float-left text-none white--text"
+            >
+              Salvar alterações
 
-          <v-icon
-              v-text="'mdi-content-save-outline'" class="ml-1"
-          />
-        </v-btn>
+              <v-icon
+                  v-text="'mdi-content-save-outline'" class="ml-1"
+              />
+            </v-btn>
+          </template>
+
+          <v-card>
+            <v-card-title class="headline white--text azul">
+              Alterações salvas com sucesso
+            </v-card-title>
+
+            <v-card-text class="mt-2 black--text">
+              <v-icon
+                  x-large
+                  v-text="'mdi-checkbox-marked-outline'"
+                  class="mt-2"
+                  color="azul"
+              />
+            </v-card-text>
+
+            <v-divider />
+
+            <v-card-actions class="px-6">
+              <v-spacer />
+
+              <v-btn
+                  text
+                  color="errou"
+                  @click="dialogAlteracoes = false"
+                  class="text-none"
+              >
+                Fechar
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
 
         <v-dialog
             v-model="dialog"
@@ -98,10 +138,19 @@
               <v-spacer />
 
               <v-btn
-                  :color="message.delete ? 'errou' : 'azul'"
+                  color="errou"
+                  @click="dialog = false"
+                  text
+                  class="white--text text-none"
+              >
+                Fechar
+              </v-btn>
+
+              <v-btn
+                  color="errou"
+                  :disabled="message.delete"
                   @click="dialog = false"
                   class="white--text text-none"
-                  v-text="message.delete ? 'Excluir usuário' : 'Cancelar'"
               >
                 Excluir usuário
               </v-btn>
@@ -120,6 +169,7 @@ export default {
   data () {
     return {
       dialog: false,
+      dialogAlteracoes: false,
       message: {
         delete: true,
         ttl: 'Título',
