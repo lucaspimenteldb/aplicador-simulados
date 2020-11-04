@@ -39,18 +39,6 @@
             hide-details
         />
       </v-col>
-      <v-col
-          cols="12" sm="6"
-          md="4"
-      >
-        <v-select
-            :items="['Professor', 'Aluno', 'Gestor']"
-            filled
-            v-model="privilegioSelecionado"
-            label="Filtrar por privilégio" color="azul"
-            hide-details
-        />
-      </v-col>
 
       <v-col cols="12">
         <v-text-field
@@ -76,19 +64,10 @@
                 color="azul" class="text-none white--text rounded__normal"
                 :to="item.editar"
             >
-              editar dados
+              editar usuário
             </v-btn>
           </template>
         </v-data-table>
-      </v-col>
-
-      <v-col>
-        <v-btn
-            color="azul" class="text-none white--text rounded__normal"
-            to="/adicionar-usuario"
-        >
-          Adicionar usuário
-        </v-btn>
       </v-col>
     </v-row>
 
@@ -107,10 +86,10 @@ export default {
 
       headerUsuarios: [
         {
-          text: 'Foto',
+          text: 'Nome',
           align: 'start',
           sortable: false,
-          value: 'foto',
+          value: 'nome',
           class: 'body-2 font-weight-bold',
         },
         {
@@ -128,52 +107,38 @@ export default {
           class: 'body-2 font-weight-bold',
         },
         {
-          text: 'Telefone',
+          text: 'Simulado Estadual',
           align: 'start',
           sortable: false,
-          value: 'telefone',
+          value: 'simulado',
           class: 'body-2 font-weight-bold',
         },
         {
-          text: 'Usuário',
+          text: 'Língua Estrangeira',
           align: 'start',
           sortable: false,
-          value: 'usuario',
+          value: 'lingua',
           class: 'body-2 font-weight-bold',
         },
         {
-          text: 'Privilégio',
+          text: 'Início',
           align: 'start',
           sortable: false,
-          value: 'privilegio',
+          value: 'inicio',
           class: 'body-2 font-weight-bold',
         },
         {
-          text: 'Escola',
+          text: 'Fim',
           align: 'start',
           sortable: false,
-          value: 'escola',
+          value: 'fim',
           class: 'body-2 font-weight-bold',
         },
         {
-          text: 'turma',
+          text: 'Situação',
           align: 'start',
           sortable: false,
-          value: 'turma',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Turno',
-          align: 'start',
-          sortable: false,
-          value: 'turno',
-          class: 'body-2 font-weight-bold',
-        },
-        {
-          text: 'Status',
-          align: 'start',
-          sortable: false,
-          value: 'status',
+          value: 'situacao',
           class: 'body-2 font-weight-bold',
         },
         {
@@ -186,17 +151,15 @@ export default {
       ],
       listaUsuarios: [
         {
-          foto: 'oi',
+          nome: 'Manoelzin',
           email: 'lucas@gmail.com',
           'email-2': 'lucas@gmail.com22',
-          telefone: '(86) 98183.3894',
-          usuario: 'jesus@gmail.com',
-          privilegio: 'Deus',
-          escola: 'Escola Maria das Dores',
-          turma: '3ano B',
-          turno: 'Vespertino',
-          status: 'ativo',
-          editar: '/editar-usuario',
+          simulado: 'Simulado 1',
+          lingua: 'espanhol',
+          inicio: '21/10/2020',
+          fim: '21/10/2020',
+          situacao: 'Iniciado',
+          editar: '/editar-usuario-simulado',
         },
       ],
       pesquisar: '',

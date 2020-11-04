@@ -45,6 +45,15 @@
             hide-details
             v-if="input.type === 'file'"
         />
+        <v-autocomplete
+            :label="input.label"
+            filled
+            color="azul"
+            :items="input.data"
+            append-icon="mdi-pencil"
+            hide-details
+            v-if="input.type === 'autocomplete'"
+        />
       </v-col>
 
       <v-col cols="12">
@@ -52,17 +61,53 @@
             color="azul" class="float-left text-none white--text rounded__norma"
         >
           Salvar alterações
-        </v-btn>
-
-        <v-btn
-            color="errou" class="float-right text-none white--text rounded__norma"
-        >
-          Excluir usuário
 
           <v-icon
-              v-text="'mdi-delete-outline'"
+              v-text="'mdi-content-save-outline'" class="ml-1"
           />
         </v-btn>
+
+        <v-dialog
+            v-model="dialog"
+            width="500"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+                v-bind="attrs"
+                v-on="on"
+                color="errou" class="float-right text-none white--text rounded__norma"
+            >
+              Excluir usuário
+
+              <v-icon v-text="'mdi-delete-outline'" />
+            </v-btn>
+          </template>
+
+          <v-card>
+            <v-card-title class="headline white--text errou">
+              {{ message.ttl }}
+            </v-card-title>
+
+            <v-card-text class="mt-2 black--text">
+             {{ message.text }}
+            </v-card-text>
+
+            <v-divider />
+
+            <v-card-actions>
+              <v-spacer />
+
+              <v-btn
+                  :color="message.delete ? 'errou' : 'azul'"
+                  @click="dialog = false"
+                  class="white--text text-none"
+                  v-text="message.delete ? 'Excluir usuário' : 'Cancelar'"
+              >
+                Excluir usuário
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-col>
     </v-row>
   </v-container>
@@ -74,6 +119,13 @@ export default {
 
   data () {
     return {
+      dialog: false,
+      message: {
+        delete: true,
+        ttl: 'Título',
+        text: 'bla bla bla',
+      },
+
       inputs: [
         {
           foto: '',
@@ -116,12 +168,12 @@ export default {
           label: 'Privilégio',
           type: 'select',
           cols: 12,
-          data: ['1', '2', '3'],
+          data: ['Professor', 'Aluno', 'Gestor'],
         },
         {
           escola: '',
           label: 'Escola',
-          type: 'select',
+          type: 'autocomplete',
           cols: 12,
           data: ['1', '2', '3'],
         },
@@ -130,21 +182,21 @@ export default {
           label: 'Turno',
           type: 'select',
           cols: 6,
-          data: ['1', '2', '3'],
+          data: ['Matutino', 'Verpestino', 'Noturno', 'Integral'],
         },
         {
           turma: '',
           label: 'Turma',
           type: 'select',
           cols: 6,
-          data: ['1', '2', '3'],
+          data: ['3 ano A', '3 ano B', '3 ano C'],
         },
         {
           status: '',
           label: 'Status',
           type: 'select',
           cols: 6,
-          data: ['1', '2', '3'],
+          data: ['Inativo', 'Ativo'],
         },
       ],
     };
