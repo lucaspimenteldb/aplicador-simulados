@@ -73,6 +73,7 @@
           <VueRecaptcha
               ref="recaptcha"
               @verify="onCaptchaVerified"
+              @expired="onCaptchaExpired"
               class="ml-2 azul white--text w-140 text-none capctha"
               :loadRecaptchaScript="true"
               :sitekey="site_key"
@@ -163,6 +164,8 @@ export default {
         this.$router.replace('/home');
         this.$destroy();
       } catch (err) {
+        this.$refs.recaptcha.reset();
+        this.token = '';
         this.preLoading(true);
         console.log(err);
         if (err.response.status === 403) {
@@ -247,6 +250,11 @@ export default {
     },
     onCaptchaVerified (token) {
       this.token = token;
+    },
+
+    onCaptchaExpired () {
+      this.$refs.recaptcha.reset();
+      this.token = '';
     },
   },
 };

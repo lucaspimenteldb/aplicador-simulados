@@ -1,5 +1,16 @@
 const routes = [
   {
+    path: '/acompanhar-simulado',
+    name: 'AcompanharSimulado',
+    ttl: 'acompanhar simulado',
+    icon: 'mdi-check-box-multiple-outline',
+    menu: true,
+    component: () => import('../../pages-coordenadores/AcompanharSimulados'),
+    meta: {
+      public: false,
+    },
+  },
+  {
     path: '/home',
     name: 'DesempenhoCoordenador',
     ttl: 'Desempenho geral',

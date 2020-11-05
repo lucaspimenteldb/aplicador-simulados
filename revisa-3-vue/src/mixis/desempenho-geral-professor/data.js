@@ -149,7 +149,7 @@ const dados = {
           class: 'body-2 font-weight-bold',
         },
         {
-          text: 'Liguagens e seus Códigos',
+          text: 'Linguagens',
           sortable: false,
           value: 'linguagens',
           class: 'body-2 font-weight-bold',
@@ -194,7 +194,7 @@ const dados = {
           class: 'body-2 font-weight-bold',
         },
         {
-          text: 'Liguagens e seus Códigos',
+          text: 'Linguagens e seus Códigos',
           sortable: false,
           value: 'linguagens',
           class: 'body-2 font-weight-bold',
