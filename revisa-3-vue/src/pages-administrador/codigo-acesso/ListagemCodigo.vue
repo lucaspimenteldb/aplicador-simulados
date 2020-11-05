@@ -22,6 +22,7 @@
 
         <v-data-table
             v-model="selected"
+            item-key="codigo"
             show-select
             :headers="headerCodigos" :items="listaCodigos"
             fixed-header
@@ -110,8 +111,8 @@ export default {
 
   data () {
     return {
-      excluirCodigo: false,
       selected: [],
+      excluirCodigo: false,
       pesquisar: '',
       messageCodigos: {
         delete: true,
@@ -148,6 +149,13 @@ export default {
           class: 'body-2 font-weight-bold',
         },
         {
+          text: 'Nome',
+          align: 'start',
+          value: 'nome',
+          sortable: false,
+          class: 'body-2 font-weight-bold',
+        },
+        {
           text: 'Escola',
           align: 'start',
           value: 'escola',
@@ -161,32 +169,25 @@ export default {
           sortable: false,
           class: 'body-2 font-weight-bold',
         },
-        {
-          text: 'Nome',
-          align: 'start',
-          value: 'nome',
-          sortable: false,
-          class: 'body-2 font-weight-bold',
-        },
       ],
       listaCodigos: [
         {
+          codigo: '029384ab',
+          status: 'Utilizado',
+          privilegio: 'Aluno',
+          criador: 'Bla bla bla',
           nome: 'Marivalda',
           escola: 'Escola Tal e Tal',
           cre: 'CRE 1213 ladas',
-          privilegio: 'Aluno',
-          criador: 'Bla bla bla',
-          codigo: '029384ab',
-          status: 'Utilizado',
         },
         {
+          codigo: '985h234b',
+          status: 'Não utilizado',
+          privilegio: 'Professora',
+          criador: 'Bla bla bl',
           nome: '-',
           escola: '-',
           cre: '-',
-          privilegio: 'Professor',
-          criador: 'Bla bla bla',
-          codigo: '985h234b',
-          status: 'Não utilizado',
         },
       ],
     };
