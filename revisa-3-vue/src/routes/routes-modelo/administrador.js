@@ -10,6 +10,26 @@ const routes = [
     },
   },
   {
+    path: '/listar-codigos',
+    name: 'ListagemCodigos',
+    ttl: 'Listagem de códigos de acesso',
+    menu: false,
+    component: () => import('../../pages-administrador/codigo-acesso/ListagemCodigo'),
+    meta: {
+      public: false,
+    },
+  },
+  {
+    path: '/gerar-codigo-acesso',
+    name: 'GerarCodigos',
+    ttl: 'Gerar códigos de acesso',
+    menu: false,
+    component: () => import('../../pages-administrador/codigo-acesso/GerarCodigoAcesso'),
+    meta: {
+      public: false,
+    },
+  },
+  {
     path: '/listar-usuarios-simulado',
     name: 'ListagemUsuariosSimulado',
     ttl: 'Listagem de usuários para simulados',

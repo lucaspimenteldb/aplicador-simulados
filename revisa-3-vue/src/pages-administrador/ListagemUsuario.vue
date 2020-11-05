@@ -206,7 +206,6 @@ export default {
   mounted () {
     document.querySelector('.v-data-footer__select > div').style.marginLeft = '1rem';
   },
-
 };
 </script>
 

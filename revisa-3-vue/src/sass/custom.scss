@@ -6,6 +6,9 @@
 .d-grid {
   display: grid;
 }
+.v-align-middle {
+  vertical-align: middle;
+}
 @media only screen and (max-width: 680px) {
   .ordem__0__xs {
     order: 0;
