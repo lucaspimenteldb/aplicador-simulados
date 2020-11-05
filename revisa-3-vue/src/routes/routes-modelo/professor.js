@@ -25,7 +25,7 @@ const routes = [
     path: '/acompanhar-simulados-professores',
     name: 'AcompanharSimulados',
     ttl: 'Acompanhamento de simulado',
-    icon: 'mdi-check-box-multiple-outline',
+    icon: 'mdi-access-point',
     menu: true,
     component: () => import('../../pages-professores/AcompanharSimulados'),
     meta: {

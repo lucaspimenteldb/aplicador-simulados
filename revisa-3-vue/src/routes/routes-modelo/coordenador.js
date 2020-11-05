@@ -3,7 +3,7 @@ const routes = [
     path: '/acompanhar-simulado',
     name: 'AcompanharSimulado',
     ttl: 'acompanhar simulado',
-    icon: 'mdi-check-box-multiple-outline',
+    icon: 'mdi-access-point',
     menu: true,
     component: () => import('../../pages-coordenadores/AcompanharSimulados'),
     meta: {
