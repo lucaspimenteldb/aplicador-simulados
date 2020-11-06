@@ -176,7 +176,7 @@
           cols="12" class="mt-8"
       >
         <subheader-secao>
-          Os melhores dos melhores - Ranking Estadual
+          Redação, as melhores notas - Ranking Estadual
         </subheader-secao>
       </v-col>
 
