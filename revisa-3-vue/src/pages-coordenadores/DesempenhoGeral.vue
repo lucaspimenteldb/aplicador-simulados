@@ -2,6 +2,8 @@
   <v-container fluid>
 <!--    <MenuLateral />-->
 <!--    <Toolbar />-->
+    <PDFS />
+    
     <v-row>
       <v-col cols="12">
         <h1>
@@ -1228,12 +1230,13 @@ import loading from '../components/loading/Loading.vue';
 import TabsMobile from '../components/TabsMobile.vue';
 import Dialog from '../components/dialog/Dialog.vue';
 import Bar from '../components/Graficos/GraficoBar.vue';
+import PDFS from '../components/pdfs/PDFs.vue';
 
 export default {
   name: 'DesempenhoGeral',
   mixins: [data, methods, excel],
   components: {
-    TabsMobile, loading, Dialog, Bar, JsonExcel,
+    TabsMobile, loading, Dialog, Bar, JsonExcel, PDFS,
   },
   // components: { PremiosMensais },
 
