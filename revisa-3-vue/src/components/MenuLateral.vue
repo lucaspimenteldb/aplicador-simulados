@@ -49,6 +49,7 @@
           <v-list-item
               link :to="item.path"
               v-if="item.menu" class="mb-2"
+              @click="goTop"
           >
             <v-list-item-icon class="mr-4">
               <v-icon
@@ -226,8 +227,14 @@ export default {
     aparecerModal () {
       this.objeto.dialog = true;
     },
+
     sumirModal ($event) {
       this.objeto.dialog = $event;
+    },
+
+    goTop () {
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
     },
   },
 };

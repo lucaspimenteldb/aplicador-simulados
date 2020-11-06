@@ -353,6 +353,8 @@
                 class="mt-2 white--text text-none"
             />
           </v-col>
+
+          <TabsMobile />
         </v-row>
     <loading :dialog="loading" />
   </v-container>
@@ -363,10 +365,11 @@ import JsonExcel from 'vue-json-excel';
 import data from '../mixis/acompanhar_simulado-coordenador/data';
 import methods from '../mixis/acompanhar_simulado-coordenador/methods';
 import loading from '../components/loading/Loading.vue';
+import TabsMobile from '../components/TabsMobile.vue';
 
 export default {
   name: 'AcompanharSimuladosCoord',
-  components: { loading, JsonExcel },
+  components: { TabsMobile, loading, JsonExcel },
   mixins: [data, methods],
   created () {
     this.iniciar();

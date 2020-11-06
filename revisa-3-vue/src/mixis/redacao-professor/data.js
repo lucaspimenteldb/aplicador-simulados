@@ -38,13 +38,13 @@ const dados = {
         },
         {
           text: 'Situação',
-          sortable: true,
+          sortable: false,
           value: 'situacao',
           class: 'px-2 min-w-100 body-2 font-weight-bold',
         },
         {
           text: 'Tema',
-          sortable: true,
+          sortable: false,
           value: 'tema',
           class: 'px-2 min-w-100 body-2 font-weight-bold',
         },

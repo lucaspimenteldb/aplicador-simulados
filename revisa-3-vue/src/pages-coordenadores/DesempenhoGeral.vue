@@ -2,8 +2,6 @@
   <v-container fluid>
 <!--    <MenuLateral />-->
 <!--    <Toolbar />-->
-    <PDFS />
-    
     <v-row>
       <v-col cols="12">
         <h1>
@@ -54,9 +52,11 @@
       </v-col>
     </v-row>
 
+    <PDFS />
+
     <v-row>
       <v-col
-          cols="12" class="mt-12"
+          cols="12" class="mt-8"
       >
         <header-secao>
           Desempenho - {{ simuladoAtual }}
@@ -435,7 +435,10 @@
 
                 <v-card-text>
                   <!-- anunciado da questão -->
-                  <article v-html="item.descricao">
+                  <article
+                      v-html="item.descricao"
+                      class="img__questoes"
+                  >
                     <!-- eslint-disable max-len -->
                   </article>
 

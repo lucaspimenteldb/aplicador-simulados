@@ -4,8 +4,6 @@
     <!--    <Toolbar />-->
     <loading :dialog="showDialog" />
 
-    <PDFs />
-
     <v-row>
       <v-col cols="12">
         <h1>
@@ -19,7 +17,10 @@
     </v-row>
 
     <v-row>
-      <v-col cols="12">
+      <v-col
+          cols="12"
+          class="mt-8"
+      >
         <header-secao>
           Seu Desempenho e Rankings
         </header-secao>
@@ -34,7 +35,7 @@
       <v-col
           cols="12" sm="6"
           md="4"
-          class="pt-0"
+          class="py-0"
       >
         <v-select
             @change="changeSelect"
@@ -46,6 +47,12 @@
         />
       </v-col>
 
+      <v-col
+          class="py-0"
+          cols="12"
+      >
+        <PDFs />
+      </v-col>
       <!-- selecionar ranking -->
 <!--      <SelecionarRanking class="mt-8" />-->
 
@@ -218,7 +225,10 @@
 
                 <v-card-text>
                   <!-- anunciado da questão -->
-                  <article v-html="item.descricao">
+                  <article
+                      v-html="item.descricao"
+                      class="img__questoes"
+                  >
                     <!-- eslint-disable max-len -->
                   </article>
 

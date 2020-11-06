@@ -78,14 +78,14 @@ const dados = {
         {
           text: 'Simulados Iniciados',
           value: 'iniciados',
-          sortable: true,
+          sortable: false,
           align: 'start',
           class: 'body-2 font-weight-bold',
         },
         {
           text: 'Simulados Entregues',
           value: 'entregues',
-          sortable: true,
+          sortable: false,
           align: 'start',
           class: 'body-2 font-weight-bold',
         },
@@ -115,14 +115,14 @@ const dados = {
         {
           text: 'Simulados Iniciados',
           value: 'iniciados',
-          sortable: true,
+          sortable: false,
           align: 'start',
           class: 'body-2 font-weight-bold',
         },
         {
           text: 'Simulados Entregues',
           value: 'entregues',
-          sortable: true,
+          sortable: false,
           align: 'start',
           class: 'body-2 font-weight-bold',
         },

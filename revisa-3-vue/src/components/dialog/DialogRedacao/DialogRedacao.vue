@@ -11,6 +11,7 @@
                     v-bind="attrs" v-on="on"
                     :to="item.url"
                     @click.stop="$set(dialog, item.id, true)"
+                    @click="loadingRedacao = true"
             >
                 ver redação
             </v-btn>
@@ -18,25 +19,39 @@
 
         <!--              <Dialog :dialog="true" />-->
 
-        <v-card class="relative w-full">
-            <v-card-title>
-                <span class="headline">{{ item.tema }}</span>
-            </v-card-title>
+        <v-card
+            class="relative w-full"
+            :loading="loadingRedacao"
+        >
+          <template slot="progress">
+            <v-progress-linear
+                color="azul"
+                height="6"
+                indeterminate
+            />
+          </template>
+
+          <v-card-title>
+              <span class="headline">{{ item.tema }}</span>
+          </v-card-title>
 
 <!--            <v-card-text v-html="item.comentario" />-->
-          <v-img :src="item.arquivo" />
+          <v-img
+              :src="item.arquivo"
+              @load="loadingRedacao = false"
+          />
 
-            <v-card-actions class="px-4">
-                <v-spacer />
+          <v-card-actions class="px-4">
+              <v-spacer />
 
-                <v-btn
-                        color="green darken-1" text
-                        @click="$set(dialog, item.id, false)"
-                        class="text-none"
-                >
-                    Fechar
-                </v-btn>
-            </v-card-actions>
+              <v-btn
+                      color="green darken-1" text
+                      @click="$set(dialog, item.id, false)"
+                      class="text-none"
+              >
+                  Fechar
+              </v-btn>
+          </v-card-actions>
         </v-card>
     </v-dialog>
 </template>
@@ -49,7 +64,7 @@ export default {
       textoAux: 'Texto',
       textoAux2: 'Texto',
       dialog: {},
-
+      loadingRedacao: true,
     };
   },
 
@@ -58,7 +73,9 @@ export default {
   },
 
   methods: {
-
+    jesus () {
+      console.log('deus');
+    },
   },
 
   props: {

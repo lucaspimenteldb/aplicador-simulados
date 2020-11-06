@@ -1,10 +1,13 @@
 <template>
   <v-row>
-    <v-col cols="12">
+    <v-col
+        cols="12"
+        class="py-0"
+    >
       <v-btn
           @click="donwloadsPdf"
           color="azul"
-          v-text="'Baixar instruções do próximo simulado'"
+          v-text="'Baixar simulado selecionado'"
           class="mt-4 white--text text-none"
       />
 

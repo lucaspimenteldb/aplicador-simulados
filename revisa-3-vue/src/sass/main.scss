@@ -253,6 +253,11 @@ p {
   background: url("../assets/ilustrativo/desempenho-geral/destaque-humanas.png") no-repeat white 0 0/20%;
 }
 
+.img__questoes img {
+  max-width: 100%;
+  object-fit: contain;
+}
+
 // loja
 .card__produto {
   overflow: hidden;

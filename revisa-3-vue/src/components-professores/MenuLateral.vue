@@ -49,6 +49,7 @@
           <v-list-item
               link :to="item.rota"
               v-if="!item.menu" class="mb-2"
+              @click="window.scrollTo(0, 0)"
           >
             <v-list-item-icon class="mr-4">
               <v-icon

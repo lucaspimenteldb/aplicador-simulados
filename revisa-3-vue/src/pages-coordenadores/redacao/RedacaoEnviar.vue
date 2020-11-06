@@ -83,12 +83,17 @@
         </subheader-secao>
       </v-col>
     </v-row>
+
+    <TabsMobile />
   </v-container>
 </template>
 
 <script>
+import TabsMobile from '../../components/TabsMobile.vue';
+
 export default {
   name: 'RedacaoEnviar',
+  components: { TabsMobile },
 };
 </script>
 
