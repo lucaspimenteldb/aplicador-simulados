@@ -1211,7 +1211,72 @@
     </v-row>
 
     <Bar
-v-if="false"
+        v-if="false"
+        :chartdata="chartdata"
+        @reniciar="reiniciar"
+    />
+    <loading :dialog="showLoading" />
+
+    <v-row>
+      <!-- desempenho por área -->
+      <v-col
+          cols="12"
+          class="mt-8"
+      >
+        <subheader-secao>
+          Compare as áreas do conhecimento das escolas e turmas
+        </subheader-secao>
+      </v-col>
+
+      <v-col
+          cols="12"
+          md="4" sm="8"
+          class="pt-0"
+      >
+        <v-select
+            filled
+            v-model="escolaAtualGraf"
+            @change="changeEscolaGraf"
+            :items="escolas.map((el) => el.titulo)"
+            label="Filtrar desempenho por escola" color="azul"
+            hide-details
+        />
+      </v-col>
+
+      <v-col
+          cols="12" class="pa-0"
+      />
+
+      <v-col
+          cols="12" sm="8"
+          md="4"
+      >
+        <v-select
+            filled
+            :items="turmasGraf.map((el) => el.titulo)"
+            v-model="turmaGraf1"
+            @change="changeTurmaGraf"
+            label="Comparar turmas" color="azul"
+            hide-details
+        />
+      </v-col>
+
+      <v-col
+          cols="12" sm="8"
+          md="4"
+      >
+        <v-select
+            filled
+            :items="turmasGraf.map((el) => el.titulo)"
+            v-model="turmaGraf2"
+            @change="changeTurmaGraf"
+            label="Comparar turmas" color="azul"
+            hide-details
+        />
+      </v-col>
+    </v-row>
+
+    <Bar
         :chartdata="chartdata"
         @reniciar="reiniciar"
     />

@@ -12,17 +12,19 @@ persistent max-width="290"
         <v-card-actions>
           <v-spacer />
           <v-btn
-color="azul"
-text @click="aparecerModal"
->
+              color="azul"
+              text @click="aparecerModal"
+              class="text-none"
+          >
             {{ objeto.textButton }}
           </v-btn>
 
           <v-btn
               v-show="objeto.confirm"
-color="errou"
-text @click="sair"
->
+              color="errou"
+              text @click="sair"
+              class="text-none"
+          >
             {{ objeto.textConfirm }}
           </v-btn>
         </v-card-actions>
@@ -44,9 +46,9 @@ export default {
       textConfirm: 'Sair',
       textButton: 'Cancelar',
       confirm: false,
-      
+
     },
-    
+
   },
 
   methods: {
