@@ -76,7 +76,7 @@
           class="mt-12"
       >
         <header-secao>
-          Acompanhamento do {{ simuladoSelecionado }} por Aluno
+          Acompanhamento por Aluno
         </header-secao>
       </v-col>
 
@@ -96,6 +96,7 @@
             :items="informacoes"
             fixed-header
             :search="search"
+            :footer-props="{itemsPerPageText: 'Alunos por página', itemsPerPageOptions: [ 10, 20, 25 ]}"
             class="clear-both"
         >
           <template v-slot:item.simulado="{ item }">
@@ -279,15 +280,28 @@
               class="mt-12"
           >
             <header-secao>
-              Acompanhamento do {{ simuladoSelecionado }} por Escola
+              Acompanhamento por Escola
             </header-secao>
           </v-col>
 
           <v-col cols="12">
+            <v-text-field
+                label="Pesquisar..."
+                filled
+                color="azul"
+                append-icon="mdi-magnify"
+                class="max-w-240 float-right"
+                hide-details
+                v-model="pesquisarEscolas"
+            />
+
             <v-data-table
+                :search="pesquisarEscolas"
                 :headers="headerCoordenador"
                 :items="informacoesCoordenador"
                 fixed-header
+                :footer-props="{itemsPerPageText: 'Escolas por página', itemsPerPageOptions: [ 10, 20, 25 ]}"
+                class="clear-both"
             />
 
             <v-btn
@@ -312,10 +326,23 @@
           </v-col>
 
           <v-col cols="12">
+            <v-text-field
+                label="Pesquisar..."
+                filled
+                color="azul"
+                append-icon="mdi-magnify"
+                class="max-w-240 float-right"
+                hide-details
+                v-model="pesquisarCRES"
+            />
+
             <v-data-table
+                :search="pesquisarCRES"
                 :headers="headerCRE"
                 :items="informacoesCRE"
                 fixed-header
+                :footer-props="{itemsPerPageText: 'CREs por página', itemsPerPageOptions: [ 10, 20, 25 ]}"
+                class="clear-both"
             />
 
             <v-btn
@@ -344,16 +371,14 @@ export default {
   created () {
     this.iniciar();
   },
+
   mounted () {
-    document.querySelectorAll('.v-data-footer__select').forEach((paginacao) => {
+    const tabelas = document.querySelectorAll('.v-data-footer__select > div');
+
+    tabelas.forEach((tabela) => {
       // eslint-disable-next-line no-param-reassign
-      paginacao.innerHTML = '';
+      tabela.style.marginLeft = '1rem';
     });
-    /* document.querySelectorAll('.v-data-footer__pagination').forEach((itens) => {
-      const elementos = itens.innerHTML.split(' ');
-      // eslint-disable-next-line no-param-reassign
-      itens.innerHTML = `${elementos[0]} de ${elementos[2]}`;
-    }); */
   },
 };
 </script>

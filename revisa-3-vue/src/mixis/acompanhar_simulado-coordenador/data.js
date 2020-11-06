@@ -2,6 +2,8 @@ const dados = {
   data () {
     return {
       simuladoSelecionado: '',
+      pesquisarEscolas: '',
+      pesquisarCRES: '',
       dialog: false,
       loading: false,
       alunos: {},
