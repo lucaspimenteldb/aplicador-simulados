@@ -4,6 +4,8 @@
     <!--    <Toolbar />-->
     <loading :dialog="showDialog" />
 
+    <PDFs />
+
     <v-row>
       <v-col cols="12">
         <h1>
@@ -460,12 +462,13 @@ import desempenho from '../services/desempenho/desempenho-service';
 import Dialog from '../components/dialog/Dialog.vue';
 // eslint-disable-next-line import/extensions
 import loading from '../components/loading/Loading.vue';
+import PDFs from '../components/pdfs/PDFs.vue';
 
 export default {
   name: 'DesempenhoGeral',
 
   components: {
-    TabsMobile, loading, ModalPadrao, Dialog,
+    TabsMobile, loading, ModalPadrao, Dialog, PDFs,
   },
 
   async created () {
