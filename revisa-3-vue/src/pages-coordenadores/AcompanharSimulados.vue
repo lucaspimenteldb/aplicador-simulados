@@ -76,7 +76,7 @@
           class="mt-12"
       >
         <header-secao>
-          Desempenho do {{ simuladoSelecionado }} por Aluno
+          Acompanhamento do {{ simuladoSelecionado }} por Aluno
         </header-secao>
       </v-col>
 
@@ -279,7 +279,7 @@
               class="mt-12"
           >
             <header-secao>
-              Desempenho do {{ simuladoSelecionado }} por Escola
+              Acompanhamento do {{ simuladoSelecionado }} por Escola
             </header-secao>
           </v-col>
 
@@ -300,14 +300,14 @@
           </v-col>
         </v-row>
 
-     diretor das CRE
+     <!-- diretor das CRE -->
         <v-row v-show="privilegioCRE">
           <v-col
               cols="12"
               class="mt-12"
           >
             <header-secao>
-              Desempenho por CRE
+              Acompanhamento por CRE
             </header-secao>
           </v-col>
 
