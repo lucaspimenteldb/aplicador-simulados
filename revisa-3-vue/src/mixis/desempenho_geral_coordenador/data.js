@@ -6,6 +6,8 @@ const dados = {
       escolaAtual: '',
       escolaAtualGraf: '',
       escolaAtualGraf2: '',
+      escolaAtualArea: '',
+      escolaAtualArea2: '',
       alunos: [{ titulo: 'Sem dados' }],
       alunoGabarito: '',
       gabarito: {},
@@ -23,6 +25,13 @@ const dados = {
       dialog: {},
       redacaoGeral: '',
       chartdata: {
+        datasets: [
+
+        ],
+        labels: [],
+      },
+
+      chartdata2: {
         datasets: [
 
         ],

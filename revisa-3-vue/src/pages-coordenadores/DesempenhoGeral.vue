@@ -1228,20 +1228,20 @@
         </subheader-secao>
       </v-col>
 
-      <v-col
-          cols="12"
-          md="4" sm="8"
-          class="pt-0"
-      >
-        <v-select
-            filled
-            v-model="escolaAtualGraf"
-            @change="changeEscolaGraf"
-            :items="escolas.map((el) => el.titulo)"
-            label="Filtrar desempenho por escola" color="azul"
-            hide-details
-        />
-      </v-col>
+<!--      <v-col-->
+<!--          cols="12"-->
+<!--          md="4" sm="8"-->
+<!--          class="pt-0"-->
+<!--      >-->
+<!--        <v-select-->
+<!--            filled-->
+<!--            v-model="escolaAtualArea"-->
+<!--            @change="changeEscolaGraf"-->
+<!--            :items="escolas.map((el) => el.titulo)"-->
+<!--            label="Filtrar desempenho por escola" color="azul"-->
+<!--            hide-details-->
+<!--        />-->
+<!--      </v-col>-->
 
       <v-col
           cols="12" class="pa-0"
@@ -1253,10 +1253,10 @@
       >
         <v-select
             filled
-            :items="turmasGraf.map((el) => el.titulo)"
-            v-model="turmaGraf1"
-            @change="changeTurmaGraf"
-            label="Comparar turmas" color="azul"
+            :items="escolas.map((el) => el.titulo)"
+            v-model="escolaAtualArea"
+            @change="changeEscolasCompare"
+            label="Comparar escolas" color="azul"
             hide-details
         />
       </v-col>
@@ -1267,19 +1267,20 @@
       >
         <v-select
             filled
-            :items="turmasGraf.map((el) => el.titulo)"
-            v-model="turmaGraf2"
-            @change="changeTurmaGraf"
-            label="Comparar turmas" color="azul"
+            :items="escolas.map((el) => el.titulo)"
+            v-model="escolaAtualArea2"
+            @change="changeEscolasCompare"
+            label="Comparar escolas" color="azul"
             hide-details
         />
       </v-col>
     </v-row>
 
     <Bar
-        :chartdata="chartdata"
+        :chartdata="chartdata2"
         @reniciar="reiniciar"
     />
+
     <loading :dialog="showLoading" />
 
     <TabsMobile />

@@ -156,6 +156,36 @@ const dados = {
       }
     },
 
+    async changeEscolasCompare () {
+      try {
+        this.showLoading = true;
+        const escola1Filter = this.escolas.filter((el) => el.titulo === this.escolaAtualArea);
+        const escola1Filter2 = this.escolas.filter((el) => el.titulo === this.escolaAtualArea2);
+        if (escola1Filter.length > 0 && escola1Filter2.length > 0) {
+          const dados2 = await this.$http.get(`desempenho-escola/comparar-escola/${escola1Filter[0].id}/${escola1Filter2[0].id}`,
+            { headers: { Authorization: this.$store.state.token } });
+          const color = ['#ffdd9e', '#a3ffa3'];
+          const mediasMat = [dados2.data.desempenho[0].media_matematica, dados2.data.desempenho2[0].media_matematica];
+          const medialin = [dados2.data.desempenho[0].media_linguagens, dados2.data.desempenho2[0].media_linguagens];
+          const mediaHum = [dados2.data.desempenho[0].media_humanas, dados2.data.desempenho2[0].media_humanas];
+          const mediaNat = [dados2.data.desempenho[0].media_natureza, dados2.data.desempenho2[0].media_natureza];
+          const mediaRedacao = [dados2.data.desempenho[0].media_natureza, dados2.data.desempenho2[0].media_natureza];
+          this.chartdata2.datasets = [];
+          this.chartdata2.labels = [];
+          const labels = [this.escolaAtualArea, this.escolaAtualArea2];
+          this.preencherTubalina(color, mediaHum, this.chartdata2, 2, labels, 'Média Humanas');
+          this.preencherTubalina(color, medialin, this.chartdata2, 2, labels, 'Média Linguagens');
+          this.preencherTubalina(color, mediaNat, this.chartdata2, 2, labels, 'Média Natureza');
+          this.preencherTubalina(color, mediasMat, this.chartdata2, 2, labels, 'Média Matématica');
+          this.preencherTubalina(color, mediaRedacao, this.chartdata2, 2, labels, 'Média Redação');
+        }
+
+        this.showLoading = false;
+      } catch (e) {
+        this.showLoading = false;
+      }
+    },
+
     preencherTubalina (color, medias, chart, qtd, labels, titulo) {
       chart.labels.unshift(titulo);
       for (let i = 0; i < qtd; i++) {
@@ -168,6 +198,7 @@ const dados = {
         chart.datasets.push(med);
         this.reiniciar();
       }
+      alert(chart);
     },
 
     async changeEscola () {
