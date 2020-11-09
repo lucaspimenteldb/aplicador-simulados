@@ -322,7 +322,7 @@
       <v-col
           cols="12" sm="6"
           md="4"
-          class="relative"
+          class="pt-0 relative"
       >
         <p
             id="mensagem__select__area"

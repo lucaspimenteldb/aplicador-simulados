@@ -359,7 +359,7 @@
             :items="alunos.map((el => el.name))" filled
             id="aluno__gabarito"
             v-model="alunoGabarito"
-            label="Selecionar aluno para ver gabarito" color="azul"
+            label="Selecione o aluno para ver gabarito" color="azul"
             hide-details
         />
       </v-col>
@@ -367,7 +367,7 @@
       <v-col
           cols="12" sm="6"
           md="4"
-          class="relative"
+          class="relative pt-0"
       >
         <p
             id="mensagem__select__area"
@@ -1084,7 +1084,7 @@
           class="mt-8"
       >
         <subheader-secao>
-          Compares as médias TRI das escolas
+          Compare as médias TRI das escolas
         </subheader-secao>
       </v-col>
 
@@ -1106,6 +1106,7 @@
       <v-col
           cols="12" sm="8"
           md="4"
+          class="pt-0"
       >
         <v-select
             filled
@@ -1190,7 +1191,7 @@
           class="mt-8"
       >
         <subheader-secao>
-          Compares as médias TRI das turmas
+          Compare as médias TRI das turmas
         </subheader-secao>
       </v-col>
 

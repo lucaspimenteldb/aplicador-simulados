@@ -79,7 +79,7 @@
           <!-- enunciado das questoes -->
           <v-card>
             <v-card-text>
-              <article>
+              <article class="img__questoes">
                 {{ tab.questoes.questaoOrigem }}
 
                 <span class="body-1 font-weight-medium grey--text text--darken-3">
@@ -154,8 +154,9 @@
           <article class="w-3/4">
             <v-btn
                 v-for="gabarito in questoes" :key="gabarito + 'questao'"
-                class="pa-2 mt-4 mr-3 w-46 h-46"
+                class="gabaritos pa-2 mt-4 mr-3 w-46 h-46"
                 min-width="46" min-height="46"
+                @click="page = gabarito"
             >
               <p
                   class="d-flex align-center"
@@ -192,6 +193,7 @@
                 color="azul" class="mt-4 white--text text-none rounded__normal"
                 dark v-bind="attrs"
                 v-on="on"
+                @click="questoesEmBranco"
             >
               Finalizar simulado
             </v-btn>
@@ -358,6 +360,17 @@ export default {
         // eslint-disable-next-line no-unused-expressions
         questao === questaoAtual ? questaoAtual.classList.remove('hidden') : questao.classList.add('hidden');
       });
+    },
+
+    questoesEmBranco: () => {
+      const gabaritos = document.querySelectorAll('.gabaritos');
+      for (let i = 0; i < gabaritos.length; i++) {
+        if (gabaritos[i].firstElementChild.firstElementChild.firstElementChild.nodeName === 'I') {
+          gabaritos[i].classList.add('border-3', 'border__vermelha', 'errou--text');
+        } else {
+          gabaritos[i].classList.remove('border-3', 'border__vermelha');
+        }
+      }
     },
   },
 };
