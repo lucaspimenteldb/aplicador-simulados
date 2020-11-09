@@ -6,6 +6,18 @@
           Acompanhar Simulados Estaduais
         </h1>
       </v-col>
+    </v-row>
+
+    <!-- professor e coordenador -->
+    <v-row>
+      <v-col
+          cols="12"
+          class="mt-12"
+      >
+        <header-secao>
+          Acompanhamento por Aluno
+        </header-secao>
+      </v-col>
 
       <v-col
           cols="12" sm="8"
@@ -18,7 +30,7 @@
             @change="changeSelect"
             v-model="simuladoSelecionado"
             :items="simulados.map((el) => `${el.titulo} (${el.SimuladoEstadoMaster.titulo})`)"
-            label="Selecione qual simulado quer ver"
+            label="Selecione qual simulado ver"
         />
       </v-col>
 
@@ -33,24 +45,9 @@
             v-model="escolaAtual"
             @change="changeSelect"
             :items="escolas.map((el) => el.nome)"
-            label="Selecione qual escola quer ver"
+            label="Selecione qual escola ver"
         />
       </v-col>
-
-<!--      <v-col-->
-<!--          cols="12" sm="8"-->
-<!--          md="5" lg="4"-->
-<!--      >-->
-<!--&lt;!&ndash;        <v-select&ndash;&gt;-->
-<!--&lt;!&ndash;            filled&ndash;&gt;-->
-<!--&lt;!&ndash;            hide-details&ndash;&gt;-->
-<!--&lt;!&ndash;            color="azul"&ndash;&gt;-->
-<!--&lt;!&ndash;            @change="changeSelect"&ndash;&gt;-->
-<!--&lt;!&ndash;            v-model="turmaAtual"&ndash;&gt;-->
-<!--&lt;!&ndash;            label="Selecione qual turma quer ver"&ndash;&gt;-->
-<!--&lt;!&ndash;            :items="turmas.map((el) => el.descricao)"&ndash;&gt;-->
-<!--&lt;!&ndash;        />&ndash;&gt;-->
-<!--      </v-col>-->
 
       <v-col
           cols="12" sm="8"
@@ -66,18 +63,6 @@
 
             label="Selecione a situação do simulado"
         />
-      </v-col>
-    </v-row>
-
-    <!-- professor e coordenador -->
-    <v-row>
-      <v-col
-          cols="12"
-          class="mt-12"
-      >
-        <header-secao>
-          Acompanhamento por Aluno
-        </header-secao>
       </v-col>
 
       <v-col cols="12">
@@ -270,6 +255,16 @@
             v-text="'Exportar dados dos alunos'"
             class="mt-2 white--text text-none"
         />
+
+        <v-btn
+            @click="download"
+            :disabled="excel"
+            :loading="excel"
+            outlined
+            color="azul"
+            v-text="'Atualizar tabela'"
+            class="mt-2 float-right white--text text-none"
+        />
       </v-col>
     </v-row>
 
@@ -282,6 +277,52 @@
             <header-secao>
               Acompanhamento por Escola
             </header-secao>
+          </v-col>
+
+          <v-col
+              cols="12" sm="8"
+              md="5" lg="4"
+          >
+            <v-select
+                filled
+                hide-details
+                color="azul"
+                @change="changeSelect"
+                v-model="simuladoSelecionado"
+                :items="simulados.map((el) => `${el.titulo} (${el.SimuladoEstadoMaster.titulo})`)"
+                label="Selecione qual simulado ver"
+            />
+          </v-col>
+
+          <v-col
+              cols="12" sm="8"
+              md="5" lg="4"
+          >
+            <v-select
+                filled
+                hide-details
+                color="azul"
+                v-model="escolaAtual"
+                @change="changeSelect"
+                :items="escolas.map((el) => el.nome)"
+                label="Selecione qual escola ver"
+            />
+          </v-col>
+
+          <v-col
+              cols="12" sm="8"
+              md="5" lg="4"
+          >
+            <v-select
+                filled
+                hide-details
+                color="azul"
+                v-model="tipoAtual"
+                :items="tipos"
+                @change="changeSelect"
+
+                label="Selecione a situação do simulado"
+            />
           </v-col>
 
           <v-col cols="12">
@@ -311,6 +352,16 @@
                 v-text="'Exportar dados das escolas'"
                 class="mt-2 white--text text-none"
             />
+
+            <v-btn
+                @click="download"
+                :disabled="excel"
+                :loading="excel"
+                outlined
+                color="azul"
+                v-text="'Atualizar tabela'"
+                class="mt-2 float-right white--text text-none"
+            />
           </v-col>
         </v-row>
 
@@ -323,6 +374,52 @@
             <header-secao>
               Acompanhamento por CRE
             </header-secao>
+          </v-col>
+
+          <v-col
+              cols="12" sm="8"
+              md="5" lg="4"
+          >
+            <v-select
+                filled
+                hide-details
+                color="azul"
+                @change="changeSelect"
+                v-model="simuladoSelecionado"
+                :items="simulados.map((el) => `${el.titulo} (${el.SimuladoEstadoMaster.titulo})`)"
+                label="Selecione qual simulado ver"
+            />
+          </v-col>
+
+          <v-col
+              cols="12" sm="8"
+              md="5" lg="4"
+          >
+            <v-select
+                filled
+                hide-details
+                color="azul"
+                v-model="escolaAtual"
+                @change="changeSelect"
+                :items="escolas.map((el) => el.nome)"
+                label="Selecione qual CRE ver"
+            />
+          </v-col>
+
+          <v-col
+              cols="12" sm="8"
+              md="5" lg="4"
+          >
+            <v-select
+                filled
+                hide-details
+                color="azul"
+                v-model="tipoAtual"
+                :items="tipos"
+                @change="changeSelect"
+
+                label="Selecione a situação do simulado"
+            />
           </v-col>
 
           <v-col cols="12">
@@ -351,6 +448,16 @@
                 @click="downloadCre"
                 v-text="'Exportar dados das CREs'"
                 class="mt-2 white--text text-none"
+            />
+
+            <v-btn
+                @click="download"
+                :disabled="excel"
+                :loading="excel"
+                outlined
+                color="azul"
+                v-text="'Atualizar tabela'"
+                class="mt-2 float-right white--text text-none"
             />
           </v-col>
 

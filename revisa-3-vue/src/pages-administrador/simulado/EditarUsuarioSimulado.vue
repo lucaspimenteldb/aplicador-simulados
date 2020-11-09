@@ -169,12 +169,13 @@
           cols="12"
           sm="6"
       >
-        <v-text-field
+        <v-select
             label="Situação"
             filled
+            :items="['Entregue', 'Iniciado']"
             color="azul"
-            readonly
             hide-details
+            append-icon="mdi-pencil"
             v-model="situacao"
         />
       </v-col>
@@ -324,7 +325,7 @@ export default {
       nome: 'A smile in every cup is great',
       inicio: '21/20/2020',
       fim: '21/20/2020',
-      situacao: 'Entregue',
+      situacao: '',
       addHoras: false,
       horasAdded: '',
       addHorasConfirmar: false,

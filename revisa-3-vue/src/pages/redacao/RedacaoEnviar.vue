@@ -75,7 +75,7 @@
               v-bind="attrs"
               v-on="on"
               color="azul"
-              class="botao mt-2 px-4 py-2 white--text text-none rounded__normal transition"
+              class="botao mt-2 px-4 py-2 white--text text-none  transition"
           >
             Baixar folha rascunho
           </v-btn>
@@ -97,7 +97,7 @@
                   v-on="on"
                   v-bind="attrs"
                   color="azul"
-                  class="botao mt-2 px-4 py-2 white--text text-none rounded__normal transition"
+                  class="botao mt-2 px-4 py-2 white--text text-none  transition"
               >
                 Enviar foto da redação
               </v-btn>
@@ -135,7 +135,7 @@
                         v-text="'Enviar redação'"
                         v-on="on"
                         v-bind="attrs"
-                        class="botao mt-2 px-4 py-2 white--text text-none rounded__normal transition"
+                        class="botao mt-2 px-4 py-2 white--text text-none  transition"
                     />
                   </template>
 
@@ -194,10 +194,12 @@
                       />
 
                       <v-btn
+                          :loading="loading"
+                          :disabled="loading"
                           color="azul"
                           v-text="'Enviar redação'"
-                          class="botao mt-2 px-4 py-2 white--text text-none rounded__normal transition"
-                          @click="redacaoEnviada = true"
+                          class="botao mt-2 px-4 py-2 white--text text-none transition"
+                          @click="enviarFotoRedacao"
                       />
                     </v-card-actions>
                   </v-card>
@@ -205,6 +207,14 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
+
+          <v-alert
+              max-height="36px"
+              max-width="99px"
+              v-text="situacaoRedacao"
+              class="mt-2 d-flex align-center white--text font-weight-bold"
+              :class="{ 'azul': situacaoRedacao === 'entregue', 'errou': situacaoRedacao === 'pendente' }"
+          />
         </subheader-secao>
       </v-col>
     </v-row>
@@ -217,11 +227,20 @@ export default {
 
   data () {
     return {
+      loading: false,
       dialog: false,
       enviarRedacao: false,
       redacaoEnviada: false,
       redacaoEnvioErro: false,
+      situacaoRedacao: 'pendente',
     };
+  },
+
+  methods: {
+    enviarFotoRedacao () {
+      this.redacaoEnviada = true;
+      this.loading = true;
+    },
   },
 };
 </script>

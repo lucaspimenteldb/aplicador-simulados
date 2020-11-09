@@ -31,6 +31,7 @@
         <v-select
             :label="input.label"
             filled
+            :multiple="input.multiple"
             color="azul"
             :items="input.data"
             append-icon="mdi-pencil"
@@ -48,6 +49,7 @@
         <v-autocomplete
             :label="input.label"
             filled
+            :multiple="input.multiple"
             color="azul"
             :items="input.data"
             append-icon="mdi-pencil"
@@ -224,6 +226,15 @@ export default {
           escola: '',
           label: 'Escola',
           type: 'autocomplete',
+          multiple: true,
+          cols: 12,
+          data: ['1', '2', '3'],
+        },
+        {
+          cre: '',
+          label: 'Cre',
+          type: 'autocomplete',
+          multiple: true,
           cols: 12,
           data: ['1', '2', '3'],
         },
@@ -231,12 +242,14 @@ export default {
           turno: '',
           label: 'Turno',
           type: 'select',
+          multiple: true,
           cols: 6,
           data: ['Matutino', 'Verpestino', 'Noturno', 'Integral'],
         },
         {
           turma: '',
           label: 'Turma',
+          multiple: true,
           type: 'select',
           cols: 6,
           data: ['3 ano A', '3 ano B', '3 ano C'],

@@ -117,9 +117,12 @@
                 {{ 'Redacao Tal' }}
               </v-card-title>
 
-              <p class="caption font-weight-bold">
-                sua nota <span class="font-weight-bold"> -- </span>
-              </p>
+              <v-alert
+                  max-height="32px"
+                  v-text="situacaoRedacao"
+                  class="mb-0 d-flex align-center white--text font-weight-bold"
+                  :class="{ 'azul': situacaoRedacao === 'entregue', 'errou': situacaoRedacao === 'pendente' }"
+              />
             </article>
 
             <p class="grey--text text--darken-3">
@@ -157,8 +160,7 @@
             width="100%" height="360"
             src="https://www.youtube.com/embed/C1eG9NuhRd8" frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
-        >
-        </iframe>
+        />
       </v-col>
 
       <v-col
@@ -168,8 +170,7 @@
             width="100%" height="360"
             src="https://www.youtube.com/embed/xgcIJggKtmY" frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
-        >
-        </iframe>
+        />
       </v-col>
 
       <!-- tabela das questoes -->
@@ -338,6 +339,7 @@ export default {
     return {
       professorSelecionado: null,
       situacaoSimulado: 'iniciado',
+      situacaoRedacao: 'pendente',
       dialog: {},
       alternativas: {
         a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed laboris nisi ut aliquip ex ea commodo consequat.?',
