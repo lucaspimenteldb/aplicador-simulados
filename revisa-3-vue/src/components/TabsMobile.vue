@@ -14,23 +14,19 @@
           center-active
           grow
       >
-        <v-tab to="/home">
-          Desempenho
+        <div
+v-for="(item, i) in routes"
+             :key="i"
+>
+        <v-tab
+v-if="i < 3"
+ :to="item.path"
+>
+          {{item.ttl}}
 
-          <v-icon v-text="'mdi-poll-box-outline'" />
+          <v-icon v-text="item.icon" />
         </v-tab>
-
-        <v-tab to="/ranking">
-          Rankings
-
-          <v-icon v-text="'mdi-trophy-variant-outline'" />
-        </v-tab>
-
-        <v-tab to="/aulas-gratuitas">
-          Aulas de Revisão
-
-          <v-icon v-text="'mdi-youtube'" />
-        </v-tab>
+        </div>
       </v-tabs>
     </v-footer>
   </v-row>
@@ -43,11 +39,13 @@ export default {
   data () {
     return {
       width: 0,
+      routes: [],
     };
   },
 
   created () {
     this.width = window.innerWidth;
+    this.routes = this.$router.options.routes.filter((el) => el.menu);
   },
 
   mounted () {

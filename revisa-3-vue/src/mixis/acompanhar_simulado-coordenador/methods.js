@@ -30,8 +30,9 @@ const dados = {
         const data = await this.$http.get('simulado-estado', { headers: { Authorization: this.$store.state.token } });
         this.simulados = (data.data.simulados);
         this.escolas = data.data.escolas;
-        this.informacoesCoordenador = data.data.users;
-        this.informacoesCRE = data.data.gres;
+        // this.informacoesCoordenador = data.data.users;
+        // this.informacoesCRE = data.data.gres;
+        this.simuladosMasters = data.data.simulados.map((el) => el.SimuladoEstadoMaster);
         this.loading = false;
       } catch (e) {
         console.log(e);
@@ -84,6 +85,53 @@ const dados = {
       }
     },
 
+    async changeGre () {
+      try {
+        this.loading = true;
+        const simuladoId = this.simulados.filter((el) => `${el.titulo} (${el.SimuladoEstadoMaster.titulo})`
+            === this.simuladoSelecionadoCoo);
+
+        if (simuladoId.length > 0) {
+          const data = await this.$http.get(`simulado-estado/gre/${simuladoId[0].id}`,
+            { headers: { Authorization: this.$store.state.token } });
+          this.informacoesCRE = data.data.gres;
+          this.foot();
+        }
+        this.loading = false;
+      } catch (e) {
+        console.log(e);
+        this.loading = false;
+      }
+    },
+
+    async changeEscola2 () {
+      try {
+        this.loading = true;
+        const simuladoId = this.simulados.filter((el) => `${el.titulo} (${el.SimuladoEstadoMaster.titulo})`
+            === this.simuladoSelecionadoEsc);
+
+        if (simuladoId.length > 0) {
+          const data = await this.$http.get(`simulado-estado/escola/${simuladoId[0].id}`,
+            { headers: { Authorization: this.$store.state.token } });
+          this.informacoesCoordenador = data.data.users;
+          this.foot();
+        }
+        this.loading = false;
+      } catch (e) {
+        console.log(e);
+        this.loading = false;
+      }
+    },
+
+    foot () {
+      const tabelas = document.querySelectorAll('.v-data-footer__select > div');
+
+      tabelas.forEach((tabela) => {
+        // eslint-disable-next-line no-param-reassign
+        tabela.style.marginLeft = '1rem';
+      });
+    },
+
     preencherUsuario (users) {
       let usuariosFilter = users;
       if (this.tipoAtual !== 'Todos') {
@@ -113,17 +161,7 @@ const dados = {
         this.informacoesExcel.push(beris11);
         this.informacoes.push(beris);
       }
-
-      document.querySelectorAll('.v-data-footer__select').forEach((paginacao) => {
-        // eslint-disable-next-line no-param-reassign
-        paginacao.innerHTML = '';
-      });
-      document.querySelectorAll('.v-data-footer__pagination').forEach((itens) => {
-        const elementos = itens.innerHTML.split(' ');
-        // eslint-disable-next-line no-param-reassign
-        itens.innerHTML = `${elementos[0]} de ${elementos[2]}`;
-        console.log(elementos);
-      });
+      this.foot();
     },
 
     async enviarEmail () {

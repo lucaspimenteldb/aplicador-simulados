@@ -20,7 +20,7 @@ const methods = {
         // this.desempenhoGeral.push(new DesempenhoGeral('Média Estadual', escolaAux.data.desempenhoEstadual[0].media_geral));
         // this.desempenhoGeral.push(new DesempenhoGeral('Redação Estadual', escolaAux.data.desempenhoEstadual[0].media_redacao));
         const vector = ['mdi-podium-gold', 'mdi-podium-silver', 'mdi-podium-bronze', 'mdi-seal-variant'];
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 4; i++) {
           const user = escolaAux.data.melhores[i];
           const photo = user.User.photo ? env.ROTA_DOMINIO + user.User.photo : `${env.ROTA_DOMINIO}vendor/crudbooster/avatar.jpg`;
           const melhor = new Melhores(photo, vector[i], i + 1, user.User.name, user.media, 26);

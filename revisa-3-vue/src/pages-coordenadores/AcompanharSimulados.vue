@@ -257,9 +257,9 @@
         />
 
         <v-btn
-            @click="download"
-            :disabled="excel"
-            :loading="excel"
+            @click="changeSelect"
+            :disabled="loading"
+            :loading="loading"
             outlined
             color="azul"
             v-text="'Atualizar tabela'"
@@ -287,43 +287,43 @@
                 filled
                 hide-details
                 color="azul"
-                @change="changeSelect"
-                v-model="simuladoSelecionado"
+                @change="changeEscola2"
+                v-model="simuladoSelecionadoEsc"
                 :items="simulados.map((el) => `${el.titulo} (${el.SimuladoEstadoMaster.titulo})`)"
                 label="Selecione qual simulado ver"
             />
           </v-col>
 
-          <v-col
-              cols="12" sm="8"
-              md="5" lg="4"
-          >
-            <v-select
-                filled
-                hide-details
-                color="azul"
-                v-model="escolaAtual"
-                @change="changeSelect"
-                :items="escolas.map((el) => el.nome)"
-                label="Selecione qual escola ver"
-            />
-          </v-col>
+<!--          <v-col-->
+<!--              cols="12" sm="8"-->
+<!--              md="5" lg="4"-->
+<!--          >-->
+<!--            <v-select-->
+<!--                filled-->
+<!--                hide-details-->
+<!--                color="azul"-->
+<!--                v-model="escolaAtual"-->
+<!--                @change="changeSelect"-->
+<!--                :items="escolas.map((el) => el.nome)"-->
+<!--                label="Selecione qual escola ver"-->
+<!--            />-->
+<!--          </v-col>-->
 
-          <v-col
-              cols="12" sm="8"
-              md="5" lg="4"
-          >
-            <v-select
-                filled
-                hide-details
-                color="azul"
-                v-model="tipoAtual"
-                :items="tipos"
-                @change="changeSelect"
+<!--          <v-col-->
+<!--              cols="12" sm="8"-->
+<!--              md="5" lg="4"-->
+<!--          >-->
+<!--            <v-select-->
+<!--                filled-->
+<!--                hide-details-->
+<!--                color="azul"-->
+<!--                v-model="tipoAtual"-->
+<!--                :items="tipos"-->
+<!--                @change="changeSelect"-->
 
-                label="Selecione a situação do simulado"
-            />
-          </v-col>
+<!--                label="Selecione a situação do simulado"-->
+<!--            />-->
+<!--          </v-col>-->
 
           <v-col cols="12">
             <v-text-field
@@ -354,9 +354,9 @@
             />
 
             <v-btn
-                @click="download"
-                :disabled="excel"
-                :loading="excel"
+                @click="changeEscola2"
+                :disabled="loading"
+                :loading="loading"
                 outlined
                 color="azul"
                 v-text="'Atualizar tabela'"
@@ -384,43 +384,43 @@
                 filled
                 hide-details
                 color="azul"
-                @change="changeSelect"
-                v-model="simuladoSelecionado"
+                @change="changeGre"
+                v-model="simuladoSelecionadoCoo"
                 :items="simulados.map((el) => `${el.titulo} (${el.SimuladoEstadoMaster.titulo})`)"
                 label="Selecione qual simulado ver"
             />
           </v-col>
 
-          <v-col
-              cols="12" sm="8"
-              md="5" lg="4"
-          >
-            <v-select
-                filled
-                hide-details
-                color="azul"
-                v-model="escolaAtual"
-                @change="changeSelect"
-                :items="escolas.map((el) => el.nome)"
-                label="Selecione qual CRE ver"
-            />
-          </v-col>
+<!--          <v-col-->
+<!--              cols="12" sm="8"-->
+<!--              md="5" lg="4"-->
+<!--          >-->
+<!--            <v-select-->
+<!--                filled-->
+<!--                hide-details-->
+<!--                color="azul"-->
+<!--                v-model="escolaAtual"-->
+<!--                @change="changeSelect"-->
+<!--                :items="escolas.map((el) => el.nome)"-->
+<!--                label="Selecione qual CRE ver"-->
+<!--            />-->
+<!--          </v-col>-->
 
-          <v-col
-              cols="12" sm="8"
-              md="5" lg="4"
-          >
-            <v-select
-                filled
-                hide-details
-                color="azul"
-                v-model="tipoAtual"
-                :items="tipos"
-                @change="changeSelect"
+<!--          <v-col-->
+<!--              cols="12" sm="8"-->
+<!--              md="5" lg="4"-->
+<!--          >-->
+<!--            <v-select-->
+<!--                filled-->
+<!--                hide-details-->
+<!--                color="azul"-->
+<!--                v-model="tipoAtual"-->
+<!--                :items="tipos"-->
+<!--                @change="changeSelect"-->
 
-                label="Selecione a situação do simulado"
-            />
-          </v-col>
+<!--                label="Selecione a situação do simulado"-->
+<!--            />-->
+<!--          </v-col>-->
 
           <v-col cols="12">
             <v-text-field
@@ -451,9 +451,9 @@
             />
 
             <v-btn
-                @click="download"
-                :disabled="excel"
-                :loading="excel"
+                @click="changeGre"
+                :disabled="loading"
+                :loading="loading"
                 outlined
                 color="azul"
                 v-text="'Atualizar tabela'"

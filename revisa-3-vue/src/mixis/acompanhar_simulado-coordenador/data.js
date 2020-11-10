@@ -1,7 +1,10 @@
 const dados = {
   data () {
     return {
+      simuladosMasters: [{ titulo: 'Sem dados' }],
       simuladoSelecionado: '',
+      simuladoSelecionadoEsc: '',
+      simuladoSelecionadoCoo: '',
       pesquisarEscolas: '',
       pesquisarCRES: '',
       dialog: false,
