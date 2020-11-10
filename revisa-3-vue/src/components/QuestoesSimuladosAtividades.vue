@@ -328,6 +328,14 @@ export default {
     document.addEventListener('contextmenu', (e) => {
       e.preventDefault();
     }, false);
+
+    document.addEventListener('copy', (e) => {
+      // Change the copied text if you want
+      e.clipboardData.setData('text/plain', 'Acho que não, viu?');
+
+      // Prevent the default copy action
+      e.preventDefault();
+    }, false);
   },
 
   methods: {
