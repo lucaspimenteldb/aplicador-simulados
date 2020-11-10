@@ -1,5 +1,10 @@
 <template>
-  <v-container fluid>
+  <v-container
+      fluid
+      oncontextmenu="return false"
+      onkeydown="return false;"
+      onmousedown="return false;"
+  >
     <v-dialog
         persistent
         max-width="500px"
@@ -80,18 +85,18 @@
           <v-card>
             <v-card-text>
               <article
-                  class="img__questoes pointer__events__none select__none"
+                  class="img__questoes pointer__events__none"
                   oncopy="return false"
                   oncut="return false"
                   onpaste="return false"
               >
                 {{ tab.questoes.questaoOrigem }}
 
-                <span class="body-1 font-weight-medium grey--text text--darken-3 select__none">
+                <span class="body-1 font-weight-medium grey--text text--darken-3">
                           {{ tab.nome }}
                         </span>
 
-                <p class="grey--text text--darken-3 select__none">
+                <p class="grey--text text--darken-3">
                   {{ tab.questoes.questaoEnunciado }}
                 </p>
               </article>
@@ -336,6 +341,20 @@ export default {
       // Prevent the default copy action
       e.preventDefault();
     }, false);
+
+    document.addEventListener('keydown', (e) => {
+      console.log(e.key);
+
+      if (e.key === 'F12') {
+        e.preventDefault();
+      }
+
+      if (e.shiftKey && e.ctrlKey && e.key === 'I') {
+        alert('Pê pê ôôôÔôoo');
+        e.preventDefault();
+        return false;
+      }
+    });
   },
 
   methods: {
