@@ -97,6 +97,7 @@
             fixed-header
             :search="search"
             class="clear-both"
+            :footer-props="{ itemsPerPageText: 'Alunos por página', itemsPerPageOptions: [ 10, 20, 25 ] }"
         >
           <template v-slot:item.simulado="{ item }">
             <p
@@ -343,17 +344,6 @@ export default {
   mixins: [data, methods],
   created () {
     this.iniciar();
-  },
-  mounted () {
-    document.querySelectorAll('.v-data-footer__select').forEach((paginacao) => {
-      // eslint-disable-next-line no-param-reassign
-      paginacao.innerHTML = '';
-    });
-    /*document.querySelectorAll('.v-data-footer__pagination').forEach((itens) => {
-      const elementos = itens.innerHTML.split(' ');
-      // eslint-disable-next-line no-param-reassign
-      itens.innerHTML = `${elementos[0]} de ${elementos[2]}`;
-    });*/
   },
 };
 </script>

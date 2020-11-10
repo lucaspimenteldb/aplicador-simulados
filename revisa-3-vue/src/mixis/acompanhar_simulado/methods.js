@@ -38,7 +38,7 @@ const dados = {
         this.loading = false;
       }
     },
-    
+
     reset (item) {
       this.envioEmail = false;
       this.camposBrancos = false;
@@ -90,7 +90,7 @@ const dados = {
       if (this.tipoAtual !== 'Todos') {
         usuariosFilter = usuariosFilter.filter((el) => el.situacao === this.tipoAtual);
       }
-      
+
       this.informacoes = [];
       for (let i = 0; i < usuariosFilter.length; i++) {
         const beris = {
@@ -116,17 +116,6 @@ const dados = {
         this.informacoesExcel.push(beris11);
         this.informacoes.push(beris);
       }
-
-      document.querySelectorAll('.v-data-footer__select').forEach((paginacao) => {
-        // eslint-disable-next-line no-param-reassign
-        paginacao.innerHTML = '';
-      });
-      document.querySelectorAll('.v-data-footer__pagination').forEach((itens) => {
-        const elementos = itens.innerHTML.split(' ');
-        // eslint-disable-next-line no-param-reassign
-        itens.innerHTML = `${elementos[0]} de ${elementos[2]}`;
-        console.log(elementos);
-      });
     },
 
     async enviarEmail () {
@@ -141,7 +130,7 @@ const dados = {
           return;
         }
         await this.$http.post('users/enviar-email', object, { headers: { Authorization: this.$store.state.token } });
-        
+
         this.envioEmail = true;
         this.giroBtn = false;
       } catch (e) {
