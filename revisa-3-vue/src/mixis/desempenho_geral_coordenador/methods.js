@@ -93,7 +93,7 @@ const dados = {
             { headers: { Authorization: this.$store.state.token } });
           this.assuntos = retorno.data.assuntos;
         }
-        
+
         this.showLoading = false;
       } catch (err) {
         this.showLoading = false;
@@ -164,26 +164,35 @@ const dados = {
         if (escola1Filter.length > 0 && escola1Filter2.length > 0) {
           const dados2 = await this.$http.get(`desempenho-escola/comparar-escola/${escola1Filter[0].id}/${escola1Filter2[0].id}`,
             { headers: { Authorization: this.$store.state.token } });
-          const color = ['#ffdd9e', '#a3ffa3'];
-          const mediasMat = [dados2.data.desempenho[0].media_matematica, dados2.data.desempenho2[0].media_matematica];
-          const medialin = [dados2.data.desempenho[0].media_linguagens, dados2.data.desempenho2[0].media_linguagens];
-          const mediaHum = [dados2.data.desempenho[0].media_humanas, dados2.data.desempenho2[0].media_humanas];
-          const mediaNat = [dados2.data.desempenho[0].media_natureza, dados2.data.desempenho2[0].media_natureza];
-          const mediaRedacao = [dados2.data.desempenho[0].media_natureza, dados2.data.desempenho2[0].media_natureza];
+          const color = ['#ffdd9e', '#a3ffa3', 'blue', 'silver', 'red'];
+          const escola1 = [dados2.data.desempenho[0].media_redacao, dados2.data.desempenho[0].media_matematica,
+            dados2.data.desempenho[0].media_linguagens, dados2.data.desempenho[0].media_natureza, dados2.data.desempenho[0].media_humana];
+          const escola2 = [dados2.data.desempenho2[0].media_redacao, dados2.data.desempenho2[0].media_matematica,
+            dados2.data.desempenho2[0].media_linguagens,
+            dados2.data.desempenho2[0].media_natureza, dados2.data.desempenho2[0].media_humana];
+
           this.chartdata2.datasets = [];
-          this.chartdata2.labels = [];
-          const labels = [this.escolaAtualArea, this.escolaAtualArea2];
-          this.preencherTubalina(color, mediaHum, this.chartdata2, 2, labels, 'Média Humanas');
-          this.preencherTubalina(color, medialin, this.chartdata2, 2, labels, 'Média Linguagens');
-          this.preencherTubalina(color, mediaNat, this.chartdata2, 2, labels, 'Média Natureza');
-          this.preencherTubalina(color, mediasMat, this.chartdata2, 2, labels, 'Média Matématica');
-          this.preencherTubalina(color, mediaRedacao, this.chartdata2, 2, labels, 'Média Redação');
+          const labels = ['Redação', 'Matématica', 'Linguagens', 'Natureza', 'Humanas'];
+          this.chartdata2.labels = labels;
+          this.preencherTubalina2(color[0], escola1, this.chartdata2, this.escolaAtualArea);
+          this.preencherTubalina2(color[1], escola2, this.chartdata2, this.escolaAtualArea2);
         }
 
         this.showLoading = false;
       } catch (e) {
         this.showLoading = false;
       }
+    },
+
+    preencherTubalina2 (color, medias, chart, label) {
+      const med = {
+        label,
+        backgroundColor: color,
+        borderWidth: 1,
+        data: medias,
+      };
+      chart.datasets.push(med);
+      this.reiniciar();
     },
 
     preencherTubalina (color, medias, chart, qtd, labels, titulo) {
@@ -198,7 +207,6 @@ const dados = {
         chart.datasets.push(med);
         this.reiniciar();
       }
-      alert(chart);
     },
 
     async changeEscola () {
