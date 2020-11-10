@@ -402,6 +402,12 @@
 
 
 // cursor
+.select__none {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
 .cursor__pointer {
   cursor: pointer;
 }

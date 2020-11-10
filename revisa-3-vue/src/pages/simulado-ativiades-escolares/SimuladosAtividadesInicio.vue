@@ -43,7 +43,7 @@
             to="/simulado-responder"
         >
           <v-card-text>
-            <article class="d-flex align-center relative z-1">
+            <article class="d-flex align-center justify-space-between relative z-1">
               <p class="text-h6 leading__tight grey--text text--darken-3">
                 {{ area.ttl[i] }}
               </p>
@@ -55,13 +55,11 @@
               >
                 {{ area.quantidadeNotificacao}}
               </div>-->
-              <v-img
-                  :src="require(`@/assets/icon/humanas.png`)" width="30"
-                  class="mr-2 ml-auto flex-grow-0"
-              />
-              <v-img
-                  :src="require(`@/assets/icon/linguagens.png`)" width="30"
-                  class="flex-grow-0"
+              <v-alert
+                  max-height="32px"
+                  v-text="situacaoSimulado"
+                  class="mb-0 d-flex align-center white--text font-weight-bold float-right"
+                  :class="{ 'azul': situacaoSimulado === 'iniciado',  }"
               />
             </article>
 
@@ -73,19 +71,9 @@
             <div class="mt-4 d-flex justify-space-between">
               <article>
                 <p class="black--text">
-                  Prazo de entrega:
-                </p>
-                <p class="font-weight-bold black--text">
-                  21/08 - 10:00 às 18:00 horas
+                  Prazo de entrega:<span class="font-weight-bold black--text"> 21/08 - 10:00 às 18:00 horas</span>
                 </p>
               </article>
-
-              <v-alert
-                  max-height="40px"
-                  v-text="situacaoSimulado"
-                  class="mb-0 d-flex align-center white--text font-weight-bold"
-                  :class="{ 'azul': situacaoSimulado === 'iniciado',  }"
-              />
             </div>
 
             <!-- texto para acessar as atividades novas-->
@@ -111,7 +99,7 @@
             class="destaque__redacao transition rounded__normal cursor__pointer btn__shadow" to="/redacao-enviar"
         >
           <v-card-text>
-            <article class="d-flex align-end justify-space-between">
+            <article class="d-flex align-center justify-space-between">
               <!-- descricoes da redacao -->
               <v-card-title class="pa-0 d-inline-block grey--text text--darken-3">
                 {{ 'Redacao Tal' }}

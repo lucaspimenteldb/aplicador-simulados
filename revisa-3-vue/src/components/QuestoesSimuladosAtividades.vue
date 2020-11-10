@@ -79,14 +79,19 @@
           <!-- enunciado das questoes -->
           <v-card>
             <v-card-text>
-              <article class="img__questoes">
+              <article
+                  class="img__questoes pointer__events__none select__none"
+                  oncopy="return false"
+                  oncut="return false"
+                  onpaste="return false"
+              >
                 {{ tab.questoes.questaoOrigem }}
 
-                <span class="body-1 font-weight-medium grey--text text--darken-3">
+                <span class="body-1 font-weight-medium grey--text text--darken-3 select__none">
                           {{ tab.nome }}
                         </span>
 
-                <p class="grey--text text--darken-3">
+                <p class="grey--text text--darken-3 select__none">
                   {{ tab.questoes.questaoEnunciado }}
                 </p>
               </article>
@@ -319,6 +324,10 @@ export default {
     this.larguraQuestao = document.querySelector('.container__questoes').offsetWidth;
     this.questoes = document.getElementsByClassName('container__questoes').length;
     this.termos = true;
+
+    document.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+    }, false);
   },
 
   methods: {
