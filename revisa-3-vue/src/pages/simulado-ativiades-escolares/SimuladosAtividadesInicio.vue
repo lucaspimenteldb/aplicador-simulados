@@ -652,6 +652,14 @@ export default {
       ],
     };
   },
+  
+  async created () {
+    try {
+      
+    } catch (e) {
+      
+    }
+  },
 
   mounted () {
     // document.querySelector('.v-data-footer__select').innerHTML = '';
