@@ -160,6 +160,7 @@ export default {
         storage.set('token', JSON.stringify(cache));
         this.$store.commit('DEFINIR_USUARIO_LOGADO', {
           token: `Bearer ${cache.token}`,
+          usuario: cache,
         });
         this.$router.replace('/home');
         this.$destroy();

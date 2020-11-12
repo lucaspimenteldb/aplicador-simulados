@@ -46,6 +46,7 @@ export default {
       const menu = JSON.parse(objeto);
       this.$store.commit('DEFINIR_USUARIO_LOGADO', {
         token: `Bearer ${menu.token}`,
+        usuario: menu,
       });
       this.autenticado = menu.menu;
       this.routes = this.$router.options.routes;

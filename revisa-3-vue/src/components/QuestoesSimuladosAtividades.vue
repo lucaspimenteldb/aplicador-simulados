@@ -114,10 +114,11 @@ v-html="tab.questoes.questaoEnunciado"
                   class="pb-2 pt-2 d-flex align-center border__bottom cursor__pointer transition"
                   :id="`alternativa${questao}`" slot-scope="{ hover }"
                   :class="[ hover ? 'bg__azul__claro rounded__normal__top' : '' ]"
+                  :style="tab.marcado == questao ? 'background: #81D4FA' : ''"
               >
                 <!-- icone de marcado ou desmarcado-->
                 <v-icon
-                    v-text="desmarcado" class="pointer__events__none"
+                    v-text="tab.marcado == questao ? marcado : desmarcado " class="pointer__events__none"
                 />
 
                 <!-- letra a,b etc.-->
@@ -227,9 +228,8 @@ v-html="tab.questoes.questaoEnunciado"
               />
               <v-btn
                   color="azul" class="text-none white--text"
-                  @click="dialog = false"
+                  @click="enviandoSimulado"
                   v-text="'Enviar simulado'"
-                  to="/simulado-escolar-desempenho"
               />
             </v-card-actions>
           </v-card>
@@ -326,15 +326,39 @@ export default {
   },
 
   methods: {
+    async enviandoSimulado () {
+      try {
+        const envio = [];
+        for (const tab of this.tabs) {
+          const colocado = {
+            id_questao: tab.id,
+            id_simulado: 1,
+            id_user: tab.id_user,
+            alternativa: tab.marcado,
+          };
+          envio.push(colocado);
+        }
+        const res = await this.$http.post('questoes-simulado', envio,
+          { headers: { Authorization: this.$store.state.token } });
+        console.log(res);
+      } catch (e) {
+        console.log(e);
+      }
+      this.dialog = false;
+    },
     preenchendoQuestoes (questoes) {
       this.tabs = [];
+      const { id } = this.$store.state.usuario;
       for (let i = 0; i < questoes.length; i++) {
+        const marcado = localStorage.getItem(`quest${questoes[i].id}user${id}`) || '';
         const beris = {
           nome: `Questão ${i + 1}`,
           completa: true,
           acerto: false,
           id: questoes[i].id,
           index: i + 1,
+          id_user: id,
+          marcado,
           questoes: {
             questaoOrigem: '',
             questaoEnunciado: questoes[i].descricao,
@@ -348,6 +372,7 @@ export default {
           },
         };
         this.tabs.push(beris);
+        if (marcado) this.atualizarQuestoes(i + 1, marcado);
       }
     },
     
@@ -359,29 +384,32 @@ export default {
       const desmarcado = 'mdi-checkbox-blank-circle-outline';
       const marcado = 'mdi-checkbox-marked-circle-outline';
       const questaoAtual = document.querySelector('.v-pagination__item--active').innerHTML;
-
-      const filter = this.tabs.filter((el2) => el2.index === Number(questaoAtual));
-
-      localStorage.setItem(`id${filter[0].id}alternativa`, alternativa);
-
+      
+      const { id } = this.$store.state.usuario;
+      const idQuestao = this.tabs[questaoAtual - 1].id;
+      this.tabs[questaoAtual - 1].marcado = alternativa;
+      // colocando no local storage as informações da alternativa
+      localStorage.setItem(`quest${idQuestao}user${id}`, alternativa);
       wrapper.childNodes.forEach((item) => {
         if (item === opcao && opcao.nodeName !== 'SECTION') {
           opcao.style.background = '#81D4FA';
           opcaoIcone.classList.remove(desmarcado);
           opcaoIcone.classList.add(marcado);
-
           const alternativaSelecionada = opcao.id.split('');
-          this.questoesMarcadasGabarito[questaoAtual - 1] = ({
-            questao: `${questaoAtual}`,
-            alternativa: alternativaSelecionada.slice(-1),
-          });
+          this.atualizarQuestoes(questaoAtual, alternativaSelecionada.slice(-1));
         } else {
           item.style.removeProperty('background');
           item.firstElementChild.classList.remove(marcado);
           item.firstElementChild.classList.add(desmarcado);
         }
       });
+    },
 
+    atualizarQuestoes (questaoAtual, alternativa) {
+      this.questoesMarcadasGabarito[questaoAtual - 1] = ({
+        questao: `${questaoAtual}`,
+        alternativa,
+      });
       const questoesTotais = Number(Object.keys(this.questoesMarcadasGabarito).length);
       this.value = Math.floor((questoesTotais / this.questoes) * 100);
     },
