@@ -96,13 +96,13 @@
                           {{ tab.nome }}
                         </span>
 
-                <p class="grey--text text--darken-3">
-                  {{ tab.questoes.questaoEnunciado }}
-                </p>
+                <p
+class="grey--text text--darken-3"
+v-html="tab.questoes.questaoEnunciado"
+/>
               </article>
             </v-card-text>
           </v-card>
-
           <section
               class="mt-6" :id="`alternativas${i}`"
               @click="marcar"
@@ -251,80 +251,48 @@
         </div>
       </v-col>
     </v-row>
+    <loading :dialog="loading" />
   </v-container>
 </template>
 
 <script>
+import loading from './loading/Loading.vue';
+
 export default {
   name: 'Questoes',
+  components: { loading },
   data () {
     return {
       dialog: false,
       termos: false,
+      loading: false,
       tituloPagina: 'Simulados Escolares',
       tipoAtividadeDisciplina: 'Simulado de Linguagens e Humanas',
       desmarcado: 'mdi-checkbox-blank-circle-outline',
       marcado: 'mdi-checkbox-marked-circle-outline',
       page: 1,
       larguraQuestao: 0,
-      questoes: 1,
+      questoes: 90,
       value: 0,
       questoesMarcadasGabarito: [],
       mixer: '',
 
-      tabs: [
-        {
-          nome: 'Questão 1',
-          completa: true,
-          acerto: false,
-          questoes: {
-            questaoOrigem: 'ENEM - ',
-            questaoEnunciado: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.?',
-            alternativas: {
-              a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed laboris nisi ut aliquip ex ea commodo consequat.?',
-              b: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed laboris nisi ut aliquip ex ea commodo consequat.?',
-              c: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed laboris nisi ut aliquip ex ea commodo consequat.?',
-              d: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed laboris nisi ut aliquip ex ea commodo consequat.?',
-              e: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed laboris nisi ut aliquip ex ea commodo consequat.?',
-            },
-          },
-        },
-        {
-          nome: 'Questão 2',
-          completa: true,
-          acerto: true,
-          questoes: {
-            questaoOrigem: 'PUC - ',
-            questaoEnunciado: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.?',
-            alternativas: {
-              a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed laboris nisi ut aliquip ex ea commodo consequat.?',
-              b: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed laboris nisi ut aliquip ex ea commodo consequat.?',
-              c: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed laboris nisi ut aliquip ex ea commodo consequat.?',
-              d: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed laboris nisi ut aliquip ex ea commodo consequat.?',
-              e: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed laboris nisi ut aliquip ex ea commodo consequat.?',
-            },
-          },
-        },
-        {
-          nome: 'Questão 3',
-          completa: false,
-          acerto: false,
-          questoes: {
-            questaoOrigem: '',
-            questaoEnunciado: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.?',
-            alternativas: {
-              a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed laboris nisi ut aliquip ex ea commodo consequat.?',
-              b: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed laboris nisi ut aliquip ex ea commodo consequat.?',
-              c: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed laboris nisi ut aliquip ex ea commodo consequat.?',
-              d: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed laboris nisi ut aliquip ex ea commodo consequat.?',
-              e: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed laboris nisi ut aliquip ex ea commodo consequat.?',
-            },
-          },
-        },
-      ],
+      tabs: [],
     };
   },
-
+  
+  async created () {
+    try {
+      this.loading = true;
+      const questoes = await this.$http.get('questoes-simulado/1', { headers: { Authorization: this.$store.state.token } });
+      this.preenchendoQuestoes(questoes.data.questao);
+      this.loading = false;
+    } catch (e) {
+      console.log(e);
+      this.loading = false;
+      alert('Erro ao se conectar com o servidor!');
+    }
+  },
   mounted () {
     this.larguraQuestao = document.querySelector('.container__questoes').offsetWidth;
     this.questoes = document.getElementsByClassName('container__questoes').length;
@@ -358,13 +326,43 @@ export default {
   },
 
   methods: {
+    preenchendoQuestoes (questoes) {
+      this.tabs = [];
+      for (let i = 0; i < questoes.length; i++) {
+        const beris = {
+          nome: `Questão ${i + 1}`,
+          completa: true,
+          acerto: false,
+          id: questoes[i].id,
+          index: i + 1,
+          questoes: {
+            questaoOrigem: '',
+            questaoEnunciado: questoes[i].descricao,
+            alternativas: {
+              a: questoes[i].ra,
+              b: questoes[i].rb,
+              c: questoes[i].rc,
+              d: questoes[i].rd,
+              e: questoes[i].re,
+            },
+          },
+        };
+        this.tabs.push(beris);
+      }
+    },
+    
     marcar (el) {
       const opcao = el.target;
+      const alternativa = opcao.id.replace('alternativa', '');
       const opcaoIcone = opcao.firstElementChild;
       const wrapper = el.target.parentNode;
       const desmarcado = 'mdi-checkbox-blank-circle-outline';
       const marcado = 'mdi-checkbox-marked-circle-outline';
       const questaoAtual = document.querySelector('.v-pagination__item--active').innerHTML;
+
+      const filter = this.tabs.filter((el2) => el2.index === Number(questaoAtual));
+
+      localStorage.setItem(`id${filter[0].id}alternativa`, alternativa);
 
       wrapper.childNodes.forEach((item) => {
         if (item === opcao && opcao.nodeName !== 'SECTION') {
@@ -413,5 +411,7 @@ export default {
 </script>
 
 <style scoped>
-
+.MsoNormal span{
+  text-align: left;
+}
 </style>

@@ -19,7 +19,7 @@ Vue.prototype.$http = http;
 Vue.use(VueLoaders);
 
 Vue.use(new VueSocketIO({
-  debug: true,
+  debug: false,
   connection: env.ROOT_API,
 }));
 
