@@ -48,13 +48,6 @@
                 {{ area.ttl[i] }}
               </p>
 
-              <!-- sino de notificacao -->
-          <!--    <div
-                  class="bolinha__notificacao d-flex align-center justify-center absolute top&#45;&#45;2 right&#45;&#45;2 font-weight-bold
-                  grey&#45;&#45;text text&#45;&#45;darken-3 z&#45;&#45;1"
-              >
-                {{ area.quantidadeNotificacao}}
-              </div>-->
               <v-alert
                   max-height="32px"
                   v-text="situacaoSimulado"

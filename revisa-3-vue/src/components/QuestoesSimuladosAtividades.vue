@@ -73,7 +73,7 @@
     <v-row>
       <v-col
           cols="12" md="8"
-          class="d-flex align-center overflow-x-hidden order-0"
+          class="d-flex overflow-x-hidden order-0"
       >
         <div
             v-for="(tab, i) in tabs" :key="i"
@@ -159,10 +159,20 @@ v-html="tab.questoes.questaoEnunciado"
       >
         <header-secao class="border__bottom__azul">
           Cartão Gabarito do Simulado
+
+          <v-progress-circular
+              :size="40" :width="3"
+              :value="value"
+              color="azul"
+              class="ml-1 text-body-2"
+              v-if="width <= 660"
+          >
+            {{ value+'%' }}
+          </v-progress-circular>
         </header-secao>
 
-        <section class="d-flex">
-          <article class="w-3/4">
+        <section class="d-flex justify-space-between">
+          <article class="gabarito">
             <v-btn
                 v-for="gabarito in questoes" :key="gabarito + 'questao'"
                 class="gabaritos pa-2 mt-4 mr-3 w-46 h-46"
@@ -188,8 +198,10 @@ v-html="tab.questoes.questaoEnunciado"
 
           <v-progress-circular
               :size="66" :width="3"
-              :value="value" color="azul"
+              :value="value"
+              color="azul"
               class="mt-3"
+              v-if="width > 660"
           >
             {{ value+'%' }}
           </v-progress-circular>
@@ -266,6 +278,7 @@ export default {
       dialog: false,
       termos: false,
       loading: false,
+      width: 0,
       tituloPagina: 'Simulados Escolares',
       tipoAtividadeDisciplina: 'Simulado de Linguagens e Humanas',
       desmarcado: 'mdi-checkbox-blank-circle-outline',
@@ -280,7 +293,7 @@ export default {
       tabs: [],
     };
   },
-  
+
   async created () {
     try {
       this.loading = true;
@@ -294,6 +307,11 @@ export default {
     }
   },
   mounted () {
+    this.width = window.innerWidth;
+    window.addEventListener('resize', () => {
+      this.width = window.innerWidth;
+    });
+
     this.larguraQuestao = document.querySelector('.container__questoes').offsetWidth;
     this.questoes = document.getElementsByClassName('container__questoes').length;
     this.termos = true;
@@ -375,7 +393,7 @@ export default {
         if (marcado) this.atualizarQuestoes(i + 1, marcado);
       }
     },
-    
+
     marcar (el) {
       const opcao = el.target;
       const alternativa = opcao.id.replace('alternativa', '');
@@ -384,7 +402,7 @@ export default {
       const desmarcado = 'mdi-checkbox-blank-circle-outline';
       const marcado = 'mdi-checkbox-marked-circle-outline';
       const questaoAtual = document.querySelector('.v-pagination__item--active').innerHTML;
-      
+
       const { id } = this.$store.state.usuario;
       const idQuestao = this.tabs[questaoAtual - 1].id;
       this.tabs[questaoAtual - 1].marcado = alternativa;
@@ -439,7 +457,13 @@ export default {
 </script>
 
 <style scoped>
-.MsoNormal span{
-  text-align: left;
-}
+  .MsoNormal span{
+    text-align: left;
+  }
+
+  @media screen and (min-width: 661px) {
+    .gabarito {
+      max-width: calc(99% - 66px);
+    }
+  }
 </style>
