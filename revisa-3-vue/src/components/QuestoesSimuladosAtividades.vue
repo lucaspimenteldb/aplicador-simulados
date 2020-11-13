@@ -176,11 +176,13 @@ v-html="tab.questoes.questaoEnunciado"
             <v-btn
                 v-for="gabarito in questoes" :key="gabarito + 'questao'"
                 class="gabaritos pa-2 mt-4 mr-3 w-46 h-46"
+                :class="[questoesMarcadasGabarito[gabarito - 1] ? 'border-3 border__azul' : '']"
                 min-width="46" min-height="46"
-                @click="page = gabarito"
+                @click="mudarQuestao"
+                :id="gabarito"
             >
               <p
-                  class="d-flex align-center"
+                  class="d-flex align-center pointer__events__none"
                   :class="[ page === gabarito ? 'azul--text' : 'black--text']"
               >
                 {{ gabarito }}
@@ -188,8 +190,12 @@ v-html="tab.questoes.questaoEnunciado"
                 <v-icon
                     v-text="'mdi-circle-outline'" small
                     v-if="!questoesMarcadasGabarito[gabarito - 1]"
+                    class="pointer__events__none"
                 />
-                <span v-else>
+                <span
+                    v-else
+                    class="pointer__events__none"
+                >
                   {{ questoesMarcadasGabarito[gabarito -1].alternativa[0] }}
                 </span>
               </p>
@@ -251,13 +257,13 @@ v-html="tab.questoes.questaoEnunciado"
 
     <v-row>
       <v-col
-          cols="12" md="8"
-          class="pl-0 d-none d-md-block"
+          cols="12"
+          class="pl-0 d-none d-md-block overflow-x-auto"
       >
-        <div class="d-flex justify-sm-space-between">
+        <div class="paginacao d-flex justify-sm-space-between overflow-x-auto">
           <v-pagination
               v-model="page" color="azul"
-              :length="questoes" :total-visible="6"
+              :length="questoes" :total-visible="90"
               @input="mudarPagina"
           />
         </div>
@@ -442,6 +448,26 @@ export default {
       });
     },
 
+    mudarQuestao: (e) => {
+      const paginas = document.querySelectorAll('.v-pagination__item');
+      console.log(paginas);
+      let questaoSelecionada;
+
+      if (e.target.nodeName === 'SPAN') {
+        questaoSelecionada = e.target.parentElement;
+        paginas.forEach((pagina) => {
+          // eslint-disable-next-line no-unused-expressions
+          pagina.innerText === questaoSelecionada.id ? pagina.click() : pagina;
+        });
+      } else {
+        questaoSelecionada = e.target;
+        paginas.forEach((pagina) => {
+          // eslint-disable-next-line no-unused-expressions
+          pagina.innerText === questaoSelecionada.id ? pagina.click() : pagina;
+        });
+      }
+    },
+
     questoesEmBranco: () => {
       const gabaritos = document.querySelectorAll('.gabaritos');
       for (let i = 0; i < gabaritos.length; i++) {
@@ -465,5 +491,9 @@ export default {
     .gabarito {
       max-width: calc(99% - 66px);
     }
+  }
+
+  .paginacao {
+    width: 4200px;
   }
 </style>
