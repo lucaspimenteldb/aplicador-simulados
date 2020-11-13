@@ -56,8 +56,7 @@
             src="https://www.youtube.com/embed/xgcIJggKtmY" frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
             class="mt-2"
-        >
-        </iframe>
+        />
       </v-col>
 
       <v-col
@@ -177,6 +176,7 @@
                           filled
                           label="Enviar foto da redação"
                           color="azul"
+                          v-model="file"
                           v-show="enviarRedacao"
                           class="mt-4"
                       />
@@ -233,13 +233,36 @@ export default {
       redacaoEnviada: false,
       redacaoEnvioErro: false,
       situacaoRedacao: 'pendente',
+      file: null,
+      form: [],
     };
   },
 
   methods: {
-    enviarFotoRedacao () {
-      this.redacaoEnviada = true;
-      this.loading = true;
+    async enviarFotoRedacao () {
+      try {
+        this.redacaoEnvioErro = false;
+        this.redacaoEnviada = false;
+        const tipoImage = this.file.type.split('/')[0];
+        if (tipoImage !== 'image') {
+          alert('Por favor selecione uma imagem');
+          return;
+        }
+        this.loading = true;
+        this.form = new FormData();
+        this.form.append('id_user', this.$store.state.usuario.id);
+        this.form.append('id_redacao', 11);
+        this.form.append('file', this.file);
+        const res = await this.$http.post('redacao/enviar-redacao', this.form, {
+          headers: { Authorization: this.$store.state.token, 'Content-type': 'multipart/form-data' },
+        });
+        this.loading = false;
+        this.redacaoEnviada = true;
+      } catch (e) {
+        this.loading = false;
+        this.redacaoEnvioErro = true;
+        alert('errou ao enviar, por favor tente novamente');
+      }
     },
   },
 };
