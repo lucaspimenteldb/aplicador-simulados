@@ -20,14 +20,12 @@
       </v-col>
     </v-row>
 
-    <v-row
-        v-for="(area, areaNome, i) in areas" :key="areaNome"
-    >
+    <v-row>
       <v-col
-          cols="12" :class="i !== 0 ? 'mt-8' : i"
+          cols="12"
       >
         <subheader-secao>
-          {{ `${areaNome.charAt(0).toUpperCase()}${areaNome.slice(1)}` }}
+          Segundo Simulado
         </subheader-secao>
       </v-col>
 
@@ -36,35 +34,41 @@
           cols="12" sm="8"
           md="6" lg="4"
           xl="3"
-          v-for="(disciplina, i) in area.disciplinas" :key="disciplina"
+          v-for="(area, i) in simulados" :key="i"
       >
         <v-card
-            class="transition rounded__normal cursor__pointer btn__shadow" :class="`destaque__escolares__${areaNome}`"
-            to="/simulado-responder"
+            class="transition rounded__normal cursor__pointer btn__shadow" :class="`destaque__escolares__${area.classe}`"
+            :to="'/simulado-responder/' + area.id"
         >
           <v-card-text>
             <article class="d-flex align-center justify-space-between relative z-1">
               <p class="text-h6 leading__tight grey--text text--darken-3">
-                {{ area.ttl[i] }}
+                {{ area.titulo }}
               </p>
 
               <v-alert
                   max-height="32px"
-                  v-text="situacaoSimulado"
+                  v-text="area.situacao"
                   class="mb-0 d-flex align-center white--text font-weight-bold float-right"
-                  :class="{ 'azul': situacaoSimulado === 'iniciado',  }"
+                  :class="{ 'azul': area.situacao === 'Iniciado', 'red': area.situacao === 'pendente', 'green':
+                  area.situacao === 'Entregue'  }"
               />
             </article>
 
-            <p class="font-weight-bold black--text">
-              Humanas e Linguagens
+            <p
+class="font-weight-bold black--text"
+>
+             {{area.areas[0]}} e
+              {{area.areas[1]}}
             </p>
 
             <!-- prazo de entrega e informações-->
             <div class="mt-4 d-flex justify-space-between">
               <article>
                 <p class="black--text">
-                  Prazo de entrega:<span class="font-weight-bold black--text"> 21/08 - 10:00 às 18:00 horas</span>
+                  Prazo de entrega:<span class="font-weight-bold black--text">
+                  {{ area.data_fim.dia + '/' + area.data_fim.mes + '/' + area.data_fim.ano}} às {{area.data_fim.horas}}:
+                  {{area.data_fim.minutos}}</span>
                 </p>
               </article>
             </div>
@@ -72,7 +76,7 @@
             <!-- texto para acessar as atividades novas-->
             <article class="mt-6 relative">
               <p class="font-weight-bold grey--text text--darken-3">
-                {{ `Fazer simulado ${area.ttl}` }}
+                {{ `Fazer simulado ${area.titulo}` }}
               </p>
 
               <!-- icone para acessar -->
@@ -87,27 +91,29 @@
       <v-col
           cols="12" sm="6"
           md="4" lg="3"
+          v-for="(redacao, i) in redacoes" :key="i"
       >
         <v-card
-            class="destaque__redacao transition rounded__normal cursor__pointer btn__shadow" to="/redacao-enviar"
+            class="destaque__redacao transition rounded__normal cursor__pointer btn__shadow" :to="'/redacao-enviar/' + redacao.id"
         >
           <v-card-text>
             <article class="d-flex align-center justify-space-between">
               <!-- descricoes da redacao -->
               <v-card-title class="pa-0 d-inline-block grey--text text--darken-3">
-                {{ 'Redacao Tal' }}
+                {{ redacao.titulo }}
               </v-card-title>
 
               <v-alert
                   max-height="32px"
-                  v-text="situacaoRedacao"
+                  v-text="redacao.situacao"
                   class="mb-0 d-flex align-center white--text font-weight-bold"
-                  :class="{ 'azul': situacaoRedacao === 'entregue', 'errou': situacaoRedacao === 'pendente' }"
+                  :class="{ 'azul': redacao.situacao === 'Apto para Avaliação', 'red': redacao.situacao === 'pendente', 'green':
+                  redacao.situacao === 'Avaliado'  }"
               />
             </article>
 
             <p class="grey--text text--darken-3">
-              {{ 'Tema da redação' }}
+              {{ redacao.descricao }}
             </p>
 
             <article class="mt-4 relative">
@@ -321,6 +327,7 @@ export default {
       professorSelecionado: null,
       situacaoSimulado: 'iniciado',
       situacaoRedacao: 'pendente',
+      redacoes: [],
       dialog: {},
       alternativas: {
         a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed laboris nisi ut aliquip ex ea commodo consequat.?',
@@ -542,18 +549,18 @@ export default {
         },
       ],
 
-      areas: {
-        simulado1: {
-          notificacao: true,
-          get quantidadeNotificacao () {
-            return this.notificacao ? 1 : 0;
-          },
-          // get textoNotificacao () {
-          //   return this.notificacao ? `Você tem ${this.quantidadeNotificacao} novo simulado` : '';
-          // },
-          disciplinas: ['Humanas e Linguagens'],
-          ttl: ['Simulado - Dia 1'],
-        },
+      simulados: [
+        // simulado1: {
+        //   notificacao: true,
+        //   get quantidadeNotificacao () {
+        //     return this.notificacao ? 1 : 0;
+        //   },
+        //   // get textoNotificacao () {
+        //   //   return this.notificacao ? `Você tem ${this.quantidadeNotificacao} novo simulado` : '';
+        //   // },
+        //   disciplinas: ['Humanas e Linguagens'],
+        //   ttl: ['Simulado - Dia 1'],
+        // },
         /* humanas: {
           notificacao: true,
           get quantidadeNotificacao () {
@@ -587,7 +594,7 @@ export default {
           disciplinas: [],
           ttl: [],
         }, */
-      },
+      ],
 
       professores: ['Carlos - Matemática', 'Maria - Português', 'Fernanda - Química', 'Bernardo - Biologia', 'João de Deus - Física', 'Mário - Sociologia', 'Jesus - Filosofia', 'História - Saldanha', 'Geografia - Paulo'],
 
@@ -650,8 +657,61 @@ export default {
     // document.querySelector('.v-data-footer__pagination').innerHTML = `1 -
     // ${this.questoesGabarito.length > 10 ? 10 : this.questoesGabarito.length} de ${this.questoesGabarito.length}`;
   },
+  
+  async created () {
+    try {
+      const { id } = this.$store.state.usuario;
+      const dados = await this.$http.get(`simulado-estado/novo-simulado/${id}`, { headers: { Authorization: this.$store.state.token } });
+      this.preencherSimulados(dados.data.simulados);
+      console.log(dados.data.redacao);
+      this.preencherRedacao(dados.data.redacao);
+    } catch (e) {
+      console.log(e);
+      alert('erro');
+    }
+  },
 
   methods: {
+    preencherSimulados (simulados) {
+      this.simulados = [];
+      for (let i = 0; i < simulados.length; i++) {
+        const maps = simulados[i].Areas.map((el) => el.name);
+        const beris = {
+          id: simulados[i].id,
+          titulo: simulados[i].titulo,
+          areas: maps,
+          classe: maps[0].charAt(0).toLocaleLowerCase() + maps[0].slice(1),
+          data_inicio: simulados[i].data_inicio,
+          data_fim: this.datas(new Date(simulados[i].data_fim)),
+          situacao: simulados[i].UserSimuladoEstados[0] ? simulados[i].UserSimuladoEstados[0].situacao : 'pendente',
+        };
+        this.simulados.push(beris);
+      }
+    },
+
+    preencherRedacao (redacao) {
+      this.redacoes = [];
+      for (let i = 0; i < redacao.length; i++) {
+        const beris = {
+          id: redacao[i].id,
+          titulo: redacao[i].titulo,
+          descricao: redacao[i].descricao,
+          situacao: redacao[i].UsersRedacaos.length > 0 ? redacao[i].UsersRedacaos[0].situacao : 'pendente',
+        };
+        this.redacoes.push(beris);
+      }
+    },
+    datas (date) {
+      const dia = date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`;
+      const mes = date.getMonth() > 9 ? date.getMonth() : `0${date.getMonth()}`;
+      const ano = date.getFullYear();
+      const horas = date.getHours() > 9 ? date.getHours() : `0${date.getHours()}`;
+      const minutos = date.getMinutes() > 9 ? date.getMinutes() : `0${date.getMinutes()}`;
+      
+      return {
+        dia, mes, ano, horas, minutos,
+      };
+    },
     fecharModal () {
       const overlay = document.getElementsByClassName('v-overlay__scrim');
       overlay[0].click();

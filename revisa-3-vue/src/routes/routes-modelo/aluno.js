@@ -32,7 +32,7 @@ const routes = [
     component: () => import('../../pages/redacao/RedacaoCorrigida'),
   },
   {
-    path: '/redacao-enviar',
+    path: '/redacao-enviar/:redacao',
     name: 'RedacaoEnviar',
     component: () => import('../../pages/redacao/RedacaoEnviar'),
   },
@@ -47,7 +47,7 @@ const routes = [
     component: () => import('../../pages/simulado-ativiades-escolares/SimuladosAtividadesInicio'),
   },
   {
-    path: '/simulado-responder',
+    path: '/simulado-responder/:simulado',
     name: 'QuestoesSimuladosAtividades',
     component: () => import('../../components/QuestoesSimuladosAtividades'),
   },
