@@ -43,6 +43,9 @@ const routes = [
   },
   {
     path: '/simulados-atividades-escolares',
+    ttl: 'Simulado estadual',
+    icon: 'mdi-face-agent',
+    menu: true,
     name: 'SimuladosAtividadesInicio',
     component: () => import('../../pages/simulado-ativiades-escolares/SimuladosAtividadesInicio'),
   },
