@@ -303,4 +303,14 @@ p {
   z-index: -1;
 }
 
+.gabarito__aberto {
+  height: auto;
+  overflow: auto;
+}
+
+.gabarito__fechado {
+  height: 0;
+  overflow: hidden;
+}
+
 /*# sourceMappingURL=main.css.map */

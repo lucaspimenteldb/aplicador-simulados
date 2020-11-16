@@ -143,7 +143,21 @@ v-html="tab.questoes.questaoEnunciado"
           cols="12" md="8"
           class="pl-0 d-md-none"
       >
-        <div class="d-md-none d-flex justify-sm-space-between">
+        <v-btn
+            class="ml-3 text-none azul--text border-3 border__azul"
+            @click="paginaAnterior"
+        >
+          questão anterior
+        </v-btn>
+
+        <v-btn
+            class="ml-2 text-none azul--text border-3 border__azul"
+            @click="proximaPagina"
+        >
+          próxima questão
+        </v-btn>
+
+        <div class="d-md-none d-flex justify-sm-space-between opacity-0 pointer__events__none">
           <v-pagination
               v-model="page" color="azul"
               :length="questoes" :total-visible="6"
@@ -173,33 +187,103 @@ v-html="tab.questoes.questaoEnunciado"
 
         <section class="d-flex justify-space-between">
           <article class="gabarito">
-            <v-btn
-                v-for="gabarito in questoes" :key="gabarito + 'questao'"
-                class="gabaritos pa-2 mt-4 mr-3 w-46 h-46"
-                :class="[questoesMarcadasGabarito[gabarito - 1] ? 'border-3 border__azul' : '']"
-                min-width="46" min-height="46"
-                @click="mudarQuestao"
-                :id="gabarito"
-            >
-              <p
-                  class="d-flex align-center pointer__events__none"
-                  :class="[ page === gabarito ? 'azul--text' : 'black--text']"
+            <!-- questão 1-45 -->
+            <section class="mt-4">
+              <button
+                  class="pl-2 py-2 text-h6 azul--text border-3 border__azul shadow rounded cursor__pointer"
+                  @click="accordeonGabarito"
               >
-                {{ gabarito }}
+                Questões 1-45
 
                 <v-icon
-                    v-text="'mdi-circle-outline'" small
-                    v-if="!questoesMarcadasGabarito[gabarito - 1]"
-                    class="pointer__events__none"
+                    v-text="'mdi-chevron-up'"
+                    class="mt-1 mr-2 ml-6 float-right pointer__events__none"
+                    color="azul"
                 />
-                <span
-                    v-else
-                    class="pointer__events__none"
+              </button>
+
+              <div class="pl-1 pb-1 transition">
+                <v-btn
+                    v-for="gabarito in questoes" :key="gabarito + 'questao'"
+                    class="gabaritos pa-2 mt-4 mr-3 w-46 h-46"
+                    :class="[{
+                  'border-3 border__azul': questoesMarcadasGabarito[gabarito - 1],
+                  'hidden': gabarito > 45
+                }]"
+                    min-width="46" min-height="46"
+                    @click="mudarQuestao"
+                    :id="gabarito"
                 >
+                  <p
+                      class="d-flex align-center pointer__events__none"
+                      :class="[ page === gabarito ? 'azul--text' : 'black--text']"
+                  >
+                    {{ gabarito }}
+
+                    <v-icon
+                        v-text="'mdi-circle-outline'" small
+                        v-if="!questoesMarcadasGabarito[gabarito - 1]"
+                        class="pointer__events__none"
+                    />
+                    <span
+                        v-else
+                        class="pointer__events__none"
+                    >
                   {{ questoesMarcadasGabarito[gabarito -1].alternativa[0] }}
                 </span>
-              </p>
-            </v-btn>
+                  </p>
+                </v-btn>
+              </div>
+            </section>
+
+            <!-- questão 46-90 -->
+            <section class="mt-2">
+              <button
+                  class="pl-2 py-2 text-h6 azul--text border-3 border__azul shadow rounded cursor__pointer"
+                  @click="accordeonGabarito"
+              >
+                Questões 46-90
+
+                <v-icon
+                    v-text="'mdi-chevron-up'"
+                    class="mt-1 mr-2 ml-6 float-right pointer__events__none"
+                    color="azul"
+                />
+              </button>
+
+              <div class="pl-1 pb-1 transition">
+                <v-btn
+                    v-for="gabarito in questoes" :key="gabarito + 'questao'"
+                    class="gabaritos pa-2 mt-4 mr-3 w-46 h-46"
+                    :class="[{
+                    'border-3 border__azul': questoesMarcadasGabarito[gabarito - 1],
+                    'hidden': gabarito < 46
+                  }]"
+                    min-width="46" min-height="46"
+                    @click="mudarQuestao"
+                    :id="gabarito"
+                >
+                  <p
+                      class="d-flex align-center pointer__events__none"
+                      :class="[ page === gabarito ? 'azul--text' : 'black--text']"
+                  >
+                    {{ gabarito }}
+
+                    <v-icon
+                        v-text="'mdi-circle-outline'" small
+                        v-if="!questoesMarcadasGabarito[gabarito - 1]"
+                        class="pointer__events__none"
+                    />
+                    <span
+                        v-else
+                        class="pointer__events__none"
+                    >
+                    {{ questoesMarcadasGabarito[gabarito -1].alternativa[0] }}
+                  </span>
+                  </p>
+                </v-btn>
+              </div>
+            </section>
           </article>
 
           <v-progress-circular
@@ -256,11 +340,29 @@ v-html="tab.questoes.questaoEnunciado"
     </v-row>
 
     <v-row>
+      <!-- botoes que vao funcionar de verdade-->
+      <v-col cols="12">
+        <v-btn
+            class="d-none d-md-block text-none azul--text border-3 border__azul"
+            @click="paginaAnterior"
+        >
+          questão anterior
+        </v-btn>
+
+        <v-btn
+            class="d-none d-md-block ml-2 text-none azul--text border-3 border__azul"
+            @click="proximaPagina"
+        >
+          próxima questão
+        </v-btn>
+      </v-col>
+
+      <!-- botoes para que o gabarito funcione normalmente -->
       <v-col
           cols="12"
-          class="pl-0 d-none d-md-block overflow-x-auto"
+          class="pl-0 d-none d-md-block overflow-x-auto opacity-0"
       >
-        <div class="paginacao d-flex justify-sm-space-between overflow-x-auto">
+        <div class="paginacao d-flex justify-sm-space-between overflow-x-auto pointer__events__none">
           <v-pagination
               v-model="page" color="azul"
               :length="questoes" :total-visible="90"
@@ -448,9 +550,23 @@ export default {
       });
     },
 
+    accordeonGabarito: (e) => {
+      const gabarito = e.target.nextElementSibling;
+      const setinha = e.target.lastElementChild;
+      // console.log(gabarito);
+
+      if (!gabarito.classList.contains('gabarito__fechado')) {
+        gabarito.classList.add('gabarito__fechado');
+        setinha.style.transform = 'rotate(180deg)';
+      } else {
+        gabarito.classList.remove('gabarito__fechado');
+        setinha.style.transform = 'rotate(0)';
+      }
+    },
+
     mudarQuestao: (e) => {
       const paginas = document.querySelectorAll('.v-pagination__item');
-      console.log(paginas);
+      // console.log(paginas);
       let questaoSelecionada;
 
       if (e.target.nodeName === 'SPAN') {
@@ -474,9 +590,19 @@ export default {
         if (gabaritos[i].firstElementChild.firstElementChild.firstElementChild.nodeName === 'I') {
           gabaritos[i].classList.add('border-3', 'border__vermelha', 'errou--text');
         } else {
-          gabaritos[i].classList.remove('border-3', 'border__vermelha');
+          gabaritos[i].classList.remove('border__vermelha');
         }
       }
+    },
+
+    paginaAnterior: () => {
+      const paginaAnterior = document.querySelectorAll('.v-pagination__navigation')[2];
+      paginaAnterior.click();
+    },
+
+    proximaPagina: () => {
+      const proximaPagina = document.querySelectorAll('ul li button.v-pagination__navigation')[3];
+      proximaPagina.click();
     },
   },
 };

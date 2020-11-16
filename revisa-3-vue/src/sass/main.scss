@@ -304,3 +304,13 @@ p {
   }
 }
 
+// responder simulado
+.gabarito__aberto {
+  height: auto;
+  overflow: auto;
+}
+
+.gabarito__fechado {
+  height: 0;
+  overflow: hidden;
+}
