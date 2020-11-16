@@ -157,7 +157,7 @@
                         class="pl-6 errou white--text rounded-0"
                         v-show="redacaoEnvioErro"
                     >
-                      Um erro ocorreu ao enviar sua redação...
+                     {{ msgErro }}
 
                       <v-icon
                           color="white"
@@ -199,7 +199,7 @@
                           color="azul"
                           v-text="'Enviar redação'"
                           class="botao mt-2 px-4 py-2 white--text text-none transition"
-                          @click="enviarFotoRedacao"
+                          @click="funcao"
                       />
                     </v-card-actions>
                   </v-card>
@@ -213,34 +213,75 @@
               max-width="99px"
               v-text="situacaoRedacao"
               class="mt-2 d-flex align-center white--text font-weight-bold"
-              :class="{ 'azul': situacaoRedacao === 'entregue', 'errou': situacaoRedacao === 'pendente' }"
+              :class="{ 'green': situacaoRedacao === 'Avaliado', 'errou': situacaoRedacao === 'pendente',
+              'azul': situacaoRedacao === 'Apto para Avaliação' }"
           />
         </subheader-secao>
       </v-col>
     </v-row>
+    <ModalPadrao
+:objeto="objeto"
+                 @aparecerModal="cancelOk"
+                  @funcao="enviarFotoRedacao"
+/>
   </v-container>
 </template>
 
 <script>
+import ModalPadrao from '../../components/modal/ModalPadrao.vue';
+
 export default {
   name: 'RedacaoEnviar',
+  components: { ModalPadrao },
 
   data () {
     return {
       loading: false,
       dialog: false,
+      msgErro: '',
       enviarRedacao: false,
       redacaoEnviada: false,
       redacaoEnvioErro: false,
       situacaoRedacao: 'pendente',
       file: null,
       form: [],
+      redacaoId: '',
+      redacao: [],
+      objeto: {
+        dialog: false,
+        titulo: 'Tem certeza que deseja enviar?',
+        textConfirm2: 'Enviar',
+        textButton: 'Cancelar',
+        confirm2: true,
+
+      },
     };
   },
 
+  async created () {
+    this.redacaoId = this.$route.params.redacao;
+    try {
+      const redacao = await this.$http.get(`redacao/redacao-atual/${this.redacaoId}/${this.$store.state.usuario.id}`,
+        { headers: { Authorization: this.$store.state.token } });
+      this.redacao = redacao.data.redacao;
+      this.situacaoRedacao = this.redacao[0].UsersRedacaos[0] ? this.redacao[0].UsersRedacaos[0].situacao : 'pendente';
+    } catch (e) {
+      console.log(e);
+      alert('Erro ao acessar o servidor');
+    }
+  },
+
   methods: {
+    cancelOk () {
+      this.objeto.dialog = false;
+    },
+
+    funcao () {
+      this.objeto.dialog = true;
+    },
     async enviarFotoRedacao () {
       try {
+        this.objeto.dialog = false;
         this.redacaoEnvioErro = false;
         this.redacaoEnviada = false;
         const tipoImage = this.file.type.split('/')[0];
@@ -251,7 +292,7 @@ export default {
         this.loading = true;
         this.form = new FormData();
         this.form.append('id_user', this.$store.state.usuario.id);
-        this.form.append('id_redacao', 11);
+        this.form.append('id_redacao', this.redacaoId);
         this.form.append('file', this.file);
         const res = await this.$http.post('redacao/enviar-redacao', this.form, {
           headers: { Authorization: this.$store.state.token, 'Content-type': 'multipart/form-data' },
@@ -261,7 +302,7 @@ export default {
       } catch (e) {
         this.loading = false;
         this.redacaoEnvioErro = true;
-        alert('errou ao enviar, por favor tente novamente');
+        this.msgErro = e.response.data.e || 'Sem conexão com o servidor';
       }
     },
   },

@@ -27,6 +27,15 @@ persistent max-width="290"
           >
             {{ objeto.textConfirm }}
           </v-btn>
+
+          <v-btn
+              v-show="objeto.confirm2"
+              color="errou"
+              text @click="funcao"
+              class="text-none"
+          >
+            {{ objeto.textConfirm2 }}
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -44,8 +53,10 @@ export default {
       dialog: false,
       titulo: 'Tem certeza que deseja sair?',
       textConfirm: 'Sair',
+      textConfirm2: 'Sair',
       textButton: 'Cancelar',
       confirm: false,
+      confirm2: false,
 
     },
 
@@ -54,6 +65,10 @@ export default {
   methods: {
     aparecerModal () {
       this.$emit('aparecerModal', false);
+    },
+
+    funcao () {
+      this.$emit('funcao');
     },
 
     sair () {
