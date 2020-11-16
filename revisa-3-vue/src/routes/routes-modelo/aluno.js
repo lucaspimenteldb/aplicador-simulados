@@ -37,6 +37,11 @@ const routes = [
     component: () => import('../../pages/redacao/RedacaoEnviar'),
   },
   {
+    path: '/redacao-enviar-pcd',
+    name: 'RedacaoEnviarPCD',
+    component: () => import('../../pages/redacao/RedacaoEnviarPCD'),
+  },
+  {
     path: '/simulados-atividades-escolares',
     name: 'SimuladosAtividadesInicio',
     component: () => import('../../pages/simulado-ativiades-escolares/SimuladosAtividadesInicio'),

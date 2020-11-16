@@ -97,12 +97,13 @@
                         </span>
 
                 <p
-class="grey--text text--darken-3"
-v-html="tab.questoes.questaoEnunciado"
-/>
+                  class="grey--text text--darken-3"
+                  v-html="tab.questoes.questaoEnunciado"
+                />
               </article>
             </v-card-text>
           </v-card>
+
           <section
               class="mt-6" :id="`alternativas${i}`"
               @click="marcar"
@@ -207,9 +208,9 @@ v-html="tab.questoes.questaoEnunciado"
                     v-for="gabarito in questoes" :key="gabarito + 'questao'"
                     class="gabaritos pa-2 mt-4 mr-3 w-46 h-46"
                     :class="[{
-                  'border-3 border__azul': questoesMarcadasGabarito[gabarito - 1],
-                  'hidden': gabarito > 45
-                }]"
+                      'border-3 border__azul': questoesMarcadasGabarito[gabarito - 1],
+                      'hidden': gabarito > 45
+                    }]"
                     min-width="46" min-height="46"
                     @click="mudarQuestao"
                     :id="gabarito"
