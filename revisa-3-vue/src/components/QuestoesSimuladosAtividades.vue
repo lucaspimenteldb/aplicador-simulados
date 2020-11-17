@@ -136,12 +136,29 @@
               </article>
             </v-hover>
           </section>
+
+          <!-- botoes que vao funcionar de verdade-->
+          <section class="mt-4 d-block w-full">
+            <v-btn
+                class="d-none d-md-inline-block text-none azul--text border-3 border__azul"
+                @click="paginaAnterior"
+            >
+              questão anterior
+            </v-btn>
+
+            <v-btn
+                class="d-none d-md-inline-block ml-2 text-none azul--text border-3 border__azul"
+                @click="proximaPagina"
+            >
+              próxima questão
+            </v-btn>
+          </section>
         </div>
       </v-col>
 
       <!-- paginacao em telas pequenas-->
       <v-col
-          cols="12" md="8"
+          cols="12"
           class="pl-0 d-md-none"
       >
         <v-btn
@@ -341,23 +358,6 @@
     </v-row>
 
     <v-row>
-      <!-- botoes que vao funcionar de verdade-->
-      <v-col cols="12">
-        <v-btn
-            class="d-none d-md-block text-none azul--text border-3 border__azul"
-            @click="paginaAnterior"
-        >
-          questão anterior
-        </v-btn>
-
-        <v-btn
-            class="d-none d-md-block ml-2 text-none azul--text border-3 border__azul"
-            @click="proximaPagina"
-        >
-          próxima questão
-        </v-btn>
-      </v-col>
-
       <!-- botoes para que o gabarito funcione normalmente -->
       <v-col
           cols="12"
