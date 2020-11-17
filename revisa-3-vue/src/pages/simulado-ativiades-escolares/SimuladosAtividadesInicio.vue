@@ -38,7 +38,7 @@
       >
         <v-card
             class="transition rounded__normal cursor__pointer btn__shadow" :class="`destaque__escolares__${area.classe}`"
-            :to="'/simulado-responder/' + area.id"
+            :to="area.url"
         >
           <v-card-text>
             <article class="d-flex align-center justify-space-between relative z-1">
@@ -676,6 +676,7 @@ export default {
       this.simulados = [];
       for (let i = 0; i < simulados.length; i++) {
         const maps = simulados[i].Areas.map((el) => el.name);
+        const url = simulados[i].is_idioma ? `/simulado-responder/${simulados[i].id}/idioma` : `/simulado-responder/${simulados[i].id}`;
         const beris = {
           id: simulados[i].id,
           titulo: simulados[i].titulo,
@@ -684,6 +685,7 @@ export default {
           data_inicio: simulados[i].data_inicio,
           data_fim: this.datas(new Date(simulados[i].data_fim)),
           situacao: simulados[i].UserSimuladoEstados[0] ? simulados[i].UserSimuladoEstados[0].situacao : 'pendente',
+          url,
         };
         this.simulados.push(beris);
       }

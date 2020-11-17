@@ -50,7 +50,7 @@ const routes = [
     component: () => import('../../pages/simulado-ativiades-escolares/SimuladosAtividadesInicio'),
   },
   {
-    path: '/simulado-responder/:simulado',
+    path: '/simulado-responder/:simulado/:idioma?',
     name: 'QuestoesSimuladosAtividades',
     component: () => import('../../components/QuestoesSimuladosAtividades'),
   },

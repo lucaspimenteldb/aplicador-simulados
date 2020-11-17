@@ -14,10 +14,23 @@
         <v-card-title>
           Termos de compromisso do Simulado
         </v-card-title>
+          <v-col
+              cols="12"
+              class="pt-0"
+          >
+            <v-select
+                v-if="this.$route.params.idioma"
+                filled
+                :items="['Inglês', 'Espanhol']"
+                label="Escolha o idioma" color="azul"
+                hide-details
+                v-model="idiomaAtual"
+            />
+          </v-col>
 
         <v-card-text>
           <p>
-            textão
+            Lucas do passinho!
           </p>
         </v-card-text>
 
@@ -36,7 +49,7 @@
               filled
               color="azul"
               v-text="'Aceitar'"
-              @click="termos = false"
+              @click="aceitarTermo"
               class="text-none white--text"
           />
         </v-card-actions>
@@ -97,8 +110,8 @@
                         </span>
 
                 <p
-                  class="grey--text text--darken-3"
-                  v-html="tab.questoes.questaoEnunciado"
+                    class="grey--text text--darken-3"
+                    v-html="tab.questoes.questaoEnunciado"
                 />
               </article>
             </v-card-text>
@@ -199,7 +212,7 @@
               class="ml-1 text-body-2"
               v-if="width <= 660"
           >
-            {{ value+'%' }}
+            {{ value + '%' }}
           </v-progress-circular>
         </header-secao>
 
@@ -247,7 +260,7 @@
                         v-else
                         class="pointer__events__none"
                     >
-                  {{ questoesMarcadasGabarito[gabarito -1].alternativa[0] }}
+                  {{ questoesMarcadasGabarito[gabarito - 1].alternativa[0] }}
                 </span>
                   </p>
                 </v-btn>
@@ -296,7 +309,7 @@
                         v-else
                         class="pointer__events__none"
                     >
-                    {{ questoesMarcadasGabarito[gabarito -1].alternativa[0] }}
+                    {{ questoesMarcadasGabarito[gabarito - 1].alternativa[0] }}
                   </span>
                   </p>
                 </v-btn>
@@ -311,7 +324,7 @@
               class="mt-3"
               v-if="width > 660"
           >
-            {{ value+'%' }}
+            {{ value + '%' }}
           </v-progress-circular>
         </section>
 
@@ -384,6 +397,8 @@ export default {
   components: { loading },
   data () {
     return {
+      idiomaAtual: '',
+      idioma: false,
       dialog: false,
       termos: false,
       loading: false,
@@ -403,24 +418,13 @@ export default {
     };
   },
 
-  async created () {
-
-  },
-
-  async activated () {
-    try {
-      this.tabs = [];
-      this.questoesMarcadasGabarito = [];
-      const id = this.$route.params.simulado;
-      this.loading = true;
-      const questoes = await this.$http.get(`questoes-simulado/${id}`, { headers: { Authorization: this.$store.state.token } });
-      this.preenchendoQuestoes(questoes.data.questao);
-      this.loading = false;
-    } catch (e) {
-      console.log(e);
-      this.loading = false;
-      alert('Erro ao se conectar com o servidor!');
-    }
+  activated () {
+    this.tabs = [];
+    this.questoesMarcadasGabarito = [];
+    this.termos = !(localStorage.getItem('termo'));
+    if (this.termos) return;
+    const id = this.$route.params.simulado;
+    this.getQuestoes(`questoes-simulado/${id}`);
   },
   mounted () {
     this.width = window.innerWidth;
@@ -460,6 +464,31 @@ export default {
   },
 
   methods: {
+
+    aceitarTermo () {
+      if (this.$route.params.idioma && !this.idiomaAtual) { alert('Selecione o idioma'); return; }
+      this.termos = false;
+      localStorage.setItem('termo', JSON.stringify(true));
+      const id = this.$route.params.simulado;
+      let idioma = this.idiomaAtual === 'Inglês' ? 10 : 11;
+      if (this.idiomaAtual === '') idioma = '';
+      this.getQuestoes(`questoes-simulado/${id}/${idioma}`);
+    },
+
+    async getQuestoes (url) {
+      try {
+        if (this.termos) return;
+        this.loading = true;
+        const questoes = await this.$http.get(url, { headers: { Authorization: this.$store.state.token } });
+        this.preenchendoQuestoes(questoes.data.questao);
+        this.loading = false;
+      } catch (e) {
+        console.log(e);
+        this.loading = false;
+        alert('Erro ao se conectar com o servidor!');
+      }
+    },
+
     async enviandoSimulado () {
       try {
         const envio = [];
@@ -616,17 +645,17 @@ export default {
 </script>
 
 <style scoped>
-  .MsoNormal span{
-    text-align: left;
-  }
+.MsoNormal span {
+  text-align: left;
+}
 
-  @media screen and (min-width: 661px) {
-    .gabarito {
-      max-width: calc(99% - 66px);
-    }
+@media screen and (min-width: 661px) {
+  .gabarito {
+    max-width: calc(99% - 66px);
   }
+}
 
-  .paginacao {
-    width: 4200px;
-  }
+.paginacao {
+  width: 4200px;
+}
 </style>
