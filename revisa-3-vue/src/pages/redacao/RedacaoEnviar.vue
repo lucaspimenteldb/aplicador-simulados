@@ -220,10 +220,10 @@
       </v-col>
     </v-row>
     <ModalPadrao
-:objeto="objeto"
-                 @aparecerModal="cancelOk"
-                  @funcao="enviarFotoRedacao"
-/>
+        :objeto="objeto"
+        @aparecerModal="cancelOk"
+        @funcao="enviarFotoRedacao"
+    />
   </v-container>
 </template>
 
