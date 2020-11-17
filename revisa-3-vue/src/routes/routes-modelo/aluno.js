@@ -44,7 +44,7 @@ const routes = [
   {
     path: '/simulados-atividades-escolares',
     ttl: 'Simulado estadual',
-    icon: 'mdi-face-agent',
+    icon: 'mdi-check-box-multiple-outline',
     menu: true,
     name: 'SimuladosAtividadesInicio',
     component: () => import('../../pages/simulado-ativiades-escolares/SimuladosAtividadesInicio'),
