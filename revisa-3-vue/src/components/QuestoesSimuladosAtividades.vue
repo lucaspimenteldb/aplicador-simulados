@@ -405,8 +405,9 @@ export default {
 
   async created () {
     try {
+      const id = this.$route.params.simulado;
       this.loading = true;
-      const questoes = await this.$http.get('questoes-simulado/1', { headers: { Authorization: this.$store.state.token } });
+      const questoes = await this.$http.get(`questoes-simulado/${id}`, { headers: { Authorization: this.$store.state.token } });
       this.preenchendoQuestoes(questoes.data.questao);
       this.loading = false;
     } catch (e) {
