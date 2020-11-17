@@ -54,16 +54,16 @@ const routes = [
     name: 'QuestoesSimuladosAtividades',
     component: () => import('../../components/QuestoesSimuladosAtividades'),
   },
-// {
-//   path: '/suporte',
-//   name: 'Suporte',
-//   ttl: 'Suporte',
-//   menu: true,
-//   component: () => import('../../pages/suporte/SuporteInicio'),
-//   meta: {
-//     public: false,
-//   },
-// },
+  // {
+  //   path: '/suporte',
+  //   name: 'Suporte',
+  //   ttl: 'Suporte',
+  //   menu: true,
+  //   component: () => import('../../pages/suporte/SuporteInicio'),
+  //   meta: {
+  //     public: false,
+  //   },
+  // },
   {
     path: '/aulas-gratuitas',
     name: 'AulasGratuitas',

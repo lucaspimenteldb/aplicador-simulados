@@ -1,9 +1,17 @@
 <template>
-  <v-container fluid>
-    <v-img
-        src="@/assets/logo_mvc_avalia_azul.png"
-        class="mx-auto d-block w-290"
-    />
+  <v-container
+      class="pt-0" fluid
+  >
+    <section class="mx-auto w-290 d-block">
+      <v-img
+          src="@/assets/agora-vai.svg"
+          class="d-inline-block w-140"
+      />
+      <v-img
+          src="@/assets/logo_mvc_avalia_azul.png"
+          class="d-inline-block w-140"
+      />
+    </section>
 
     <v-row v-show="showLocal">
       <v-col cols="12">
