@@ -404,9 +404,16 @@ export default {
   },
 
   async created () {
+
+  },
+
+  async activated () {
     try {
+      this.tabs = [];
+      this.questoesMarcadasGabarito = [];
+      const id = this.$route.params.simulado;
       this.loading = true;
-      const questoes = await this.$http.get('questoes-simulado/1', { headers: { Authorization: this.$store.state.token } });
+      const questoes = await this.$http.get(`questoes-simulado/${id}`, { headers: { Authorization: this.$store.state.token } });
       this.preenchendoQuestoes(questoes.data.questao);
       this.loading = false;
     } catch (e) {
@@ -474,7 +481,6 @@ export default {
       this.dialog = false;
     },
     preenchendoQuestoes (questoes) {
-      this.tabs = [];
       const { id } = this.$store.state.usuario;
       for (let i = 0; i < questoes.length; i++) {
         const marcado = localStorage.getItem(`quest${questoes[i].id}user${id}`) || '';
