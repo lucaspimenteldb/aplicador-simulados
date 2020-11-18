@@ -1,4 +1,7 @@
-const routes = [
+const data = new Date();
+let routes;
+
+const routesPadrao = [
   {
     path: '/acompanhar-simulado',
     name: 'AcompanharSimulado',
@@ -44,5 +47,25 @@ const routes = [
     },
   },
 ];
+
+const routesSimulado = [
+  {
+    path: '/home',
+    name: 'AcompanharSimulado',
+    ttl: 'acompanhar simulado',
+    icon: 'mdi-access-point',
+    menu: true,
+    component: () => import('../../pages-coordenadores/AcompanharSimulados'),
+    meta: {
+      public: false,
+    },
+  },
+];
+
+if (data.getDate() >= 23) {
+  routes = routesSimulado;
+} else {
+  routes = routesPadrao;
+}
 
 export default routes;

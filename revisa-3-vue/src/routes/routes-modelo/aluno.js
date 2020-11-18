@@ -1,4 +1,7 @@
-const routes = [
+const data = new Date();
+let routes;
+
+const routesPadrao = [
   {
     path: '/ranking',
     name: 'Ranking',
@@ -75,5 +78,42 @@ const routes = [
       public: false,
     },
   }];
+
+const routesSimulado = [
+  {
+    path: '/redacao-corrigida',
+    name: 'RedacaoCorrigida',
+    component: () => import('../../pages/redacao/RedacaoCorrigida'),
+  },
+  {
+    path: '/redacao-enviar/:redacao',
+    name: 'RedacaoEnviar',
+    component: () => import('../../pages/redacao/RedacaoEnviar'),
+  },
+  {
+    path: '/redacao-enviar-pcd',
+    name: 'RedacaoEnviarPCD',
+    component: () => import('../../pages/redacao/RedacaoEnviarPCD'),
+  },
+  {
+    path: '/home',
+    ttl: 'Simulado estadual',
+    icon: 'mdi-check-box-multiple-outline',
+    menu: true,
+    name: 'SimuladosAtividadesInicio',
+    component: () => import('../../pages/simulado-ativiades-escolares/SimuladosAtividadesInicio'),
+  },
+  {
+    path: '/simulado-responder/:simulado/:idioma?',
+    name: 'QuestoesSimuladosAtividades',
+    component: () => import('../../components/QuestoesSimuladosAtividades'),
+  },
+];
+
+if (data.getDate() >= 23) {
+  routes = routesSimulado;
+} else {
+  routes = routesPadrao;
+}
 
 export default routes;

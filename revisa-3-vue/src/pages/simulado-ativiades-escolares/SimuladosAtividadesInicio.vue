@@ -31,7 +31,7 @@
 
       <!-- card da disciplina com nova atividade ou simulado-->
       <v-col
-          cols="12" sm="8"
+          cols="12"
           md="6" xl="4"
           v-for="(area, i) in simulados" :key="i + 'simulado'"
           class="pt-0"
@@ -95,7 +95,7 @@ class="font-weight-bold black--text"
       </v-col>
 
       <v-col
-          cols="12" sm="6"
+          cols="12"
           md="6" xl="4"
           v-for="(redacao, i) in redacoes" :key="i"
           class="pt-xl-0"
