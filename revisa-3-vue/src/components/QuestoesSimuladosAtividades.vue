@@ -496,7 +496,7 @@ export default {
       alert(this.dataInicio);
       const x = setInterval(() => {
         const now = new Date().getTime();
-        const distance = countDownDate - now;
+        const distance = now - countDownDate;
         // const days = Math.floor(distance / (1000 * 60 * 60 * 24));
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
