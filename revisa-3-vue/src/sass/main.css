@@ -213,6 +213,14 @@ p {
   background: url("../assets/ilustrativo/redacao/destaque-redacao2.png") white no-repeat 0 calc(100% + 1px)/20%;
 }
 
+.anexo div.v-input__control div.v-input__slot {
+  cursor: pointer;
+}
+
+.anexo div.v-input__control div.v-input__slot div.text-field__slot {
+  cursor: pointer;
+}
+
 .acessar__aula__ao__vivo {
   background: url("../assets/ilustrativo/aula-ao-vivo/acessar-aula-ao-vivo.png") white no-repeat calc(100% + 1px) calc(100% + 1px)/10%;
 }

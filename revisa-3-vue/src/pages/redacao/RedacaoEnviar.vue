@@ -96,7 +96,7 @@
                   v-on="on"
                   v-bind="attrs"
                   color="azul"
-                  class="botao mt-2 px-4 py-2 white--text text-none  transition"
+                  class="botao mt-2 px-4 py-2 white--text text-none transition"
               >
                 Enviar foto da redação
               </v-btn>
@@ -132,7 +132,7 @@
                         v-text="'Enviar redação'"
                         v-on="on"
                         v-bind="attrs"
-                        class="botao mt-2 px-4 py-2 white--text text-none  transition"
+                        class="botao px-4 py-2 white--text text-none  transition"
                     />
                   </template>
 
@@ -170,17 +170,29 @@
                     </v-card-title>
 
                     <v-card-text>
+                      <p class="margin-0 body-2 font-weight-regular">
+                        Tipos de arquivo aceitos: JPG, JPEG, PNG e TIFF.
+                      </p>
+
                       <v-file-input
                           filled
                           label="Enviar foto da redação"
                           color="azul"
                           v-model="file"
                           v-show="enviarRedacao"
-                          class="mt-4"
+                          class="mt-2 anexo"
+                          hide-details
                       />
+
+                      <v-alert
+                          type="warning"
+                          class="ma-0 mt-8 pa-2 body-2"
+                      >
+                        Lembre-se que, para ser avaliado, o texto deve ser escrito à tinta preta, na folha própria, em até 30 linhas.
+                      </v-alert>
                     </v-card-text>
 
-                    <v-card-actions>
+                    <v-card-actions class="pt-0 px-6">
                       <v-spacer />
 
                       <v-btn
@@ -196,7 +208,7 @@
                           :disabled="loading"
                           color="azul"
                           v-text="'Enviar redação'"
-                          class="botao mt-2 px-4 py-2 white--text text-none transition"
+                          class="botao px-4 py-2 white--text text-none transition"
                           @click="funcao"
                       />
                     </v-card-actions>

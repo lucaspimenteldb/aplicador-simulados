@@ -209,6 +209,13 @@ p {
   background: url("../assets/ilustrativo/redacao/destaque-redacao2.png") white no-repeat 0 calc(100% + 1px)/20%;
 }
 
+.anexo div.v-input__control div.v-input__slot {
+  cursor: pointer;
+}
+.anexo div.v-input__control div.v-input__slot div.text-field__slot {
+  cursor: pointer;
+}
+
 
 // aula ao vivo
 .acessar__aula__ao__vivo {
