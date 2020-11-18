@@ -70,7 +70,7 @@
           cols="12" md="5"
       >
         <v-alert
-            color="amarelo"
+                :type="alert"
             class="mb-0 float-right"
             max-width="300px"
         >
@@ -333,7 +333,6 @@
             <v-btn
                 color="azul" class="mt-4 white--text text-none rounded__normal"
                 dark v-bind="attrs"
-                v-on="on"
                 @click="questoesEmBranco"
             >
               Finalizar simulado
@@ -358,7 +357,7 @@
               />
               <v-btn
                   color="azul" class="text-none white--text"
-                  @click="enviandoSimulado"
+                  @click="pushDoSimulado"
                   v-text="'Enviar simulado'"
               />
             </v-card-actions>
@@ -403,6 +402,7 @@ export default {
   components: { loading, modal },
   data () {
     return {
+      alert: 'success',
       objeto: {
         dialog: false,
         titulo: 'Simulado entregue com sucesso!',
@@ -493,19 +493,29 @@ export default {
   methods: {
     cronometro () {
       const countDownDate = new Date(this.dataInicio).getTime();
-      alert(this.dataInicio);
       const x = setInterval(() => {
         const now = new Date().getTime();
-        const distance = now - countDownDate;
+        const distance = countDownDate - now;
         // const days = Math.floor(distance / (1000 * 60 * 60 * 24));
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const hoursAux = ((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
         
         this.crono = `${hours}:${minutes}:${seconds}`;
 
+        if (hoursAux <= 0.5 && alert !== 'error') {
+          this.alert = 'error';
+        }
+
+        if (hoursAux <= 1 && hours > 0.5 && alert !== 'warning') {
+          this.alert = 'warning';
+        }
+
         if (distance < 0) {
           this.crono = 'Encerrado';
+          this.enviandoSimulado();
+          this.$router.push('/simulados-atividades-escolares')
           clearInterval(x);
         }
       }, 1000);
@@ -523,6 +533,11 @@ export default {
       this.getQuestoes(`questoes-simulado/${id}/${idioma}`);
     },
 
+    pushDoSimulado () {
+      this.enviandoSimulado();
+      this.$router.push('/simulados-atividades-escolares');
+    },
+
     async getQuestoes (url) {
       try {
         if (this.termos) return;
@@ -531,6 +546,8 @@ export default {
         this.preenchendoQuestoes(questoes.data.questao);
         this.loading = false;
         this.dataInicio = questoes.data.data;
+        this.dataInicio = this.dataInicio.replace('T', ' ');
+        this.dataInicio = this.dataInicio.replace('Z', '');
         this.cronometro();
       } catch (e) {
         console.log(e);
@@ -540,7 +557,7 @@ export default {
     },
 
     func2 () {
-      this.$router.push('/simulados-atividades-escolares');
+      this.objeto2.dialog = false;
     },
 
     func () {
@@ -553,7 +570,7 @@ export default {
         for (const tab of this.tabs) {
           const colocado = {
             id_questao: tab.id,
-            id_simulado: 1,
+            id_simulado: this.$route.params.simulado,
             id_user: tab.id_user,
             alternativa: tab.marcado,
           };
@@ -685,6 +702,17 @@ export default {
 
     questoesEmBranco () {
       const gabaritos = document.querySelectorAll('.gabaritos');
+      const distance = (new Date(this.dataInicio).getTime() - new Date().getTime());
+      const hours = ((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+      if (hours > 3.5) {
+        this.objeto.dialog = true;
+        this.objeto.titulo = 'Você só pode finalizar seu simulado, após 1h de prova.';
+        return;
+      }
+
+      this.dialog = true;
+
       const { id } = this.$store.state.usuario;
       const vetor = [];
       for (let i = 0; i < this.tabs.length; i++) {
