@@ -2,8 +2,6 @@
   <v-container
       fluid
       oncontextmenu="return false"
-      onkeydown="return false;"
-      onmousedown="return false;"
   >
     <v-dialog
         persistent
@@ -110,7 +108,7 @@
                         </span>
 
                 <p
-                    class="grey--text text--darken-3"
+                    class="enunciado grey--text text--darken-3 body-2 font-weight-regular"
                     v-html="tab.questoes.questaoEnunciado"
                 />
               </article>
@@ -182,7 +180,7 @@
         </v-btn>
 
         <v-btn
-            class="ml-2 text-none azul--text border-3 border__azul"
+            class="ml-1 text-none azul--text border-3 border__azul"
             @click="proximaPagina"
         >
           próxima questão
@@ -268,7 +266,7 @@
             </section>
 
             <!-- questão 46-90 -->
-            <section class="mt-2">
+            <section class="mt-6">
               <button
                   class="pl-2 py-2 text-h6 azul--text border-3 border__azul shadow rounded cursor__pointer"
                   @click="accordeonGabarito"
@@ -408,7 +406,6 @@ export default {
       desmarcado: 'mdi-checkbox-blank-circle-outline',
       marcado: 'mdi-checkbox-marked-circle-outline',
       page: 1,
-      larguraQuestao: 0,
       questoes: 90,
       value: 0,
       questoesMarcadasGabarito: [],
@@ -426,15 +423,12 @@ export default {
     const id = this.$route.params.simulado;
     this.getQuestoes(`questoes-simulado/${id}`);
   },
+
   mounted () {
     this.width = window.innerWidth;
     window.addEventListener('resize', () => {
       this.width = window.innerWidth;
     });
-
-    this.larguraQuestao = document.querySelector('.container__questoes').offsetWidth;
-    this.questoes = document.getElementsByClassName('container__questoes').length;
-    this.termos = true;
 
     document.addEventListener('contextmenu', (e) => {
       e.preventDefault();
@@ -460,6 +454,8 @@ export default {
         e.preventDefault();
         return false;
       }
+
+      return e.key;
     });
   },
 
@@ -634,11 +630,15 @@ export default {
     paginaAnterior: () => {
       const paginaAnterior = document.querySelectorAll('.v-pagination__navigation')[2];
       paginaAnterior.click();
+
+      window.scrollTo(0, 0);
     },
 
     proximaPagina: () => {
       const proximaPagina = document.querySelectorAll('ul li button.v-pagination__navigation')[3];
       proximaPagina.click();
+
+      window.scrollTo(0, 0);
     },
   },
 };

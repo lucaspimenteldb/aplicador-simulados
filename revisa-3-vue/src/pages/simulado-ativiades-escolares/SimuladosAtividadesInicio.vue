@@ -32,9 +32,9 @@
       <!-- card da disciplina com nova atividade ou simulado-->
       <v-col
           cols="12" sm="8"
-          md="6" lg="4"
-          xl="3"
+          md="6" xl="4"
           v-for="(area, i) in simulados" :key="i"
+          class="pt-0"
       >
         <v-card
             class="transition rounded__normal cursor__pointer btn__shadow" :class="`destaque__escolares__${area.classe}`"
@@ -42,7 +42,7 @@
         >
           <v-card-text>
             <article class="d-flex align-center justify-space-between relative z-1">
-              <p class="text-h6 leading__tight grey--text text--darken-3">
+              <p class="text-h6 leading__tight black--text">
                 {{ area.titulo }}
               </p>
 
@@ -66,22 +66,28 @@ class="font-weight-bold black--text"
             <div class="mt-4 d-flex justify-space-between">
               <article>
                 <p class="black--text">
-                  Prazo de entrega:<span class="font-weight-bold black--text">
-                  {{ area.data_fim.dia + '/' + area.data_fim.mes + '/' + area.data_fim.ano}} às {{area.data_fim.horas}}:
-                  {{area.data_fim.minutos}}</span>
+                  <b>Prazo de entrega:</b>
+                  <br>
+
+                  <span class="black--text">
+                  {{ area.data_fim.dia+'/'+area.data_fim.mes+'/' + area.data_fim.ano}} das 7:00 até as 23:00
+                    <br>
+                  {{ area.data_fim.dia+1+'/'+area.data_fim.mes+'/'+area.data_fim.ano}} das 7:00 até as 23:00
+                  </span>
                 </p>
               </article>
             </div>
 
             <!-- texto para acessar as atividades novas-->
             <article class="mt-6 relative">
-              <p class="font-weight-bold grey--text text--darken-3">
+              <p class="font-weight-bold black--text">
                 {{ `Fazer simulado ${area.titulo}` }}
               </p>
 
               <!-- icone para acessar -->
               <v-icon
                   v-text="'mdi-location-enter'" class="w__icons__28 absolute bottom-0 right-0"
+                  color="azul"
               />
             </article>
           </v-card-text>
@@ -90,8 +96,9 @@ class="font-weight-bold black--text"
 
       <v-col
           cols="12" sm="6"
-          md="4" lg="3"
+          md="6" xl="4"
           v-for="(redacao, i) in redacoes" :key="i"
+          class="pt-xl-0"
       >
         <v-card
             class="destaque__redacao transition rounded__normal cursor__pointer btn__shadow" :to="'/redacao-enviar/' + redacao.id"
@@ -99,7 +106,7 @@ class="font-weight-bold black--text"
           <v-card-text>
             <article class="d-flex align-center justify-space-between">
               <!-- descricoes da redacao -->
-              <v-card-title class="pa-0 d-inline-block grey--text text--darken-3">
+              <v-card-title class="pa-0 d-inline-block black--text">
                 {{ redacao.titulo }}
               </v-card-title>
 
@@ -107,8 +114,8 @@ class="font-weight-bold black--text"
                   max-height="32px"
                   v-text="redacao.situacao"
                   class="mb-0 d-flex align-center white--text font-weight-bold"
-                  :class="{ 'azul': redacao.situacao === 'Apto para Avaliação', 'red': redacao.situacao === 'pendente', 'green':
-                  redacao.situacao === 'Avaliado'  }"
+                  :class="{ 'azul': redacao.situacao === 'avaliada', 'red': redacao.situacao === 'pendente', 'green':
+                  redacao.situacao === 'entregue'  }"
               />
             </article>
 
@@ -116,14 +123,32 @@ class="font-weight-bold black--text"
               {{ redacao.descricao }}
             </p>
 
+            <!-- prazo de entrega e informações-->
+            <div class="mt-4 d-flex justify-space-between">
+              <article>
+                <p class="black--text">
+                  <b>Prazo de entrega:</b>
+                  <br>
+
+                  <span class="black--text">
+                  23/11 das 7:00 até as 23:00
+                    <br>
+                  24/11 das 7:00 até as 23:00
+                  </span>
+                </p>
+              </article>
+            </div>
+
+            <!-- texto para acessar -->
             <article class="mt-4 relative">
-              <p class="font-weight-bold grey--text text--darken-3">
-                {{ 'Acessar a redação' }}
+              <p class="font-weight-bold black--text">
+                {{ 'Acessar redação' }}
               </p>
 
               <!-- icone para acessar -->
               <v-icon
                   v-text="'mdi-location-enter'" class="w__icons__28 absolute bottom-0 right-0"
+                  color="azul"
               />
             </article>
           </v-card-text>
@@ -657,7 +682,7 @@ export default {
     // document.querySelector('.v-data-footer__pagination').innerHTML = `1 -
     // ${this.questoesGabarito.length > 10 ? 10 : this.questoesGabarito.length} de ${this.questoesGabarito.length}`;
   },
-  
+
   async created () {
     try {
       const { id } = this.$store.state.usuario;
@@ -709,7 +734,7 @@ export default {
       const ano = date.getFullYear();
       const horas = date.getHours() > 9 ? date.getHours() : `0${date.getHours()}`;
       const minutos = date.getMinutes() > 9 ? date.getMinutes() : `0${date.getMinutes()}`;
-      
+
       return {
         dia, mes, ano, horas, minutos,
       };
