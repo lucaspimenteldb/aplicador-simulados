@@ -108,9 +108,7 @@
               </v-card-title>
 
               <v-card-text>
-                <p>
-                  textão
-                </p>
+                <v-img src="../../assets/termo-redacao.png" />
               </v-card-text>
 
               <v-card-actions class="pr-6">
@@ -213,8 +211,8 @@
               max-width="99px"
               v-text="situacaoRedacao"
               class="mt-2 d-flex align-center white--text font-weight-bold"
-              :class="{ 'green': situacaoRedacao === 'Avaliado', 'errou': situacaoRedacao === 'pendente',
-              'azul': situacaoRedacao === 'Apto para Avaliação' }"
+              :class="{ 'green': situacaoRedacao === 'entregue', 'errou': situacaoRedacao === 'pendente',
+              'azul': situacaoRedacao === 'avaliado' }"
           />
         </subheader-secao>
       </v-col>

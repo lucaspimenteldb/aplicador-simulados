@@ -12,9 +12,11 @@
         <v-card-title>
           Termos de compromisso do Simulado
         </v-card-title>
+
+        <v-card-text>
           <v-col
               cols="12"
-              class="pt-0"
+              class="pt-0 px-0"
           >
             <v-select
                 v-if="this.$route.params.idioma"
@@ -26,10 +28,7 @@
             />
           </v-col>
 
-        <v-card-text>
-          <p>
-            Lucas do passinho!
-          </p>
+          <v-img src="@/assets/termo-linguagens.png" />
         </v-card-text>
 
         <v-card-actions class="pr-6">
