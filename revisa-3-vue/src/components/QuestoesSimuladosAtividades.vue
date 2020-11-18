@@ -74,7 +74,7 @@
             class="mb-0 float-right"
             max-width="300px"
         >
-          Tempo restante: {{ '4:30" horas' }}
+          Tempo restante: {{ crono }}
         </v-alert>
       </v-col>
     </v-row>
@@ -341,7 +341,7 @@
           </template>
           <v-card>
             <v-card-title class="headline">
-              Tem certeza que deseja finalizar e enviar o simulado?
+              {{ mensagem }}
             </v-card-title>
 
             <v-card-text>
@@ -383,22 +383,54 @@
       </v-col>
     </v-row>
     <loading :dialog="loading" />
+    <modal
+        :objeto="objeto"
+        @funcao="func"
+    />
+    <modal
+        :objeto="objeto2"
+        @funcao="func2"
+    />
   </v-container>
 </template>
 
 <script>
 import loading from './loading/Loading.vue';
+import modal from './modal/ModalPadrao.vue';
 
 export default {
   name: 'Questoes',
-  components: { loading },
+  components: { loading, modal },
   data () {
     return {
+      objeto: {
+        dialog: false,
+        titulo: 'Simulado entregue com sucesso!',
+        textConfirm: 'Sair',
+        textConfirm2: 'ok',
+        textButton: '',
+        confirm: false,
+        confirm2: true,
+
+      },
+      objeto2: {
+        dialog: false,
+        titulo: 'Simulado entregue com sucesso!',
+        textConfirm: 'Sair',
+        textConfirm2: 'ok',
+        textButton: '',
+        confirm: false,
+        confirm2: true,
+
+      },
       idiomaAtual: '',
+      dataInicio: '',
+      mensagem: '',
       idioma: false,
       dialog: false,
       termos: false,
       loading: false,
+      crono: '',
       width: 0,
       tituloPagina: 'Simulados Escolares',
       tipoAtividadeDisciplina: 'Simulado de Linguagens e Humanas',
@@ -445,7 +477,7 @@ export default {
       console.log(e.key);
 
       if (e.key === 'F12') {
-        e.preventDefault();
+        // e.preventDefault();
       }
 
       if (e.shiftKey && e.ctrlKey && e.key === 'I') {
@@ -459,9 +491,30 @@ export default {
   },
 
   methods: {
+    cronometro () {
+      const countDownDate = new Date(this.dataInicio).getTime();
+      alert(this.dataInicio);
+      const x = setInterval(() => {
+        const now = new Date().getTime();
+        const distance = countDownDate - now;
+        // const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        this.crono = `${hours}:${minutes}:${seconds}`;
 
+        if (distance < 0) {
+          this.crono = 'Encerrado';
+          clearInterval(x);
+        }
+      }, 1000);
+    },
     aceitarTermo () {
-      if (this.$route.params.idioma && !this.idiomaAtual) { alert('Selecione o idioma'); return; }
+      if (this.$route.params.idioma && !this.idiomaAtual) {
+        alert('Selecione o idioma');
+        return;
+      }
       this.termos = false;
       localStorage.setItem('termo', JSON.stringify(true));
       const id = this.$route.params.simulado;
@@ -477,11 +530,21 @@ export default {
         const questoes = await this.$http.get(url, { headers: { Authorization: this.$store.state.token } });
         this.preenchendoQuestoes(questoes.data.questao);
         this.loading = false;
+        this.dataInicio = questoes.data.data;
+        this.cronometro();
       } catch (e) {
         console.log(e);
         this.loading = false;
         alert('Erro ao se conectar com o servidor!');
       }
+    },
+
+    func2 () {
+      this.$router.push('/simulados-atividades-escolares');
+    },
+
+    func () {
+      this.objeto.dialog = false;
     },
 
     async enviandoSimulado () {
@@ -498,8 +561,13 @@ export default {
         }
         const res = await this.$http.post('questoes-simulado', envio,
           { headers: { Authorization: this.$store.state.token } });
-        console.log(res);
+        this.objeto2.dialog = true;
+        this.objeto2.titulo = 'Simulado Entregue com Sucesso, seu resultado ficará disponível dia 10/12!!';
       } catch (e) {
+        if (e.response.status === 403) {
+          this.objeto.dialog = true;
+          this.objeto.titulo = e.response.data.message;
+        }
         console.log(e);
       }
       this.dialog = false;
@@ -615,8 +683,17 @@ export default {
       }
     },
 
-    questoesEmBranco: () => {
+    questoesEmBranco () {
       const gabaritos = document.querySelectorAll('.gabaritos');
+      const { id } = this.$store.state.usuario;
+      const vetor = [];
+      for (let i = 0; i < this.tabs.length; i++) {
+        const que = localStorage.getItem(`quest${this.tabs[i].id}user${id}`);
+        if (que) vetor.push(que);
+      }
+
+      const restantes = this.tabs.length - vetor.length;
+      if (restantes > 0) this.mensagem = `Verificamos que você deixou ${restantes} questões em branco , deseja realmente entregar?`;
       for (let i = 0; i < gabaritos.length; i++) {
         if (gabaritos[i].firstElementChild.firstElementChild.firstElementChild.nodeName === 'I') {
           gabaritos[i].classList.add('border-3', 'border__vermelha', 'errou--text');
