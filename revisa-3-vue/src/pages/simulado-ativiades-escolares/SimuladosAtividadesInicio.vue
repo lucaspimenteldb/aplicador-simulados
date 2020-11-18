@@ -38,7 +38,7 @@
       >
         <v-card
             class="transition rounded__normal cursor__pointer btn__shadow" :class="`destaque__escolares__${area.classe}`"
-            :to="area.liberado ? area.url : ''"
+            :to="area.url"
         >
           <v-card-text>
             <article class="d-flex align-center justify-space-between relative z-1">
@@ -63,10 +63,7 @@ class="font-weight-bold black--text"
             </p>
 
             <!-- prazo de entrega e informações-->
-            <div
-class="mt-4 d-flex justify-space-between"
-v-if="area.liberado"
->
+            <div class="mt-4 d-flex justify-space-between">
               <article>
                 <p class="black--text">
                   <b>Prazo de entrega:</b>
@@ -82,10 +79,7 @@ v-if="area.liberado"
             </div>
 
             <!-- texto para acessar as atividades novas-->
-            <article
-              class="mt-6 relative"
-              v-if="area.liberado"
-            >
+            <article class="mt-6 relative">
               <p class="font-weight-bold black--text">
                 {{ `Fazer simulado ${area.titulo}` }}
               </p>
@@ -694,6 +688,7 @@ export default {
       const { id } = this.$store.state.usuario;
       const dados = await this.$http.get(`simulado-estado/novo-simulado/${id}`, { headers: { Authorization: this.$store.state.token } });
       this.preencherSimulados(dados.data.simulados);
+      console.log(dados.data.redacao);
       this.preencherRedacao(dados.data.redacao);
     } catch (e) {
       console.log(e);
@@ -707,9 +702,7 @@ export default {
       for (let i = 0; i < simulados.length; i++) {
         const maps = simulados[i].Areas.map((el) => el.name);
         const url = simulados[i].is_idioma ? `/simulado-responder/${simulados[i].id}/idioma` : `/simulado-responder/${simulados[i].id}`;
-        const liberado = new Date(simulados[i].data_inicio) <= Date.now();
         const beris = {
-          liberado,
           id: simulados[i].id,
           titulo: simulados[i].titulo,
           areas: maps,
@@ -719,7 +712,6 @@ export default {
           situacao: simulados[i].UserSimuladoEstados[0] ? simulados[i].UserSimuladoEstados[0].situacao : 'pendente',
           url,
         };
-
         this.simulados.push(beris);
       }
     },
