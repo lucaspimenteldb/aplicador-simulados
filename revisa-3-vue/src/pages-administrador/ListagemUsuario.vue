@@ -20,8 +20,9 @@
           md="4"
       >
         <v-select
-            :items="['Escola 1', 'Escola 2']"
+            :items="escolas.map(el => el.nome)"
             filled
+            @change="changeEscola"
             v-model="escolaSelecionada"
             label="Filtrar por escola" color="azul"
             hide-details
@@ -32,8 +33,9 @@
           md="4"
       >
         <v-select
-            :items="['Turma 1', 'Turma 2']"
+            :items="turmas.map(el => el.descricao)"
             filled
+            @change="carregarUsuarios"
             v-model="turmaSelecionada"
             label="Filtrar por turma" color="azul"
             hide-details
@@ -44,8 +46,9 @@
           md="4"
       >
         <v-select
-            :items="['Professor', 'Aluno', 'Gestor']"
+            :items="privilegios.map(el => el.name)"
             filled
+            @change="carregarUsuarios"
             v-model="privilegioSelecionado"
             label="Filtrar por privilégio" color="azul"
             hide-details
@@ -91,28 +94,37 @@
         </v-btn>
       </v-col>
     </v-row>
-
+  <loading :dialog="loading" />
   </v-container>
 </template>
 
 <script>
+import loading from '../components/loading/Loading.vue';
+
 export default {
   name: 'ListagemUsuario',
+  components: {
+    loading,
+  },
 
   data () {
     return {
       escolaSelecionada: '',
       turmaSelecionada: '',
       privilegioSelecionado: '',
+      escolas: [],
+      privilegios: [],
+      turmas: [],
+      loading: false,
 
       headerUsuarios: [
-        {
-          text: 'Foto',
-          align: 'start',
-          sortable: false,
-          value: 'foto',
-          class: 'body-2 font-weight-bold',
-        },
+        // {
+        //   text: 'Foto',
+        //   align: 'start',
+        //   sortable: false,
+        //   value: 'foto',
+        //   class: 'body-2 font-weight-bold',
+        // },
         {
           text: 'Email',
           align: 'start',
@@ -124,7 +136,7 @@ export default {
           text: 'Email 2',
           align: 'start',
           sortable: false,
-          value: 'email-2',
+          value: 'email2',
           class: 'body-2 font-weight-bold',
         },
         {
@@ -138,37 +150,37 @@ export default {
           text: 'Usuário',
           align: 'start',
           sortable: false,
-          value: 'usuario',
+          value: 'name',
           class: 'body-2 font-weight-bold',
         },
         {
           text: 'Privilégio',
           align: 'start',
           sortable: false,
-          value: 'privilegio',
+          value: 'Privilege.name',
           class: 'body-2 font-weight-bold',
         },
         {
           text: 'Escola',
           align: 'start',
           sortable: false,
-          value: 'escola',
+          value: 'Escolas[0].nome',
           class: 'body-2 font-weight-bold',
         },
         {
           text: 'turma',
           align: 'start',
           sortable: false,
-          value: 'turma',
+          value: 'Turmas[0].descricao',
           class: 'body-2 font-weight-bold',
         },
-        {
-          text: 'Turno',
-          align: 'start',
-          sortable: false,
-          value: 'turno',
-          class: 'body-2 font-weight-bold',
-        },
+        // {
+        //   text: 'Turno',
+        //   align: 'start',
+        //   sortable: false,
+        //   value: 'turno',
+        //   class: 'body-2 font-weight-bold',
+        // },
         {
           text: 'Status',
           align: 'start',
@@ -185,26 +197,65 @@ export default {
         },
       ],
       listaUsuarios: [
-        {
-          foto: 'oi',
-          email: 'lucas@gmail.com',
-          'email-2': 'lucas@gmail.com22',
-          telefone: '(86) 98183.3894',
-          usuario: 'jesus@gmail.com',
-          privilegio: 'Deus',
-          escola: 'Escola Maria das Dores',
-          turma: '3ano B',
-          turno: 'Vespertino',
-          status: 'ativo',
-          editar: '/editar-usuario',
-        },
+
       ],
       pesquisar: '',
     };
   },
+  
+  async created () {
+    try {
+      this.loading = true;
+      const escolas = await this.$http.get('escola-atuais/escola', { headers: { Authorization: this.$store.state.token } });
+      this.escolas = escolas.data.escolas;
+      this.privilegios = escolas.data.privileges;
+      this.loading = false;
+    } catch (e) {
+      this.loading = false;
+      console.log(e);
+    }
+  },
 
   mounted () {
     document.querySelector('.v-data-footer__select > div').style.marginLeft = '1rem';
+  },
+
+  methods: {
+    async changeEscola (event) {
+      try {
+        this.loading = true;
+        const filterEscola = this.escolas.filter((e) => e.nome === event);
+        if (filterEscola.length > 0) {
+          const turmas = await this.$http.get(`turmas/${filterEscola[0].id}`, { headers: { Authorization: this.$store.state.token } });
+          this.turmas = turmas.data.turmas;
+        }
+        this.loading = false;
+      } catch (e) {
+        console.log(e);
+        this.loading = false;
+        alert('Erro ao carrega as turmas');
+      }
+    },
+
+    async carregarUsuarios () {
+      try {
+        this.loading = true;
+        const filterEscola = this.escolas.filter((e) => e.nome === this.escolaSelecionada);
+        const filterPrivi = this.privilegios.filter((e) => e.name === this.privilegioSelecionado);
+        const filterTurma = this.turmas.filter((e) => e.descricao === this.turmaSelecionada);
+        if (filterEscola.length > 0 && filterPrivi.length > 0 && filterTurma.length > 0) {
+          const objeto = { id_cms_privileges: filterPrivi[0].id, id_turma: filterTurma[0].id, id_escola: filterEscola[0].id };
+          const usuarios = await this.$http.post('users/listar-usuarios', objeto, { headers: { Authorization: this.$store.state.token } });
+          this.listaUsuarios = usuarios.data.usuarios;
+          console.log((usuarios.data));
+        }
+        this.loading = false;
+      } catch (e) {
+        this.loading = false;
+        console.log(e);
+        alert('Erro ao carrega as turmas');
+      }
+    },
   },
 };
 </script>

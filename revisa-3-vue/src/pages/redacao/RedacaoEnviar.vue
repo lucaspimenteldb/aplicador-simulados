@@ -27,7 +27,7 @@
           cols="12" class="max-h-500 relative"
       >
         <iframe
-            src="https://iopscience.iop.org/article/10.1086/305618/pdf" frameborder="0"
+            src="/teste-redacao.pdf" frameborder="0"
             width="100%"
             height="500px"
         />
@@ -63,6 +63,12 @@
           cols="12" md="5"
           lg="3"
       >
+
+        <a
+id="redacao-pdf"
+download="" href="/teste-redacao.pdf"
+v-show="false"
+/>
         <subheader-secao>
           <v-icon v-text="'mdi-playlist-edit'" />
           <p class="d-inline-block">
@@ -73,6 +79,7 @@
           <v-btn
               v-bind="attrs"
               v-on="on"
+              @click="baixar"
               color="azul"
               class="botao mt-2 px-4 py-2 white--text text-none  transition"
           >
@@ -285,6 +292,10 @@ export default {
   methods: {
     cancelOk () {
       this.objeto.dialog = false;
+    },
+
+    baixar () {
+      document.getElementById('redacao-pdf').click();
     },
 
     funcao () {
