@@ -51,7 +51,7 @@ export default {
       this.autenticado = menu.menu;
       this.routes = this.$router.options.routes;
       console.log(typeof this.routes);
-      this.emitWebSocket(menu.id);
+      // this.emitWebSocket(menu.id);
     }
   },
 
@@ -65,7 +65,7 @@ export default {
     Busao.$on('autenticado', (d, id = 0) => {
       this.autenticado = d;
       this.routes = this.$router.options.routes;
-      this.emitWebSocket(id);
+      // this.emitWebSocket(id);
     });
   },
 };
