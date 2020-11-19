@@ -45,7 +45,7 @@ const routesPadrao = [
     component: () => import('../../pages/redacao/RedacaoEnviarPCD'),
   },
   {
-    path: '/simulados-atividades-escolares',
+    path: '/simulados-atividades-escolares/:simulado?',
     ttl: 'Simulado estadual',
     icon: 'mdi-check-box-multiple-outline',
     menu: true,

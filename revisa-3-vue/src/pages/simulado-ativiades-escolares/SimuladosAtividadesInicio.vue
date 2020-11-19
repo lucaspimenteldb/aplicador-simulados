@@ -1,5 +1,72 @@
 <template>
   <v-container fluid>
+
+    <v-dialog
+            persistent
+            max-width="500px"
+            v-model="termos"
+    >
+      <v-card>
+        <v-alert
+                class="pl-6 errou white--text rounded-0"
+                v-show="idiomaSelecionado"
+        >
+          Por favor, selecione o idioma desejado
+
+          <v-icon
+                  color="white"
+                  v-text="'mdi-close-circle-outline'"
+                  small
+                  class="ml-2"
+          />
+        </v-alert>
+
+        <v-card-title>
+          Termos de compromisso do Simulado
+        </v-card-title>
+
+        <v-card-text>
+          <v-col
+                  cols="12"
+                  class="pt-0 px-0"
+          >
+            <v-select
+                    v-if="isIdioma"
+                    filled
+                    :items="['Inglês', 'Espanhol']"
+                    label="Escolha o idioma" color="azul"
+                    hide-details
+                    v-model="idiomaAtual"
+            />
+          </v-col>
+
+          <v-img src="@/assets/termo-linguagens.png" />
+        </v-card-text>
+
+        <v-card-actions class="pr-6">
+          <v-spacer />
+
+          <v-btn
+                  text
+                  color="errou"
+                  v-text="'Cancelar'"
+                  class="text-none"
+                  @click="termos = false"
+          />
+
+          <v-btn
+                  filled
+                  :disabled="loading"
+                  :loading="loading"
+                  color="azul"
+                  v-text="'Aceitar'"
+                  @click="aceitarTermos"
+                  class="text-none white--text"
+          />
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <v-row>
       <v-col cols="12">
         <h1>
@@ -38,7 +105,7 @@
       >
         <v-card
             class="transition rounded__normal cursor__pointer btn__shadow" :class="`destaque__escolares__${area.classe}`"
-            :to="area.url"
+            @click="passar(area)"
         >
           <v-card-text>
             <article class="d-flex align-center justify-space-between relative z-1">
@@ -340,15 +407,25 @@ class="font-weight-bold black--text"
         </v-data-table>
       </v-col>
     </v-row>-->
+    <loading :dialog="loading" />
   </v-container>
 </template>
 
 <script>
+import loading from '../../components/loading/Loading.vue';
+
 export default {
   name: 'SimuladosAtividadesInicio',
+  components: { loading },
 
   data () {
     return {
+      idiomaSelecionado: false,
+      simulado: {},
+      termos: false,
+      idiomaAtual: '',
+      isIdioma: false,
+      loading: false,
       professorSelecionado: null,
       situacaoSimulado: 'iniciado',
       situacaoRedacao: 'pendente',
@@ -683,23 +760,63 @@ export default {
     // ${this.questoesGabarito.length > 10 ? 10 : this.questoesGabarito.length} de ${this.questoesGabarito.length}`;
   },
 
-  async created () {
-    try {
-      const { id } = this.$store.state.usuario;
-      const dados = await this.$http.get(`simulado-estado/novo-simulado/${id}`, { headers: { Authorization: this.$store.state.token } });
-      this.preencherSimulados(dados.data.simulados);
-      console.log(dados.data.redacao);
-      this.preencherRedacao(dados.data.redacao);
-    } catch (e) {
-      console.log(e);
-      alert('erro');
-    }
+  async activated () {
+    if (this.$route.params.simulado) this.getSimulados();
+  },
+
+  created () {
+    if (!this.$route.params.simulado) this.getSimulados();
   },
 
   methods: {
+
+    async getSimulados () {
+      try {
+        this.loading = true;
+        const { id } = this.$store.state.usuario;
+        const dados = await this.$http.get(`simulado-estado/novo-simulado/${id}`, { headers: { Authorization: this.$store.state.token } });
+        this.preencherSimulados(dados.data.simulados);
+        console.log(dados.data.redacao);
+        this.preencherRedacao(dados.data.redacao);
+        this.loading = false;
+      } catch (e) {
+        console.log(e);
+        this.loading = false;
+        alert('erro');
+      }
+    },
+    passar (simulado) {
+      if (simulado.userSimulado) {
+        this.$router.push(simulado.url);
+        return;
+      }
+      this.idiomaSelecionado = false;
+      this.isIdioma = simulado.is_idioma;
+      this.simulado = simulado;
+      this.termos = true;
+    },
+    
+    async aceitarTermos () {
+      try {
+        if (this.isIdioma && !this.idiomaAtual) {
+          this.idiomaSelecionado = true;
+          return;
+        }
+        this.loading = true;
+        let idioma = this.idiomaAtual === 'Inglês' ? 10 : 11;
+        idioma = this.idiomaAtual ? idioma : '';
+        await this.$http.post(`questoes-simulado/aceitar-termos/${idioma}`, this.simulado, { headers: { Authorization: this.$store.state.token } });
+        this.loading = false;
+        this.$router.push(this.simulado.url);
+      } catch (e) {
+        this.loading = false;
+        alert('Houve um erro, por favor tente novamente mais tarde');
+      }
+    },
     preencherSimulados (simulados) {
       this.simulados = [];
       for (let i = 0; i < simulados.length; i++) {
+        const userSimulado = simulados[i].UserSimuladoEstados[0] ? 1 : 0;
         const maps = simulados[i].Areas.map((el) => el.name);
         const url = simulados[i].is_idioma ? `/simulado-responder/${simulados[i].id}/idioma` : `/simulado-responder/${simulados[i].id}`;
         const beris = {
@@ -711,6 +828,8 @@ export default {
           data_fim: this.datas(new Date(simulados[i].data_fim)),
           situacao: simulados[i].UserSimuladoEstados[0] ? simulados[i].UserSimuladoEstados[0].situacao : 'pendente',
           url,
+          userSimulado,
+          is_idioma: simulados[i].is_idioma,
         };
         this.simulados.push(beris);
       }

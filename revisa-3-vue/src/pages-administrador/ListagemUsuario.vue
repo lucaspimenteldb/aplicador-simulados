@@ -19,7 +19,7 @@
           cols="12" sm="8"
           md="4"
       >
-        <v-select
+        <v-autocomplete
             :items="escolas.map(el => el.nome)"
             filled
             @change="changeEscola"
@@ -45,7 +45,7 @@
           cols="12" sm="6"
           md="4"
       >
-        <v-select
+        <v-autocomplete
             :items="privilegios.map(el => el.name)"
             filled
             @change="carregarUsuarios"
@@ -70,7 +70,7 @@
             :headers="headerUsuarios" :items="listaUsuarios"
             fixed-header
             :footer-props="{itemsPerPageText: 'Usuários por página', itemsPerPageOptions: [ 10, 20, 25 ]}"
-            :search="pesquisar"
+            :search="search"
             class="clear-both text-no-wrap"
         >
           <template v-slot:item.editar="{ item }">
@@ -109,6 +109,7 @@ export default {
 
   data () {
     return {
+      search: '',
       escolaSelecionada: '',
       turmaSelecionada: '',
       privilegioSelecionado: '',

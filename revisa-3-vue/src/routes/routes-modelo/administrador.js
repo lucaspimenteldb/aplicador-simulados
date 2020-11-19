@@ -1,19 +1,20 @@
 const routes = [
   {
-    path: '/listar-usuarios',
+    path: '/home',
     name: 'ListagemUsuarios',
     ttl: 'Listagem de usuários',
     menu: true,
+    icon: 'mdi-account-tie',
     component: () => import('../../pages-administrador/ListagemUsuario'),
     meta: {
-      public: true,
+      public: false,
     },
   },
   {
     path: '/listar-codigos',
     name: 'ListagemCodigos',
     ttl: 'Listagem de códigos de acesso',
-    menu: true,
+    menu: false,
     component: () => import('../../pages-administrador/codigo-acesso/ListagemCodigo'),
     meta: {
       public: false,
@@ -23,7 +24,7 @@ const routes = [
     path: '/gerar-codigo-acesso',
     name: 'GerarCodigos',
     ttl: 'Gerar códigos de acesso',
-    menu: true,
+    menu: false,
     component: () => import('../../pages-administrador/codigo-acesso/GerarCodigoAcesso'),
     meta: {
       public: false,
@@ -33,7 +34,7 @@ const routes = [
     path: '/listar-usuarios-simulado',
     name: 'ListagemUsuariosSimulado',
     ttl: 'Listagem de usuários para simulados',
-    menu: true,
+    menu: false,
     component: () => import('../../pages-administrador/simulado/ListagemUsuarioSimulado'),
     meta: {
       public: false,
@@ -43,7 +44,7 @@ const routes = [
     path: '/editar-usuario',
     name: 'EditarUsuario',
     ttl: 'Editar Usuário',
-    menu: true,
+    menu: false,
     component: () => import('../../pages-administrador/EditarUsuario'),
     meta: {
       public: false,
@@ -53,7 +54,7 @@ const routes = [
     path: '/editar-usuario-simulado',
     name: 'EditarUsuarioSimulado',
     ttl: 'Editar Simulado do Usuário ',
-    menu: true,
+    menu: false,
     component: () => import('../../pages-administrador/simulado/EditarUsuarioSimulado'),
     meta: {
       public: false,
@@ -63,7 +64,7 @@ const routes = [
     path: '/adicionar-usuario',
     name: 'AdiconarUsuario',
     ttl: 'Adicionar Usuário',
-    menu: true,
+    menu: false,
     component: () => import('../../pages-administrador/AdicionarUsuario'),
     meta: {
       public: false,

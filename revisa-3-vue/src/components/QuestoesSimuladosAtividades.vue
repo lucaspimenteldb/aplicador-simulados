@@ -154,9 +154,10 @@
                   {{ questao }}
                 </p>
 
-                <p class="body-2 grey--text text--darken-3 pointer__events__none">
-                  {{ alternativa }}
-                </p>
+                <p
+v-html="alternativa"
+class="body-2 grey--text text--darken-3 pointer__events__none"
+/>
               </article>
             </v-hover>
           </section>
@@ -418,6 +419,7 @@ export default {
     return {
       alert: 'success',
       idiomaSelecionado: true,
+      contador: '',
       objeto: {
         dialog: false,
         titulo: 'Simulado entregue com sucesso!',
@@ -448,7 +450,7 @@ export default {
       crono: '',
       width: 0,
       tituloPagina: 'Simulados Escolares',
-      tipoAtividadeDisciplina: 'Simulado de Linguagens e Humanas',
+      tipoAtividadeDisciplina: '',
       desmarcado: 'mdi-checkbox-blank-circle-outline',
       marcado: 'mdi-checkbox-marked-circle-outline',
       page: 1,
@@ -463,8 +465,10 @@ export default {
 
   activated () {
     this.tabs = [];
+    this.crono = '';
+    clearInterval(this.contador);
     this.questoesMarcadasGabarito = [];
-    this.termos = !(localStorage.getItem('termo'));
+    // this.termos = (this.$route.params.situacao === '0');
     if (this.termos) return;
     const id = this.$route.params.simulado;
     this.getQuestoes(`questoes-simulado/${id}`);
@@ -508,7 +512,7 @@ export default {
   methods: {
     cronometro () {
       const countDownDate = new Date(this.dataInicio).getTime();
-      const x = setInterval(() => {
+      this.contador = setInterval(() => {
         const now = new Date().getTime();
         const distance = countDownDate - now;
         // const days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -530,8 +534,8 @@ export default {
         if (distance < 0) {
           this.crono = 'Encerrado';
           this.enviandoSimulado();
-          this.$router.push('/simulados-atividades-escolares')
-          clearInterval(x);
+          this.$router.push('/simulados-atividades-escolares');
+          clearInterval(this.contador);
         }
       }, 1000);
     },
@@ -551,7 +555,7 @@ export default {
 
     pushDoSimulado () {
       this.enviandoSimulado();
-      this.$router.push('/simulados-atividades-escolares');
+      this.$router.push('/simulados-atividades-escolares/simulado');
     },
 
     async getQuestoes (url) {
@@ -562,6 +566,10 @@ export default {
         this.preenchendoQuestoes(questoes.data.questao);
         this.loading = false;
         this.dataInicio = questoes.data.data;
+        const area1 = questoes.data.areas[0] ? questoes.data.areas[0].Area.name : '';
+        const area2 = questoes.data.areas[1] ? questoes.data.areas[1].Area.name : '';
+        this.tipoAtividadeDisciplina = `Simulado de ${area1} e ${area2}`;
+        // this.tipoAtividadeDisciplina = areas[0];
         this.dataInicio = this.dataInicio.replace('T', ' ');
         this.dataInicio = this.dataInicio.replace('Z', '');
         this.cronometro();
