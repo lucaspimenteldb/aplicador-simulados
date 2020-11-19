@@ -87,7 +87,7 @@
 
         }
       ],
-      "max-len": [2, {"code": 140, "tabWidth": 4, "ignoreUrls": true, "ignoreStrings": true}],
+      "max-len": [2, {"code": 200, "tabWidth": 4, "ignoreUrls": true, "ignoreStrings": true}],
       "no-plusplus": "off"
 
     }
