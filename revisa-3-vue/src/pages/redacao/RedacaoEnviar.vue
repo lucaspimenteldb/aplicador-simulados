@@ -155,7 +155,7 @@
                         class="pl-6 errou white--text rounded-0"
                         v-show="redacaoEnvioErro"
                     >
-                     {{ msgErro }}
+                     Por favor, selecione a imagem da sua redação
 
                       <v-icon
                           color="white"
@@ -252,6 +252,7 @@ export default {
       enviarRedacao: false,
       redacaoEnviada: false,
       redacaoEnvioErro: false,
+      imagemRedacao: true,
       situacaoRedacao: 'pendente',
       file: null,
       form: [],
@@ -296,7 +297,6 @@ export default {
         this.redacaoEnviada = false;
         const tipoImage = this.file.type.split('/')[0];
         if (tipoImage !== 'image') {
-          alert('Por favor selecione uma imagem');
           return;
         }
         this.loading = true;

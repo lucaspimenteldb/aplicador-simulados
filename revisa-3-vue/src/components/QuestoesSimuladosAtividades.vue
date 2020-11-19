@@ -9,6 +9,20 @@
         v-model="termos"
     >
       <v-card>
+        <v-alert
+            class="pl-6 errou white--text rounded-0"
+            v-show="!idiomaSelecionado"
+        >
+          Por favor, selecione o idioma desejado
+
+          <v-icon
+              color="white"
+              v-text="'mdi-close-circle-outline'"
+              small
+              class="ml-2"
+          />
+        </v-alert>
+
         <v-card-title>
           Termos de compromisso do Simulado
         </v-card-title>
@@ -403,6 +417,7 @@ export default {
   data () {
     return {
       alert: 'success',
+      idiomaSelecionado: true,
       objeto: {
         dialog: false,
         titulo: 'Simulado entregue com sucesso!',
@@ -501,7 +516,7 @@ export default {
         const hoursAux = ((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        
+
         this.crono = `${hours}:${minutes}:${seconds}`;
 
         if (hoursAux <= 0.5 && alert !== 'error') {
@@ -522,10 +537,11 @@ export default {
     },
     aceitarTermo () {
       if (this.$route.params.idioma && !this.idiomaAtual) {
-        alert('Selecione o idioma');
+        this.idiomaSelecionado = false;
         return;
       }
       this.termos = false;
+      this.idiomaSelecionado = true;
       localStorage.setItem('termo', JSON.stringify(true));
       const id = this.$route.params.simulado;
       let idioma = this.idiomaAtual === 'Inglês' ? 10 : 11;
@@ -707,7 +723,7 @@ export default {
 
       if (hours > 3.5) {
         this.objeto.dialog = true;
-        this.objeto.titulo = 'Você só pode finalizar seu simulado, após 1h de prova.';
+        this.objeto.titulo = 'Você só pode entregar seu simulado após 1h de prova.';
         return;
       }
 

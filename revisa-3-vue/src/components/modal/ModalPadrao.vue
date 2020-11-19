@@ -1,11 +1,11 @@
 <template>
   <v-row justify="center">
     <v-dialog
-v-model="objeto.dialog"
-persistent max-width="290"
->
+      v-model="objeto.dialog"
+      persistent max-width="290"
+    >
       <v-card>
-        <v-card-title class="body-1">
+        <v-card-title class="body-1 text-break">
           {{ objeto.titulo }}
         </v-card-title>
 

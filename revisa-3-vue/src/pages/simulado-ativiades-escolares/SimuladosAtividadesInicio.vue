@@ -98,7 +98,7 @@ class="font-weight-bold black--text"
           cols="12"
           md="6" xl="4"
           v-for="(redacao, i) in redacoes" :key="i"
-          class="pt-xl-0"
+          class="pt-0"
       >
         <v-card
             class="destaque__redacao transition rounded__normal cursor__pointer btn__shadow" :to="'/redacao-enviar/' + redacao.id"
