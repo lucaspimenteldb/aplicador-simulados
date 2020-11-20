@@ -168,7 +168,7 @@ class="font-weight-bold black--text"
           class="pt-0"
       >
         <v-card
-            class="destaque__redacao transition rounded__normal cursor__pointer btn__shadow" :to="'/redacao-enviar/' + redacao.id"
+            class="destaque__redacao transition rounded__normal cursor__pointer btn__shadow" :to="redacao.dispon"
         >
           <v-card-text>
             <article class="d-flex align-center justify-space-between">
@@ -181,8 +181,8 @@ class="font-weight-bold black--text"
                   max-height="32px"
                   v-text="redacao.situacao"
                   class="mb-0 d-flex align-center white--text font-weight-bold"
-                  :class="{ 'azul': redacao.situacao === 'avaliada', 'red': redacao.situacao === 'pendente', 'green':
-                  redacao.situacao === 'entregue'  }"
+                  :class="{ 'azul': redacao.situacao === 'Redação Entregue', 'red': redacao.situacao === 'pendente', 'green':
+                  redacao.situacao === 'Avaliado'  }"
               />
             </article>
 
@@ -209,7 +209,7 @@ class="font-weight-bold black--text"
             <!-- texto para acessar -->
             <article class="mt-4 relative">
               <p class="font-weight-bold black--text">
-                {{ 'Acessar redação' }}
+                {{ redacao.footer }}
               </p>
 
               <!-- icone para acessar -->
@@ -852,7 +852,10 @@ export default {
           titulo: redacao[i].titulo,
           descricao: redacao[i].descricao,
           situacao: redacao[i].UsersRedacaos.length > 0 ? redacao[i].UsersRedacaos[0].situacao : 'pendente',
+          dispon: (redacao[i].UsersRedacaos.length <= 0) ? `/redacao-enviar/${redacao[i].id}` : '',
+          footer: (redacao[i].UsersRedacaos.length <= 0) ? 'Acessar Redação' : '',
         };
+        beris.situacao = redacao[i].UsersRedacaos.length > 0 ? 'Redação Entregue' : beris.situacao;
         this.redacoes.push(beris);
       }
     },

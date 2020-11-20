@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container  :disabled="!loading">
     <v-row>
       <v-col cols="12">
         <h1>
@@ -100,6 +100,8 @@ v-show="false"
           >
             <template v-slot:activator="{ on, attrs }">
               <v-btn
+                      v-if="envio"
+                      :disabled="loading"
                   v-on="on"
                   v-bind="attrs"
                   color="azul"
@@ -162,7 +164,7 @@ v-show="false"
                         class="pl-6 errou white--text rounded-0"
                         v-show="redacaoEnvioErro"
                     >
-                     Por favor, selecione a imagem da sua redação
+                    {{ msgErro }}
 
                       <v-icon
                           color="white"
@@ -226,12 +228,13 @@ v-show="false"
           </v-dialog>
 
           <v-alert
+                  style="justify-content: center"
               max-height="36px"
-              max-width="99px"
+              max-width="65%"
               v-text="situacaoRedacao"
               class="mt-2 d-flex align-center white--text font-weight-bold"
-              :class="{ 'green': situacaoRedacao === 'entregue', 'errou': situacaoRedacao === 'pendente',
-              'azul': situacaoRedacao === 'avaliado' }"
+              :class="{ 'green': situacaoRedacao === 'Avaliado', 'errou': situacaoRedacao === 'pendente',
+              'azul': situacaoRedacao === 'Apto para Avaliação' }"
           />
         </subheader-secao>
       </v-col>
@@ -241,15 +244,16 @@ v-show="false"
         @aparecerModal="cancelOk"
         @funcao="enviarFotoRedacao"
     />
-  </v-container>
+    <Loading :dialog="loading" /></v-container>
 </template>
 
 <script>
 import ModalPadrao from '../../components/modal/ModalPadrao.vue';
+import Loading from '../../components/loading/Loading.vue';
 
 export default {
   name: 'RedacaoEnviar',
-  components: { ModalPadrao },
+  components: { ModalPadrao, Loading },
 
   data () {
     return {
@@ -260,6 +264,7 @@ export default {
       redacaoEnviada: false,
       redacaoEnvioErro: false,
       imagemRedacao: true,
+      envio: true,
       situacaoRedacao: 'pendente',
       file: null,
       form: [],
@@ -279,11 +284,15 @@ export default {
   async created () {
     this.redacaoId = this.$route.params.redacao;
     try {
+      this.loading = true;
       const redacao = await this.$http.get(`redacao/redacao-atual/${this.redacaoId}/${this.$store.state.usuario.id}`,
         { headers: { Authorization: this.$store.state.token } });
       this.redacao = redacao.data.redacao;
       this.situacaoRedacao = this.redacao[0].UsersRedacaos[0] ? this.redacao[0].UsersRedacaos[0].situacao : 'pendente';
+      this.envio = !this.redacao[0].UsersRedacaos[0];
+      this.loading = false;
     } catch (e) {
+      this.loading = false;
       console.log(e);
       alert('Erro ao acessar o servidor');
     }
@@ -299,6 +308,7 @@ export default {
     },
 
     funcao () {
+      if (!this.file) { this.redacaoEnvioErro = true; this.msgErro = 'Selecione a Imagem'; return; }
       this.objeto.dialog = true;
     },
     async enviarFotoRedacao () {
@@ -320,6 +330,7 @@ export default {
         });
         this.loading = false;
         this.redacaoEnviada = true;
+        this.$router.push('/simulados-atividades-escolares/simulado');
       } catch (e) {
         this.loading = false;
         this.redacaoEnvioErro = true;

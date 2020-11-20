@@ -128,9 +128,11 @@ import aluno from '../routes/routes-modelo/aluno';
 import professor from '../routes/routes-modelo/professor';
 import administrador from '../routes/routes-modelo/administrador';
 import coordenador from '../routes/routes-modelo/coordenador';
+import recaptcha from '../mixis/recaptcha/recaptcha';
 
 export default {
   name: 'Login',
+  mixins: [recaptcha],
   components: { VueRecaptcha },
 
   data () {
@@ -142,8 +144,6 @@ export default {
       senha: '',
       login: '',
       loading: false,
-      token: '',
-      site_key: env.KEY_CAPTCHA,
     };
   },
 
@@ -256,14 +256,6 @@ export default {
             this.$router.options.routes.push(user);
           }
       }
-    },
-    onCaptchaVerified (token) {
-      this.token = token;
-    },
-
-    onCaptchaExpired () {
-      this.$refs.recaptcha.reset();
-      this.token = '';
     },
   },
 };

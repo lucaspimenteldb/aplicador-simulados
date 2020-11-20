@@ -49,15 +49,31 @@
           </v-btn>
         </section>
       </v-col>
+      <v-col cols="12">
+        <section class="mx-auto max-w-300">
+          <VueRecaptcha
+                  ref="recaptcha"
+                  @verify="onCaptchaVerified"
+                  @expired="onCaptchaExpired"
+                  class="ml-2 azul white--text w-140 text-none capctha"
+                  :loadRecaptchaScript="true"
+                  :sitekey="site_key"
+          />
+        </section>
+      </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import VueRecaptcha from 'vue-recaptcha';
 import senha from '../services/esqueceuSenha/esqueceuSenha';
+import recaptcha from '../mixis/recaptcha/recaptcha';
 
 export default {
   name: 'esqueci-senha',
+  mixins: [recaptcha],
+  components: { VueRecaptcha },
   
   data () {
     return {
@@ -75,6 +91,11 @@ export default {
           this.msgErro('Informe o E-mail', true);
           return;
         }
+        
+        if (!this.token) {
+          this.msgErro('Marque a opção não sou robô', true);
+          return;
+        }
         this.preLoading(true);
         this.msgErro('', false);
         const body = { email: this.email };
@@ -83,6 +104,8 @@ export default {
         this.$router.replace('alterar-senha');
       } catch (e) {
         console.log(e);
+        this.$refs.recaptcha.reset();
+        this.token = '';
         this.msgErro('Email não encontrado', true);
         this.preLoading(false);
       }

@@ -5,7 +5,7 @@
   >
     <v-alert
         :type="alert"
-        class="mb-0 d-flex align-center fixed top-2 right-6 right-sm-8 z-1000"
+        class="mb-0 d-flex align-center top-2 right-6 right-sm-8 z-1000 fixed-ok"
         height="48px"
         max-width="300px"
     >
@@ -817,6 +817,10 @@ export default {
 <style scoped>
 .MsoNormal span {
   text-align: left;
+}
+
+.fixed-ok {
+  position: fixed !important;
 }
 
 @media screen and (min-width: 661px) {
