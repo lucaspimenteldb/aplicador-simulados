@@ -236,9 +236,10 @@ class="font-weight-bold black--text"
           cols="12" md="6"
       >
         <iframe
-            width="100%" height="360"
-            src="https://www.youtube.com/embed/C1eG9NuhRd8" frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+          width="100%"
+          height="360" src="https://youtube.com/embed/Q7K_azcziHA"
+          frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
         />
       </v-col>
 
@@ -247,7 +248,7 @@ class="font-weight-bold black--text"
       >
         <iframe
             width="100%" height="360"
-            src="https://www.youtube.com/embed/xgcIJggKtmY" frameborder="0"
+            src="https://youtube.com/embed/E8rzWw6ELcw" frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
         />
       </v-col>
