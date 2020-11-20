@@ -123,6 +123,10 @@
   right: 1.5rem;
 }
 
+.right-8 {
+  right: 2rem;
+}
+
 .right--1 {
   right: -0.25rem;
 }
@@ -425,6 +429,10 @@
   .w-sm-4\/5 {
     width: 80%;
   }
+
+  .right-sm-8 {
+    right: 4rem;
+  }
 }
 .w-full {
   width: 100%;
@@ -624,6 +632,18 @@
   top: -2rem;
 }
 
+.top--14 {
+  top: -3.5rem;
+}
+
+.top--15 {
+  top: -3.75rem;
+}
+
+.top--16 {
+  top: -4rem;
+}
+
 .top-0 {
   top: 0;
 }
@@ -670,6 +690,10 @@
 
 .right-2 {
   right: 0.5rem;
+}
+
+.right-3 {
+  right: 0.75rem;
 }
 
 .right-4 {
@@ -1074,6 +1098,12 @@
 
 .break__space {
   white-space: break-spaces;
+}
+
+@media only screen and (min-width: 600px) {
+  .right-sm-8 {
+    right: 2rem;
+  }
 }
 
 /*# sourceMappingURL=custom.css.map */

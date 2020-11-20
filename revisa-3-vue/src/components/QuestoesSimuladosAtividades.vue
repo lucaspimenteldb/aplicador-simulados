@@ -3,6 +3,15 @@
       fluid
       oncontextmenu="return false"
   >
+    <v-alert
+        :type="alert"
+        class="mb-0 d-flex align-center fixed top-2 right-6 right-sm-8 z-1000"
+        height="48px"
+        max-width="300px"
+    >
+      Tempo restante: {{ crono }}
+    </v-alert>
+
     <v-dialog
         persistent
         max-width="500px"
@@ -83,13 +92,45 @@
       <v-col
           cols="12" md="5"
       >
-        <v-alert
-                :type="alert"
-            class="mb-0 float-right"
-            max-width="300px"
+        <v-dialog
+            v-model="dialog" persistent
+            max-width="400"
         >
-          Tempo restante: {{ crono }}
-        </v-alert>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+                color="azul"
+                class="float-right text-none white--text"
+                dark v-bind="attrs"
+                @click="questoesEmBranco"
+            >
+              Finalizar simulado
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-title class="headline">
+              {{ mensagem }}
+            </v-card-title>
+
+            <v-card-text>
+              Após finalizado o simulado não pode ser feito novamente e você poderá ver o seu desempenho.
+            </v-card-text>
+
+            <v-card-actions class="px-6">
+              <v-spacer />
+              <v-btn
+                  color="red" text
+                  @click="dialog = false"
+                  v-text="'Cancelar'"
+                  class="text-none"
+              />
+              <v-btn
+                  color="azul" class="text-none white--text"
+                  @click="pushDoSimulado"
+                  v-text="'Enviar simulado'"
+              />
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-col>
     </v-row>
 
@@ -340,13 +381,13 @@ class="body-2 grey--text text--darken-3 pointer__events__none"
           </v-progress-circular>
         </section>
 
-        <v-dialog
+        <!--<v-dialog
             v-model="dialog" persistent
             max-width="400"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
-                color="azul" class="mt-4 white--text text-none rounded__normal"
+                color="azul" class="mt-4 white&#45;&#45;text text-none"
                 dark v-bind="attrs"
                 @click="questoesEmBranco"
             >
@@ -371,13 +412,13 @@ class="body-2 grey--text text--darken-3 pointer__events__none"
                   class="text-none"
               />
               <v-btn
-                  color="azul" class="text-none white--text"
+                  color="azul" class="text-none white&#45;&#45;text"
                   @click="pushDoSimulado"
                   v-text="'Enviar simulado'"
               />
             </v-card-actions>
           </v-card>
-        </v-dialog>
+        </v-dialog>-->
       </v-col>
     </v-row>
 
