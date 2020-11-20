@@ -617,7 +617,8 @@ export default {
       } catch (e) {
         console.log(e);
         this.loading = false;
-        alert('Erro ao se conectar com o servidor!');
+        const message = e.response ? e.response.data.message : 'Erro interno';
+        alert(message);
       }
     },
 

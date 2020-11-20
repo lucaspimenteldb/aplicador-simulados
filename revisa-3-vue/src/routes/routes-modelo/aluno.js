@@ -45,10 +45,19 @@ const routesPadrao = [
     component: () => import('../../pages/redacao/RedacaoEnviarPCD'),
   },
   {
-    path: '/simulados-atividades-escolares/:simulado?',
+    path: '/simulados-atividades-escolares/',
     ttl: 'Simulado estadual',
     icon: 'mdi-check-box-multiple-outline',
     menu: true,
+    name: 'SimuladosAtividadesInicio',
+    component: () => import('../../pages/simulado-ativiades-escolares/SimuladosAtividadesInicio'),
+  },
+
+  {
+    path: '/simulados-atividades-escolares/:simulado?',
+    ttl: 'Simulado estadual',
+    icon: 'mdi-check-box-multiple-outline',
+    menu: false,
     name: 'SimuladosAtividadesInicio',
     component: () => import('../../pages/simulado-ativiades-escolares/SimuladosAtividadesInicio'),
   },

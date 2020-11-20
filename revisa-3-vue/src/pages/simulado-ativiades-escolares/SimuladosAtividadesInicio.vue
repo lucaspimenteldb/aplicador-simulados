@@ -133,7 +133,7 @@ class="font-weight-bold black--text"
             <div class="mt-4 d-flex justify-space-between">
               <article>
                 <p class="black--text">
-                  <b>Prazo de entrega:</b>
+                  <b>Período de entrega:</b>
                   <br>
 
                   <span class="black--text">
@@ -148,7 +148,7 @@ class="font-weight-bold black--text"
             <!-- texto para acessar as atividades novas-->
             <article class="mt-6 relative">
               <p class="font-weight-bold black--text">
-                {{ `Fazer simulado ${area.titulo}` }}
+                {{ area.message }}
               </p>
 
               <!-- icone para acessar -->
@@ -776,7 +776,6 @@ export default {
         const { id } = this.$store.state.usuario;
         const dados = await this.$http.get(`simulado-estado/novo-simulado/${id}`, { headers: { Authorization: this.$store.state.token } });
         this.preencherSimulados(dados.data.simulados);
-        console.log(dados.data.redacao);
         this.preencherRedacao(dados.data.redacao);
         this.loading = false;
       } catch (e) {
@@ -786,6 +785,7 @@ export default {
       }
     },
     passar (simulado) {
+      if (!simulado.liberado) return;
       if (simulado.userSimulado) {
         this.$router.push(simulado.url);
         return;
@@ -831,6 +831,14 @@ export default {
           userSimulado,
           is_idioma: simulados[i].is_idioma,
         };
+
+        let message = new Date(simulados[i].data_fim).getTime() < new Date().getTime() ? 'Simulado Expirado :(' : `Fazer simulado ${beris.titulo}`;
+        message = new Date(beris.data_inicio).getTime() > new Date().getTime() ? 'Simulado não liberado' : message;
+        message = beris.situacao === 'Entregue' ? 'Simulado Entregue' : message;
+        let liberado = !(beris.situacao === 'Entregue' || new Date(beris.data_inicio).getTime() > new Date().getTime());
+        liberado = new Date(simulados[i].data_fim).getTime() < new Date().getTime() ? false : liberado;
+        beris.message = message;
+        beris.liberado = liberado;
         this.simulados.push(beris);
       }
     },
