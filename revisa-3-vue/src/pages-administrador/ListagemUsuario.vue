@@ -16,6 +16,44 @@
       </v-col>
 
       <v-col
+              cols="12" sm="5"
+              md="5"
+      >
+        <v-select
+                :items="['login', 'email', 'email2']"
+                filled
+                v-model="login"
+                label="Escolha por onde começar" color="azul"
+                hide-details
+        />
+      </v-col>
+
+      <v-col
+              cols="12" sm="5"
+              md="5"
+      >
+        <v-text-field
+                filled
+                :label="'Filtrar por '+login" color="azul"
+                hide-details
+                v-model="pesquisar"
+        />
+      </v-col>
+
+      <v-col
+              cols="12" sm="2"
+              md="2"
+      >
+        <v-btn
+                small
+                color="azul" class="text-none white--text rounded__normal"
+                @click="getUsuarioByEmail"
+        >
+          Pesquisar por {{login}}
+        </v-btn>
+      </v-col>
+
+      <v-col
           cols="12" sm="8"
           md="4"
       >
@@ -77,7 +115,7 @@
             <v-btn
                 small
                 color="azul" class="text-none white--text rounded__normal"
-                :to="item.editar"
+                @click="passar(item.id)"
             >
               editar dados
             </v-btn>
@@ -117,6 +155,8 @@ export default {
       privilegios: [],
       turmas: [],
       loading: false,
+      login: 'login',
+      pesquisarLogin: '',
 
       headerUsuarios: [
         // {
@@ -222,6 +262,9 @@ export default {
   },
 
   methods: {
+    passar (id) {
+      this.$router.push(`/editar-usuario/${id}`);
+    },
     async changeEscola (event) {
       try {
         this.loading = true;
@@ -234,6 +277,22 @@ export default {
       } catch (e) {
         console.log(e);
         this.loading = false;
+        alert('Erro ao carrega as turmas');
+      }
+    },
+
+    async getUsuarioByEmail () {
+      try {
+        this.loading = true;
+        if (this.login && this.pesquisar) {
+          const objeto = { coluna: this.login, fied: this.pesquisar };
+          const usuarios = await this.$http.post('users/listar-usuarios-login', objeto, { headers: { Authorization: this.$store.state.token } });
+          this.listaUsuarios = usuarios.data.usuarios;
+        }
+        this.loading = false;
+      } catch (e) {
+        this.loading = false;
+        console.log(e);
         alert('Erro ao carrega as turmas');
       }
     },

@@ -25,6 +25,18 @@
                         hide-details
                         v-if="input.type === 'text'"
                 />
+                <v-text-field
+                        :background-color="input.back"
+                        :id="input.name"
+                        :label="input.label"
+                        filled
+                        type="password"
+                        v-model="input.valor"
+                        color="azul"
+                        append-icon="mdi-pencil"
+                        hide-details
+                        v-if="input.type === 'password'"
+                />
                 <v-select
                         :background-color="input.back"
                         :id="input.name"
@@ -60,6 +72,19 @@
                         append-icon="mdi-pencil"
                         hide-details
                         v-if="input.type === 'autocomplete'"
+                />
+                <v-autocomplete
+                        :background-color="input.back"
+                        :id="input.name"
+                        :label="input.label"
+                        filled
+                        v-model="input.valor"
+                        color="azul"
+                        :items="input.data"
+                        append-icon="mdi-pencil"
+                        hide-details
+                        multiple
+                        v-if="input.type === 'duplo'"
                 />
             </v-col>
 
@@ -184,6 +209,24 @@ export default {
           valor: '',
           required: true,
           back: '',
+          name: 'password',
+          label: 'Senha',
+          type: 'password',
+          cols: 6,
+        },
+        {
+          valor: '',
+          required: true,
+          back: '',
+          name: 'confirm_password',
+          label: 'Confirmar Senha',
+          type: 'password',
+          cols: 6,
+        },
+        {
+          valor: '',
+          required: true,
+          back: '',
           name: 'id_cms_privileges',
           label: 'Privilégio',
           type: 'autocomplete',
@@ -196,7 +239,7 @@ export default {
           name: 'id_escola',
           back: '',
           label: 'Escola',
-          type: 'autocomplete',
+          type: 'duplo',
           cols: 12,
           data: this.escolas,
         },
@@ -212,7 +255,7 @@ export default {
         },
         {
           valor: '',
-          required: true,
+          required: false,
           back: '',
           name: 'id_turma',
           label: 'Turma',
@@ -265,14 +308,16 @@ export default {
         let unaVez = false;
         const form = new FormData();
         for (let i = 0; i < this.inputs.length; i++) {
-          if (this.inputs[i].required && !this.inputs[i].valor.trim()) {
+          if (this.inputs[i].required && !this.inputs[i].valor) {
             this.inputs[i].back = '#ff4040';
             unaVez = true;
           }
           const valor = this.enviAuxiliar(this.inputs[i].name, this.inputs[i].valor);
           form.append(this.inputs[i].name, valor);
         }
-
+        const password = this.getUsuario('password');
+        const confirm = this.getUsuario('confirm_password');
+        if (confirm !== password) { alert('Senha não correspondem'); this.loading = false; return; }
         if (unaVez) { alert('Preencha os campos obrigatórios'); this.loading = false; return; }
         await this.$http.post('users/cadastrar-usuario', form, {
           headers: { Authorization: this.$store.state.token, 'Content-type': 'multipart/form-data' },
@@ -295,8 +340,12 @@ export default {
         const aux = this.turmas.filter((el) => el.descricao === valor);
         valorA = aux[0] ? aux[0].id : valorA;
       } else if (name === 'id_escola') {
-        const aux = this.escolas.filter((el) => el.nome === valor);
-        valorA = aux[0] ? aux[0].id : valorA;
+        const vetor = [];
+        for (let i = 0; i < valor.length; i++) {
+          const aux = this.escolas.filter((el) => el.nome === valor[i]);
+          valorA = aux[0] ? vetor.push(aux[0].id) : valorA;
+        }
+        valorA = vetor;
       }
 
       return valorA;

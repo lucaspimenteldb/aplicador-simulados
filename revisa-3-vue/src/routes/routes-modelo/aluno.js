@@ -113,6 +113,14 @@ const routesSimulado = [
     component: () => import('../../pages/simulado-ativiades-escolares/SimuladosAtividadesInicio'),
   },
   {
+    path: '/simulados-atividades-escolares/:simulado?',
+    ttl: 'Simulado estadual',
+    icon: 'mdi-check-box-multiple-outline',
+    menu: false,
+    name: 'SimuladosAtividadesInicio',
+    component: () => import('../../pages/simulado-ativiades-escolares/SimuladosAtividadesInicio'),
+  },
+  {
     path: '/simulado-responder/:simulado/:idioma?',
     name: 'QuestoesSimuladosAtividades',
     component: () => import('../../components/QuestoesSimuladosAtividades'),

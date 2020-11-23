@@ -832,12 +832,11 @@ export default {
           userSimulado,
           is_idioma: simulados[i].is_idioma,
         };
-
-        let message = new Date(simulados[i].data_fim).getTime() < new Date().getTime() ? 'Simulado Expirado :(' : `Fazer simulado ${beris.titulo}`;
-        message = new Date(beris.data_inicio).getTime() > new Date().getTime() ? 'Simulado não liberado' : message;
+        let message = simulados[i].expirado ? 'Simulado Expirado :(' : `Fazer simulado ${beris.titulo}`;
+        message = !simulados[i].liberado ? 'Simulado não liberado' : message;
         message = beris.situacao === 'Entregue' ? 'Simulado Entregue' : message;
-        let liberado = !(beris.situacao === 'Entregue' || new Date(beris.data_inicio).getTime() > new Date().getTime());
-        liberado = new Date(simulados[i].data_fim).getTime() < new Date().getTime() ? false : liberado;
+        let liberado = !(beris.situacao === 'Entregue' || !simulados[i].liberado);
+        liberado = simulados[i].expirado ? false : liberado;
         beris.message = message;
         beris.liberado = liberado;
         this.simulados.push(beris);
@@ -861,7 +860,7 @@ export default {
     },
     datas (date) {
       const dia = date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`;
-      const mes = date.getMonth() > 9 ? date.getMonth() : `0${date.getMonth()}`;
+      const mes = date.getMonth() > 9 ? date.getMonth() + 1 : `0${date.getMonth() + 1}`;
       const ano = date.getFullYear();
       const horas = date.getHours() > 9 ? date.getHours() : `0${date.getHours()}`;
       const minutos = date.getMinutes() > 9 ? date.getMinutes() : `0${date.getMinutes()}`;

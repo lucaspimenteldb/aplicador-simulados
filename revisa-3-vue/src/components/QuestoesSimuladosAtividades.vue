@@ -626,7 +626,7 @@ export default {
       } catch (e) {
         console.log(e);
         this.loading = false;
-        const message = e.response ? e.response.data.message : 'Erro interno';
+        const message = e.response ? e.response.data.message : 'Verifique a conexão com a sua internet e tente novamente mais tarde';
         alert(message);
       }
     },
@@ -805,11 +805,11 @@ export default {
       const distance = (new Date(this.dataInicio).getTime() - new Date().getTime());
       const hours = ((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 
-      if (hours > 3.5) {
-        this.objeto.dialog = true;
-        this.objeto.titulo = 'Você só pode entregar seu simulado após 1h de prova.';
-        return;
-      }
+      // if (hours > 3.5) {
+      //   this.objeto.dialog = true;
+      //   this.objeto.titulo = 'Você só pode entregar seu simulado após 1h de prova.';
+      //   return;
+      // }
 
       this.dialog = true;
 
