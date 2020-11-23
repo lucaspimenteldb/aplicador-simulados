@@ -1,105 +1,124 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col cols="12">
-        <h1>
-          Adicionar usuário
-        </h1>
-      </v-col>
-    </v-row>
+    <v-container>
+        <v-row>
+            <v-col cols="12">
+                <h1>
+                    Adicionar usuário
+                </h1>
+            </v-col>
+        </v-row>
 
-    <v-row>
-      <v-col
-          v-for="input of inputs" :key="input"
-          cols="12"
-          :sm="input.cols"
-      >
-        <v-text-field
-            :label="input.label"
-            filled
-            color="azul"
-            append-icon="mdi-pencil"
-            hide-details
-            v-if="input.type === 'text'"
-        />
-        <v-select
-            :label="input.label"
-            filled
-            color="azul"
-            :items="input.data"
-            append-icon="mdi-pencil"
-            hide-details
-            v-if="input.type === 'select'"
-        />
-        <v-file-input
-            :label="input.label"
-            filled
-            color="azul"
-            append-icon="mdi-pencil"
-            hide-details
-            v-if="input.type === 'file'"
-        />
-        <v-autocomplete
-            :label="input.label"
-            filled
-            color="azul"
-            :items="input.data"
-            append-icon="mdi-pencil"
-            hide-details
-            v-if="input.type === 'autocomplete'"
-        />
-      </v-col>
-
-      <v-col cols="12">
-        <v-dialog
-            v-model="dialog"
-            width="500"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-                v-bind="attrs"
-                v-on="on"
-                color="azul" class="text-none white--text rounded__norma"
+        <v-row>
+            <v-col
+                    v-for="input of inputs" :key="input.name"
+                    cols="12"
+                    :sm="input.cols"
             >
-              Adicionar usuário
-            </v-btn>
-          </template>
+                <v-text-field
+                        :background-color="input.back"
+                        :id="input.name"
+                        :label="input.label"
+                        filled
+                        v-model="input.valor"
+                        color="azul"
+                        append-icon="mdi-pencil"
+                        hide-details
+                        v-if="input.type === 'text'"
+                />
+                <v-select
+                        :background-color="input.back"
+                        :id="input.name"
+                        :label="input.label"
+                        filled
+                        @change="changeEscola(input.name)"
+                        v-model="input.valor"
+                        color="azul"
+                        :items="input.data"
+                        append-icon="mdi-pencil"
+                        hide-details
+                        v-if="input.type === 'select'"
+                />
+                <v-file-input
+                        :background-color="input.back"
+                        :id="input.name"
+                        :label="input.label"
+                        filled
+                        v-model="input.valor"
+                        color="azul"
+                        append-icon="mdi-pencil"
+                        hide-details
+                        v-if="input.type === 'file'"
+                />
+                <v-autocomplete
+                        :background-color="input.back"
+                        :id="input.name"
+                        :label="input.label"
+                        filled
+                        v-model="input.valor"
+                        color="azul"
+                        :items="input.data"
+                        append-icon="mdi-pencil"
+                        hide-details
+                        v-if="input.type === 'autocomplete'"
+                />
+            </v-col>
 
-          <v-card>
-            <v-card-title class="headline white--text azul">
-              {{ message.ttl }}
-            </v-card-title>
-
-            <v-card-text class="mt-2 black--text">
-              {{ message.text }}
-            </v-card-text>
-
-            <v-divider />
-
-            <v-card-actions>
-              <v-spacer />
-
+            <v-col cols="12">
               <v-btn
-                  color="azul"
-                  @click="dialog = false"
-                  class="white--text text-none"
-                  v-text="'Ok'"
-              />
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-col>
-    </v-row>
-  </v-container>
+                      @click="enviarUsuario"
+                      color="azul" class="text-none white--text rounded__norma"
+              >
+                Adicionar usuário
+              </v-btn>
+                <v-dialog
+                        v-model="dialog"
+                        width="500"
+                >
+
+                    <v-card>
+                        <v-card-title class="headline white--text azul">
+                            {{ message.ttl }}
+                        </v-card-title>
+
+                        <v-card-text class="mt-2 black--text">
+                            {{ message.text }}
+                        </v-card-text>
+
+                        <v-divider />
+
+                        <v-card-actions>
+                            <v-spacer />
+
+                            <v-btn
+                                    color="azul"
+                                    @click="dialog = false"
+                                    class="white--text text-none"
+                                    v-text="'Ok'"
+                            />
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+            </v-col>
+        </v-row>
+        <loading :dialog="loading" />
+    </v-container>
 </template>
 
 <script>
+import loading from '../components/loading/Loading.vue';
+
 export default {
   name: 'AdicionarUsuario',
+  components: { loading },
 
   data () {
     return {
+      loading: false,
       dialog: false,
+      escolas: [],
+      turnos: [],
+      turmas: [],
+      privilegios: [],
       message: {
         delete: true,
         ttl: 'Título',
@@ -108,71 +127,104 @@ export default {
 
       inputs: [
         {
-          foto: '',
+          valor: null,
+          required: false,
+          back: '',
+          name: 'file',
           label: 'Foto',
           type: 'file',
           cols: 6,
         },
         {
-          nome: '',
+          valor: '',
+          back: '',
+          required: true,
+          name: 'name',
           label: 'Nome',
           type: 'text',
           cols: 6,
         },
         {
-          email: '',
+          valor: '',
+          required: true,
+          back: '',
+          name: 'email',
           label: 'Email',
           type: 'text',
           cols: 4,
         },
         {
-          email2: '',
+          valor: '',
+          required: true,
+          back: '',
+          name: 'email2',
           label: 'Email 2',
           type: 'text',
           cols: 4,
         },
         {
-          telefone: '',
+          valor: '',
+          required: false,
+          back: '',
+          name: 'telefone_um',
           label: 'Telefone',
           type: 'text',
           cols: 4,
         },
         {
-          usuario: '',
+          valor: '',
+          required: true,
+          back: '',
+          name: 'login',
           label: 'Usuário',
           type: 'text',
           cols: 12,
         },
         {
-          privilegio: '',
+          valor: '',
+          required: true,
+          back: '',
+          name: 'id_cms_privileges',
           label: 'Privilégio',
-          type: 'select',
+          type: 'autocomplete',
           cols: 12,
-          data: ['Professor', 'Aluno', 'Gestor'],
+          data: this.privilegios,
         },
         {
-          escola: '',
+          valor: '',
+          required: true,
+          name: 'id_escola',
+          back: '',
           label: 'Escola',
           type: 'autocomplete',
           cols: 12,
-          data: ['1', '2', '3'],
+          data: this.escolas,
         },
         {
-          turno: '',
+          valor: '',
+          required: true,
           label: 'Turno',
+          back: '',
+          name: 'id_turno',
           type: 'select',
           cols: 6,
-          data: ['Matutino', 'Verpestino', 'Noturno', 'Integral'],
+          data: this.turnos,
         },
         {
-          turma: '',
+          valor: '',
+          required: true,
+          back: '',
+          name: 'id_turma',
           label: 'Turma',
-          type: 'select',
+          type: 'autocomplete',
           cols: 6,
-          data: ['3 ano A', '3 ano B', '3 ano C'],
+          data: this.turmas,
         },
         {
-          status: '',
+          valor: '',
+          required: true,
+          back: '',
+          name: 'status',
           label: 'Status',
           type: 'select',
           cols: 6,
@@ -180,6 +232,104 @@ export default {
         },
       ],
     };
+  },
+
+  methods: {
+    async changeEscola (event) {
+      try {
+        if (event !== 'id_turno') {
+          return;
+        }
+        this.loading = true;
+        const turno = this.getUsuario('id_turno');
+        const idTurno = this.turnos.filter((el) => el.descricao === turno);
+        if (!turno) { return; }
+        const turmas = await this.$http.get(`users/${idTurno[0].id}`,
+          { headers: { Authorization: this.$store.state.token } });
+        this.mudarInputs(turmas.data);
+        this.turmas = turmas.data.turmas;
+        this.loading = false;
+      } catch (e) {
+        this.loading = false;
+        console.log(e);
+      }
+    },
+
+    getUsuario (name) {
+      const valor = this.inputs.filter((el) => el.name === name);
+      return valor.length > 0 ? valor[0].valor : '';
+    },
+    async enviarUsuario () {
+      try {
+        this.loading = true;
+        let unaVez = false;
+        const form = new FormData();
+        for (let i = 0; i < this.inputs.length; i++) {
+          if (this.inputs[i].required && !this.inputs[i].valor.trim()) {
+            this.inputs[i].back = '#ff4040';
+            unaVez = true;
+          }
+          const valor = this.enviAuxiliar(this.inputs[i].name, this.inputs[i].valor);
+          form.append(this.inputs[i].name, valor);
+        }
+
+        if (unaVez) { alert('Preencha os campos obrigatórios'); this.loading = false; return; }
+        await this.$http.post('users/cadastrar-usuario', form, {
+          headers: { Authorization: this.$store.state.token, 'Content-type': 'multipart/form-data' },
+        });
+        this.loading = false;
+        this.dialog = true;
+      } catch (e) {
+        console.log(e);
+        this.loading = false;
+        alert(e.response ? e.response.data.message : 'Erro interno');
+      }
+    },
+
+    enviAuxiliar (name, valor) {
+      let valorA = valor;
+      if (name === 'id_cms_privileges') {
+        const aux = this.privilegios.filter((el) => el.name === valor);
+        valorA = aux[0] ? aux[0].id : valorA;
+      } else if (name === 'id_turma') {
+        const aux = this.turmas.filter((el) => el.descricao === valor);
+        valorA = aux[0] ? aux[0].id : valorA;
+      } else if (name === 'id_escola') {
+        const aux = this.escolas.filter((el) => el.nome === valor);
+        valorA = aux[0] ? aux[0].id : valorA;
+      }
+
+      return valorA;
+    },
+
+    mudarInputs (dados) {
+      for (let i = 0; i < this.inputs.length; i++) {
+        if (this.inputs[i].name === 'id_escola' && dados.escolas) {
+          this.inputs[i].data = dados.escolas.map((el) => el.nome);
+        } else if (this.inputs[i].name === 'id_cms_privileges' && dados.privilegios) {
+          this.inputs[i].data = dados.privilegios.map((el) => el.name);
+        } else if (this.inputs[i].name === 'id_turno' && dados.turnos) {
+          this.inputs[i].data = dados.turnos.map((el) => el.descricao);
+        } else if (this.inputs[i].name === 'id_turma' && dados.turmas) {
+          this.inputs[i].data = dados.turmas.map((el) => el.descricao);
+        }
+      }
+    },
+  },
+
+  async created () {
+    try {
+      this.loading = true;
+      const dados = await this.$http.get('users/usuario/usuario/usuario/cadastrar-usuario', { headers: { Authorization: this.$store.state.token } });
+      this.escolas = dados.data.escolas;
+      this.turnos = dados.data.turnos;
+      this.privilegios = dados.data.privilegios;
+      this.mudarInputs(dados.data);
+      this.loading = false;
+    } catch (e) {
+      this.loading = false;
+      console.log(e);
+    }
   },
 };
 </script>

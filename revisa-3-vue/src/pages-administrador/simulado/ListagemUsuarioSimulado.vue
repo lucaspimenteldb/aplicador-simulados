@@ -19,9 +19,10 @@
           cols="12" sm="8"
           md="4"
       >
-        <v-select
-            :items="['Escola 1', 'Escola 2']"
+        <v-autocomplete
+            :items="escolas.map(el => el.nome)"
             filled
+            @change="changeEscola"
             v-model="escolaSelecionada"
             label="Filtrar por escola" color="azul"
             hide-details
@@ -32,8 +33,9 @@
           md="4"
       >
         <v-select
-            :items="['Turma 1', 'Turma 2']"
+            :items="turmas.map(el=>el.descricao)"
             filled
+            @change="carregarUsuarios"
             v-model="turmaSelecionada"
             label="Filtrar por turma" color="azul"
             hide-details
@@ -55,7 +57,7 @@
             :headers="headerUsuarios" :items="listaUsuarios"
             fixed-header
             :footer-props="{itemsPerPageText: 'Usuários por página', itemsPerPageOptions: [ 10, 20, 25 ]}"
-            :search="pesquisar"
+            :search="search"
             class="clear-both text-no-wrap"
         >
           <template v-slot:item.editar="{ item }">
@@ -70,20 +72,26 @@
         </v-data-table>
       </v-col>
     </v-row>
-
+    <loading :dialog="loading" />
   </v-container>
 </template>
 
 <script>
+import loading from '../../components/loading/Loading.vue';
+
 export default {
   name: 'ListagemUsuario',
+  components: { loading },
 
   data () {
     return {
+      search: '',
       escolaSelecionada: '',
       turmaSelecionada: '',
+      turmas: [],
       privilegioSelecionado: '',
-
+      loading: false,
+      escolas: [],
       headerUsuarios: [
         {
           text: 'Nome',
@@ -164,6 +172,73 @@ export default {
       ],
       pesquisar: '',
     };
+  },
+
+  methods: {
+    async changeEscola (event) {
+      try {
+        this.loading = true;
+        const filterEscola = this.escolas.filter((e) => e.nome === event);
+        if (filterEscola.length > 0) {
+          const turmas = await this.$http.get(`turmas/${filterEscola[0].id}`, { headers: { Authorization: this.$store.state.token } });
+          this.turmas = turmas.data.turmas;
+        }
+        this.loading = false;
+      } catch (e) {
+        console.log(e);
+        this.loading = false;
+        alert('Erro ao carrega as turmas');
+      }
+    },
+    async carregarUsuarios () {
+      try {
+        this.loading = true;
+        const filterEscola = this.escolas.filter((e) => e.nome === this.escolaSelecionada);
+        const filterTurma = this.turmas.filter((e) => e.descricao === this.turmaSelecionada);
+        if (filterEscola.length > 0 && filterTurma.length > 0) {
+          const objeto = { id_turma: filterTurma[0].id, id_escola: filterEscola[0].id };
+          const usuarios = await this.$http.post('users/usuario/usuario/usuario/upar/',
+            objeto, { headers: { Authorization: this.$store.state.token } });
+          this.getUsers(usuarios.data.simulados);
+        }
+        this.loading = false;
+      } catch (e) {
+        this.loading = false;
+        console.log(e);
+        alert('Erro ao carrega as turmas');
+      }
+    },
+
+    getUsers (simulados) {
+      this.listaUsuarios = [];
+      for (const sim of simulados) {
+        const tuber = {
+          nome: sim.User.name,
+          email: sim.User.email,
+          'email-2': sim.User.email2,
+          simulado: sim.SimuladoEstado.titulo,
+          lingua: sim.id_idioma === 10 ? 'Inglês' : 'Espanhol',
+          inicio: sim.data_inicio,
+          fim: sim.data_fim,
+          situacao: sim.situacao,
+          editar: `/editar-usuario-simulado/${sim.id}`,
+        };
+        this.listaUsuarios.push(tuber);
+      }
+    },
+  },
+
+  async created () {
+    try {
+      this.loading = true;
+      const dados = await this.$http.get('users/usuario/usuario/usuario/cadastrar-usuario',
+        { headers: { authorization: this.$store.state.token } });
+      this.escolas = dados.data.escolas;
+      this.loading = false;
+    } catch (e) {
+      this.loading = false;
+      console.log(e);
+    }
   },
 
   mounted () {

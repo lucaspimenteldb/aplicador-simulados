@@ -11,7 +11,7 @@
     <v-row>
       <v-col cols="12">
         <header-secao>
-          Nome do cara
+          {{nome}}
         </header-secao>
       </v-col>
 
@@ -63,7 +63,7 @@
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
                       v-bind="attrs"
-                      v-on="on"
+                      @click="objeto.dialog = true"
                       color="azul"
                       class="text-none white--text font-weight-bold"
                   >
@@ -128,6 +128,7 @@
             label="Língua Estrangeira"
             filled
             color="azul"
+            v-model="idioma"
             :items="['Inglês', 'Espanhol']"
             append-icon="mdi-pencil"
             hide-details
@@ -189,7 +190,7 @@
           <template v-slot:activator="{ on, attrs }">
             <v-btn
                 v-bind="attrs"
-                v-on="on"
+                @click="objetoAlteracao.dialog = true"
                 color="azul"
                 class="float-left text-none white--text"
             >
@@ -239,11 +240,11 @@
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
+                @click="objetoExcluir.dialog = true"
                 v-bind="attrs"
-                v-on="on"
                 color="errou" class="float-right text-none white--text"
             >
-              Excluir usuário
+              Adicionar chance
 
               <v-icon v-text="'mdi-delete-outline'" />
             </v-btn>
@@ -313,31 +314,152 @@
         </v-dialog>
       </v-col>
     </v-row>
+    <modal :objeto="objeto" @aparecerModal="funcao" @funcao="adicionarHoras" />
+    <modal :objeto="objetoExcluir" @aparecerModal="funcao2" @funcao="adicionarChance" />
+    <modal :objeto="objetoAlteracao" @aparecerModal="funcao3" @funcao="atualizar" />
+    <loading :dialog="loading" />
   </v-container>
 </template>
 
 <script>
+import loading from '../../components/loading/Loading.vue';
+import modal from '../../components/modal/ModalPadrao.vue';
+
 export default {
   name: 'EditarUsuario',
+  components: { loading, modal },
 
   data () {
     return {
       nome: 'A smile in every cup is great',
+      idioma: '',
       inicio: '21/20/2020',
       fim: '21/20/2020',
       situacao: '',
       addHoras: false,
       horasAdded: '',
+      loading: false,
       addHorasConfirmar: false,
       dialog: false,
       dialogAlteracoes: false,
       dialogExcluir: false,
+      objeto: {
+        dialog: false,
+        titulo: 'Tem certeza que deseja adicionar as horas?',
+        textConfirm: 'Sair',
+        textConfirm2: 'adicionar',
+        textButton: 'Cancelar',
+        confirm: false,
+        confirm2: true,
+
+      },
+      objetoExcluir: {
+        dialog: false,
+        titulo: 'Tem certeza que deseja adicionar mais uma chance?',
+        textConfirm: 'Sair',
+        textConfirm2: 'adicionar',
+        textButton: 'Cancelar',
+        confirm: false,
+        confirm2: true,
+
+      },
+      objetoAlteracao: {
+        dialog: false,
+        titulo: 'Tem certeza que deseja salvar as alterações?',
+        textConfirm: 'Sair',
+        textConfirm2: 'salvar',
+        textButton: 'Cancelar',
+        confirm: false,
+        confirm2: true,
+
+      },
       message: {
         delete: true,
         ttl: 'Realmente deseja excluir o usuário?',
         text: 'Após excluir o usuário todos os dados do mesmo serão perdidos e a ação não pode ser desfeita.',
       },
     };
+  },
+
+  async created () {
+    try {
+      this.loading = true;
+      const { id } = this.$route.params;
+      const dados = await this.$http.get(`users/usuario/usuario/usuario/usuario-simulado/${id}`,
+        { headers: { authorization: this.$store.state.token } });
+      this.nome = dados.data.user_simulado.User.name;
+      this.inicio = dados.data.user_simulado.data_inicio;
+      this.fim = dados.data.user_simulado.data_fim;
+      this.situacao = dados.data.user_simulado.situacao;
+      this.idioma = dados.data.user_simulado.id_idioma === 10 ? 'Inglês' : 'Espanhol';
+      this.loading = false;
+    } catch (e) {
+      this.loading = false;
+      console.log(e);
+    }
+  },
+
+  methods: {
+    funcao () {
+      this.objeto.dialog = false;
+    },
+
+    funcao2 () {
+      this.objetoExcluir.dialog = false;
+    },
+    funcao3 () {
+      this.objetoAlteracao.dialog = false;
+    },
+    async atualizar () {
+      try {
+        this.objetoAlteracao.dialog = false;
+        this.loading = true;
+        const { id } = this.$route.params;
+        const objeto = { id_idioma: this.idioma === 'Inglês' ? 10 : 11 };
+        const ret = await this.$http.put(`users/atualizar-usuario/${id}`, objeto, { headers: { authorization: this.$store.state.token } });
+        this.dialogAlteracoes = true;
+        this.loading = false;
+      } catch (e) {
+        this.loading = false;
+        console.log(e);
+        alert('Erro ao carrega as turmas');
+      }
+    },
+
+    async adicionarHoras () {
+      try {
+        this.objeto.dialog = false;
+        this.loading = true;
+        const { id } = this.$route.params;
+        let horas = this.horasAdded.replace('hora', '');
+        horas = this.horasAdded.replace('horas', '');
+        horas = this.horasAdded.replace('hora', '');
+        const objeto = { qtd: horas };
+        const ret = await this.$http.put(`users/adicionar-horas/${id}`, objeto, { headers: { authorization: this.$store.state.token } });
+        this.dialogAlteracoes = true;
+        this.loading = false;
+      } catch (e) {
+        this.loading = false;
+        console.log(e);
+        alert('Erro ao carrega as turmas');
+      }
+    },
+
+    async adicionarChance () {
+      try {
+        this.objetoExcluir.dialog = false;
+        this.loading = true;
+        const { id } = this.$route.params;
+        const ret = await this.$http.delete(`users/adicionar-chance/${id}`, { headers: { authorization: this.$store.state.token } });
+        this.dialogAlteracoes = true;
+        this.loading = false;
+        this.$router.push('/listar-usuarios-simulado');
+      } catch (e) {
+        this.loading = false;
+        console.log(e);
+        alert('Erro ao carrega as turmas');
+      }
+    },
   },
 };
 </script>

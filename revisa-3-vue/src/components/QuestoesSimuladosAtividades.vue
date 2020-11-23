@@ -107,7 +107,10 @@
             </v-btn>
           </template>
           <v-card>
-            <v-card-title class="headline">
+            <v-card-title
+class="headline"
+style="word-break: break-word"
+>
               {{ mensagem }}
             </v-card-title>
 
@@ -144,8 +147,9 @@
             v-for="(tab, i) in tabs" :key="i"
             :id="`questao-${i + 1}`" class="container__questoes mr-3 w-full flex-shrink-0"
             :class="[ i != 0 ? 'hidden' : i ]"
+            continu="tab"
         >
-
+          <div v-if="tab">
           <!-- enunciado das questoes -->
           <v-card>
             <v-card-text>
@@ -219,6 +223,7 @@ class="body-2 grey--text text--darken-3 pointer__events__none"
               próxima questão
             </v-btn>
           </section>
+        </div>
         </div>
       </v-col>
 
@@ -458,6 +463,7 @@ export default {
   components: { loading, modal },
   data () {
     return {
+      questoesAux: [],
       alert: 'success',
       idiomaSelecionado: true,
       contador: '',
@@ -495,7 +501,7 @@ export default {
       desmarcado: 'mdi-checkbox-blank-circle-outline',
       marcado: 'mdi-checkbox-marked-circle-outline',
       page: 1,
-      questoes: 90,
+      questoes: 0,
       value: 0,
       questoesMarcadasGabarito: [],
       mixer: '',
@@ -604,7 +610,10 @@ export default {
         if (this.termos) return;
         this.loading = true;
         const questoes = await this.$http.get(url, { headers: { Authorization: this.$store.state.token } });
-        this.preenchendoQuestoes(questoes.data.questao);
+        this.questoesAux = questoes.data.questao;
+        this.questoes = this.questoesAux.length;
+        this.preenchendoQuestoes(questoes.data.questao, 1, 0);
+        this.reiniciarCache();
         this.loading = false;
         this.dataInicio = questoes.data.data;
         const area1 = questoes.data.areas[0] ? questoes.data.areas[0].Area.name : '';
@@ -622,6 +631,13 @@ export default {
       }
     },
 
+    reiniciarCache () {
+      const { id } = this.$store.state.usuario;
+      for (let i = 0; i < this.questoesAux.length; i++) {
+        const marcado = localStorage.getItem(`quest${this.questoesAux[i].id}user${id}`) || '';
+        if (marcado) this.atualizarQuestoes(i + 1, marcado);
+      }
+    },
     func2 () {
       this.objeto2.dialog = false;
     },
@@ -633,12 +649,13 @@ export default {
     async enviandoSimulado () {
       try {
         const envio = [];
-        for (const tab of this.tabs) {
+        const { id } = this.$store.state.usuario;
+        for (const tab of this.questoesAux) {
           const colocado = {
             id_questao: tab.id,
             id_simulado: this.$route.params.simulado,
-            id_user: tab.id_user,
-            alternativa: tab.marcado,
+            id_user: id,
+            alternativa: localStorage.getItem(`quest${tab.id}user${id}`) || '',
           };
           envio.push(colocado);
         }
@@ -655,9 +672,9 @@ export default {
       }
       this.dialog = false;
     },
-    preenchendoQuestoes (questoes) {
+    preenchendoQuestoes (questoes, max, min) {
       const { id } = this.$store.state.usuario;
-      for (let i = 0; i < questoes.length; i++) {
+      for (let i = min; i < max; i++) {
         const marcado = localStorage.getItem(`quest${questoes[i].id}user${id}`) || '';
         const beris = {
           nome: `Questão ${i + 1}`,
@@ -679,7 +696,7 @@ export default {
             },
           },
         };
-        this.tabs.push(beris);
+        this.tabs[i] = beris;
         if (marcado) this.atualizarQuestoes(i + 1, marcado);
       }
     },
@@ -746,27 +763,44 @@ export default {
       }
     },
 
-    mudarQuestao: (e) => {
+    mudarQuestao (e) {
       const paginas = document.querySelectorAll('.v-pagination__item');
       // console.log(paginas);
       let questaoSelecionada;
 
       if (e.target.nodeName === 'SPAN') {
         questaoSelecionada = e.target.parentElement;
-        paginas.forEach((pagina) => {
-          // eslint-disable-next-line no-unused-expressions
-          pagina.innerText === questaoSelecionada.id ? pagina.click() : pagina;
-        });
+        for (let i = 0; i < paginas.length; i++) {
+          const retorno = this.rodadasDaPagina(paginas[i], questaoSelecionada);
+          if (retorno) return;
+        }
       } else {
         questaoSelecionada = e.target;
-        paginas.forEach((pagina) => {
-          // eslint-disable-next-line no-unused-expressions
-          pagina.innerText === questaoSelecionada.id ? pagina.click() : pagina;
-        });
+        for (let i = 0; i < paginas.length; i++) {
+          const retorno = this.rodadasDaPagina(paginas[i], questaoSelecionada);
+          if (retorno) return;
+        }
       }
     },
 
+    rodadasDaPagina (pagina, questaoSelecionada) {
+      if (pagina.innerText === questaoSelecionada.id) {
+        if (!this.tabs[questaoSelecionada.id - 1]) {
+          this.preenchendoQuestoes(this.questoesAux, questaoSelecionada.id, questaoSelecionada.id - 1);
+          this.loading = true;
+          setTimeout(() => { pagina.click(); this.loading = false; }, 2000);
+        } else {
+          pagina.click();
+        }
+        window.scrollTo(0, 0);
+        return true;
+      }
+
+      return false;
+    },
+
     questoesEmBranco () {
+      this.mensagem = 'Tem certeza que deseja entregar o simulado?';
       const gabaritos = document.querySelectorAll('.gabaritos');
       const distance = (new Date(this.dataInicio).getTime() - new Date().getTime());
       const hours = ((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -781,12 +815,12 @@ export default {
 
       const { id } = this.$store.state.usuario;
       const vetor = [];
-      for (let i = 0; i < this.tabs.length; i++) {
-        const que = localStorage.getItem(`quest${this.tabs[i].id}user${id}`);
+      for (let i = 0; i < this.questoesAux.length; i++) {
+        const que = localStorage.getItem(`quest${this.questoesAux[i].id}user${id}`);
         if (que) vetor.push(que);
       }
 
-      const restantes = this.tabs.length - vetor.length;
+      const restantes = this.questoesAux.length - vetor.length;
       if (restantes > 0) this.mensagem = `Verificamos que você deixou ${restantes} questões em branco , deseja realmente entregar?`;
       for (let i = 0; i < gabaritos.length; i++) {
         if (gabaritos[i].firstElementChild.firstElementChild.firstElementChild.nodeName === 'I') {
@@ -797,16 +831,29 @@ export default {
       }
     },
 
-    paginaAnterior: () => {
+    paginaAnterior () {
       const paginaAnterior = document.querySelectorAll('.v-pagination__navigation')[2];
-      paginaAnterior.click();
-
+      const antPag = this.page - 2 >= 0 ? this.page - 2 : this.page;
+      if (!this.tabs[antPag]) {
+        this.preenchendoQuestoes(this.questoesAux, antPag, this.page - 1);
+        this.loading = true;
+        setTimeout(() => { paginaAnterior.click(); this.loading = false; }, 2000);
+      } else {
+        paginaAnterior.click();
+      }
       window.scrollTo(0, 0);
     },
 
-    proximaPagina: () => {
+    proximaPagina () {
       const proximaPagina = document.querySelectorAll('ul li button.v-pagination__navigation')[3];
-      proximaPagina.click();
+      const proxPag = this.page + 1 <= this.questoesAux.length ? this.page + 1 : this.page;
+      if (!this.tabs[this.page]) {
+        this.preenchendoQuestoes(this.questoesAux, proxPag, this.page);
+        this.loading = true;
+        setTimeout(() => { proximaPagina.click(); this.loading = false; }, 2000);
+      } else {
+        proximaPagina.click();
+      }
 
       window.scrollTo(0, 0);
     },

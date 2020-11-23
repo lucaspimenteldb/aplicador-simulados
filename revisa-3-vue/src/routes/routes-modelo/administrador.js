@@ -11,11 +11,12 @@ const routes = [
     },
   },
   {
-    path: '/listar-codigos',
-    name: 'ListagemCodigos',
-    ttl: 'Listagem de códigos de acesso',
-    menu: false,
-    component: () => import('../../pages-administrador/codigo-acesso/ListagemCodigo'),
+    path: '/adicionar-usuario',
+    name: 'AdicionarUsuario',
+    ttl: 'Adicionar Usuário',
+    menu: true,
+    icon: 'mdi-account-plus-outline',
+    component: () => import('../../pages-administrador/AdicionarUsuario'),
     meta: {
       public: false,
     },
@@ -34,14 +35,15 @@ const routes = [
     path: '/listar-usuarios-simulado',
     name: 'ListagemUsuariosSimulado',
     ttl: 'Listagem de usuários para simulados',
-    menu: false,
+    menu: true,
+    icon: 'mdi-check-network-outline',
     component: () => import('../../pages-administrador/simulado/ListagemUsuarioSimulado'),
     meta: {
       public: false,
     },
   },
   {
-    path: '/editar-usuario',
+    path: '/editar-usuario/:id',
     name: 'EditarUsuario',
     ttl: 'Editar Usuário',
     menu: false,
@@ -51,7 +53,7 @@ const routes = [
     },
   },
   {
-    path: '/editar-usuario-simulado',
+    path: '/editar-usuario-simulado/:id',
     name: 'EditarUsuarioSimulado',
     ttl: 'Editar Simulado do Usuário ',
     menu: false,
@@ -60,16 +62,16 @@ const routes = [
       public: false,
     },
   },
-  {
-    path: '/adicionar-usuario',
-    name: 'AdiconarUsuario',
-    ttl: 'Adicionar Usuário',
-    menu: false,
-    component: () => import('../../pages-administrador/AdicionarUsuario'),
-    meta: {
-      public: false,
-    },
-  },
+  // {
+  //   path: '/adicionar-usuario',
+  //   name: 'AdiconarUsuario',
+  //   ttl: 'Adicionar Usuário',
+  //   menu: false,
+  //   component: () => import('../../pages-administrador/AdicionarUsuario'),
+  //   meta: {
+  //     public: false,
+  //   },
+  // },
   {
     path: '/redacoes',
     name: 'RedacaoInicio',
