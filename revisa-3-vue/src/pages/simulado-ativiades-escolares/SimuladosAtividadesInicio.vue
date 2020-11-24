@@ -137,9 +137,9 @@ class="font-weight-bold black--text"
                   <br>
 
                   <span class="black--text">
-                  {{ area.data_fim.dia+'/'+area.data_fim.mes+'/' + area.data_fim.ano}} das 7:00 até as 23:00
+                  {{ area.data_inicio.dia+'/'+area.data_fim.mes+'/' + area.data_fim.ano}} das 7:00 até as 23:00
                     <br>
-                  {{ area.data_fim.dia+1+'/'+area.data_fim.mes+'/'+area.data_fim.ano}} das 7:00 até as 23:00
+                  {{ area.data_fim.dia+'/'+area.data_fim.mes+'/'+area.data_fim.ano}} das 7:00 até as 23:00
                   </span>
                 </p>
               </article>
@@ -825,13 +825,14 @@ export default {
           titulo: simulados[i].titulo,
           areas: maps,
           classe: maps[0].charAt(0).toLocaleLowerCase() + maps[0].slice(1),
-          data_inicio: simulados[i].data_inicio,
+          data_inicio: this.datas(new Date(simulados[i].data_inicio)),
           data_fim: this.datas(new Date(simulados[i].data_fim)),
           situacao: simulados[i].UserSimuladoEstados[0] ? simulados[i].UserSimuladoEstados[0].situacao : 'pendente',
           url,
           userSimulado,
           is_idioma: simulados[i].is_idioma,
         };
+
         let message = simulados[i].expirado ? 'Simulado Expirado :(' : `Fazer simulado ${beris.titulo}`;
         message = !simulados[i].liberado ? 'Simulado não liberado' : message;
         message = beris.situacao === 'Entregue' ? 'Simulado Entregue' : message;
