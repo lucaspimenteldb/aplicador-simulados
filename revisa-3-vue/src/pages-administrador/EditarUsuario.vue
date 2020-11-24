@@ -86,6 +86,7 @@
                         :label="input.label"
                         filled
                         v-model="input.valor"
+                        @change="changeEscola(input.name)"
                         color="azul"
                         :items="input.data"
                         append-icon="mdi-pencil"
@@ -326,7 +327,7 @@ export default {
           label: 'Turno',
           back: '',
           name: 'id_turno',
-          type: 'select',
+          type: 'duplo',
           cols: 6,
           data: this.turnos,
         },
@@ -336,7 +337,7 @@ export default {
           back: '',
           name: 'id_turma',
           label: 'Turma',
-          type: 'autocomplete',
+          type: 'duplo',
           cols: 6,
           data: [],
         },
@@ -365,8 +366,12 @@ export default {
         const aux = this.privilegios.filter((el) => el.name === valor);
         valorA = aux[0] ? aux[0].id : valorA;
       } else if (name === 'id_turma') {
-        const aux = this.turmas.filter((el) => el.descricao === valor);
-        valorA = aux[0] ? aux[0].id : valorA;
+        const vetor = [];
+        for (let i = 0; i < valor.length; i++) {
+          const aux = this.turmas.filter((el) => el.descricao === valor[i]);
+          valorA = aux[0] ? vetor.push(aux[0].id) : valorA;
+        }
+        valorA = vetor;
       } else if (name === 'id_escola') {
         const vetor = [];
         for (let i = 0; i < valor.length; i++) {
@@ -385,14 +390,20 @@ export default {
         }
         this.loading = true;
         const turno = this.getUsuario('id_turno');
-        const idTurno = this.turnos.filter((el) => el.descricao === turno);
-        if (!turno) {
-          return;
+        let turnoS = '';
+        for (let i = 0; i < turno.length; i++) {
+          const turn = this.turnos.filter((el) => el.descricao === turno[i]);
+          if (turn.length <= 0) continue;
+          if (i === 0) turnoS += turn[0].id.toString();
+          else turnoS += `,${turn[0].id.toString()}`;
         }
-        const turmas = await this.$http.get(`users/${idTurno[0].id}`,
+
+        if (!turno) { this.loading = false; return; }
+        const turmas = await this.$http.get(`users/${turnoS}`,
           { headers: { Authorization: this.$store.state.token } });
         this.mudarInputs(turmas.data);
         this.turmas = turmas.data.turmas;
+        this.limparTurnos('id_turma');
         this.loading = false;
       } catch (e) {
         this.loading = false;
@@ -413,15 +424,24 @@ export default {
       }
     },
 
+    limparTurnos (name) {
+      for (const input of this.inputs) {
+        if (input.name === name) {
+          input.valor = '';
+        }
+      }
+    },
+
     updated (usuario) {
       for (const input of this.inputs) {
         input.valor = usuario[input.name] ? usuario[input.name] : '';
         if (input.name === 'id_turma') {
-          input.valor = usuario.Turmas[0].descricao;
-          input.data.push(input.valor);
+          input.valor = usuario.Turmas.map((el) => el.descricao);
+          input.data = usuario.Turmas.map((el) => el.descricao);
         }
-        input.valor = input.name === 'id_escola' ? usuario.Escolas.map(el => el.nome) : input.valor;
-        input.valor = input.name === 'id_turno' ? usuario.Turmas[0].Turno.descricao : input.valor;
+
+        input.valor = input.name === 'id_escola' ? usuario.Escolas.map((el) => el.nome) : input.valor;
+        input.valor = input.name === 'id_turno' ? usuario.Turmas.map((el) => el.Turno.descricao) : input.valor;
         input.valor = input.name === 'id_cms_privileges' ? usuario.Privilege.name : input.valor;
         input.valor = input.name === 'password' ? '' : input.valor;
       }

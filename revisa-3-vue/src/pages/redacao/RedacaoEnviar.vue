@@ -318,6 +318,9 @@ export default {
         this.redacaoEnviada = false;
         const tipoImage = this.file.type.split('/')[0];
         if (tipoImage !== 'image') {
+          this.msgErro = 'Tipo de arquivo não suportado';
+          this.loading = false;
+          this.redacaoEnvioErro = true;
           return;
         }
         this.loading = true;
@@ -334,7 +337,7 @@ export default {
       } catch (e) {
         this.loading = false;
         this.redacaoEnvioErro = true;
-        this.msgErro = e.response.data.e || 'Sem conexão com o servidor';
+        this.msgErro = e.response ? e.response.data.e : 'Conexão lenta... Por favor tente novamente!';
       }
     },
   },

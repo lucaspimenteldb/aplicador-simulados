@@ -78,6 +78,7 @@
                         :id="input.name"
                         :label="input.label"
                         filled
+                        @change="changeEscola(input.name)"
                         v-model="input.valor"
                         color="azul"
                         :items="input.data"
@@ -245,11 +246,11 @@ export default {
         },
         {
           valor: '',
-          required: true,
+          required: false,
           label: 'Turno',
           back: '',
           name: 'id_turno',
-          type: 'select',
+          type: 'duplo',
           cols: 6,
           data: this.turnos,
         },
@@ -259,7 +260,7 @@ export default {
           back: '',
           name: 'id_turma',
           label: 'Turma',
-          type: 'autocomplete',
+          type: 'duplo',
           cols: 6,
           data: this.turmas,
         },
@@ -285,9 +286,16 @@ export default {
         }
         this.loading = true;
         const turno = this.getUsuario('id_turno');
-        const idTurno = this.turnos.filter((el) => el.descricao === turno);
-        if (!turno) { return; }
-        const turmas = await this.$http.get(`users/${idTurno[0].id}`,
+        let turnoS = '';
+        for (let i = 0; i < turno.length; i++) {
+          const turn = this.turnos.filter((el) => el.descricao === turno[i]);
+          if (turn.length <= 0) continue;
+          if (i === 0) turnoS += turn[0].id.toString();
+          else turnoS += `,${turn[0].id.toString()}`;
+        }
+        
+        if (!turno) { this.loading = false; return; }
+        const turmas = await this.$http.get(`users/${turnoS}`,
           { headers: { Authorization: this.$store.state.token } });
         this.mudarInputs(turmas.data);
         this.turmas = turmas.data.turmas;
@@ -337,8 +345,12 @@ export default {
         const aux = this.privilegios.filter((el) => el.name === valor);
         valorA = aux[0] ? aux[0].id : valorA;
       } else if (name === 'id_turma') {
-        const aux = this.turmas.filter((el) => el.descricao === valor);
-        valorA = aux[0] ? aux[0].id : valorA;
+        const vetor = [];
+        for (let i = 0; i < valor.length; i++) {
+          const aux = this.turmas.filter((el) => el.descricao === valor[i]);
+          valorA = aux[0] ? vetor.push(aux[0].id) : valorA;
+        }
+        valorA = vetor;
       } else if (name === 'id_escola') {
         const vetor = [];
         for (let i = 0; i < valor.length; i++) {

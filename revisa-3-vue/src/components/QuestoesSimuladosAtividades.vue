@@ -463,6 +463,9 @@ export default {
   components: { loading, modal },
   data () {
     return {
+      horas: '',
+      minutes: '',
+      seconds: '',
       questoesAux: [],
       alert: 'success',
       idiomaSelecionado: true,
@@ -558,30 +561,47 @@ export default {
 
   methods: {
     cronometro () {
-      const countDownDate = new Date(this.dataInicio).getTime();
+      // const countDownDate = new Date(this.dataInicio).getTime();
+      let { horas } = this;
+      let min = this.minutes;
+      let sec = this.seconds;
       this.contador = setInterval(() => {
-        const now = new Date().getTime();
-        const distance = countDownDate - now;
-        // const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const hoursAux = ((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        // const now = new Date().getTime();
+        // const distance = countDownDate - now;
+        // // const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        // const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        // const hoursAux = ((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        // const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        // const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        this.crono = `${hours}:${minutes}:${seconds}`;
+        sec--;
 
-        if (hoursAux <= 0.5 && alert !== 'error') {
+        if (sec < 0) {
+          sec = 59;
+          min--;
+          if (min < 0) {
+            min = 59;
+            horas--;
+            if (horas < 0) {
+              horas = 0;
+            }
+          }
+        }
+
+        this.crono = `${horas}:${min}:${sec}`;
+
+        if (min === 30 && horas === 0 && this.alert !== 'error') {
           this.alert = 'error';
         }
 
-        if (hoursAux <= 1 && hours > 0.5 && alert !== 'warning') {
-          this.alert = 'warning';
-        }
+        // if (hoursAux <= 1 && hours > 0.5 && alert !== 'warning') {
+        //   this.alert = 'warning';
+        // }
 
-        if (distance < 0) {
+        if (horas === 0 && min === 0 && sec === 0) {
           this.crono = 'Encerrado';
-          this.enviandoSimulado();
-          this.$router.push('/simulados-atividades-escolares');
+          // this.enviandoSimulado();
+          // this.$router.push('/simulados-atividades-escolares');
           clearInterval(this.contador);
         }
       }, 1000);
@@ -620,8 +640,11 @@ export default {
         const area2 = questoes.data.areas[1] ? questoes.data.areas[1].Area.name : '';
         this.tipoAtividadeDisciplina = `Simulado de ${area1} e ${area2}`;
         // this.tipoAtividadeDisciplina = areas[0];
-        this.dataInicio = this.dataInicio.replace('T', ' ');
-        this.dataInicio = this.dataInicio.replace('Z', '');
+        // this.dataInicio = this.dataInicio.replace('T', ' ');
+        // this.dataInicio = this.dataInicio.replace('Z', '');
+        this.horas = questoes.data.dataCompleta.hours;
+        this.minutes = questoes.data.dataCompleta.minutes;
+        this.seconds = questoes.data.dataCompleta.seconds;
         this.cronometro();
       } catch (e) {
         console.log(e);
