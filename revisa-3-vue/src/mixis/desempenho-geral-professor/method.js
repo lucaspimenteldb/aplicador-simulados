@@ -140,9 +140,10 @@ const dados = {
         const turma1 = this.pesquisarSimulado(this.turmaGraf1, this.turmasGraf);
         const turma2 = this.pesquisarSimulado(this.turmaGraf2, this.turmasGraf);
         const escolaAux = this.pesquisarSimulado(this.escolaAtualGraf, this.escolas);
+        const simuladoFiltrado = this.pesquisarSimulado(this.simuladoAtual, this.simulados);
 
         if (turma2.length > 0 && turma1.length > 0 && escolaAux.length > 0) {
-          const dados2 = await this.$http.get(`desempenho-professor/comparar-turmas/${escolaAux[0].id}/${turma1[0].id}/${turma2[0].id}`,
+          const dados2 = await this.$http.get(`desempenho-professor/comparar-turmas/${escolaAux[0].id}/${turma1[0].id}/${turma2[0].id}/${simuladoFiltrado[0].id}`,
             { headers: { Authorization: this.$store.state.token } });
           const color = ['#ffdd9e', '#a3ffa3'];
           const medias = [dados2.data.turma1[0].media_geral, dados2.data.turma2[0].media_geral];

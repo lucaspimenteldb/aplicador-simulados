@@ -458,7 +458,7 @@ export default {
           const dados = await ranking.rankingAluno(`desempenho/ranking/${filtrado[0].id}`);
           this.simuladosPesquisa = dados.data.simulados;
           this.simulados = this.extrairTitulo(this.simuladosPesquisa);
-          this.simuladosCurrent = this.simulados[0] ? this.simulados[0] : 'Sem dados';
+          // this.simuladosCurrent = this.simulados[0] ? this.simulados[0] : 'Sem dados';
           this.preencherRanking(dados.data);
           this.preencherDesempenho(dados.data);
           this.preencherRankingArea(dados.data);

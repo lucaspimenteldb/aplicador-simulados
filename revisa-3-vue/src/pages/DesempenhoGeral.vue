@@ -592,6 +592,7 @@ export default {
         }
       } catch (err) {
         this.errorDefault(err);
+        this.loadingBasl(false);
         this.informacoesAdicionais[0].info = 'Nota indisponível';
       }
     },

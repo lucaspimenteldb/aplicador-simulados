@@ -1148,13 +1148,13 @@
         </v-card>
       </v-col>
     </v-row>-->
-    <Bar
-        :chartdata="chartdata"
-        @reniciar="reiniciar"
-    />
+<!--    <Bar-->
+<!--        :chartdata="chartdata"-->
+<!--        @reniciar="reiniciar"-->
+<!--    />-->
     <loading :dialog="showLoading" />
 
-    <v-row>
+    <v-row v-if="false">
       <!-- desempenho por área -->
       <v-col
           cols="12"
