@@ -139,8 +139,10 @@ const dados = {
         this.showLoading = true;
         const escola1Filter = this.escolas.filter((el) => el.titulo === this.escolaAtualGraf);
         const escola1Filter2 = this.escolas.filter((el) => el.titulo === this.escolaAtualGraf2);
+        const simulado = this.simulados.filter((el) => el.titulo === this.simuladoAtual);
+
         if (escola1Filter.length > 0 && escola1Filter2.length > 0) {
-          const dados2 = await this.$http.get(`desempenho-escola/comparar-escola/${escola1Filter[0].id}/${escola1Filter2[0].id}`,
+          const dados2 = await this.$http.get(`desempenho-escola/comparar-escola/${escola1Filter[0].id}/${escola1Filter2[0].id}/${simulado[0].id}`,
             { headers: { Authorization: this.$store.state.token } });
           const color = ['#ffdd9e', '#a3ffa3'];
           const medias = [dados2.data.desempenho[0].media_geral, dados2.data.desempenho2[0].media_geral];
@@ -152,6 +154,7 @@ const dados = {
 
         this.showLoading = false;
       } catch (e) {
+        console.log(e);
         this.showLoading = false;
       }
     },
@@ -161,8 +164,9 @@ const dados = {
         this.showLoading = true;
         const escola1Filter = this.escolas.filter((el) => el.titulo === this.escolaAtualArea);
         const escola1Filter2 = this.escolas.filter((el) => el.titulo === this.escolaAtualArea2);
+        const simulado = this.simulados.filter((el) => el.titulo === this.simuladoAtual);
         if (escola1Filter.length > 0 && escola1Filter2.length > 0) {
-          const dados2 = await this.$http.get(`desempenho-escola/comparar-escola/${escola1Filter[0].id}/${escola1Filter2[0].id}`,
+          const dados2 = await this.$http.get(`desempenho-escola/comparar-escola/${escola1Filter[0].id}/${escola1Filter2[0].id}/${simulado[0].id}`,
             { headers: { Authorization: this.$store.state.token } });
           const color = ['#ffdd9e', '#a3ffa3', 'blue', 'silver', 'red'];
           const escola1 = [dados2.data.desempenho[0].media_redacao, dados2.data.desempenho[0].media_matematica,

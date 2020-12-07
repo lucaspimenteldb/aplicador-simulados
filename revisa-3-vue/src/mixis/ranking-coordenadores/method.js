@@ -12,7 +12,7 @@ const methods = {
       try {
         this.dialog = true;
         const { id } = JSON.parse(localStorage.getItem('token'));
-        const escolaAux = await this.$http.get(`simulado-master/${id}`, { headers: { Authorization: this.$store.state.token } });
+        const escolaAux = await this.$http.get(`simulado-master/${id}/2`, { headers: { Authorization: this.$store.state.token } });
         this.escolas = escolaAux.data.escolas ? escolaAux.data.escolas : [{ titulo: 'Sem dados' }];
         this.simulados = escolaAux.data.simulados ? escolaAux.data.simulados : [{ titulo: 'Sem dados' }];
         this.cres = escolaAux.data.cres ? escolaAux.data.cres : [{ nome: 'Sem dados' }];
