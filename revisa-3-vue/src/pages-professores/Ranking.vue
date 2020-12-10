@@ -172,12 +172,12 @@
       <v-col
           cols="12" class="mt-8"
       >
-        <subheader-secao>
+        <subheader-secao v-if="false">
           Redações Nota 1000 - Ranking Estadual
         </subheader-secao>
       </v-col>
 
-      <v-col
+      <v-col v-if="false"
           cols="12" sm="6"
           md="4"
           v-for="melhor in melhores" :key="melhor.nome"

@@ -251,7 +251,7 @@ const method = {
     
     msgErro () {
       this.loading = false;
-      alert('Sem conexão com o servidor!');
+      alert('Sem conexão do simulado!');
     },
     
   },

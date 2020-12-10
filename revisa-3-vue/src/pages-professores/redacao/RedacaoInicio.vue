@@ -216,7 +216,7 @@
         </v-card>
       </v-col>
 
-      <v-col
+      <v-col v-if="false"
           cols="12" class="mt-8"
       >
         <subheader-secao>
@@ -225,6 +225,7 @@
       </v-col>
 
       <v-col
+          v-if="false"
           cols="12" sm="6"
           md="4"
           v-for="melhor in melhores" :key="melhor.nome"

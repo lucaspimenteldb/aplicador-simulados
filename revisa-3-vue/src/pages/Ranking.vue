@@ -516,6 +516,7 @@ export default {
 
     preencherRankingGeral (rankingP) {
       console.log(rankingP);
+      this.colocacoes = [];
       for (let i = 0; i < 10; i++) {
         const icon = this.retornarIcon(i);
         const photoGw = rankingP.ranking_geral[i].photo;

@@ -33,7 +33,7 @@
             label="Escolha qual o simulado" color="azul"
             filled
             hide-details
-            @change="changeEscola"
+            @change="simuladosSegundoDia"
             :items="simulados.map((el) => el.titulo)"
             v-model="simuladoAtual"
         />
@@ -235,7 +235,7 @@
           cols="12" class="mt-8"
       >
         <subheader-secao>
-          Os 10 melhores alunos - Ranking Estadual
+          Os 10 melhores alunos - Ranking Redação
         </subheader-secao>
       </v-col>
 

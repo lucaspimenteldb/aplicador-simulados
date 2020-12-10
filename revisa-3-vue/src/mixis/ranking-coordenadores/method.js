@@ -34,6 +34,36 @@ const methods = {
         throw e;
       }
     },
+    
+    async simuladosSegundoDia () {
+      try {
+        this.dialog = true;
+        const { id } = JSON.parse(localStorage.getItem('token'));
+        const idSimulado = this.simulados.filter((el) => el.titulo === this.simuladoAtual);
+        if (idSimulado.length < 0){ this.dialog = false; return; }
+        const escolaAux = await this.$http.get(`simulado-master/${id}/${idSimulado[0].id}`, { headers: { Authorization: this.$store.state.token } });
+        this.escolas = escolaAux.data.escolas ? escolaAux.data.escolas : [{ titulo: 'Sem dados' }];
+        this.simulados = escolaAux.data.simulados ? escolaAux.data.simulados : [{ titulo: 'Sem dados' }];
+        this.cres = escolaAux.data.cres ? escolaAux.data.cres : [{ nome: 'Sem dados' }];
+        this.cres.push({ nome: 'Geral' });
+        // this.desempenhoGeral.push(new DesempenhoGeral('Média Estadual', escolaAux.data.desempenhoEstadual[0].media_geral));
+        // this.desempenhoGeral.push(new DesempenhoGeral('Redação Estadual', escolaAux.data.desempenhoEstadual[0].media_redacao));
+        const vector = ['mdi-podium-gold', 'mdi-podium-silver', 'mdi-podium-bronze', 'mdi-seal-variant'];
+        this.melhores = [];
+        for (let i = 0; i < 4; i++) {
+          const user = escolaAux.data.melhores[i];
+          const photo = user.User.photo ? env.ROTA_DOMINIO + user.User.photo : `${env.ROTA_DOMINIO}vendor/crudbooster/avatar.jpg`;
+          const melhor = new Melhores(photo, vector[i], i + 1, user.User.name, user.media, 26);
+          this.melhores.push(melhor);
+        }
+        this.preencherRanking(escolaAux.data.melhores, vector);
+        this.preencherCres(escolaAux.data.desempenho_cre, escolaAux.data.user_cre);
+        this.dialog = false;
+      } catch (e) {
+        this.msgErro(e);
+        throw e;
+      }
+    },
 
     preencherCres (cres, userCre) {
       this.colocacoesCresGeral = [];
@@ -120,10 +150,12 @@ const methods = {
     async changeGreEscola (event) {
       try {
         this.dialog = true;
-        let url = 'desempenho-escola';
+        const id = this.simulados.filter((el) => el.titulo === this.simuladoAtual);
+        if (id.length <= 0) { alert('Selecione o simulado'); this.dialog = false; return; }
+        let url = `desempenho-escola/${id[0].id}`;
         if (event !== 'Geral') {
           const cre = this.cres.filter((el) => el.nome === event);
-          url = `desempenho-escola/${cre[0].id}`;
+          url = `desempenho-escola/${id[0].id}/${cre[0].id}`;
         }
         const dados = await this.$http.get(url, { headers: { Authorization: this.$store.state.token } });
         this.colocacoesEscolarCre = [];
@@ -150,10 +182,12 @@ const methods = {
     async usersPerCre () {
       try {
         this.loader = true;
-        let url = 'desempenho-aluno-gre/';
+        const id2 = this.simulados.filter((el) => el.titulo === this.simuladoAtual);
+        if (id2.length <= 0) { alert('Selecione o simulado'); this.loader = false; return; }
+        let url = `desempenho-aluno-gre/${id2[0].id}`;
         if (this.creAtualAluno !== 'Geral') {
           const id = this.cres.filter((el) => el.nome === this.creAtualAluno);
-          url = `desempenho-aluno-gre/${id[0].id}`;
+          url = `desempenho-aluno-gre/${id2[0].id}/${id[0].id}`;
         }
 
         const dados = await this.$http.get(url, { headers: { Authorization: this.$store.state.token } });

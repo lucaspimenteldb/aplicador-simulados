@@ -236,7 +236,8 @@ const dados = {
         }
         this.showLoading = false;
       } catch (e) {
-        alert('Sem conexão com o servidor');
+        window.location.href = '';
+        alert('Nenhum aluno dessa escola realizou o simulado!');
         console.log(e);
         this.showLoading = false;
       }

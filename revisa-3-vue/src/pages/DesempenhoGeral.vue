@@ -380,6 +380,23 @@
         </v-card>
       </v-col>
 
+      <v-col
+          cols="6" sm="3"
+          md="2"
+          class="pt-0"
+      >
+        <v-card>
+          <v-card-title>
+            <p
+style="word-break: break-word;"
+class="d-block w-full text-h6 font-weight-bold text-center grey--text text--darken-3"
+>
+              {{situacao}}
+            </p>
+          </v-card-title>
+        </v-card>
+      </v-col>
+
       <!-- avaliacao do corretor -->
       <v-col
           cols="12" class="mt-8"
@@ -396,8 +413,8 @@
         <v-card>
           <v-card-title>
             <p
-              style="white-space: pre-wrap"
-              v-html="avaliacaCorretor"
+              style="white-space: pre-wrap; word-break: break-word"
+              v-html="situacao === 'Avaliado' ? avaliacaCorretor: textoAuxiliar"
               class="d-block w-full body-2 grey--text text--darken-3"
             />
           </v-card-title>
@@ -516,7 +533,12 @@ export default {
     },
     redacoes (redacoes) {
       this.nota_redacao = redacoes.redacao[0] ? redacoes.redacao[0].resultado : 'Nota indisponível';
+      this.situacao = redacoes.redacao[0] ? redacoes.redacao[0].situacao : 'Não entregue';
       this.avaliacaCorretor = redacoes.redacao[0] ? redacoes.redacao[0].avaliacao : '';
+      for (let i = 0; i < 5; i++) {
+        this.competencias[i].notaCompetencia = 0;
+      }
+      if (redacoes.redacao[0]) { this.competencias[0].notaCompetencia = 0; }
       for (let i = 0; i < redacoes.competencias.length; i++) {
         this.competencias[i].notaCompetencia = redacoes.competencias[i].resultado;
         if (redacoes.competencias[i].resultado >= 0 && redacoes.competencias[i].resultado <= 40) {
@@ -548,6 +570,7 @@ export default {
     meuDesempenho (dados) {
       if (dados.data.data.length <= 0) {
         this.informacoesAdicionais[0].info = 'Nota indisponível';
+        this.resetar();
       } else {
         this.informacoesAdicionais[0].info = dados.data.data[0].media;
         // this.informacoesAdicionais[1].info = `${dados.data.position}º`;
@@ -576,6 +599,30 @@ export default {
       }
     },
 
+    resetar () {
+      this.desempenhoArea[0].humanas = '';
+      this.desempenhoArea[0].linguagens = '';
+      this.desempenhoArea[0].natureza = '';
+      this.desempenhoArea[0].matematica = '';
+      this.desempenhoArea[0].redacao = '';
+
+      this.desempenhoArea[1].humanas = '';
+      this.desempenhoArea[1].linguagens = '';
+      this.desempenhoArea[1].natureza = '';
+      this.desempenhoArea[1].matematica = '';
+      this.desempenhoArea[1].redacao = '';
+
+      let contador = 0;
+      for (let i = 2; i <= 4; i++) {
+        this.desempenhoArea[i].humanas = '';
+        this.desempenhoArea[i].linguagens = '';
+        this.desempenhoArea[i].natureza = '';
+        this.desempenhoArea[i].matematica = '';
+        this.desempenhoArea[i].redacao = '';
+        contador += 1;
+      }
+    },
+
     pesquisarSimulado (simulado, pesquisa) {
       const filtrado = pesquisa.filter((el) => el.titulo === simulado);
       return filtrado;
@@ -588,6 +635,7 @@ export default {
           this.loadingBasl(true);
           const desempenhoLocal = await desempenho.desempenhoAluno(`desempenho/desempenho-aluno/${filtrado[0].id}`);
           this.meuDesempenho(desempenhoLocal);
+          this.redacoes(desempenhoLocal.data.redacoes);
           this.loadingBasl(false);
         }
       } catch (err) {
@@ -681,10 +729,33 @@ export default {
       play: 'mdi-play',
       comentario: false,
       dialog2: false,
+      textoAuxiliar: 'Caros estudantes,\n\n'
+          + 'Visando deixar nosso processo avaliativo mais claro, gostaríamos de elucidar a decisão sobre a avaliação das redações escritas à tinta azul ou grafite, ilegíveis e digitadas.\n'
+          + 'Para iniciar, destacamos que antes do envio da redação do simulado, todos os estudantes precisaram ler e aceitar um termo, o qual evidenciava:\n'
+          + 'INSTRUÇÕES PARA A REDAÇÃO\n\n'
+          + '1.\t[...]\n'
+          + '2.\tO arquivo é composto por três páginas: (1) Textos motivadores e Tema; (2) Folha de Rascunho; e (3) Folha de Redação.\n'
+          + '3.\tCaso não consiga imprimir a Folha de Redação, é permitido escrever em uma folha pautada, como a folha de caderno. \n'
+          + '4.\tO rascunho da redação deve ser feito no espaço apropriado e não deve ser enviado para a correção.\n'
+          + '5. O texto definitivo deve ser escrito à tinta preta, na folha própria, em até 30 linhas. \n'
+          + '6. A redação que apresentar cópia dos textos da Proposta de Redação ou do Caderno de Questões terá o número de linhas copiadas desconsiderado para a contagem de linhas. \n'
+          + '7. Receberá nota zero, em qualquer das situações expressas a seguir, a redação que: \n'
+          + '7.1. tiver até 7 (sete) linhas escritas, sendo considerada “texto insuficiente”. \n'
+          + '7.2. fugir ao tema ou que não atender ao tipo dissertativo-argumentativo. \n'
+          + '7.3. apresentar parte do texto deliberadamente desconectada do tema proposto. \n'
+          + '7.4. apresentar nome, assinatura, rubrica ou outras formas de identificação no espaço destinado ao texto.\n'
+          + '7.5. texto copiado da internet.\n'
+          + '7.6. texto escrito em grafite ou outra cor que não seja preta.\n'
+          + '7.7. redações produzidas em papel ofício (sem pauta).\n\n'
+          + 'É importante salientar que esses critérios estão baseados nas indicações para produção de redação do Enem, que aceita apenas redações escritas à tinta preta. Redações digitadas também não foram aceitas no simulado estadual, pois, mesmo no Enem digital, a redação deve ser manuscrita.\n\n'
+          + 'Redações marcadas como ilegíveis são impossíveis de ler devido a três fatores: letra ilegível, fotografia fora de foco ou escura ou arquivo corrompido (problema técnico). Essas três categorias impossibilitavam a correção dos textos.\n\n'
+          + 'Ao final, para as redações serem enviadas para a correção, o estudante deveria marcar a opção “Estou ciente que li e concordo com as informações acima”. Assim, todos concordaram que as redações que não cumprissem tais critérios seriam anuladas (ou receberiam a nota zero).\n\n'
+          + 'Reafirmando o nosso compromisso com o seu sucesso, a plataforma Agora Vai, bem como os simulados estaduais, sempre teve o objetivo de prepará-los da melhor forma para as provas do Enem, o que pressupõe a necessidade de seguir à risca determinadas regras que são obrigatórias nesse momento crucial do estudante do Ensino Médio.\n',
       titulo: '',
       texto: '',
       avaliacaCorretor: '',
       nota_redacao: '',
+      situacao: '',
       assuntos: [],
       objeto: {
         dialog: false,
